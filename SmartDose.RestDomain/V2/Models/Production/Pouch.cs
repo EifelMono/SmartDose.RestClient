@@ -1,12 +1,15 @@
 ﻿using SmartDose.RestDomain.Validation;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
-namespace SmartDose.RestDomain.V2.Model.Production
+namespace SmartDose.RestDomain.V2.Models.Production
 {
     /// <summary>
     /// Pouch model.
     /// </summary>  
+    [TypeConverter(typeof(ExpandableObjectConverter))]
+
     public class Pouch
     {
         /// <summary>
@@ -50,7 +53,7 @@ namespace SmartDose.RestDomain.V2.Model.Production
         /// <value>
         /// The pills.
         /// </value>
-        public List<Pill> Pills { get; set; }
+        public Pill[] Pills { get; set; }
 
     }
 }

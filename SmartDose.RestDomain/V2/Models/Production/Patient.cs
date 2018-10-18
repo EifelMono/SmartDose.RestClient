@@ -1,14 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using SmartDose.RestDomain.Validation;
 
-namespace SmartDose.RestDomain.V2.Model.Production
+namespace SmartDose.RestDomain.V2.Models.Production
 {
     /// <summary>
     /// Patient Model
     /// </summary>
-    /// <seealso cref="SmartDose.Production.RESTv2.Model.Contact" />
+    /// <seealso cref="SmartDose.Production.RESTV2.Models.Contact" />
+    [TypeConverter(typeof(ExpandableObjectConverter))]
+
     public class Patient : Contact
     {
 
@@ -81,6 +84,6 @@ namespace SmartDose.RestDomain.V2.Model.Production
         /// <value>
         /// The patient attributes.
         /// </value>
-        public List<AdditionalAttribute> PatientAttributes { get; set; }
+        public AdditionalAttribute[] PatientAttributes { get; set; }
     }
 }

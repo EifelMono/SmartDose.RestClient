@@ -1,12 +1,14 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
-namespace SmartDose.RestDomain.V2.Model.Production
+namespace SmartDose.RestDomain.V2.Models.Production
 {
     /// <summary>
     /// Order Detail Model
     /// </summary>
-    /// <seealso cref="SmartDose.Production.RESTv2.Model.BaseData" />
+    /// <seealso cref="SmartDose.Production.RESTV2.Models.BaseData" />
+    [TypeConverter(typeof(ExpandableObjectConverter))]
     public class OrderDetail 
     {
         /// <summary>
@@ -41,7 +43,7 @@ namespace SmartDose.RestDomain.V2.Model.Production
         /// The intake details.
         /// </value>
         [Required(ErrorMessage = "IntakeDetails are required")]
-        public List<IntakeDetail> IntakeDetails { get; set; }
+        public IntakeDetail[] IntakeDetails { get; set; }
 
         /// <summary>
         /// Gets or sets the order details attributes.
@@ -49,7 +51,7 @@ namespace SmartDose.RestDomain.V2.Model.Production
         /// <value>
         /// The order details attributes.
         /// </value>
-        public List<AdditionalAttribute> OrderDetailsAttributes { get; set; }
+        public AdditionalAttribute[] OrderDetailsAttributes { get; set; }
 
     }
 }

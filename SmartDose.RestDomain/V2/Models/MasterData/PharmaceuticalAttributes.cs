@@ -1,8 +1,12 @@
-﻿namespace SmartDose.RestDomain.V2.Model.MasterData
-/// <summary>
-/// Pharmaceutical Attributes
-/// </summary>
+﻿using System.ComponentModel;
+
+namespace SmartDose.RestDomain.V2.Models.MasterData
 {
+    /// <summary>
+    /// Pharmaceutical Attributes
+    /// </summary>
+
+    [TypeConverter(typeof(ExpandableObjectConverter))]
     public class PharmaceuticalAttributes
     {
         /// <summary>

@@ -1,6 +1,6 @@
 ﻿using System.Runtime.Serialization;
 
-namespace SmartDose.RestDomain.V2.Model.Production
+namespace SmartDose.RestDomain.V2.Models.Production
 {
     /// <summary>
     /// Dispense Status

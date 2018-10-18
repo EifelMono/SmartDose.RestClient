@@ -1,10 +1,12 @@
-﻿using System.Runtime.Serialization;
+﻿using System.ComponentModel;
+using System.Runtime.Serialization;
 
-namespace SmartDose.RestDomain.V2.Model.Production
+namespace SmartDose.RestDomain.V2.Models.Production
 {
     /// <summary>
     /// Fault which is used to notify about an error during the save operation of entities.
     /// </summary>
+    [TypeConverter(typeof(ExpandableObjectConverter))]
     public class EntitySaveFault
     {
         /// <summary>

@@ -1,14 +1,16 @@
 ﻿using SmartDose.RestDomain.Validation;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
-namespace SmartDose.RestDomain.V2.Model.Production
+namespace SmartDose.RestDomain.V2.Models.Production
 {
     /// <summary>
     /// Order result.
     /// </summary>
-    /// <seealso cref="SmartDose.Production.RESTv2.Model.BaseData" />
+    /// <seealso cref="SmartDose.Production.RESTV2.Models.BaseData" />
     /// <seealso cref="SmartDose.Production.RESTv2.Model" />
+    [TypeConverter(typeof(ExpandableObjectConverter))]
     public class OrderResult
     {
         /// <summary>
@@ -63,6 +65,6 @@ namespace SmartDose.RestDomain.V2.Model.Production
         /// The pouches.
         /// </value>
         [Required(AllowEmptyStrings = false, ErrorMessage = "List of pouches is required.")]
-        public List<Pouch> Pouches { get; set; }
+        public Pouch[] Pouches { get; set; }
     }
 }

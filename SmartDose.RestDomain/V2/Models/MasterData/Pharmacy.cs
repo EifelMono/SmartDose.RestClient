@@ -1,12 +1,14 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 
-namespace SmartDose.RestDomain.V2.Model.MasterData
+namespace SmartDose.RestDomain.V2.Models.MasterData
 {
     /// <summary>
     /// Pharmacy model
     /// </summary>
     /// <seealso cref="SmartDose.MasterData.RESTv2.Models.Contact" />
+    [TypeConverter(typeof(ExpandableObjectConverter))]
     public class Pharmacy : Contact
     {
         /// <summary>

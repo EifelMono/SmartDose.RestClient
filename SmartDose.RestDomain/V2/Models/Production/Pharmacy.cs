@@ -1,11 +1,14 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
-namespace SmartDose.RestDomain.V2.Model.Production
+namespace SmartDose.RestDomain.V2.Models.Production
 {
     /// <summary>
     /// 
     /// </summary>
-    /// <seealso cref="SmartDose.Production.RESTv2.Model.Contact" />
+    /// <seealso cref="SmartDose.Production.RESTV2.Models.Contact" />
+    [TypeConverter(typeof(ExpandableObjectConverter))]
+
     public class Pharmacy : Contact
     {
         /// <summary>

@@ -1,10 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
-namespace SmartDose.RestDomain.V2.Model.Production
+namespace SmartDose.RestDomain.V2.Models.Production
 {
     /// <summary>
     /// 
     /// </summary>
+    [TypeConverter(typeof(ExpandableObjectConverter))]
     public class AdditionalAttribute
     {        
         /// <summary>

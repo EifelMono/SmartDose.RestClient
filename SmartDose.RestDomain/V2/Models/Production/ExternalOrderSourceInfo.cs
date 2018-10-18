@@ -1,11 +1,13 @@
-﻿using SmartDose.RestDomain.Validation;
+﻿using System.ComponentModel;
+using SmartDose.RestDomain.Validation;
 
-namespace SmartDose.RestDomain.V2.Model.Production
+namespace SmartDose.RestDomain.V2.Models.Production
 {
     /// <summary>
     /// External Order Source Info
     /// </summary>
-    /// <seealso cref="SmartDose.Production.RESTv2.Model.BaseData" />
+    /// <seealso cref="SmartDose.Production.RESTV2.Models.BaseData" />
+    [TypeConverter(typeof(ExpandableObjectConverter))]
     public class ExternalOrderSourceInfo
     {
         /// <summary>

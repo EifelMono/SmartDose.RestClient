@@ -1,12 +1,14 @@
 ﻿using SmartDose.RestDomain.Validation;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
-namespace SmartDose.RestDomain.V2.Model.MasterData
+namespace SmartDose.RestDomain.V2.Models.MasterData
 {
     /// <summary>
     /// Medicine picture model
     /// </summary>
+    [TypeConverter(typeof(ExpandableObjectConverter))]
     public class MedicinePicture
     {
         /// <summary>

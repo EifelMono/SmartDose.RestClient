@@ -1,12 +1,14 @@
 ﻿using SmartDose.RestDomain.Validation;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
-namespace SmartDose.RestDomain.V2.Model.MasterData
+namespace SmartDose.RestDomain.V2.Models.MasterData
 {
     /// <summary>
     /// Medicine model
     /// </summary>
+    [TypeConverter(typeof(ExpandableObjectConverter))]
     public class Medicine
     {
         /// <summary>
@@ -49,12 +51,12 @@ namespace SmartDose.RestDomain.V2.Model.MasterData
         /// Gets or sets the status.
         /// </summary>
         [EnumValidation(typeof(Status), optional:true)]
-        public string Status { get; set; }
+        public Status Status { get; set; }
 
         /// <summary>
         /// Gets or sets the additional medicine codes.
         /// </summary>
-        public List<AdditionalMedicineCode> AdditionalMedicineCodes { get; set; }
+        public AdditionalMedicineCode[] AdditionalMedicineCodes { get; set; }
 
         /// <summary>
         /// Gets or sets the print details.
@@ -63,7 +65,7 @@ namespace SmartDose.RestDomain.V2.Model.MasterData
         /// The print details.
         /// </value>
         [Required(AllowEmptyStrings = false, ErrorMessage = "Array of print details for the medicine are required.")]
-        public List<MedicinePrintDetail> PrintDetails { get; set; }
+        public MedicinePrintDetail[] PrintDetails { get; set; }
 
         /// <summary>
         /// Gets or sets the medicine pictures.
@@ -71,7 +73,7 @@ namespace SmartDose.RestDomain.V2.Model.MasterData
         /// <value>
         /// The medicine pictures.
         /// </value>
-        public List<MedicinePicture> MedicinePictures { get; set; }
+        public MedicinePicture[] MedicinePictures { get; set; }
 
         /// <summary>
         /// Gets or sets the production attributes.

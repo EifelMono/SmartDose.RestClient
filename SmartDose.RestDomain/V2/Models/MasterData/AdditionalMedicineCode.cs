@@ -1,10 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
-namespace SmartDose.RestDomain.V2.Model.MasterData
+namespace SmartDose.RestDomain.V2.Models.MasterData
 {
     /// <summary>
     /// Additional Medicine Code
     /// </summary>
+    [TypeConverter(typeof(ExpandableObjectConverter))]
     public class AdditionalMedicineCode
     {
         /// <summary>

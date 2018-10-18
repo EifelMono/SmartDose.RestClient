@@ -1,10 +1,13 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
-namespace SmartDose.RestDomain.V2.Model.Production
+namespace SmartDose.RestDomain.V2.Models.Production
 {
     /// <summary>
     /// Represent the details of one medicine to be dispenced.
     /// </summary>
+    [TypeConverter(typeof(ExpandableObjectConverter))]
+
     public class ResultMedicationDetail 
     {
 

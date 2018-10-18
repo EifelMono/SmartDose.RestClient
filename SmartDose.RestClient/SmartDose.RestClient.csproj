@@ -12,4 +12,10 @@
     <ProjectReference Include="..\SmartDose.RestDomain\SmartDose.RestDomain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="V0\" />
+    <Folder Include="V2\" />
+    <Folder Include="V1\" />
+  </ItemGroup>
+
 </Project>

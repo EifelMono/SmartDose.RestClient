@@ -1,11 +1,13 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
-namespace SmartDose.RestDomain.V2.Model.MasterData
+namespace SmartDose.RestDomain.V2.Models.MasterData
 {
     /// <summary>
     /// The customer model
     /// </summary>
     /// <seealso cref="Contact" />
+    [TypeConverter(typeof(ExpandableObjectConverter))]
     public class Customer : Contact
     {
         /// <summary>

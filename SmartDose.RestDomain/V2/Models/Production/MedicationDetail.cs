@@ -1,12 +1,14 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
-namespace SmartDose.RestDomain.V2.Model.Production
+namespace SmartDose.RestDomain.V2.Models.Production
 {
     /// <summary>
     /// Medication Detail
     /// </summary>
-    /// <seealso cref="SmartDose.Production.RESTv2.Model.BaseData" />
+    /// <seealso cref="SmartDose.Production.RESTV2.Models.BaseData" />
+    [TypeConverter(typeof(ExpandableObjectConverter))]
     public class MedicationDetail
     {
         /// <summary>
@@ -33,6 +35,6 @@ namespace SmartDose.RestDomain.V2.Model.Production
         /// <value>
         /// The medication attributes.
         /// </value>
-        public List<AdditionalAttribute> MedicationAttributes { get; set; }
+        public AdditionalAttribute[] MedicationAttributes { get; set; }
     }
 }

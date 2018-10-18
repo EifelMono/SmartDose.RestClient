@@ -1,10 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
-namespace SmartDose.RestDomain.V2.Model.Inventory
+namespace SmartDose.RestDomain.V2.Models.Inventory
 {
     /// <summary>
     /// The quantity details.
     /// </summary>
+    [TypeConverter(typeof(ExpandableObjectConverter))]
     public class QuantityDetails 
     {
         /// <summary>

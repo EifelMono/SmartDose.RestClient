@@ -1,11 +1,13 @@
 ﻿
+using System.ComponentModel;
 using SmartDose.RestDomain.Validation;
 
-namespace SmartDose.RestDomain.V2.Model.MasterData
+namespace SmartDose.RestDomain.V2.Models.MasterData
 {
     /// <summary>
     /// Production Attributes
     /// </summary>
+    [TypeConverter(typeof(ExpandableObjectConverter))]
     public class ProductionAttributes
     {
         /// <summary>

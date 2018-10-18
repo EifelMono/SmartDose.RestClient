@@ -1,13 +1,15 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using SmartDose.RestDomain.Validation;
 
-namespace SmartDose.RestDomain.V2.Model.Production
+namespace SmartDose.RestDomain.V2.Models.Production
 {
     /// <summary>
     /// Intake Detail
     /// </summary>
-    /// <seealso cref="SmartDose.Production.RESTv2.Model.BaseData" />
+    /// <seealso cref="SmartDose.Production.RESTV2.Models.BaseData" />
+    [TypeConverter(typeof(ExpandableObjectConverter))]
     public class IntakeDetail
     {
         /// <summary>
@@ -26,7 +28,7 @@ namespace SmartDose.RestDomain.V2.Model.Production
         /// The medication details.
         /// </value>
         [Required(AllowEmptyStrings = false, ErrorMessage = "Array of all medications for that intake time is required.")]
-        public List<MedicationDetail> MedicationDetails { get; set; }
+        public MedicationDetail[] MedicationDetails { get; set; }
 
         /// <summary>
         /// Gets or sets the intake detail attributes.
@@ -34,7 +36,7 @@ namespace SmartDose.RestDomain.V2.Model.Production
         /// <value>
         /// The intake detail attributes.
         /// </value>
-        public List<AdditionalAttribute> IntakeDetailAttributes { get; set; }
+        public AdditionalAttribute[] IntakeDetailAttributes { get; set; }
         
     }
 }

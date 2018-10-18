@@ -1,12 +1,15 @@
 ﻿using SmartDose.RestDomain.Validation;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
-namespace SmartDose.RestDomain.V2.Model.Production
+namespace SmartDose.RestDomain.V2.Models.Production
 {
     /// <summary>
     /// Represents the details of one intake time.
     /// </summary>
+    [TypeConverter(typeof(ExpandableObjectConverter))]
+
     public class ResultIntakeDetail
     {
         /// <summary>
@@ -25,7 +28,7 @@ namespace SmartDose.RestDomain.V2.Model.Production
         /// The medication details.
         /// </value>
         [Required(ErrorMessage = "ResultMedicationDetails is required")]
-        public List<ResultMedicationDetail> ResultMedicationDetails { get; set; }
+        public ResultMedicationDetail[] ResultMedicationDetails { get; set; }
 
         /// <summary>
         /// Gets or sets the pouches.

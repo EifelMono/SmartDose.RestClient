@@ -1,11 +1,14 @@
 ﻿using SmartDose.RestDomain.Validation;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
-namespace SmartDose.RestDomain.V2.Model.Production
+namespace SmartDose.RestDomain.V2.Models.Production
 {
     /// <summary>
     /// Order Status
     /// </summary>
+    [TypeConverter(typeof(ExpandableObjectConverter))]
+
     public class OrderStatus
     {
         /// <summary>

@@ -1,13 +1,16 @@
 ﻿using SmartDose.RestDomain.Validation;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
-namespace SmartDose.RestDomain.V2.Model.Production
+namespace SmartDose.RestDomain.V2.Models.Production
 {
     /// <summary>
     /// Order result by time
     /// </summary>
-    /// <seealso cref="SmartDose.Production.RESTv2.Model.BaseData" />    
+    /// <seealso cref="SmartDose.Production.RESTV2.Models.BaseData" />    
+    [TypeConverter(typeof(ExpandableObjectConverter))]
+
     public class OrderResultByTime
     {
         /// <summary>
@@ -63,6 +66,6 @@ namespace SmartDose.RestDomain.V2.Model.Production
         /// The order details.
         /// </value>
         [Required(AllowEmptyStrings = false, ErrorMessage = "Order details are required.")]
-        public List<ResultOrderDetail> ResultOrderDetails { get; set; }
+        public ResultOrderDetail[] ResultOrderDetails { get; set; }
     }
 }

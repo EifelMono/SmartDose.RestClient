@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace SmartDose.RestDomain.V2.Model.MasterData
+namespace SmartDose.RestDomain.V2.Models.MasterData
 {
     /// <summary>
     /// Medicine status

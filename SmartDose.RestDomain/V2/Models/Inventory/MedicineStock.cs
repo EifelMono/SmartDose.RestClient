@@ -1,11 +1,13 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
-namespace SmartDose.RestDomain.V2.Model.Inventory
+namespace SmartDose.RestDomain.V2.Models.Inventory
 {
     /// <summary>
     /// The medicine stock.
     /// </summary>
     /// <seealso cref="SmartDose.Inventory.RESTv2.Models.Common.BaseData" />
+    [TypeConverter(typeof(ExpandableObjectConverter))]
     public class MedicineStock 
     {
         /// <summary>

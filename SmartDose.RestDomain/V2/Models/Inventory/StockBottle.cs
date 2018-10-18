@@ -1,13 +1,15 @@
 ﻿using SmartDose.RestDomain.Validation;
 using System;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
-namespace SmartDose.RestDomain.V2.Model.Inventory
+namespace SmartDose.RestDomain.V2.Models.Inventory
 {
     /// <summary>
     /// The stock bottle.
     /// </summary>
     /// <seealso cref="SmartDose.Inventory.RESTv2.Models.Common.BaseData" />
+    [TypeConverter(typeof(ExpandableObjectConverter))]
     public class StockBottle
     {
         /// <summary>

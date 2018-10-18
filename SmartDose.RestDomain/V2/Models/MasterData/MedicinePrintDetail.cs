@@ -1,11 +1,13 @@
 ﻿using SmartDose.RestDomain.Validation;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
-namespace SmartDose.RestDomain.V2.Model.MasterData
+namespace SmartDose.RestDomain.V2.Models.MasterData
 {
     /// <summary>
     /// Medicine Print Details
     /// </summary>
+    [TypeConverter(typeof(ExpandableObjectConverter))]
     public class MedicinePrintDetail
     {
         /// <summary>
