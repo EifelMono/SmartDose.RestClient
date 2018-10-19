@@ -4,6 +4,7 @@ using System.Configuration;
 using System.Data;
 using System.Linq;
 using System.Windows;
+using SmartDose.RestClientApp.Globals;
 
 namespace SmartDose.RestClientApp
 {
@@ -12,5 +13,10 @@ namespace SmartDose.RestClientApp
     /// </summary>
     public partial class App : Application
     {
+        protected override void OnStartup(StartupEventArgs e)
+        {
+            AppGlobals.Init();
+            base.OnStartup(e);
+        }
     }
 }

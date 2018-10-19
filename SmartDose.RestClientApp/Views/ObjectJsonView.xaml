@@ -1,0 +1,42 @@
+﻿<UserControl
+    x:Class="SmartDose.RestClientApp.Views.ObjectJsonView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:avalonEdit="http://icsharpcode.net/sharpdevelop/avalonedit"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:forms="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms"
+    xmlns:local="clr-namespace:SmartDose.RestClientApp"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    mc:Ignorable="d">
+    <Grid>
+        <TabControl Name="tabControlMain" SelectionChanged="tabControlMain_SelectionChanged">
+            <TabItem Header="Object View">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <WindowsFormsHost Grid.Column="0">
+                        <forms:PropertyGrid x:Name="propertyView">
+                            <forms:PropertyGrid.ContextMenuStrip>
+                                <forms:ContextMenuStrip />
+                            </forms:PropertyGrid.ContextMenuStrip>
+                        </forms:PropertyGrid>
+                    </WindowsFormsHost>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Json View">
+                <Grid>
+                    <avalonEdit:TextEditor
+                        Name="textEditor"
+                        FontFamily="Consolas"
+                        FontSize="10pt"
+                        SyntaxHighlighting="C#">
+                    </avalonEdit:TextEditor>
+                </Grid>
+            </TabItem>
+
+        </TabControl>
+    </Grid>
+</UserControl>
