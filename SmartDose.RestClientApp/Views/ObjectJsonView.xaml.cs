@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Xml;
@@ -9,6 +10,7 @@ using ICSharpCode.AvalonEdit.Highlighting;
 using ICSharpCode.AvalonEdit.Highlighting.Xshd;
 using ICSharpCode.AvalonEdit.Search;
 using SmartDose.RestClientApp.Globals;
+using SmartDose.RestDomainDev;
 
 namespace SmartDose.RestClientApp.Views
 {
@@ -17,7 +19,7 @@ namespace SmartDose.RestClientApp.Views
     /// </summary>
     public partial class ObjectJsonView : UserControl
     {
-        public FoldingManager FoldingManager;
+        public FoldingManager FoldingManager { get; set; }
         public JsonFoldingStrategy JsonFoldingStrategy = new JsonFoldingStrategy();
         public ObjectJsonView()
         {
@@ -73,7 +75,7 @@ namespace SmartDose.RestClientApp.Views
             JsonFoldingStrategy.UpdateFoldings(FoldingManager, textEditor.Document);
         }
 
-        ObjectJsonData _Data;
+        private ObjectJsonData _Data;
         public ObjectJsonData Data
         {
             get => _Data;
@@ -81,14 +83,14 @@ namespace SmartDose.RestClientApp.Views
             {
                 _Data = value;
                 propertyView.SelectedObject = _Data.Value.FillEmtpyModels();
-                textEditor.Text = Data?.Value.ToJson();
+                textEditor.Text = Data?.Value.ToJsonFromDevObject();
                 ActivateCodeFolding();
             }
         }
 
         private void tabControlMain_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            textEditor.Text = Data?.Value.ToJson();
+            textEditor.Text = Data?.Value.ToJsonFromDevObject();
             ActivateCodeFolding();
         }
 
@@ -96,6 +98,10 @@ namespace SmartDose.RestClientApp.Views
         {
             var o = await "http://127.0.0.1:56040/SmartDose/V2.0/MasterData/Medicines".GetJsonAsync<List<RestDomain.Models.V2.MasterData.Medicine>>();
             "x".LogInformation();
+            Data = new ObjectJsonData
+            {
+                // Value = o.FirstOrDefault().CloneToDevObject().FillEmtpyModels()
+            };
         }
     }
 }

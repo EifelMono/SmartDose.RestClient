@@ -16,15 +16,15 @@ namespace SmartDose.RestClientApp.Views
             InitializeComponent();
             var rootMenuItem = new MenuItem { Title = "SmartDose.Rest" };
             var modelsMenueItem = rootMenuItem.Add("Models");
-            var callsMenuItem = rootMenuItem.Add("Calls");
+            var crudMenuItem = rootMenuItem.Add("CRUD");
             foreach (var modelsVersionGroup in ModelsGlobals.ModelsItems.GroupBy(i => i.Version).OrderBy(g => g.Key))
             {
                 var modelsVersionMenuItem = modelsMenueItem.Add(modelsVersionGroup.Key);
-                var callsVersionMenuItem = callsMenuItem.Add(modelsVersionGroup.Key);
+                var crudVersionMenuItem = crudMenuItem.Add(modelsVersionGroup.Key);
                 foreach (var modelsGroupGroup in modelsVersionGroup.GroupBy(i => i.Group).OrderBy(g => g.Key))
                 {
                     var modelsGroupMenuItem = modelsVersionMenuItem.Add(modelsGroupGroup.Key);
-                    var callsGroupMenuItem = callsVersionMenuItem.Add(modelsGroupGroup.Key);
+                    var crudGroupMenuItem = crudVersionMenuItem.Add(modelsGroupGroup.Key);
                     foreach (var value in modelsGroupGroup.OrderBy(i => i.Name))
                         modelsGroupMenuItem.Add(value.Name, value);
                 }

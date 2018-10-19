@@ -9,6 +9,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Include="..\SmartDose.RestDomain\Models\ModelsGlobals.cs" Link="Models\ModelsGlobals.cs" />
+    <Compile Include="..\SmartDose.RestDomain\Models\ModelsExtensions.cs" Link="Models\ModelsExtensions.cs" />
+    <Compile Include="..\SmartDose.RestDomain\Models\ModelsItem.cs" Link="Models\ModelsItem.cs" />
     <Compile Include="..\SmartDose.RestDomain\Models\V1\Inventory\MedicineContainer.cs" Link="Models\V1\Inventory\MedicineContainer.cs" />
     <Compile Include="..\SmartDose.RestDomain\Models\V1\MasterData\Canister.cs" Link="Models\V1\MasterData\Canister.cs" />
     <Compile Include="..\SmartDose.RestDomain\Models\V1\MasterData\CanisterRefillInformation.cs" Link="Models\V1\MasterData\CanisterRefillInformation.cs" />

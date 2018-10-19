@@ -2,12 +2,16 @@
 using System.Linq;
 using System.Reflection;
 
-namespace SmartDose.RestClientApp.Globals
+#if RestDomainDev
+namespace SmartDose.RestDomainDev.Models
+#else
+namespace SmartDose.RestDomain.Models
+#endif
 {
-    public class ModelsGlobals
+    public static class ModelsGlobals
     {
         public const string ModelsName = "Models";
-        public static Assembly ModelsAssembly => typeof(RestDomainDev.RestDomainExtensions).Assembly;
+        public static Assembly ModelsAssembly => typeof(ModelsGlobals).Assembly;
 
         public static string ModelsNamespace => ModelsAssembly.GetName().Name;
 
@@ -24,7 +28,5 @@ namespace SmartDose.RestClientApp.Globals
                                                 Version = splitModelsFullPath.Ok ? splitModelsFullPath.Version : "",
                                                 Name = splitModelsFullPath.Ok ? splitModelsFullPath.Name : ""
                                             }).ToList());
-
-    
     }
 }

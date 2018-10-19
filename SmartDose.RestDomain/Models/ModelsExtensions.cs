@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 
-namespace SmartDose.RestClientApp.Globals
+#if RestDomainDev
+namespace SmartDose.RestDomainDev.Models
+#else
+namespace SmartDose.RestDomain.Models
+#endif
 {
     public static class ModelsExtensions
     {
@@ -43,7 +45,7 @@ namespace SmartDose.RestClientApp.Globals
                             }
                             catch (Exception ex)
                             {
-                                ex.LogException();
+                                Debug.WriteLine(ex.ToString());
                             }
                         }
                     }
@@ -72,7 +74,7 @@ namespace SmartDose.RestClientApp.Globals
             }
             catch (Exception ex)
             {
-                ex.LogException();
+                Debug.WriteLine(ex.ToString());
             }
             return (false, "", "", "");
         }
