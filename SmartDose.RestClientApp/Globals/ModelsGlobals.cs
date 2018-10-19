@@ -7,7 +7,7 @@ namespace SmartDose.RestClientApp.Globals
     public class ModelsGlobals
     {
         public const string ModelsName = "Models";
-        public static Assembly ModelsAssembly => typeof(RestDomain.Validation.EnumValidationAttribute).Assembly;
+        public static Assembly ModelsAssembly => typeof(RestDomainDev.RestDomainConvert).Assembly;
 
         public static string ModelsNamespace => ModelsAssembly.GetName().Name;
 

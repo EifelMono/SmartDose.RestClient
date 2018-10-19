@@ -1,0 +1,119 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DefineConstants>TRACE;RestDomainDev</DefineConstants>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="..\SmartDose.RestDomain\Models\V1\Inventory\MedicineContainer.cs" Link="Models\V1\Inventory\MedicineContainer.cs" />
+    <Compile Include="..\SmartDose.RestDomain\Models\V1\MasterData\Canister.cs" Link="Models\V1\MasterData\Canister.cs" />
+    <Compile Include="..\SmartDose.RestDomain\Models\V1\MasterData\CanisterRefillInformation.cs" Link="Models\V1\MasterData\CanisterRefillInformation.cs" />
+    <Compile Include="..\SmartDose.RestDomain\Models\V1\MasterData\CanisterStatus.cs" Link="Models\V1\MasterData\CanisterStatus.cs" />
+    <Compile Include="..\SmartDose.RestDomain\Models\V1\MasterData\CanisterType.cs" Link="Models\V1\MasterData\CanisterType.cs" />
+    <Compile Include="..\SmartDose.RestDomain\Models\V1\MasterData\ContactAddress.cs" Link="Models\V1\MasterData\ContactAddress.cs" />
+    <Compile Include="..\SmartDose.RestDomain\Models\V1\MasterData\ContactPerson.cs" Link="Models\V1\MasterData\ContactPerson.cs" />
+    <Compile Include="..\SmartDose.RestDomain\Models\V1\MasterData\Customer.cs" Link="Models\V1\MasterData\Customer.cs" />
+    <Compile Include="..\SmartDose.RestDomain\Models\V1\MasterData\Manufacturer.cs" Link="Models\V1\MasterData\Manufacturer.cs" />
+    <Compile Include="..\SmartDose.RestDomain\Models\V1\MasterData\Medicine.cs" Link="Models\V1\MasterData\Medicine.cs" />
+    <Compile Include="..\SmartDose.RestDomain\Models\V1\MasterData\MedicinePicture.cs" Link="Models\V1\MasterData\MedicinePicture.cs" />
+    <Compile Include="..\SmartDose.RestDomain\Models\V1\MasterData\Patient.cs" Link="Models\V1\MasterData\Patient.cs" />
+    <Compile Include="..\SmartDose.RestDomain\Models\V1\MasterData\PrintDetail.cs" Link="Models\V1\MasterData\PrintDetail.cs" />
+    <Compile Include="..\SmartDose.RestDomain\Models\V1\MasterData\SpecialHandling.cs" Link="Models\V1\MasterData\SpecialHandling.cs" />
+    <Compile Include="..\SmartDose.RestDomain\Models\V1\MasterData\Synonym.cs" Link="Models\V1\MasterData\Synonym.cs" />
+    <Compile Include="..\SmartDose.RestDomain\Models\V1\Production\BasicOrderInfo.cs" Link="Models\V1\Production\BasicOrderInfo.cs" />
+    <Compile Include="..\SmartDose.RestDomain\Models\V1\Production\ContactAddress.cs" Link="Models\V1\Production\ContactAddress.cs" />
+    <Compile Include="..\SmartDose.RestDomain\Models\V1\Production\ContactPerson.cs" Link="Models\V1\Production\ContactPerson.cs" />
+    <Compile Include="..\SmartDose.RestDomain\Models\V1\Production\Customer.cs" Link="Models\V1\Production\Customer.cs" />
+    <Compile Include="..\SmartDose.RestDomain\Models\V1\Production\DestinationFacility.cs" Link="Models\V1\Production\DestinationFacility.cs" />
+    <Compile Include="..\SmartDose.RestDomain\Models\V1\Production\ExternalOrder.cs" Link="Models\V1\Production\ExternalOrder.cs" />
+    <Compile Include="..\SmartDose.RestDomain\Models\V1\Production\ExternalOrderSourceInfo.cs" Link="Models\V1\Production\ExternalOrderSourceInfo.cs" />
+    <Compile Include="..\SmartDose.RestDomain\Models\V1\Production\Gender.cs" Link="Models\V1\Production\Gender.cs" />
+    <Compile Include="..\SmartDose.RestDomain\Models\V1\Production\IntakeDetail.cs" Link="Models\V1\Production\IntakeDetail.cs" />
+    <Compile Include="..\SmartDose.RestDomain\Models\V1\Production\InternalOrder.cs" Link="Models\V1\Production\InternalOrder.cs" />
+    <Compile Include="..\SmartDose.RestDomain\Models\V1\Production\MedicationDetail.cs" Link="Models\V1\Production\MedicationDetail.cs" />
+    <Compile Include="..\SmartDose.RestDomain\Models\V1\Production\Medicine.cs" Link="Models\V1\Production\Medicine.cs" />
+    <Compile Include="..\SmartDose.RestDomain\Models\V1\Production\MedicinePicture.cs" Link="Models\V1\Production\MedicinePicture.cs" />
+    <Compile Include="..\SmartDose.RestDomain\Models\V1\Production\OrderDetail.cs" Link="Models\V1\Production\OrderDetail.cs" />
+    <Compile Include="..\SmartDose.RestDomain\Models\V1\Production\OrderState.cs" Link="Models\V1\Production\OrderState.cs" />
+    <Compile Include="..\SmartDose.RestDomain\Models\V1\Production\Patient.cs" Link="Models\V1\Production\Patient.cs" />
+    <Compile Include="..\SmartDose.RestDomain\Models\V1\Production\PrintDetail.cs" Link="Models\V1\Production\PrintDetail.cs" />
+    <Compile Include="..\SmartDose.RestDomain\Models\V1\Production\RestExternalCustomer.cs" Link="Models\V1\Production\RestExternalCustomer.cs" />
+    <Compile Include="..\SmartDose.RestDomain\Models\V1\Production\RestExternalOrder.cs" Link="Models\V1\Production\RestExternalOrder.cs" />
+    <Compile Include="..\SmartDose.RestDomain\Models\V1\Production\RestOrderDetail.cs" Link="Models\V1\Production\RestOrderDetail.cs" />
+    <Compile Include="..\SmartDose.RestDomain\Models\V1\Production\RestPill.cs" Link="Models\V1\Production\RestPill.cs" />
+    <Compile Include="..\SmartDose.RestDomain\Models\V1\Production\RestPouch.cs" Link="Models\V1\Production\RestPouch.cs" />
+    <Compile Include="..\SmartDose.RestDomain\Models\V1\Production\SingleOrderResultSet.cs" Link="Models\V1\Production\SingleOrderResultSet.cs" />
+    <Compile Include="..\SmartDose.RestDomain\Models\V1\Production\SpecialHandling.cs" Link="Models\V1\Production\SpecialHandling.cs" />
+    <Compile Include="..\SmartDose.RestDomain\Models\V1\Production\SynonymId.cs" Link="Models\V1\Production\SynonymId.cs" />
+    <Compile Include="..\SmartDose.RestDomain\Models\V2\Inventory\MedicineStock.cs" Link="Models\V2\Inventory\MedicineStock.cs" />
+    <Compile Include="..\SmartDose.RestDomain\Models\V2\Inventory\QuantityDetails.cs" Link="Models\V2\Inventory\QuantityDetails.cs" />
+    <Compile Include="..\SmartDose.RestDomain\Models\V2\Inventory\StockBottle.cs" Link="Models\V2\Inventory\StockBottle.cs" />
+    <Compile Include="..\SmartDose.RestDomain\Models\V2\MasterData\AdditionalMedicineCode.cs" Link="Models\V2\MasterData\AdditionalMedicineCode.cs" />
+    <Compile Include="..\SmartDose.RestDomain\Models\V2\MasterData\Common.cs" Link="Models\V2\MasterData\Common.cs" />
+    <Compile Include="..\SmartDose.RestDomain\Models\V2\MasterData\Contact.cs" Link="Models\V2\MasterData\Contact.cs" />
+    <Compile Include="..\SmartDose.RestDomain\Models\V2\MasterData\Customer.cs" Link="Models\V2\MasterData\Customer.cs" />
+    <Compile Include="..\SmartDose.RestDomain\Models\V2\MasterData\DestinationFacility.cs" Link="Models\V2\MasterData\DestinationFacility.cs" />
+    <Compile Include="..\SmartDose.RestDomain\Models\V2\MasterData\Gender.cs" Link="Models\V2\MasterData\Gender.cs" />
+    <Compile Include="..\SmartDose.RestDomain\Models\V2\MasterData\Manufacturer.cs" Link="Models\V2\MasterData\Manufacturer.cs" />
+    <Compile Include="..\SmartDose.RestDomain\Models\V2\MasterData\Medicine.cs" Link="Models\V2\MasterData\Medicine.cs" />
+    <Compile Include="..\SmartDose.RestDomain\Models\V2\MasterData\MedicinePicture.cs" Link="Models\V2\MasterData\MedicinePicture.cs" />
+    <Compile Include="..\SmartDose.RestDomain\Models\V2\MasterData\MedicinePrintDetail.cs" Link="Models\V2\MasterData\MedicinePrintDetail.cs" />
+    <Compile Include="..\SmartDose.RestDomain\Models\V2\MasterData\Patient.cs" Link="Models\V2\MasterData\Patient.cs" />
+    <Compile Include="..\SmartDose.RestDomain\Models\V2\MasterData\PharmaceuticalAttributes.cs" Link="Models\V2\MasterData\PharmaceuticalAttributes.cs" />
+    <Compile Include="..\SmartDose.RestDomain\Models\V2\MasterData\Pharmacy.cs" Link="Models\V2\MasterData\Pharmacy.cs" />
+    <Compile Include="..\SmartDose.RestDomain\Models\V2\MasterData\ProductionAttributes.cs" Link="Models\V2\MasterData\ProductionAttributes.cs" />
+    <Compile Include="..\SmartDose.RestDomain\Models\V2\Production\AdditionalAttribute.cs" Link="Models\V2\Production\AdditionalAttribute.cs" />
+    <Compile Include="..\SmartDose.RestDomain\Models\V2\Production\Contact.cs" Link="Models\V2\Production\Contact.cs" />
+    <Compile Include="..\SmartDose.RestDomain\Models\V2\Production\ContactEx.cs" Link="Models\V2\Production\ContactEx.cs" />
+    <Compile Include="..\SmartDose.RestDomain\Models\V2\Production\Customer.cs" Link="Models\V2\Production\Customer.cs" />
+    <Compile Include="..\SmartDose.RestDomain\Models\V2\Production\DestinationFacility.cs" Link="Models\V2\Production\DestinationFacility.cs" />
+    <Compile Include="..\SmartDose.RestDomain\Models\V2\Production\DispenseStatus.cs" Link="Models\V2\Production\DispenseStatus.cs" />
+    <Compile Include="..\SmartDose.RestDomain\Models\V2\Production\ExternalOrderSourceInfo.cs" Link="Models\V2\Production\ExternalOrderSourceInfo.cs" />
+    <Compile Include="..\SmartDose.RestDomain\Models\V2\Production\Gender.cs" Link="Models\V2\Production\Gender.cs" />
+    <Compile Include="..\SmartDose.RestDomain\Models\V2\Production\IntakeDetail.cs" Link="Models\V2\Production\IntakeDetail.cs" />
+    <Compile Include="..\SmartDose.RestDomain\Models\V2\Production\MedicationDetail.cs" Link="Models\V2\Production\MedicationDetail.cs" />
+    <Compile Include="..\SmartDose.RestDomain\Models\V2\Production\Order.cs" Link="Models\V2\Production\Order.cs" />
+    <Compile Include="..\SmartDose.RestDomain\Models\V2\Production\OrderDetail.cs" Link="Models\V2\Production\OrderDetail.cs" />
+    <Compile Include="..\SmartDose.RestDomain\Models\V2\Production\OrderResult.cs" Link="Models\V2\Production\OrderResult.cs" />
+    <Compile Include="..\SmartDose.RestDomain\Models\V2\Production\OrderResultByTime.cs" Link="Models\V2\Production\OrderResultByTime.cs" />
+    <Compile Include="..\SmartDose.RestDomain\Models\V2\Production\OrderStatus.cs" Link="Models\V2\Production\OrderStatus.cs" />
+    <Compile Include="..\SmartDose.RestDomain\Models\V2\Production\Patient.cs" Link="Models\V2\Production\Patient.cs" />
+    <Compile Include="..\SmartDose.RestDomain\Models\V2\Production\Pharmacy.cs" Link="Models\V2\Production\Pharmacy.cs" />
+    <Compile Include="..\SmartDose.RestDomain\Models\V2\Production\Pill.cs" Link="Models\V2\Production\Pill.cs" />
+    <Compile Include="..\SmartDose.RestDomain\Models\V2\Production\Pouch.cs" Link="Models\V2\Production\Pouch.cs" />
+    <Compile Include="..\SmartDose.RestDomain\Models\V2\Production\PouchType.cs" Link="Models\V2\Production\PouchType.cs" />
+    <Compile Include="..\SmartDose.RestDomain\Models\V2\Production\ResultIntakeDetail.cs" Link="Models\V2\Production\ResultIntakeDetail.cs" />
+    <Compile Include="..\SmartDose.RestDomain\Models\V2\Production\ResultMedicationDetail.cs" Link="Models\V2\Production\ResultMedicationDetail.cs" />
+    <Compile Include="..\SmartDose.RestDomain\Models\V2\Production\ResultOrderDetail.cs" Link="Models\V2\Production\ResultOrderDetail.cs" />
+    <Compile Include="..\SmartDose.RestDomain\Models\V2\Production\ResultPatient.cs" Link="Models\V2\Production\ResultPatient.cs" />
+    <Compile Include="..\SmartDose.RestDomain\Models\Validation\CultureValidationAttribute.cs" Link="Models\Validation\CultureValidationAttribute.cs" />
+    <Compile Include="..\SmartDose.RestDomain\Models\Validation\DateTimeValidationAttribute.cs" Link="Models\Validation\DateTimeValidationAttribute.cs" />
+    <Compile Include="..\SmartDose.RestDomain\Models\Validation\EnumValidationAttribute.cs" Link="Models\Validation\EnumValidationAttribute.cs" />
+    <Compile Include="..\SmartDose.RestDomain\Models\Validation\SpecificValuesValidationAttribute.cs" Link="Models\Validation\SpecificValuesValidationAttribute.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
+    <PackageReference Include="System.ComponentModel.Annotations" Version="4.5.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SmartDose.RestDomain\SmartDose.RestDomain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Models\V0\" />
+    <Folder Include="Models\V1\Inventory\" />
+    <Folder Include="Models\V1\MasterData\" />
+    <Folder Include="Models\V1\Production\" />
+    <Folder Include="Models\V2\Inventory\" />
+    <Folder Include="Models\V2\MasterData\" />
+    <Folder Include="Models\V2\Production\" />
+    <Folder Include="Models\Validation\" />
+  </ItemGroup>
+
+</Project>

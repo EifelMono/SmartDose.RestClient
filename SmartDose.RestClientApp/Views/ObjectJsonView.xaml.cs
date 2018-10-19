@@ -1,13 +1,13 @@
-﻿using System.IO;
-using System.Reflection;
+﻿using System.Collections.Generic;
+using System.IO;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Xml;
+using Flurl.Http;
 using ICSharpCode.AvalonEdit.Folding;
 using ICSharpCode.AvalonEdit.Highlighting;
 using ICSharpCode.AvalonEdit.Highlighting.Xshd;
 using ICSharpCode.AvalonEdit.Search;
-using Newtonsoft.Json;
 using SmartDose.RestClientApp.Globals;
 
 namespace SmartDose.RestClientApp.Views
@@ -48,7 +48,7 @@ namespace SmartDose.RestClientApp.Views
                 Command = ApplicationCommands.Copy
             });
 
-         
+
 
 
             propertyView.PropertyValueChanged += (s, e) =>
@@ -90,6 +90,12 @@ namespace SmartDose.RestClientApp.Views
         {
             textEditor.Text = Data?.Value.ToJson();
             ActivateCodeFolding();
+        }
+
+        private async void buttonClick_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            var o = await "http://127.0.0.1:56040/SmartDose/V2.0/MasterData/Medicines".GetJsonAsync<List<RestDomain.Models.V2.MasterData.Medicine>>();
+            "x".LogInformation();
         }
     }
 }

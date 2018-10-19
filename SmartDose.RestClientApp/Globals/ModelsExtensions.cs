@@ -66,7 +66,7 @@ namespace SmartDose.RestClientApp.Globals
             {
                 var splitName = thisValue.Split('.');
                 var name = splitName.Last();
-                var version = splitName.Skip(2).Take(1).FirstOrDefault();
+                var version = splitName.Skip(3).Take(1).FirstOrDefault();
                 var group = splitName.Skip(4).Take(1).FirstOrDefault();
                 return (true, group, version, name);
             }

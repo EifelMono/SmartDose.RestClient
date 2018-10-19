@@ -31,7 +31,7 @@ namespace SmartDose.RestClientApp
 
             objectJsonView.Data = new ObjectJsonData
             {
-                Value = new RestDomain.V2.Models.Production.Order()
+                Value = new RestDomain.Models.V2.Production.Order()
             };
             objectJsonView.Data.Directory = Path.Combine(AppGlobals.DataBinDirectory, objectJsonView.Data.Value.ModelsDirectory());
         }

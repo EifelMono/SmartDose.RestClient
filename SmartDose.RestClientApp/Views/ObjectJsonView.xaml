@@ -11,7 +11,14 @@
     d:DesignWidth="800"
     mc:Ignorable="d">
     <Grid>
-        <TabControl Name="tabControlMain" SelectionChanged="tabControlMain_SelectionChanged">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0">
+            <Button Content="Click" Name="buttonClick" Click="buttonClick_Click"/>
+        </StackPanel>
+        <TabControl Name="tabControlMain" Grid.Row="1" SelectionChanged="tabControlMain_SelectionChanged">
             <TabItem Header="Object View">
                 <Grid>
                     <Grid.ColumnDefinitions>
