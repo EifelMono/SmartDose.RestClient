@@ -93,10 +93,6 @@
     <Compile Include="..\SmartDose.RestDomain\Models\V2\Production\ResultMedicationDetail.cs" Link="Models\V2\Production\ResultMedicationDetail.cs" />
     <Compile Include="..\SmartDose.RestDomain\Models\V2\Production\ResultOrderDetail.cs" Link="Models\V2\Production\ResultOrderDetail.cs" />
     <Compile Include="..\SmartDose.RestDomain\Models\V2\Production\ResultPatient.cs" Link="Models\V2\Production\ResultPatient.cs" />
-    <Compile Include="..\SmartDose.RestDomain\Models\Validation\CultureValidationAttribute.cs" Link="Models\Validation\CultureValidationAttribute.cs" />
-    <Compile Include="..\SmartDose.RestDomain\Models\Validation\DateTimeValidationAttribute.cs" Link="Models\Validation\DateTimeValidationAttribute.cs" />
-    <Compile Include="..\SmartDose.RestDomain\Models\Validation\EnumValidationAttribute.cs" Link="Models\Validation\EnumValidationAttribute.cs" />
-    <Compile Include="..\SmartDose.RestDomain\Models\Validation\SpecificValuesValidationAttribute.cs" Link="Models\Validation\SpecificValuesValidationAttribute.cs" />
   </ItemGroup>
 
   <ItemGroup>

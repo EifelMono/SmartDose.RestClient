@@ -1,5 +1,6 @@
-﻿using SmartDose.RestDomain.Validation;
-using System.Collections.Generic;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using SmartDose.RestDomain.Validation;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
@@ -57,6 +58,7 @@ namespace SmartDose.RestDomain.Models.V2.MasterData
         /// Gets or sets the status.
         /// </summary>
         [EnumValidation(typeof(Status), optional:true)]
+        [JsonConverter(typeof(StringEnumConverter))]
         public Status Status { get; set; }
 
         /// <summary>

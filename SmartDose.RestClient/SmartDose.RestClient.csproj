@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
@@ -6,12 +6,7 @@
 
   <ItemGroup>
     <PackageReference Include="Flurl.Http" Version="2.4.0" />
-    <PackageReference Include="Microsoft.Extensions.Logging" Version="2.2.0-preview3-35497" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Configuration" Version="2.2.0-preview3-35497" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="2.2.0-preview3-35497" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="2.2.0-preview3-35497" />
-    <PackageReference Include="Microsoft.Extensions.Logging.TraceSource" Version="2.2.0-preview3-35497" />
-    <PackageReference Include="Serilog.Extensions.Logging.File" Version="2.0.0-dev-00024" />
+    <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
   </ItemGroup>
 
   <ItemGroup>
@@ -20,8 +15,11 @@
 
   <ItemGroup>
     <Folder Include="V0\" />
-    <Folder Include="V2\" />
+    <Folder Include="V1\Inventory\" />
+    <Folder Include="V1\MasterData\" />
+    <Folder Include="V1\Production\" />
     <Folder Include="V1\" />
+    <Folder Include="V2\Inventory\" />
   </ItemGroup>
 
 </Project>

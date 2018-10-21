@@ -13,6 +13,10 @@ namespace SmartDose.RestDomain.Models
         public string Name { get; set; }
         public string Version { get; set; }
         public string Group { get; set; }
+
+        public bool IsDev { get; set; }
+
+        public object Value { get; set; }
         public override string ToString()
             => FullName;
     }

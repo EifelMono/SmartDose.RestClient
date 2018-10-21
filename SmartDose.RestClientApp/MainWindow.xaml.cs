@@ -1,7 +1,6 @@
 ﻿using System.Diagnostics;
 using System.IO;
 using System.Windows;
-using Microsoft.Extensions.Logging;
 using SmartDose.RestClientApp.Globals;
 
 namespace SmartDose.RestClientApp
@@ -21,19 +20,6 @@ namespace SmartDose.RestClientApp
         {
             var u1 = AppGlobals.Configuration.Data.UrlRestV1;
             var u2 = AppGlobals.Configuration.Data.UrlRestV1;
-
-            foreach (var type in ModelsGlobals.ModelsAssembly.GetTypes())
-            {
-                Debug.WriteLine(type.FullName);
-            }
-
-            var x = ModelsGlobals.ModelsItems;
-
-            objectJsonView.Data = new ObjectJsonData
-            {
-                Value = new RestDomain.Models.V2.Production.Order()
-            };
-            objectJsonView.Data.Directory = Path.Combine(AppGlobals.DataBinDirectory, objectJsonView.Data.Value.ModelsDirectory());
         }
 
         //var customerV1 = new RestDomain.V1.Models.MasterData.Customer().CreateAllSubModels();

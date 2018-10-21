@@ -2,7 +2,7 @@
 using ICSharpCode.AvalonEdit.Document;
 using ICSharpCode.AvalonEdit.Folding;
 
-namespace SmartDose.RestClientApp
+namespace SmartDose.RestClientApp.Editor
 {
     public class JsonFoldingStrategy
     {

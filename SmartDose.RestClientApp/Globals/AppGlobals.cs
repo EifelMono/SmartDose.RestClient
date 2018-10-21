@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
-using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
 namespace SmartDose.RestClientApp.Globals
@@ -32,14 +31,7 @@ namespace SmartDose.RestClientApp.Globals
 
         public static class Log
         {
-            public static string LogFileName => Path.Combine(DataProtocolDirectory, $"{AppName}.text");
-            static ILoggerFactory _LoggerFactory = null;
-            public static ILoggerFactory LoggerFactory => _LoggerFactory
-                                            ?? (_LoggerFactory = new LoggerFactory().AddFile(LogFileName));
-
-            public static ILogger _Logger = null;
-            public static ILogger Logger => _Logger
-                                            ?? (_Logger = LoggerFactory.CreateLogger<App>());
+            public static string LogFileName => Path.Combine(DataProtocolDirectory, $"{DateTime.Now:yyyyMMdd}.{AppName}.Log");
         }
 
 

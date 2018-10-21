@@ -1,4 +1,7 @@
-﻿using SmartDose.RestDomain.Validation;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using SmartDose.RestDomain.Validation;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
