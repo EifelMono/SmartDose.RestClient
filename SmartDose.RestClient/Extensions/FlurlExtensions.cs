@@ -10,6 +10,7 @@ using Flurl.Http;
 
 namespace SmartDose.RestClient.Extensions
 {
+    // Sdrc SmartDoseRestClient
     public static class SdrcFlurlExtensions
     {
         public static bool IsHttpStatusCode(this HttpStatusCode thisValue, HttpStatusCode httpStatusCode)

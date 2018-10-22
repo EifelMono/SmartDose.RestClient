@@ -11,6 +11,10 @@ namespace SmartDose.RestClient.Crud
 {
     public class Core
     {
+        public const string MasterDataName = "MasterData";
+        public const string InventoryName = "Inventory";
+        public const string ProductionName = "Production";
+
         public Url Url { get; set; }
 
         public Core()
@@ -31,24 +35,31 @@ namespace SmartDose.RestClient.Crud
         {
         }
 
+        private static object _Instance;
+        internal static Tx Instance<Tx>() where Tx : Core<T>, new()
+        {
+            if (_Instance == null)
+                _Instance = new Tx();
+            return (Tx) _Instance;
+        }
 
 
         public async Task<SdrcFlurHttpResponse> CreateAsync(T value, CancellationToken cancellationToken = default(CancellationToken), HttpCompletionOption completionOption = HttpCompletionOption.ResponseContentRead)
             => await Url.SdrcPostJsonAsync(value, cancellationToken, completionOption).ConfigureAwait(false);
 
-        public async Task<SdrcFlurHttpResponse> DeletetAsync(string medicineCode, CancellationToken cancellationToken = default(CancellationToken), HttpCompletionOption completionOption = HttpCompletionOption.ResponseContentRead)
-            => await Url.AppendPathSegment(medicineCode).SdrcDeleteAsync(cancellationToken, completionOption).ConfigureAwait(false);
+        public async Task<SdrcFlurHttpResponse> DeletetAsync(string valueId, CancellationToken cancellationToken = default(CancellationToken), HttpCompletionOption completionOption = HttpCompletionOption.ResponseContentRead)
+            => await Url.AppendPathSegment(valueId).SdrcDeleteAsync(cancellationToken, completionOption).ConfigureAwait(false);
 
         public async Task<SdrcFlurHttpResponse> UpdateAsync(string updateId, T value, CancellationToken cancellationToken = default(CancellationToken), HttpCompletionOption completionOption = HttpCompletionOption.ResponseContentRead)
-         => await Url.AppendPathSegment(updateId).SdrcPostJsonAsync(value, cancellationToken, completionOption).ConfigureAwait(false);
+         => await Url.AppendPathSegment(updateId).SdrcPutJsonAsync(value, cancellationToken, completionOption).ConfigureAwait(false);
 
-        public async Task<SdrcFlurHttpResponse<List<T>>> GetListAsync(CancellationToken cancellationToken = default(CancellationToken), HttpCompletionOption completionOption = HttpCompletionOption.ResponseContentRead)
+        public async Task<SdrcFlurHttpResponse<List<T>>> ReadListAsync(CancellationToken cancellationToken = default(CancellationToken), HttpCompletionOption completionOption = HttpCompletionOption.ResponseContentRead)
           => await Url.SdrcGetJsonAsync<List<T>>(cancellationToken, completionOption).ConfigureAwait(false);
-        public async Task<SdrcFlurHttpResponse<T>> GetAsync(string searchId, CancellationToken cancellationToken = default(CancellationToken), HttpCompletionOption completionOption = HttpCompletionOption.ResponseContentRead)
+        public async Task<SdrcFlurHttpResponse<T>> ReadAsync(string searchId, CancellationToken cancellationToken = default(CancellationToken), HttpCompletionOption completionOption = HttpCompletionOption.ResponseContentRead)
           => await Url.AppendPathSegment(searchId).SdrcGetJsonAsync<T>(cancellationToken, completionOption).ConfigureAwait(false);
     }
 
 
 
-  
+
 }

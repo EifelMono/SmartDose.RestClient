@@ -173,19 +173,21 @@ namespace SmartDose.RestClientApp.Views
 
         private async void buttonClick_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            var medicine = CrudV2.MasterData.Medicine.Instance;
-            if (await medicine.CreateAsync(new ModelsV2.MasterData.Medicine { }) is var response1 && response1.Ok)
             {
-                "1".LogInformation();
-            }
-            "2".LogInformation();
+                var medicine = CrudV2.MasterData.Medicine.Instance;
+                if (await medicine.CreateAsync(new ModelsV2.MasterData.Medicine { }) is var response1 && response1.Ok)
+                {
+                    "1".LogInformation();
+                }
+                "2".LogInformation();
 
 
-            if (await medicine.GetListAsync() is var response2 && response2.Ok)
-            {
-                "1".LogInformation();
+                if (await medicine.ReadListAsync() is var response2 && response2.Ok)
+                {
+                    "1".LogInformation();
+                }
+                "2".LogInformation();
             }
-            "2".LogInformation();
 
         }
     }

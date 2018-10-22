@@ -18,7 +18,6 @@
     <Folder Include="Crud\V1\Inventory\" />
     <Folder Include="Crud\V1\MasterData\" />
     <Folder Include="Crud\V1\Production\" />
-    <Folder Include="Crud\V2\Inventory\" />
   </ItemGroup>
 
 </Project>

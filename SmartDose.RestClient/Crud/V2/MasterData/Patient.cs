@@ -10,14 +10,13 @@ using ModelsV2 = SmartDose.RestDomain.Models.V2;
 
 namespace SmartDose.RestClient.Crud.V2.MasterData
 {
-    public class Medicine : CoreV2<ModelsV2.MasterData.Medicine>
+    public class Patient : CoreV2<ModelsV2.MasterData.Patient>
     {
-        public Medicine() : base(MasterDataName, nameof(Medicine) + "s")
+        public Patient() : base(MasterDataName, nameof(Patient) + "s")
         {
         }
 
-        public static Medicine Instance => Instance<Medicine>();
-
+        public static Patient Instance => Instance<Patient>();
         public async Task<SdrcFlurHttpResponse<int>> GetCanisterCountAsync(string medicineCode, CancellationToken cancellationToken = default(CancellationToken), HttpCompletionOption completionOption = HttpCompletionOption.ResponseContentRead)
                 => await Url.AppendPathSegment(medicineCode).AppendPathSegment("CanisterCount").SdrcGetJsonAsync<int>(cancellationToken, completionOption).ConfigureAwait(false);
     }
