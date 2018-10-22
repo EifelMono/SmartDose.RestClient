@@ -14,7 +14,6 @@ namespace SmartDose.RestClient.Crud.V2.MasterData
     {
         public Medicine() : base(nameof(MasterData), nameof(Medicine) + "s")
         {
-
         }
 
         private static Medicine _Instance;

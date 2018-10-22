@@ -48,19 +48,7 @@ namespace SmartDose.RestClient.Crud
           => await Url.AppendPathSegment(searchId).SdrcGetJsonAsync<T>(cancellationToken, completionOption).ConfigureAwait(false);
     }
 
-    public class CoreV1<T> : Core<T> where T : class
-    {
-        public CoreV1(params string[] pathSegments) : base(UrlConfig.UrlV1, pathSegments)
-        {
 
-        }
-    }
 
-    public class CoreV2<T> : Core<T> where T : class
-    {
-        public CoreV2(params string[] pathSegments) : base(UrlConfig.UrlV2, pathSegments)
-        {
-
-        }
-    }
+  
 }
