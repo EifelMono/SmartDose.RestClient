@@ -14,12 +14,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="V0\" />
-    <Folder Include="V1\Inventory\" />
-    <Folder Include="V1\MasterData\" />
-    <Folder Include="V1\Production\" />
-    <Folder Include="V1\" />
-    <Folder Include="V2\Inventory\" />
+    <Folder Include="Crud\V0\" />
+    <Folder Include="Crud\V1\Inventory\" />
+    <Folder Include="Crud\V1\MasterData\" />
+    <Folder Include="Crud\V1\Production\" />
+    <Folder Include="Crud\V1\" />
+    <Folder Include="Crud\V2\Inventory\" />
   </ItemGroup>
 
 </Project>

@@ -5,10 +5,10 @@ using System.Linq;
 using System.Reflection;
 using System.Windows.Controls;
 using System.Windows.Media;
-using SmartDose.RestClient.V2.MasterData;
 using SmartDose.RestClientApp.Globals;
 using SmartDose.RestDomainDev;
-using Domain = SmartDose.RestDomain.Models.V2.MasterData;
+using ModelsV2 = SmartDose.RestDomain.Models.V2;
+using CrudV2 = SmartDose.RestClient.Crud.V2;
 
 namespace SmartDose.RestClientApp.Views
 {
@@ -173,14 +173,15 @@ namespace SmartDose.RestClientApp.Views
 
         private async void buttonClick_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            if (await Medicine.CreateAsync(new Domain.Medicine { }) is var response1 && response1.Ok)
+            var medicine = CrudV2.MasterData.Medicine.Instance;
+            if (await medicine.CreateAsync(new ModelsV2.MasterData.Medicine { }) is var response1 && response1.Ok)
             {
                 "1".LogInformation();
             }
             "2".LogInformation();
 
 
-            if (await Medicine.GetAsync() is var response2 && response2.Ok)
+            if (await medicine.GetListAsync() is var response2 && response2.Ok)
             {
                 "1".LogInformation();
             }
