@@ -2,6 +2,9 @@
 using System.IO;
 using System.Windows;
 using SmartDose.RestClientApp.Globals;
+using ModelsV2 = SmartDose.RestDomain.Models.V2;
+using CrudV2 = SmartDose.RestClient.Crud.V2;
+
 
 namespace SmartDose.RestClientApp
 {
@@ -22,21 +25,39 @@ namespace SmartDose.RestClientApp
             var u2 = AppGlobals.Configuration.Data.UrlRestV1;
         }
 
-        //var customerV1 = new RestDomain.V1.Models.MasterData.Customer().CreateAllSubModels();
-        //var customerV2 = new RestDomain.V2.Models.MasterData.Customer().CreateAllSubModels();
-        //propertyGridCustomerV1.SelectedObject = customerV1;
-        //propertyGridCustomerV2.SelectedObject = customerV2;
 
-        //var medicineV1 = new RestDomain.V1.Models.MasterData.Medicine().CreateAllSubModels();
-        //var medicineV2 = new RestDomain.V2.Models.MasterData.Medicine().CreateAllSubModels();
-        //propertyGridMedicineV1.SelectedObject = medicineV1;
-        //propertyGridMedicineV2.SelectedObject = medicineV2;
+        private async void MedicineCreate_Click(object sender, RoutedEventArgs e)
+        {
+            if (await CrudV2.MasterData.Medicine.Instance.CreateAsync(new ModelsV2.MasterData.Medicine { }) is var response && response.Ok)
+            {
+                Debug.WriteLine("Created");
+                // created!
+            }
+            else
+                Debug.WriteLine(response.Message);
+        }
 
-        //var orderV1 = new RestDomain.V1.Models.Production.RestExternalOrder().CreateAllSubModels();
-        //var orderV2 = new RestDomain.V2.Models.Production.Order().CreateAllSubModels();
-        //propertyGridOrderV1.SelectedObject = orderV1;
-        //propertyGridOrderV2.SelectedObject = orderV2;
-        //propertyGridOrderV2.PropertyValueChanged += PropertyGridOrderV2_PropertyValueChanged; ; 
+        private async void MedicineGet_Click(object sender, RoutedEventArgs e)
+        {
+            if (await CrudV2.MasterData.Medicine.Instance.ReadListAsync() is var response && response.Ok)
+            {
+                Debug.WriteLine("Medicine List");
+                Debug.WriteLine(response.Data.ToJson());
+            }
+            else
+                Debug.WriteLine(response.Message);
+        }
+
+        private async void MedicineGetList_Click(object sender, RoutedEventArgs e)
+        {
+            if (await CrudV2.MasterData.Medicine.Instance.ReadAsync("me") is var response && response.Ok)
+            {
+                Debug.WriteLine("Medicine");
+                Debug.WriteLine(response.Data.ToJson());
+            }
+            else
+                Debug.WriteLine(response.Message);
+        }
     }
 
 

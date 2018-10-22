@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="clr-namespace:SmartDose.RestClientApp"
     xmlns:views="clr-namespace:SmartDose.RestClientApp.Views"
-    StartupUri="Views\ObjectJsonWindow.xaml">
+    StartupUri="MainWindow.xaml">
     <Application.Resources />
 </Application>
+<!--  StartupUri="Views\ObjectJsonWindow.xaml  -->

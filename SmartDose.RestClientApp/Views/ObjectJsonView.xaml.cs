@@ -59,16 +59,16 @@ namespace SmartDose.RestClientApp.Views
         }
 
         public bool Enabled { get; set; } = false;
-        private object _Data;
+        private object _data;
         public object Data
         {
-            get => _Data;
+            get => _data;
             set
             {
                 Enabled = false;
                 try
                 {
-                    _Data = value;
+                    _data = value;
                     DataDev = ConvertDev.ToObjectDevFromObject(Data);
                 }
                 finally
@@ -79,20 +79,20 @@ namespace SmartDose.RestClientApp.Views
             }
         }
 
-        private object _DataDev;
+        private object _dataDev;
         public object DataDev
         {
-            get => _DataDev;
+            get => _dataDev;
             set
             {
-                _DataDev = value;
+                _dataDev = value;
                 UpdateView(DataDev);
             }
         }
 
         protected void UpdateView(object objectValue)
         {
-            propertyView.SelectedObject = FillEmtpyModels(_DataDev);
+            propertyView.SelectedObject = FillEmtpyModels(_dataDev);
             jsonEditor.Text = ConvertDev.ToJsonFromObjectDev(objectValue);
         }
 

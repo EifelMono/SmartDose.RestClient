@@ -93,6 +93,8 @@
     </ApplicationDefinition>
     <Compile Include="Editor\JsonFoldingStrategy.cs" />
     <Compile Include="Editor\JsonEditor.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="Globals\AppExtensions.cs" />
     <Compile Include="Views\ObjectJsonWindow.xaml.cs">
       <DependentUpon>ObjectJsonWindow.xaml</DependentUpon>
     </Compile>
@@ -121,7 +123,6 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Globals\ObjectJsonData.cs" />
     <Compile Include="Views\ObjectJsonView.xaml.cs">
       <DependentUpon>ObjectJsonView.xaml</DependentUpon>
     </Compile>
