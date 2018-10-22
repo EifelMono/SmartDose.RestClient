@@ -6,6 +6,5 @@
         FlurlTimeOut = -2,
         FlurlException = -3,
         Exception = -4,
-
     }
 }

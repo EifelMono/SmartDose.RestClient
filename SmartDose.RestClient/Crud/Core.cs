@@ -35,12 +35,12 @@ namespace SmartDose.RestClient.Crud
         {
         }
 
-        private static object _Instance;
+        private static object s_instance;
         internal static Tx Instance<Tx>() where Tx : Core<T>, new()
         {
-            if (_Instance == null)
-                _Instance = new Tx();
-            return (Tx) _Instance;
+            if (s_instance == null)
+                s_instance = new Tx();
+            return (Tx) s_instance;
         }
 
 

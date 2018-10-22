@@ -9,13 +9,13 @@ namespace SmartDose.RestClientApp.Globals
 {
     public static class LogExtensions
     {
-        private static object LogObject = new object(); 
+        private static readonly object s_logObject = new object(); 
         private static void WriteLine(string type, string message)
         {
             var timeStamp = DateTime.Now;
             Task.Run(() =>
             {
-                lock (LogObject)
+                lock (s_logObject)
                 {
                     if (!File.Exists(AppGlobals.Log.LogFileName))
                         File.AppendAllText(AppGlobals.Log.LogFileName, $"Time;Info;Message\r\n");
