@@ -21,5 +21,8 @@ namespace SmartDose.RestDomain.Models.V1.MasterData
         public MedicinePicture[] MedicinePictures { get; set; }
         public SpecialHandling SpecialHandling { get; set; }
         public bool TrayFillOnly { get; set; }
+
+        public override string ToString()
+            => $"{Name} ({Identifier})";
     }
 }

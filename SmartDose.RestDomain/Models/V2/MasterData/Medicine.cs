@@ -57,7 +57,7 @@ namespace SmartDose.RestDomain.Models.V2.MasterData
         /// <summary>
         /// Gets or sets the status.
         /// </summary>
-        [EnumValidation(typeof(Status), optional:true)]
+        [EnumValidation(typeof(Status), optional: true)]
         [JsonConverter(typeof(StringEnumConverter))]
         public Status Status { get; set; }
 
@@ -95,5 +95,8 @@ namespace SmartDose.RestDomain.Models.V2.MasterData
         /// The manufacturer code.
         /// </value>
         public string ManufacturerCode { get; set; }
+
+        public override string ToString()
+            => $"{MedicineName} ({MedicineCode})";
     }
 }

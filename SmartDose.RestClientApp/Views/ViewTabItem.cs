@@ -37,6 +37,8 @@ namespace SmartDose.RestClientApp.Views
             _buttonExecute = new Button
             {
                 Margin = new System.Windows.Thickness(5),
+                Padding= new System.Windows.Thickness(5),
+                Foreground= Brushes.Green,
                 Content = "Execute"
             };
             _buttonExecute.Click += (s, e) => ButtonExecute();

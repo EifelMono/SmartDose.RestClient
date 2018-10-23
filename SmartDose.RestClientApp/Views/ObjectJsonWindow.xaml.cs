@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Windows;
+using System.Windows.Controls;
 using SmartDose.RestClientApp.Globals;
 
 namespace SmartDose.RestClientApp.Views
@@ -21,7 +24,7 @@ namespace SmartDose.RestClientApp.Views
 
         private void CreateObjectTree()
         {
-            var rootMenuItem = new MenuItem { Title = "SmartDose.Rest" };
+            var rootMenuItem = new MenuItem { Title = "SmartDose.Rest" , IsExpanded= true};
             var modelsMenueItem = rootMenuItem.Add("Models");
 
             foreach (var modelsVersionGroup in RestDomain.Models.ModelsGlobals.ModelsItems.GroupBy(i => i.Version).OrderBy(g => g.Key))
@@ -35,14 +38,14 @@ namespace SmartDose.RestClientApp.Views
                 }
             }
 
-            var crudMenuItem = rootMenuItem.Add("CRUD");
-            var crudMenuV1Item = crudMenuItem.Add("V1");
-            var crudMenuV1MasterDataItem = crudMenuV1Item.Add("MasterData");
+            var crudMenuItem = rootMenuItem.Add("CRUD", true);
+            var crudMenuV1Item = crudMenuItem.Add("V1", true);
+            var crudMenuV1MasterDataItem = crudMenuV1Item.Add("MasterData", true);
             crudMenuV1MasterDataItem.Add("Medicine", new RestDomain.Models.ModelsItem { Type = typeof(V1.MasterData.ViewMedicine) });
 
 
-            var crudMenuV2Item = crudMenuItem.Add("V2");
-            var crudMenuV2MasterDataItem = crudMenuV2Item.Add("MasterData");
+            var crudMenuV2Item = crudMenuItem.Add("V2", true);
+            var crudMenuV2MasterDataItem = crudMenuV2Item.Add("MasterData", true);
             crudMenuV2MasterDataItem.Add("Medicine", new RestDomain.Models.ModelsItem { Type = typeof(V2.MasterData.ViewMedicine) });
 
 
@@ -79,26 +82,79 @@ namespace SmartDose.RestClientApp.Views
                     }
                     else gridContent.Children.Clear();
                 }
+                else
+                    gridContent.Children.Clear();
             }
             else
                 gridContent.Children.Clear();
         }
+
+        private void ExpandAllNodes(MenuItem rootItem)
+        {
+            foreach (object item in rootItem.Items)
+            {
+                MenuItem treeItem = (MenuItem)item;
+
+                if (treeItem != null)
+                {
+                    ExpandAllNodes(treeItem);
+                    treeItem.IsExpanded = true;
+                }
+            }
+        }
+
     }
 
-    public class MenuItem
+    public class MenuItem : INotifyPropertyChanged
     {
         public string Title { get; set; }
 
         public RestDomain.Models.ModelsItem ModelsItem { get; set; }
 
-        public List<MenuItem> Items { get; set; } = new List<MenuItem>();
+        public ObservableCollection<MenuItem> Items { get; set; } = new ObservableCollection<MenuItem>();
 
-        public MenuItem Add(string title, RestDomain.Models.ModelsItem modelsItem = null)
+        public MenuItem Add(string title, RestDomain.Models.ModelsItem modelsItem = null, bool isExpanded = false)
         {
-            var menuItem = new MenuItem { Title = title, ModelsItem = modelsItem };
+            var menuItem = new MenuItem { Title = title, ModelsItem = modelsItem, IsExpanded = isExpanded };
             Items.Add(menuItem);
             return menuItem;
         }
+
+        public MenuItem Add(string title, bool isExpanded)
+            => Add(title, null, isExpanded);
+
+        private bool isSelected;
+        public bool IsSelected
+        {
+            get { return isSelected; }
+            set
+            {
+                if (value != isSelected)
+                {
+                    this.isSelected = value;
+                    NotifyPropertyChanged("IsSelected");
+                }
+            }
+        }
+
+        private bool isExpanded;
+        public bool IsExpanded
+        {
+            get { return isExpanded; }
+            set
+            {
+                if (value != isExpanded)
+                {
+                    this.isExpanded = value;
+                    NotifyPropertyChanged("IsExpanded");
+                }
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public void NotifyPropertyChanged(string propName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
+
         public override string ToString()
                 => $"{Title}";
     }
