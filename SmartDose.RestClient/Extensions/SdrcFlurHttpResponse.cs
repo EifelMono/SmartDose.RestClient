@@ -9,10 +9,11 @@ namespace SmartDose.RestClient.Extensions
         public HttpStatusCode StatusCode { get; set; } = (HttpStatusCode)(SdrcHttpStatusCode.Undefined);
         public Exception Exception { get; set; } = null;
         public string Message { get; set; } = "";
+        public object Data { get; set; }
     }
 
     public class SdrcFlurHttpResponse<T> : SdrcFlurHttpResponse
     {
-        public T Data { get; set; }
+        public new T Data { get => (T)base.Data; set => base.Data = value; }
     }
 }

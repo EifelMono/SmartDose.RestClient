@@ -12,20 +12,7 @@
     d:DesignWidth="800"
     mc:Ignorable="d">
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="20" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
-        <StackPanel Grid.Row="0">
-            <Button
-                Name="buttonClick"
-                Click="buttonClick_Click"
-                Content="Click" />
-        </StackPanel>
-        <TabControl
-            Name="tabControlMain"
-            Grid.Row="1"
-            SelectionChanged="tabControlMain_SelectionChanged">
+        <TabControl Name="tabControlMain" SelectionChanged="tabControlMain_SelectionChanged">
             <TabItem Header="Object View">
                 <Grid>
                     <Grid.RowDefinitions>
@@ -34,7 +21,7 @@
                         <RowDefinition Height="45" />
                     </Grid.RowDefinitions>
                     <WindowsFormsHost Grid.Row="0">
-                        <forms:PropertyGrid x:Name="propertyView">
+                        <forms:PropertyGrid x:Name="propertyGridView">
                             <forms:PropertyGrid.ContextMenuStrip>
                                 <forms:ContextMenuStrip />
                             </forms:PropertyGrid.ContextMenuStrip>
@@ -51,7 +38,7 @@
             </TabItem>
             <TabItem Header="Json View">
                 <Grid>
-                    <jsonEdit:JsonEditor x:Name="jsonEditor" />
+                    <jsonEdit:JsonEditor x:Name="jsonEditor" Grid.ColumnSpan="2" />
                 </Grid>
             </TabItem>
             <TabItem Header="Files">

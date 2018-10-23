@@ -7,14 +7,15 @@
     xmlns:local="clr-namespace:SmartDose.RestClientApp"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:views="clr-namespace:SmartDose.RestClientApp.Views"
+    xmlns:viewsV2MasterData="clr-namespace:SmartDose.RestClientApp.Views.V2.MasterData"
     Title="MainWindow"
     Width="800"
     Height="450"
     Loaded="Window_Loaded"
     mc:Ignorable="d">
 
-    <StackPanel>
-        <Button
+    <Grid>
+        <!--Button
             Name="MedicineCreate"
             Click="MedicineCreate_Click"
             Content="Medicine Create" />
@@ -25,8 +26,9 @@
         <Button
             Name="MedicineGetList"
             Click="MedicineGetList_Click"
-            Content="Medicine Get" />
+            Content="Medicine Get" /-->
+        <viewsV2MasterData:ViewMedicine />
 
 
-    </StackPanel>
+    </Grid>
 </Window>

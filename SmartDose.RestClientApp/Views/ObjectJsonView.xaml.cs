@@ -22,14 +22,14 @@ namespace SmartDose.RestClientApp.Views
             InitializeComponent();
             DataContext = this;
 
-            propertyView.HelpVisible = false;
+            propertyGridView.HelpVisible = false;
 
-            propertyView.PropertyValueChanged += (s, e) =>
+            propertyGridView.PropertyValueChanged += (s, e) =>
             {
                 FillEmtpyModels(e?.ChangedItem?.Value);
             };
 
-            propertyView.SelectedGridItemChanged += (s, e) =>
+            propertyGridView.SelectedGridItemChanged += (s, e) =>
                 {
                     try
                     {
@@ -52,7 +52,6 @@ namespace SmartDose.RestClientApp.Views
                     }
                     catch { }
                 };
-
             tabControlMain.SelectionChanged += (s, e) =>
                 {
                 };
@@ -75,7 +74,6 @@ namespace SmartDose.RestClientApp.Views
                 {
                     Enabled = true;
                 }
-
             }
         }
 
@@ -92,7 +90,7 @@ namespace SmartDose.RestClientApp.Views
 
         protected void UpdateView(object objectValue)
         {
-            propertyView.SelectedObject = FillEmtpyModels(_dataDev);
+            propertyGridView.SelectedObject = FillEmtpyModels(_dataDev);
             jsonEditor.Text = ConvertDev.ToJsonFromObjectDev(objectValue);
         }
 
@@ -167,28 +165,6 @@ namespace SmartDose.RestClientApp.Views
         {
             // todo remove
             return thisValue;
-        }
-
-
-
-        private async void buttonClick_Click(object sender, System.Windows.RoutedEventArgs e)
-        {
-            {
-                var medicine = CrudV2.MasterData.Medicine.Instance;
-                if (await medicine.CreateAsync(new ModelsV2.MasterData.Medicine { }) is var response1 && response1.Ok)
-                {
-                    "1".LogInformation();
-                }
-                "2".LogInformation();
-
-
-                if (await medicine.ReadListAsync() is var response2 && response2.Ok)
-                {
-                    "1".LogInformation();
-                }
-                "2".LogInformation();
-            }
-
         }
     }
 }
