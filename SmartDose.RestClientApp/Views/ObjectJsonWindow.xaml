@@ -31,6 +31,8 @@
             Width="3"
             HorizontalAlignment="Stretch" />
 
-        <views:ObjectJsonView x:Name="objectJsonView" Grid.Column="2" />
+        <Grid Name="gridContent" Grid.Column="2">
+            <views:ObjectJsonView x:Name="objectJsonView" Grid.Column="2" />
+        </Grid>
     </Grid>
 </Window>
