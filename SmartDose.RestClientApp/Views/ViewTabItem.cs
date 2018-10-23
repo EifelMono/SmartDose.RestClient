@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
 using ICSharpCode.AvalonEdit;
 using Newtonsoft.Json;
@@ -20,6 +22,44 @@ namespace SmartDose.RestClientApp.Views
         protected JsonEditor _jsonEditorResponse;
         protected System.Windows.Forms.PropertyGrid _propertyGridResponse;
 
+        protected List<ViewParam> _requestParams = new List<ViewParam>();
+        public List<ViewParam> RequestParams
+        {
+            get => _requestParams;
+            set
+            {
+                _gridRequest.Children.Clear();
+                _gridRequest.RowDefinitions.Clear();
+                foreach (var item in value)
+                {
+                    _gridRequest.RowDefinitions.Add(new RowDefinition { Height = new System.Windows.GridLength(1, item.IsViewObjectJson ? System.Windows.GridUnitType.Star : System.Windows.GridUnitType.Auto) });
+                    var label = new Label { Content = item.Name };
+                    _gridRequest.Children.Add(label);
+                    Grid.SetColumn(label, 0);
+                    Grid.SetRow(label, _gridRequest.RowDefinitions.Count - 1);
+                    if (item.IsViewObjectJson)
+                    {
+                        var viewObjectJson = new ViewObjectJson();
+                        _gridRequest.Children.Add(viewObjectJson);
+                        Grid.SetColumn(viewObjectJson, 1);
+                        Grid.SetRow(viewObjectJson, _gridRequest.RowDefinitions.Count - 1);
+                        viewObjectJson.Data = item.Value;
+                        item.View = viewObjectJson;
+                    }
+                    else
+                    {
+                        var viewInput = new ViewInput();
+                        _gridRequest.Children.Add(viewInput);
+                        Grid.SetColumn(viewInput, 1);
+                        Grid.SetRow(viewInput, _gridRequest.RowDefinitions.Count - 1);
+                        viewInput.Data = (string)item.Value;
+                        item.View = viewInput;
+                    }
+                }
+                _requestParams = value;
+            }
+        }
+
 
         public ViewTabItem()
         {
@@ -31,17 +71,19 @@ namespace SmartDose.RestClientApp.Views
 
 
             _gridRequest = new Grid();
+            _gridRequest.ColumnDefinitions.Add(new ColumnDefinition { Width = new System.Windows.GridLength(1, System.Windows.GridUnitType.Auto) });
+            _gridRequest.ColumnDefinitions.Add(new ColumnDefinition { Width = new System.Windows.GridLength(1, System.Windows.GridUnitType.Star) });
             _gridTabItem.Children.Add(_gridRequest);
             Grid.SetRow(_gridRequest, 0);
 
             _buttonExecute = new Button
             {
                 Margin = new System.Windows.Thickness(5),
-                Padding= new System.Windows.Thickness(5),
-                Foreground= Brushes.Green,
+                Padding = new System.Windows.Thickness(5),
+                Foreground = Brushes.Green,
                 Content = "Execute"
             };
-            _buttonExecute.Click += (s, e) => ButtonExecute();
+            _buttonExecute.Click += (s, e) => InternalButtonExecute();
             _gridTabItem.Children.Add(_buttonExecute);
             Grid.SetRow(_buttonExecute, 1);
 
@@ -81,8 +123,31 @@ namespace SmartDose.RestClientApp.Views
 
         }
 
+        protected void InternalButtonExecute()
+        {
+            try
+            {
+                this.Cursor = Cursors.Wait;
+                foreach(var item in RequestParams)
+                {
+                    if (item.IsViewObjectJson)
+                        item.Value = (item.View as ViewObjectJson).Data;
+                    else
+                        item.Value = (item.View as ViewInput).Data;
+                }
+                ButtonExecute();
+            }
+            finally
+            {
+                this.Cursor = null;
+            }
+        }
+
+        public Action<ViewTabItem> OnButtonExecute { get; set; }
+
         public virtual void ButtonExecute()
         {
+            OnButtonExecute?.Invoke(this);
         }
         public string ButtonExecuteText { get => (string)_buttonExecute.Content; set => _buttonExecute.Content = value; }
 

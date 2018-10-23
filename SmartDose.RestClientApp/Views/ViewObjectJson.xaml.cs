@@ -55,7 +55,7 @@ namespace SmartDose.RestClientApp.Views
                 };
         }
 
-        public ViewObjectJson(bool showBottomListBox): this()
+        public ViewObjectJson(bool showBottomListBox) : this()
         {
             listBoxPropertyInfo.Visibility = showBottomListBox ? System.Windows.Visibility.Visible : System.Windows.Visibility.Collapsed;
         }
@@ -63,14 +63,18 @@ namespace SmartDose.RestClientApp.Views
         private object _data;
         public object Data
         {
-            get => _data;
+            get
+            {
+                _data = ConvertDev.ToObjectFromObjectDev(DataDev);
+                return _data;
+            }
             set
             {
                 Enabled = false;
                 try
                 {
                     _data = value;
-                    DataDev = ConvertDev.ToObjectDevFromObject(Data);
+                    DataDev = ConvertDev.ToObjectDevFromObject(_data);
                 }
                 finally
                 {
