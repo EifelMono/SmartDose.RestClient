@@ -27,7 +27,7 @@
             Name="MedicineGetList"
             Click="MedicineGetList_Click"
             Content="Medicine Get" /-->
-        <viewsV2MasterData:ViewMedicine />
+        <viewsV2MasterData:MedicineView />
 
 
     </Grid>

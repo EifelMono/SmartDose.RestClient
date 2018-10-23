@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace SmartDose.RestClientApp.Views
 {
-    class ViewTabItemCreate<T> : ViewTabItem
+    class CrudTabItemReadList<T> : CruidTabItem
     {
         protected ObjectJsonView _requestObjectJsonView;
-        public ViewTabItemCreate()
+        public CrudTabItemReadList()
         {
-            Header = "Create";
+            Header = "Read List";
             _requestObjectJsonView = new ObjectJsonView();
             _gridRequest.Children.Add(_requestObjectJsonView);
         }
@@ -22,6 +22,6 @@ namespace SmartDose.RestClientApp.Views
         {
             OnButtonExecute?.Invoke(this);
         }
-        public Action<ViewTabItemCreate<T>> OnButtonExecute { get; set; }
+        public Action<CrudTabItemReadList<T>> OnButtonExecute { get; set; }
     }
 }

@@ -55,6 +55,10 @@ namespace SmartDose.RestClientApp.Views
                 };
         }
 
+        public ObjectJsonView(bool showBottomListBox): this()
+        {
+            listBoxPropertyInfo.Visibility = showBottomListBox ? System.Windows.Visibility.Visible : System.Windows.Visibility.Collapsed;
+        }
         public bool Enabled { get; set; } = false;
         private object _data;
         public object Data

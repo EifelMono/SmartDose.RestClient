@@ -8,9 +8,9 @@ using SmartDose.RestClientApp.Editor;
 
 namespace SmartDose.RestClientApp.Views
 {
-    public class ViewTabItem : TabItem
+    public class CruidTabItem : TabItem
     {
-        protected Grid _gridItem;
+        protected Grid _gridTabItem;
         protected Grid _gridRequest;
         protected Button _buttonExecute;
 
@@ -21,17 +21,17 @@ namespace SmartDose.RestClientApp.Views
         protected System.Windows.Forms.PropertyGrid _propertyGridResponse;
 
 
-        public ViewTabItem()
+        public CruidTabItem()
         {
-            Content = _gridItem = new Grid();
-            _gridItem.RowDefinitions.Add(new RowDefinition { Height = new System.Windows.GridLength(1, System.Windows.GridUnitType.Star) });
-            _gridItem.RowDefinitions.Add(new RowDefinition { Height = new System.Windows.GridLength(1, System.Windows.GridUnitType.Auto) });
-            _gridItem.RowDefinitions.Add(new RowDefinition { Height = new System.Windows.GridLength(1, System.Windows.GridUnitType.Auto) });
-            _gridItem.RowDefinitions.Add(new RowDefinition { Height = new System.Windows.GridLength(1, System.Windows.GridUnitType.Star) });
+            Content = _gridTabItem = new Grid();
+            _gridTabItem.RowDefinitions.Add(new RowDefinition { Height = new System.Windows.GridLength(1, System.Windows.GridUnitType.Star) });
+            _gridTabItem.RowDefinitions.Add(new RowDefinition { Height = new System.Windows.GridLength(1, System.Windows.GridUnitType.Auto) });
+            _gridTabItem.RowDefinitions.Add(new RowDefinition { Height = new System.Windows.GridLength(1, System.Windows.GridUnitType.Auto) });
+            _gridTabItem.RowDefinitions.Add(new RowDefinition { Height = new System.Windows.GridLength(1, System.Windows.GridUnitType.Star) });
 
 
             _gridRequest = new Grid();
-            _gridItem.Children.Add(_gridRequest);
+            _gridTabItem.Children.Add(_gridRequest);
             Grid.SetRow(_gridRequest, 0);
 
             _buttonExecute = new Button
@@ -42,7 +42,7 @@ namespace SmartDose.RestClientApp.Views
                 Content = "Execute"
             };
             _buttonExecute.Click += (s, e) => ButtonExecute();
-            _gridItem.Children.Add(_buttonExecute);
+            _gridTabItem.Children.Add(_buttonExecute);
             Grid.SetRow(_buttonExecute, 1);
 
             var gridSplitter = new GridSplitter
@@ -52,14 +52,14 @@ namespace SmartDose.RestClientApp.Views
                 VerticalAlignment = System.Windows.VerticalAlignment.Stretch,
                 ShowsPreview = false
             };
-            _gridItem.Children.Add(gridSplitter);
+            _gridTabItem.Children.Add(gridSplitter);
             Grid.SetRow(gridSplitter, 2);
 
             _tabControlResponse = new TabControl();
-            _gridItem.Children.Add(_tabControlResponse);
+            _gridTabItem.Children.Add(_tabControlResponse);
             Grid.SetRow(_tabControlResponse, 3);
 
-            _objectObjectJsonViewResponse = new ObjectJsonView();
+            _objectObjectJsonViewResponse = new ObjectJsonView(false);
             _tabControlResponse.Items.Add(new TabItem
             {
                 Header = "Data",

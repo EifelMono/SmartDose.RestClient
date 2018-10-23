@@ -8,17 +8,18 @@ using Crud = SmartDose.RestClient.Crud.V1;
 
 namespace SmartDose.RestClientApp.Views.V1.MasterData
 {
-    public class ViewMedicine : ViewTabControl
+    public class MedicineView : CruidView
     {
-        public ViewMedicine() : base()
+        public MedicineView() : base()
         {
-            Items.Add(new ViewTabItemCreate<Models.MasterData.Medicine>
+            _labelHeader.Content = typeof(MedicineView).Namespace;
+            _tabControl.Items.Add(new CrudTabItemCreate<Models.MasterData.Medicine>
             {
                 RequestObject = new Models.MasterData.Medicine(),
                 OnButtonExecute = async (self) => self.ResponseObject = await Crud.MasterData.Medicine.Instance.CreateAsync(self.RequestObject),
             });
 
-            Items.Add(new ViewTabItemReadList<Models.MasterData.Medicine>
+            _tabControl.Items.Add(new CrudTabItemReadList<Models.MasterData.Medicine>
             {
                 OnButtonExecute = async (self) => self.ResponseObject = await Crud.MasterData.Medicine.Instance.ReadListAsync(),
             });

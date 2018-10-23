@@ -95,12 +95,12 @@
     <Compile Include="Editor\JsonEditor.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Globals\AppExtensions.cs" />
-    <Compile Include="Views\V1\MasterData\ViewMedicine.cs" />
-    <Compile Include="Views\ViewTabItemReadList.cs" />
-    <Compile Include="Views\ViewTabControl.cs" />
-    <Compile Include="Views\ViewTabItem.cs" />
-    <Compile Include="Views\ViewTabItemCreate.cs" />
-    <Compile Include="Views\V2\MasterData\ViewMedicine.cs" />
+    <Compile Include="Views\V1\MasterData\MedicineView.cs" />
+    <Compile Include="Views\CrudTabItemReadList.cs" />
+    <Compile Include="Views\CrudView.cs" />
+    <Compile Include="Views\CruidTabItem.cs" />
+    <Compile Include="Views\CrudTabItemCreate.cs" />
+    <Compile Include="Views\V2\MasterData\MedicineView.cs" />
     <Compile Include="Views\ObjectJsonWindow.xaml.cs">
       <DependentUpon>ObjectJsonWindow.xaml</DependentUpon>
     </Compile>
