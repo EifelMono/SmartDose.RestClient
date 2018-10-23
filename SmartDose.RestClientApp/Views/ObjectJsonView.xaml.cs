@@ -7,8 +7,6 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using SmartDose.RestClientApp.Globals;
 using SmartDose.RestDomainDev;
-using ModelsV2 = SmartDose.RestDomain.Models.V2;
-using CrudV2 = SmartDose.RestClient.Crud.V2;
 
 namespace SmartDose.RestClientApp.Views
 {

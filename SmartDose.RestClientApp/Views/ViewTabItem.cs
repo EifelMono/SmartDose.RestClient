@@ -45,6 +45,7 @@ namespace SmartDose.RestClientApp.Views
 
             var gridSplitter = new GridSplitter
             {
+                Height = 3,
                 HorizontalAlignment = System.Windows.HorizontalAlignment.Stretch,
                 VerticalAlignment = System.Windows.VerticalAlignment.Stretch,
                 ShowsPreview = false
@@ -104,18 +105,10 @@ namespace SmartDose.RestClientApp.Views
                 }
                 _propertyGridResponse.SelectedObject = _responseObject;
                 _jsonEditorResponse.Text = ((_responseObject as SdrcFlurHttpResponse)?.Message ?? "").Replace("\\r", "\r").Replace("\\n", "\n");
-                _tabItemJsonEditorResponse.Background = resultColor;
+                // _tabItemJsonEditorResponse.Background = resultColor;
             }
         }
 
     }
 }
 
-/*
- <GridSplitter
-                Grid.Row="2"
-                Height= "3"
-                HorizontalAlignment= "Stretch"
-                VerticalAlignment= "Stretch"
-                ShowsPreview= "false" />
-*/

@@ -5,12 +5,12 @@ using System.Threading;
 using System.Threading.Tasks;
 using Flurl;
 using SmartDose.RestClient.Extensions;
-using ModelsV2 = SmartDose.RestDomain.Models.V2;
+using Models = SmartDose.RestDomain.Models.V2;
 
 
 namespace SmartDose.RestClient.Crud.V2.MasterData
 {
-    public class Patient : CoreV2<ModelsV2.MasterData.Patient>
+    public class Patient : CoreV2<Models.MasterData.Patient>
     {
         public Patient() : base(MasterDataName, nameof(Patient) + "s")
         {

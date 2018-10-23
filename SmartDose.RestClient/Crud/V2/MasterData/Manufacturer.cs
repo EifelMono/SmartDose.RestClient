@@ -3,12 +3,12 @@ using System.Threading;
 using System.Threading.Tasks;
 using Flurl;
 using SmartDose.RestClient.Extensions;
-using ModelsV2 = SmartDose.RestDomain.Models.V2;
+using Models = SmartDose.RestDomain.Models.V2;
 
 
 namespace SmartDose.RestClient.Crud.V2.MasterData
 {
-    public class Manufacturer : CoreV2<ModelsV2.MasterData.Manufacturer>
+    public class Manufacturer : CoreV2<Models.MasterData.Manufacturer>
     {
         public Manufacturer() : base(MasterDataName, nameof(Manufacturer))
         {

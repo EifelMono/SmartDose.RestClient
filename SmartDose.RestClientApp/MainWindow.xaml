@@ -7,7 +7,7 @@
     xmlns:local="clr-namespace:SmartDose.RestClientApp"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:views="clr-namespace:SmartDose.RestClientApp.Views"
-    xmlns:viewsV2MasterData="clr-namespace:SmartDose.RestClientApp.Views.V2.MasterData"
+    xmlns:viewsV2MasterData="clr-namespace:SmartDose.RestClientApp.Views.V1.MasterData"
     Title="MainWindow"
     Width="800"
     Height="450"

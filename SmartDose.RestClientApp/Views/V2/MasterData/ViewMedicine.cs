@@ -17,6 +17,11 @@ namespace SmartDose.RestClientApp.Views.V2.MasterData
                 RequestObject = new ModelsV2.MasterData.Medicine(),
                 OnButtonExecute = async (self) => self.ResponseObject = await CrudV2.MasterData.Medicine.Instance.CreateAsync(self.RequestObject),
             });
+
+            Items.Add(new ViewTabItemReadList<ModelsV2.MasterData.Medicine>
+            {
+                OnButtonExecute = async (self) => self.ResponseObject = await CrudV2.MasterData.Medicine.Instance.ReadListAsync(),
+            });
         }
     }
 }

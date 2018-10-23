@@ -16,7 +16,6 @@
   <ItemGroup>
     <Folder Include="Crud\V0\" />
     <Folder Include="Crud\V1\Inventory\" />
-    <Folder Include="Crud\V1\MasterData\" />
     <Folder Include="Crud\V1\Production\" />
   </ItemGroup>
 
