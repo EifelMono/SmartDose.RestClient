@@ -95,14 +95,14 @@
     <Compile Include="Editor\JsonEditor.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Globals\AppExtensions.cs" />
-    <Compile Include="Views\V1\MasterData\MedicineView.cs" />
-    <Compile Include="Views\CrudTabItemReadList.cs" />
+    <Compile Include="Views\V1\MasterData\ViewMedicine.cs" />
+    <Compile Include="Views\ViewTabItemReadList.cs" />
     <Compile Include="Views\CrudView.cs" />
-    <Compile Include="Views\CruidTabItem.cs" />
-    <Compile Include="Views\CrudTabItemCreate.cs" />
-    <Compile Include="Views\V2\MasterData\MedicineView.cs" />
-    <Compile Include="Views\ObjectJsonWindow.xaml.cs">
-      <DependentUpon>ObjectJsonWindow.xaml</DependentUpon>
+    <Compile Include="Views\ViewTabItem.cs" />
+    <Compile Include="Views\ViewTabItemCreate.cs" />
+    <Compile Include="Views\V2\MasterData\ViewMedicine.cs" />
+    <Compile Include="Views\WindowObjectJson.xaml.cs">
+      <DependentUpon>WindowObjectJson.xaml</DependentUpon>
     </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -119,18 +119,18 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Views\ObjectJsonView.xaml">
+    <Page Include="Views\ViewObjectJson.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\ObjectJsonWindow.xaml">
+    <Page Include="Views\WindowObjectJson.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Views\ObjectJsonView.xaml.cs">
-      <DependentUpon>ObjectJsonView.xaml</DependentUpon>
+    <Compile Include="Views\ViewObjectJson.xaml.cs">
+      <DependentUpon>ViewObjectJson.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>

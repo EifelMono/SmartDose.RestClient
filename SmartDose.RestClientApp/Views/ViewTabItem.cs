@@ -8,20 +8,20 @@ using SmartDose.RestClientApp.Editor;
 
 namespace SmartDose.RestClientApp.Views
 {
-    public class CruidTabItem : TabItem
+    public class ViewTabItem : TabItem
     {
         protected Grid _gridTabItem;
         protected Grid _gridRequest;
         protected Button _buttonExecute;
 
         protected TabControl _tabControlResponse;
-        protected ObjectJsonView _objectObjectJsonViewResponse;
+        protected ViewObjectJson _viewObjectJsonResponse;
         protected TabItem _tabItemJsonEditorResponse;
         protected JsonEditor _jsonEditorResponse;
         protected System.Windows.Forms.PropertyGrid _propertyGridResponse;
 
 
-        public CruidTabItem()
+        public ViewTabItem()
         {
             Content = _gridTabItem = new Grid();
             _gridTabItem.RowDefinitions.Add(new RowDefinition { Height = new System.Windows.GridLength(1, System.Windows.GridUnitType.Star) });
@@ -59,11 +59,11 @@ namespace SmartDose.RestClientApp.Views
             _gridTabItem.Children.Add(_tabControlResponse);
             Grid.SetRow(_tabControlResponse, 3);
 
-            _objectObjectJsonViewResponse = new ObjectJsonView(false);
+            _viewObjectJsonResponse = new ViewObjectJson(false);
             _tabControlResponse.Items.Add(new TabItem
             {
                 Header = "Data",
-                Content = _objectObjectJsonViewResponse
+                Content = _viewObjectJsonResponse
             });
             _jsonEditorResponse = new JsonEditor();
             _tabControlResponse.Items.Add(_tabItemJsonEditorResponse = new TabItem
@@ -96,12 +96,12 @@ namespace SmartDose.RestClientApp.Views
                 Brush resultColor = Brushes.Black;
                 if (value is SdrcFlurHttpResponse response && response.Ok)
                 {
-                    _objectObjectJsonViewResponse.Data = response.Data;
+                    _viewObjectJsonResponse.Data = response.Data;
                     _tabControlResponse.SelectedIndex = 0;
                 }
                 else
                 {
-                    _objectObjectJsonViewResponse.Data = null;
+                    _viewObjectJsonResponse.Data = null;
                     _tabControlResponse.SelectedIndex = 1;
                     resultColor = Brushes.Red;
                 }

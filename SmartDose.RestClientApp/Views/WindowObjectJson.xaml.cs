@@ -12,9 +12,9 @@ namespace SmartDose.RestClientApp.Views
     /// <summary>
     /// Interaction logic for ObjectJsonWindow.xaml
     /// </summary>
-    public partial class ObjectJsonWindow : Window
+    public partial class WindowObjectJson: Window
     {
-        public ObjectJsonWindow()
+        public WindowObjectJson()
         {
             InitializeComponent();
             DataContext = this;
@@ -41,12 +41,12 @@ namespace SmartDose.RestClientApp.Views
             var crudMenuItem = rootMenuItem.Add("CRUD", true);
             var crudMenuV1Item = crudMenuItem.Add("V1", true);
             var crudMenuV1MasterDataItem = crudMenuV1Item.Add("MasterData", true);
-            crudMenuV1MasterDataItem.Add("Medicine", new RestDomain.Models.ModelsItem { Type = typeof(V1.MasterData.MedicineView) });
+            crudMenuV1MasterDataItem.Add("Medicine", new RestDomain.Models.ModelsItem { Type = typeof(V1.MasterData.ViewMedicine) });
 
 
             var crudMenuV2Item = crudMenuItem.Add("V2", true);
             var crudMenuV2MasterDataItem = crudMenuV2Item.Add("MasterData", true);
-            crudMenuV2MasterDataItem.Add("Medicine", new RestDomain.Models.ModelsItem { Type = typeof(V2.MasterData.MedicineView) });
+            crudMenuV2MasterDataItem.Add("Medicine", new RestDomain.Models.ModelsItem { Type = typeof(V2.MasterData.ViewMedicine) });
 
             treeViewModels.Items.Add(rootMenuItem);
         }
@@ -61,11 +61,11 @@ namespace SmartDose.RestClientApp.Views
                     {
                         if (modelsItem.Value is null)
                             modelsItem.Value = Activator.CreateInstance(modelsItem.Type);
-                        objectJsonView.Data = modelsItem.Value;
-                        if (!gridContent.Children.Contains(objectJsonView))
+                        viewObjectJson.Data = modelsItem.Value;
+                        if (!gridContent.Children.Contains(viewObjectJson))
                         {
                             gridContent.Children.Clear();
-                            gridContent.Children.Add(objectJsonView);
+                            gridContent.Children.Add(viewObjectJson);
                         }
                     }
                     else

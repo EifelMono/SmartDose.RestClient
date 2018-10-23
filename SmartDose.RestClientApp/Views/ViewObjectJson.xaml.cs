@@ -13,9 +13,9 @@ namespace SmartDose.RestClientApp.Views
     /// <summary>
     /// Interaction logic for ObjectJsonView.xaml
     /// </summary>
-    public partial class ObjectJsonView : UserControl
+    public partial class ViewObjectJson : UserControl
     {
-        public ObjectJsonView()
+        public ViewObjectJson()
         {
             InitializeComponent();
             DataContext = this;
@@ -55,7 +55,7 @@ namespace SmartDose.RestClientApp.Views
                 };
         }
 
-        public ObjectJsonView(bool showBottomListBox): this()
+        public ViewObjectJson(bool showBottomListBox): this()
         {
             listBoxPropertyInfo.Visibility = showBottomListBox ? System.Windows.Visibility.Visible : System.Windows.Visibility.Collapsed;
         }
