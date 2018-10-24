@@ -6,17 +6,12 @@
 
 ## SmartDose.RestClient
 
-* Client to Connecto to the SmartDose.Server
+* Rest crud clients to connect to the SmartDose.Server
 * NetStandard 2.0
-
-
-
-
-
-
 
 ## SmartDose.RestClientApp
 
+* Net 4.71 needed
 * Test App for testing the Rest interface
 
 ## SmartDose.RestClient.ConsoleSample
@@ -62,7 +57,7 @@ namespace SmartDose.RestClient.ConsoleSample.Rest.V1.MasterData
 }
 ```
 
-* Console samples V2
+* DotNet Core Console samples V2
 
 ```csharp
 using System;
