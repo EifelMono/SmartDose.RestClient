@@ -164,7 +164,15 @@ namespace SmartDose.RestClientApp.Views
                 {
                     if (response.Ok)
                     {
-                        _viewObjectJsonResponse.Data = response.Data;
+                        try
+                        {
+                            _viewObjectJsonResponse.Data = response.Data;
+                        }
+                        catch(Exception ex)
+                        {
+                            _viewObjectJsonResponse.Data = null;
+                            response.Message += response.Data+ "\r\n\r\n\r\n" + ex.ToString();
+                        }
                         _tabControlResponse.SelectedIndex = 0;
                     }
                     else
