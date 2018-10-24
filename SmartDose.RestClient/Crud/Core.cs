@@ -15,7 +15,12 @@ namespace SmartDose.RestClient.Crud
         public const string InventoryName = "Inventory";
         public const string ProductionName = "Production";
 
-        public Url Url { get; set; }
+        public Url Url
+        {
+            get => new Url(UrlTemplate);
+        }
+
+        public Url UrlTemplate { get; set; }
 
         public Core()
         {
@@ -23,9 +28,9 @@ namespace SmartDose.RestClient.Crud
 
         public Core(Url url, params string[] pathSegments) : this()
         {
-            Url = url;
+            UrlTemplate = url;
             foreach (var pathSegment in pathSegments)
-                Url = Url.AppendPathSegment(pathSegment);
+                UrlTemplate = UrlTemplate.AppendPathSegment(pathSegment);
         }
     }
 
