@@ -24,7 +24,13 @@ namespace SmartDose.RestClientApp.Views
 
         private void CreateObjectTree()
         {
-            var rootMenuItem = new MenuItem { Title = "SmartDose.Rest", IsExpanded = true };
+            var rootMenuItem = new MenuItem
+            {
+                Title = "SmartDose.Rest",
+                IsExpanded = true,
+                IsSelected = true,
+                ModelsItem=  new RestDomain.Models.ModelsItem { Type = typeof(ViewConnections) }
+            };
             var modelsMenueItem = rootMenuItem.Add("Models");
 
             foreach (var modelsVersionGroup in RestDomain.Models.ModelsGlobals.ModelsItems.GroupBy(i => i.Version).OrderBy(g => g.Key))

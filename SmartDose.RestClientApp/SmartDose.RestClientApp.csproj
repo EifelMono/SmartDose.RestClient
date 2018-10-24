@@ -96,9 +96,13 @@
     <Compile Include="Editor\JsonEditor.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Globals\AppExtensions.cs" />
+    <Compile Include="Views\RelayCommand.cs" />
     <Compile Include="Views\V1\MasterData\ViewCustomer.cs" />
     <Compile Include="Views\V1\MasterData\ViewMedicine.cs" />
     <Compile Include="Views\V2\MasterData\ViewCustomer.cs" />
+    <Compile Include="Views\ViewConnections.xaml.cs">
+      <DependentUpon>ViewConnections.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ViewInput.xaml.cs">
       <DependentUpon>ViewInput.xaml</DependentUpon>
     </Compile>
@@ -124,6 +128,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Views\ViewConnections.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\ViewInput.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
