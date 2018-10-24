@@ -96,7 +96,9 @@
     <Compile Include="Editor\JsonEditor.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Globals\AppExtensions.cs" />
+    <Compile Include="Views\V1\MasterData\ViewCustomer.cs" />
     <Compile Include="Views\V1\MasterData\ViewMedicine.cs" />
+    <Compile Include="Views\V2\MasterData\ViewCustomer.cs" />
     <Compile Include="Views\ViewInput.xaml.cs">
       <DependentUpon>ViewInput.xaml</DependentUpon>
     </Compile>

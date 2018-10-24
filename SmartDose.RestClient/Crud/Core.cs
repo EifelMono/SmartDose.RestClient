@@ -40,12 +40,12 @@ namespace SmartDose.RestClient.Crud
         {
         }
 
-        protected static object s_Instance;
+        protected static object S_Instance;
         public static Tx Instance<Tx>() where Tx : Core<T>, new()
         {
-            if (s_Instance == null)
-                s_Instance = new Tx();
-            return (Tx)s_Instance;
+            if (S_Instance == null)
+                S_Instance = new Tx();
+            return (Tx)S_Instance;
         }
     }
 

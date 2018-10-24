@@ -4,22 +4,22 @@ using Crud = SmartDose.RestClient.Crud.V2;
 
 namespace SmartDose.RestClientApp.Views.V2.MasterData
 {
-    public class ViewMedicine : ViewCrud
+    public class ViewCustomer : ViewCrud
     {
-        public ViewMedicine() : base()
+        public ViewCustomer() : base()
         {
-            var labelName = "Medicine";
-            var labelIdName = "MedicineCode";
-            var crudInstance = Crud.MasterData.Medicine.Instance;
+            var labelName = "Customer";
+            var labelIdName = "CustomerCode";
+            var crudInstance = Crud.MasterData.Customer.Instance;
 
             _labelHeader.Content = GetType().Namespace;
 
-            _tabControl.Items.Add(new ViewTabItemReadList<Models.MasterData.Medicine>
+            _tabControl.Items.Add(new ViewTabItemReadList<Models.MasterData.Customer>
             {
                 OnButtonExecute = async (self) => self.ResponseObject = await crudInstance.ReadListAsync(),
             });
 
-            _tabControl.Items.Add(new ViewTabItemRead<Models.MasterData.Medicine>
+            _tabControl.Items.Add(new ViewTabItemRead<Models.MasterData.Customer>
             {
                 RequestParams = new List<ViewParam>
                 {
@@ -29,45 +29,34 @@ namespace SmartDose.RestClientApp.Views.V2.MasterData
                                                     self.RequestParamsValueAsString(0)),
             });
 
-            _tabControl.Items.Add(new ViewTabItemCreate<Models.MasterData.Medicine>
+            _tabControl.Items.Add(new ViewTabItemCreate<Models.MasterData.Customer>
             {
                 RequestParams = new List<ViewParam>
                 {
-                    new ViewParam {Name=labelName, IsViewObjectJson= true, Value= new Models.MasterData.Medicine() }
+                    new ViewParam {Name=labelName, IsViewObjectJson= true, Value= new Models.MasterData.Customer() }
                 },
                 OnButtonExecute = async (self) => self.ResponseObject = await crudInstance.CreateAsync(
                                                     self.RequestParamsValueAsT(0)),
             });
 
-            _tabControl.Items.Add(new ViewTabItemUpdate<Models.MasterData.Medicine>
+            _tabControl.Items.Add(new ViewTabItemUpdate<Models.MasterData.Customer>
             {
                 RequestParams = new List<ViewParam>
                 {
-                    new ViewParam {Name=labelName, IsViewObjectJson= true, Value= new Models.MasterData.Medicine() }
+                    new ViewParam {Name=labelName, IsViewObjectJson= true, Value= new Models.MasterData.Customer() }
                 },
                 OnButtonExecute = async (self) => self.ResponseObject = await crudInstance.UpdateAsync(
-                                                    self.RequestParamsValueAsT(1).MedicineCode,
+                                                    self.RequestParamsValueAsT(1).CustomerCode,
                                                     self.RequestParamsValueAsT(1))
             });
 
-            _tabControl.Items.Add(new ViewTabItemDelete<Models.MasterData.Medicine>
+            _tabControl.Items.Add(new ViewTabItemDelete<Models.MasterData.Customer>
             {
                 RequestParams = new List<ViewParam>
                 {
                     new ViewParam {Name=labelIdName, IsViewObjectJson= false, Value= "" },
                 },
                 OnButtonExecute = async (self) => self.ResponseObject = await crudInstance.DeleteAsync(
-                                        self.RequestParamsValueAsString(0)),
-            });
-
-            _tabControl.Items.Add(new ViewTabItem<Models.MasterData.Medicine>
-            {
-                Header= "CanisterCount (Get)", 
-                RequestParams = new List<ViewParam>
-                {
-                    new ViewParam {Name=labelIdName, IsViewObjectJson= false, Value= "" },
-                },
-                OnButtonExecute = async (self) => self.ResponseObject = await crudInstance.GetCanisterCountAsync(
                                         self.RequestParamsValueAsString(0)),
             });
         }
