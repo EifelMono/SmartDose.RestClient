@@ -194,7 +194,7 @@ namespace SmartDose.RestClientApp.Views
                         _tabControlResponse.SelectedIndex = 1;
                         resultColor = Brushes.Red;
                     }
-                    _labelResponse.Content = "$Status={response.StatusCode.ToString()}";
+                    _labelResponse.Content = $"Status={response.StatusCode.ToString()}";
                     _jsonEditorResponse.Text = $"// Timestamp={response.ReceivedOn}\r\n" +
                                                $"// Status={response.StatusCode.ToString()}\r\n" +
                                                ((_responseObject as SdrcFlurHttpResponse)?.Message ?? "").Replace("\\r", "\r").Replace("\\n", "\n");

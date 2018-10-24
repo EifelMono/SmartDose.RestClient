@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <LangVersion>7.3</LangVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SmartDose.RestClient\SmartDose.RestClient.csproj" />
+    <ProjectReference Include="..\SmartDose.RestDomain\SmartDose.RestDomain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Rest\V0\" />
+    <Folder Include="Rest\V1\Inventory\" />
+    <Folder Include="Rest\V1\Production\" />
+    <Folder Include="Rest\V2\Inventory\" />
+    <Folder Include="Rest\V2\Production\" />
+  </ItemGroup>
+
+</Project>
