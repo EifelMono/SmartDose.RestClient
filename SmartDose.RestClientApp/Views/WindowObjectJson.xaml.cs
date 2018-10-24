@@ -12,7 +12,7 @@ namespace SmartDose.RestClientApp.Views
     /// <summary>
     /// Interaction logic for ObjectJsonWindow.xaml
     /// </summary>
-    public partial class WindowObjectJson: Window
+    public partial class WindowObjectJson : Window
     {
         public WindowObjectJson()
         {
@@ -24,7 +24,7 @@ namespace SmartDose.RestClientApp.Views
 
         private void CreateObjectTree()
         {
-            var rootMenuItem = new MenuItem { Title = "SmartDose.Rest" , IsExpanded= true};
+            var rootMenuItem = new MenuItem { Title = "SmartDose.Rest", IsExpanded = true };
             var modelsMenueItem = rootMenuItem.Add("Models");
 
             foreach (var modelsVersionGroup in RestDomain.Models.ModelsGlobals.ModelsItems.GroupBy(i => i.Version).OrderBy(g => g.Key))
@@ -87,21 +87,6 @@ namespace SmartDose.RestClientApp.Views
             else
                 gridContent.Children.Clear();
         }
-
-        private void ExpandAllNodes(MenuItem rootItem)
-        {
-            foreach (object item in rootItem.Items)
-            {
-                MenuItem treeItem = (MenuItem)item;
-
-                if (treeItem != null)
-                {
-                    ExpandAllNodes(treeItem);
-                    treeItem.IsExpanded = true;
-                }
-            }
-        }
-
     }
 
     public class MenuItem : INotifyPropertyChanged
@@ -122,29 +107,29 @@ namespace SmartDose.RestClientApp.Views
         public MenuItem Add(string title, bool isExpanded)
             => Add(title, null, isExpanded);
 
-        private bool isSelected;
+        private bool _isSelected;
         public bool IsSelected
         {
-            get { return isSelected; }
+            get => _isSelected;
             set
             {
-                if (value != isSelected)
+                if (value != _isSelected)
                 {
-                    this.isSelected = value;
+                    _isSelected = value;
                     NotifyPropertyChanged("IsSelected");
                 }
             }
         }
 
-        private bool isExpanded;
+        private bool _isExpanded;
         public bool IsExpanded
         {
-            get { return isExpanded; }
+            get => _isExpanded;
             set
             {
-                if (value != isExpanded)
+                if (value != _isExpanded)
                 {
-                    this.isExpanded = value;
+                    _isExpanded = value;
                     NotifyPropertyChanged("IsExpanded");
                 }
             }

@@ -9,7 +9,7 @@ using Models = SmartDose.RestDomain.Models.V2;
 
 namespace SmartDose.RestClient.Crud.V2.MasterData
 {
-    public class Order : Core<Models.Production.Order>
+    public class Order : CoreV2<Models.Production.Order>
     {
         public Order() : base(ProductionName, nameof(Order) + "s")
         {

@@ -11,4 +11,12 @@ namespace SmartDose.RestClient.Crud.V1
 
         }
     }
+
+    public class CoreCrudV1<T> : CoreCrud<T> where T : class
+    {
+        public CoreCrudV1(params string[] pathSegments) : base(UrlConfig.UrlV1, pathSegments)
+        {
+
+        }
+    }
 }

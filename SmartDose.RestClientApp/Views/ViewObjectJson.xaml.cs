@@ -100,7 +100,9 @@ namespace SmartDose.RestClientApp.Views
             jsonEditor.Text = ConvertDev.ToJsonFromObjectDev(objectValue);
         }
 
+#pragma warning disable IDE1006 // Naming Styles
         private void tabControlMain_SelectionChanged(object sender, SelectionChangedEventArgs e)
+#pragma warning restore IDE1006 // Naming Styles
         {
             if (!Enabled)
                 return;

@@ -10,7 +10,7 @@ using Models = SmartDose.RestDomain.Models.V2;
 
 namespace SmartDose.RestClient.Crud.V2.Inventory
 {
-    public class MedicineStock : CoreV2<Models.Inventory.MedicineStock>
+    public class MedicineStock : CoreCrudV2<Models.Inventory.MedicineStock>
     {
         public MedicineStock() : base(InventoryName, "Medicines")
         {

@@ -3,11 +3,11 @@ using System.Windows.Controls;
 
 namespace SmartDose.RestClientApp.Views
 {
-    public class CruidView : Grid
+    public class ViewCrud: Grid
     {
         protected TabControl _tabControl { get; set; }
         protected Label _labelHeader { get; set; }
-        public CruidView()
+        public ViewCrud()
         {
             RowDefinitions.Add(new RowDefinition { Height = new System.Windows.GridLength(1, System.Windows.GridUnitType.Auto) });
             RowDefinitions.Add(new RowDefinition { Height = new System.Windows.GridLength(1, System.Windows.GridUnitType.Star) });

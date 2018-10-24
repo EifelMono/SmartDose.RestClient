@@ -10,7 +10,7 @@ using Models = SmartDose.RestDomain.Models.V2;
 
 namespace SmartDose.RestClient.Crud.V2.Inventory
 {
-    public class StockBottle : CoreV2<Models.Inventory.StockBottle>
+    public class StockBottle : CoreCrudV2<Models.Inventory.StockBottle>
     {
         public StockBottle() : base(InventoryName, nameof(StockBottle)+ "s")
         {

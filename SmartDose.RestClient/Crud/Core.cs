@@ -35,14 +35,20 @@ namespace SmartDose.RestClient.Crud
         {
         }
 
-        private static object s_instance;
-        internal static Tx Instance<Tx>() where Tx : Core<T>, new()
+        protected static object s_instance;
+        public static Tx Instance<Tx>() where Tx : Core<T>, new()
         {
             if (s_instance == null)
                 s_instance = new Tx();
-            return (Tx) s_instance;
+            return (Tx)s_instance;
         }
+    }
 
+    public class CoreCrud<T> : Core<T> where T : class
+    {
+        public CoreCrud(string url, params string[] pathSegments) : base(new Url(url), pathSegments)
+        {
+        }
 
         public async Task<SdrcFlurHttpResponse> CreateAsync(T value, CancellationToken cancellationToken = default(CancellationToken), HttpCompletionOption completionOption = HttpCompletionOption.ResponseContentRead)
             => await Url.SdrcPostJsonAsync(value, cancellationToken, completionOption).ConfigureAwait(false);

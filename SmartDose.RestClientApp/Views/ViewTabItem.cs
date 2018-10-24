@@ -60,7 +60,6 @@ namespace SmartDose.RestClientApp.Views
             }
         }
 
-
         public ViewTabItem()
         {
             Content = _gridTabItem = new Grid();
@@ -120,15 +119,14 @@ namespace SmartDose.RestClientApp.Views
                 Header = "Result Data",
                 Content = new System.Windows.Forms.Integration.WindowsFormsHost { Child = _propertyGridResponse }
             });
-
         }
 
         protected void InternalButtonExecute()
         {
             try
             {
-                this.Cursor = Cursors.Wait;
-                foreach(var item in RequestParams)
+                Cursor = Cursors.Wait;
+                foreach (var item in RequestParams)
                 {
                     if (item.IsViewObjectJson)
                         item.Value = (item.View as ViewObjectJson).Data;
@@ -139,7 +137,7 @@ namespace SmartDose.RestClientApp.Views
             }
             finally
             {
-                this.Cursor = null;
+                Cursor = null;
             }
         }
 
@@ -177,5 +175,11 @@ namespace SmartDose.RestClientApp.Views
         }
 
     }
+
+    class ViewTabItemCreate : ViewTabItem { public ViewTabItemCreate() { Header = "Create"; } }
+
+    class ViewTabItemReadList<T> : ViewTabItem { public ViewTabItemReadList() { Header = "Read List"; } }
+
+    class ViewTabItemUpdate : ViewTabItem { public ViewTabItemUpdate() { Header = "Update"; } }
 }
 

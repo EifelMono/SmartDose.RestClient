@@ -4,7 +4,7 @@ using Crud = SmartDose.RestClient.Crud.V1;
 
 namespace SmartDose.RestClientApp.Views.V1.MasterData
 {
-    public class ViewMedicine : CruidView
+    public class ViewMedicine : ViewCrud
     {
         public ViewMedicine() : base()
         {
