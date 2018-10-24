@@ -18,13 +18,13 @@ namespace SmartDose.RestClient.Crud.V2.MasterData
         public static Order Instance => Instance<Order>();
 
         public async Task<SdrcFlurHttpResponse<Models.Production.OrderResult>> GetOrderResult(string orderId, CancellationToken cancellationToken = default(CancellationToken), HttpCompletionOption completionOption = HttpCompletionOption.ResponseContentRead)
-            => await Url.AppendPathSegment("Result").AppendPathSegment(orderId).SdrcGetJsonAsync<Models.Production.OrderResult>(cancellationToken, completionOption).ConfigureAwait(false);
+            => await UrlClone.AppendPathSegment("Result").AppendPathSegment(orderId).SdrcGetJsonAsync<Models.Production.OrderResult>(cancellationToken, completionOption).ConfigureAwait(false);
         public async Task<SdrcFlurHttpResponse<Models.Production.OrderResultByTime>> GetOrderResultByTime(string orderId, CancellationToken cancellationToken = default(CancellationToken), HttpCompletionOption completionOption = HttpCompletionOption.ResponseContentRead)
-            => await Url.AppendPathSegment("ResultByTime").AppendPathSegment(orderId).SdrcGetJsonAsync<Models.Production.OrderResultByTime>(cancellationToken, completionOption).ConfigureAwait(false);
+            => await UrlClone.AppendPathSegment("ResultByTime").AppendPathSegment(orderId).SdrcGetJsonAsync<Models.Production.OrderResultByTime>(cancellationToken, completionOption).ConfigureAwait(false);
 
         public async Task<SdrcFlurHttpResponse<List<Models.Production.OrderStatus>>> GetOrderStatus(CancellationToken cancellationToken = default(CancellationToken), HttpCompletionOption completionOption = HttpCompletionOption.ResponseContentRead)
-            => await Url.AppendPathSegment("Status").SdrcGetJsonAsync<List<Models.Production.OrderStatus>>(cancellationToken, completionOption).ConfigureAwait(false);
+            => await UrlClone.AppendPathSegment("Status").SdrcGetJsonAsync<List<Models.Production.OrderStatus>>(cancellationToken, completionOption).ConfigureAwait(false);
         public async Task<SdrcFlurHttpResponse<Models.Production.OrderStatus>> GetOrderStatus(string orderId, CancellationToken cancellationToken = default(CancellationToken), HttpCompletionOption completionOption = HttpCompletionOption.ResponseContentRead)
-            => await Url.AppendPathSegment("Status").AppendPathSegment(orderId).SdrcGetJsonAsync<Models.Production.OrderStatus>(cancellationToken, completionOption).ConfigureAwait(false);
+            => await UrlClone.AppendPathSegment("Status").AppendPathSegment(orderId).SdrcGetJsonAsync<Models.Production.OrderStatus>(cancellationToken, completionOption).ConfigureAwait(false);
     }
 }

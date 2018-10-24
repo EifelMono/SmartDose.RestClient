@@ -28,6 +28,8 @@ namespace SmartDose.RestClientApp.Views
             DataContext = this;
         }
 
+        public MenuItem RootMenuItem { get; set; } = new MenuItem();
+
         public ConfigurationData ConfigurationData { get => AppGlobals.Configuration.Data; }
 
         ICommand _commandOpenSwaggerV1 = null;
@@ -45,7 +47,7 @@ namespace SmartDose.RestClientApp.Views
             {
                 try
                 {
-                    Process.Start(AppGlobals.Configuration.Data.UrlRestV2+ "/swagger/ui/index");
+                    Process.Start(AppGlobals.Configuration.Data.UrlRestV2 + "/swagger/ui/index");
                 }
                 catch { }
             }));
@@ -56,16 +58,36 @@ namespace SmartDose.RestClientApp.Views
         {
             get => _commandSaveConfiguration ?? (_commandSaveConfiguration = new RelayCommand(o =>
             {
+
                 try
                 {
+                    RestClient.UrlConfig.UrlV1 = ConfigurationData.UrlRestV1;
+                    RestClient.UrlConfig.UrlV2 = ConfigurationData.UrlRestV2;
+                    RestClient.UrlConfig.ClearUrls();
+                    RemoveViews(RootMenuItem);
                     AppGlobals.Configuration.Save();
                 }
                 catch (Exception ex)
                 {
                     MessageBox.Show(ex.ToString());
                 }
+
+                void RemoveViews(MenuItem menuItem)
+                {
+                    if (menuItem != null)
+                    {
+                        if (menuItem.ModelsItem != null)
+                            if (menuItem.ModelsItem.Value is ViewCrud viewCrud)
+                                menuItem.ModelsItem.Value = null;
+                        foreach (var m in menuItem.Items)
+                            RemoveViews(m);
+                    }
+                };
+
             }));
         }
+
+
 
         ICommand _commandOpenFolder = null;
         public ICommand CommandOpenDataFolder

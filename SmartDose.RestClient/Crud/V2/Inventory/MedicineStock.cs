@@ -19,6 +19,6 @@ namespace SmartDose.RestClient.Crud.V2.Inventory
         public static MedicineStock Instance => Instance<MedicineStock>();
 
         public async Task<SdrcFlurHttpResponse<List<Models.Inventory.StockBottle>>> GetStockBottles(string medicineCode, CancellationToken cancellationToken = default(CancellationToken), HttpCompletionOption completionOption = HttpCompletionOption.ResponseContentRead)
-                  => await Url.AppendPathSegment(medicineCode).AppendPathSegment("StockBottles").SdrcGetJsonAsync<List<Models.Inventory.StockBottle>>(cancellationToken, completionOption).ConfigureAwait(false);
+                  => await UrlClone.AppendPathSegment(medicineCode).AppendPathSegment("StockBottles").SdrcGetJsonAsync<List<Models.Inventory.StockBottle>>(cancellationToken, completionOption).ConfigureAwait(false);
     }
 }
