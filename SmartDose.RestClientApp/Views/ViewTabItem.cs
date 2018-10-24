@@ -17,6 +17,8 @@ namespace SmartDose.RestClientApp.Views
         protected Grid _gridRequest;
         protected Button _buttonExecute;
 
+        protected Grid _gridResponse;
+        protected Label _labelResponse;
         protected TabControl _tabControlResponse;
         protected ViewObjectJson _viewObjectJsonResponse;
         protected TabItem _tabItemJsonEditorResponse;
@@ -99,9 +101,19 @@ namespace SmartDose.RestClientApp.Views
             _gridTabItem.Children.Add(gridSplitter);
             Grid.SetRow(gridSplitter, 2);
 
+            _gridResponse = new Grid();
+            _gridResponse.RowDefinitions.Add(new RowDefinition { Height = new System.Windows.GridLength(1, System.Windows.GridUnitType.Auto) });
+            _gridResponse.RowDefinitions.Add(new RowDefinition { Height = new System.Windows.GridLength(1, System.Windows.GridUnitType.Star) });
+            _gridTabItem.Children.Add(_gridResponse);
+            Grid.SetRow(_gridResponse, 3);
+
+            _labelResponse = new Label { VerticalContentAlignment = System.Windows.VerticalAlignment.Center };
+            _gridResponse.Children.Add(_labelResponse);
+            Grid.SetRow(_labelResponse, 0);
+
             _tabControlResponse = new TabControl();
-            _gridTabItem.Children.Add(_tabControlResponse);
-            Grid.SetRow(_tabControlResponse, 3);
+            _gridResponse.Children.Add(_tabControlResponse);
+            Grid.SetRow(_tabControlResponse, 1);
 
             _viewObjectJsonResponse = new ViewObjectJson(false);
             _tabControlResponse.Items.Add(new TabItem
@@ -159,6 +171,7 @@ namespace SmartDose.RestClientApp.Views
             set
             {
                 _responseObject = value;
+                _labelResponse.Content = "";
                 Brush resultColor = Brushes.Black;
                 if (value is SdrcFlurHttpResponse response)
                 {
@@ -168,10 +181,10 @@ namespace SmartDose.RestClientApp.Views
                         {
                             _viewObjectJsonResponse.Data = response.Data;
                         }
-                        catch(Exception ex)
+                        catch (Exception ex)
                         {
                             _viewObjectJsonResponse.Data = null;
-                            response.Message += response.Data+ "\r\n\r\n\r\n" + ex.ToString();
+                            response.Message += response.Data + "\r\n\r\n\r\n" + ex.ToString();
                         }
                         _tabControlResponse.SelectedIndex = 0;
                     }
@@ -181,13 +194,17 @@ namespace SmartDose.RestClientApp.Views
                         _tabControlResponse.SelectedIndex = 1;
                         resultColor = Brushes.Red;
                     }
+                    _labelResponse.Content = "$Status={response.StatusCode.ToString()}";
                     _jsonEditorResponse.Text = $"// Timestamp={response.ReceivedOn}\r\n" +
                                                $"// Status={response.StatusCode.ToString()}\r\n" +
                                                ((_responseObject as SdrcFlurHttpResponse)?.Message ?? "").Replace("\\r", "\r").Replace("\\n", "\n");
                 }
                 else
+                {
+                    _labelResponse.Content = "$No known response";
                     _jsonEditorResponse.Text = $"// Timestamp={DateTime.Now}\r\n" +
                                                $"// No known response";
+                }
                 _propertyGridResponse.SelectedObject = _responseObject;
                 // _tabItemJsonEditorResponse.Background = resultColor;
             }
@@ -207,7 +224,7 @@ namespace SmartDose.RestClientApp.Views
             {
                 OnButtonExecute?.Invoke(this);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 ex.LogException();
             }

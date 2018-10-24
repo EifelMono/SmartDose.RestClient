@@ -60,12 +60,16 @@ namespace SmartDose.RestClientApp.Views
             listBoxPropertyInfo.Visibility = showBottomListBox ? System.Windows.Visibility.Visible : System.Windows.Visibility.Collapsed;
         }
         public bool Enabled { get; set; } = false;
+        public bool IsModel { get; set; } = false;
         private object _data;
         public object Data
         {
             get
             {
-                _data = ConvertDev.ToObjectFromObjectDev(DataDev);
+                if (IsModel)
+                    _data = ConvertDev.ToObjectFromObjectDev(DataDev);
+                else
+                    _data = DataDev;
                 return _data;
             }
             set
@@ -74,7 +78,16 @@ namespace SmartDose.RestClientApp.Views
                 try
                 {
                     _data = value;
-                    DataDev = ConvertDev.ToObjectDevFromObject(_data);
+                    try
+                    {
+                        IsModel = true;
+                        DataDev = ConvertDev.ToObjectDevFromObject(_data);
+                    }
+                    catch
+                    {
+                        IsModel = false;
+                        DataDev = _data;
+                    }
                 }
                 finally
                 {
