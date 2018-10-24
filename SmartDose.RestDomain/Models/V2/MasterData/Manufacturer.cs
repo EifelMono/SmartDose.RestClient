@@ -36,5 +36,8 @@ namespace SmartDose.RestDomain.Models.V2.MasterData
         /// The name line.
         /// </value>
         public string NameLine { get; set; }
+
+        public override string ToString()
+            => $"{ManufacturerCode}";
     }
 }

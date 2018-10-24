@@ -44,7 +44,6 @@ namespace SmartDose.RestClientApp.Views.V2.Inventory
                 },
                 OnButtonExecute = async (self) => self.ResponseObject = await crudInstance.GetStockBottles(self.RequestParamsValueAsString(0))
             });
-
         }
     }
 }

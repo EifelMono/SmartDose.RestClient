@@ -14,7 +14,7 @@ namespace SmartDose.RestDomain.Models.V2.Inventory
 #if RestDomainDev
     [TypeConverter(typeof(ExpandableObjectConverter))]
 #endif
-    public class MedicineStock 
+    public class MedicineStock
     {
         /// <summary>
         /// Unique medicine code
@@ -32,5 +32,7 @@ namespace SmartDose.RestDomain.Models.V2.Inventory
         /// Gives the details for the different entities and the corresponding quantity of stock in the system
         /// </summary>
         public QuantityDetails QuantityDetails { get; set; }
+        public override string ToString()
+            => $"{MedicineCode}";
     }
 }

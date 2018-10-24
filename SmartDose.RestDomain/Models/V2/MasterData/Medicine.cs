@@ -97,6 +97,6 @@ namespace SmartDose.RestDomain.Models.V2.MasterData
         public string ManufacturerCode { get; set; }
 
         public override string ToString()
-            => $"{MedicineName} ({MedicineCode})";
+            => $"{MedicineCode} {MedicineName}";
     }
 }

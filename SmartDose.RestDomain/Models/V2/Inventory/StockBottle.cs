@@ -46,5 +46,8 @@ namespace SmartDose.RestDomain.Models.V2.Inventory
         /// Batch number of the stock bottle
         /// </summary>
         public string BatchNumber { get; set; }
+
+        public override string ToString()
+             => $"{StockBottleCode}";
     }
 }

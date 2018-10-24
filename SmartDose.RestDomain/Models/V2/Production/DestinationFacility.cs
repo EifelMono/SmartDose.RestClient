@@ -97,5 +97,8 @@ namespace SmartDose.RestDomain.Models.V2.Production
         /// The bed number.
         /// </value>
         public string BedNumber { get; set; }
+
+        public override string ToString()
+             => $"{DestinationFacilityCode} {Name}";
     }
 }

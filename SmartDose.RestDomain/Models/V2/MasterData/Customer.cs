@@ -42,6 +42,6 @@ namespace SmartDose.RestDomain.Models.V2.MasterData
         public string NameLine { get; set; }
 
         public override string ToString()
-            => $"{Name} ({CustomerCode})";
+            => $"{CustomerCode} {Name}";
     }
 }

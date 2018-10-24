@@ -39,5 +39,8 @@ namespace SmartDose.RestDomain.Models.V2.MasterData
         /// The description.
         /// </value>
         public string Description { get; set; }
+        public override string ToString()
+            => $"{AdditionalCode}";
+
     }
 }

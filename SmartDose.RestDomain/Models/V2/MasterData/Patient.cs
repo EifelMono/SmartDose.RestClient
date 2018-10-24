@@ -106,5 +106,8 @@ namespace SmartDose.RestDomain.Models.V2.MasterData
         /// </summary>
         [CultureValidationAttribute("Culture (Combination of languagecode-regioncode) is required.")]
         public string Culture { get; set; }
+
+        public override string ToString()
+          => $"{PatientCode} {FirstName} {LastName}";
     }
 }

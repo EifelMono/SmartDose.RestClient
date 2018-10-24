@@ -42,5 +42,8 @@ namespace SmartDose.RestDomain.Models.V2.MasterData
         /// </value>
         public string NameLine { get; set; }
 
+        public override string ToString()
+          => $"{DestinationFacilityCode}";
+
     }
 }
