@@ -7,6 +7,7 @@ using ICSharpCode.AvalonEdit;
 using Newtonsoft.Json;
 using SmartDose.RestClient.Extensions;
 using SmartDose.RestClientApp.Editor;
+using SmartDose.RestClientApp.Globals;
 
 namespace SmartDose.RestClientApp.Views
 {
@@ -23,6 +24,8 @@ namespace SmartDose.RestClientApp.Views
         protected System.Windows.Forms.PropertyGrid _propertyGridResponse;
 
         protected List<ViewParam> _requestParams = new List<ViewParam>();
+
+        public string RequestParamsValueAsString(int index) => (string)RequestParams[index].Value ?? "";
         public List<ViewParam> RequestParams
         {
             get => _requestParams;
@@ -157,29 +160,60 @@ namespace SmartDose.RestClientApp.Views
             {
                 _responseObject = value;
                 Brush resultColor = Brushes.Black;
-                if (value is SdrcFlurHttpResponse response && response.Ok)
+                if (value is SdrcFlurHttpResponse response)
                 {
-                    _viewObjectJsonResponse.Data = response.Data;
-                    _tabControlResponse.SelectedIndex = 0;
+                    if (response.Ok)
+                    {
+                        _viewObjectJsonResponse.Data = response.Data;
+                        _tabControlResponse.SelectedIndex = 0;
+                    }
+                    else
+                    {
+                        _viewObjectJsonResponse.Data = null;
+                        _tabControlResponse.SelectedIndex = 1;
+                        resultColor = Brushes.Red;
+                    }
+                    _jsonEditorResponse.Text = $"// Timestamp={response.ReceivedOn}\r\n" +
+                                               $"// Status={response.StatusCode.ToString()}\r\n" +
+                                               ((_responseObject as SdrcFlurHttpResponse)?.Message ?? "").Replace("\\r", "\r").Replace("\\n", "\n");
                 }
                 else
-                {
-                    _viewObjectJsonResponse.Data = null;
-                    _tabControlResponse.SelectedIndex = 1;
-                    resultColor = Brushes.Red;
-                }
+                    _jsonEditorResponse.Text = $"// Timestamp={DateTime.Now}\r\n" +
+                                               $"// No known response";
                 _propertyGridResponse.SelectedObject = _responseObject;
-                _jsonEditorResponse.Text = ((_responseObject as SdrcFlurHttpResponse)?.Message ?? "").Replace("\\r", "\r").Replace("\\n", "\n");
                 // _tabItemJsonEditorResponse.Background = resultColor;
             }
         }
 
     }
 
-    class ViewTabItemCreate : ViewTabItem { public ViewTabItemCreate() { Header = "Create"; } }
+    public class ViewTabItem<T> : ViewTabItem
+    {
+        public T RequestParamsValueAsT(int index) => (T)RequestParams[index].Value;
 
-    class ViewTabItemReadList<T> : ViewTabItem { public ViewTabItemReadList() { Header = "Read List"; } }
+        public new Action<ViewTabItem<T>> OnButtonExecute { get; set; }
 
-    class ViewTabItemUpdate : ViewTabItem { public ViewTabItemUpdate() { Header = "Update"; } }
+        public override void ButtonExecute()
+        {
+            try
+            {
+                OnButtonExecute?.Invoke(this);
+            }
+            catch(Exception ex)
+            {
+                ex.LogException();
+            }
+        }
+    }
+
+    class ViewTabItemCreate<T> : ViewTabItem<T> { public ViewTabItemCreate() { Header = "Create (Post)"; } }
+
+    class ViewTabItemReadList<T> : ViewTabItem<T> { public ViewTabItemReadList() { Header = "Read List (Get)"; } }
+
+    class ViewTabItemRead<T> : ViewTabItem<T> { public ViewTabItemRead() { Header = "Read (Get)"; } }
+
+    class ViewTabItemUpdate<T> : ViewTabItem<T> { public ViewTabItemUpdate() { Header = "Update (Put)"; } }
+
+    class ViewTabItemDelete<T> : ViewTabItem<T> { public ViewTabItemDelete() { Header = "Delete (Delete)"; } }
 }
 

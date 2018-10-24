@@ -29,11 +29,12 @@ namespace SmartDose.RestClient.Extensions
             => thisValue.Exception != null;
 
         #region THECALL
-        private async static Task<SdrcFlurHttpResponse<T>> SdrcHttpCallAsync<T>(Func<Task<T>> httpCallAsync)
+        private async static Task<SdrcFlurHttpResponse<T>> SdrcHttpCallAsync<T>(string request, Func<Task<T>> httpCallAsync)
         {
             var sdrcResponse = new SdrcFlurHttpResponse<T>();
             try
             {
+                sdrcResponse.Request = request;
                 sdrcResponse.Data = await httpCallAsync().ConfigureAwait(false);
                 sdrcResponse.StatusCode = HttpStatusCode.OK;
             }
@@ -45,8 +46,15 @@ namespace SmartDose.RestClient.Extensions
             catch (FlurlHttpException ex1)
             {
                 sdrcResponse.StatusCode = ex1.Call.Response?.StatusCode ?? (HttpStatusCode)(SdrcHttpStatusCode.FlurlException);
-                if (ex1.Call.Response != null)
-                    sdrcResponse.Message = await ex1.Call.Response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                if (ex1.Call?.Response?.Content != null)
+                    try
+                    {
+                        sdrcResponse.Message = await ex1.Call.Response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    }
+                    catch (Exception ex11)
+                    {
+                        sdrcResponse.Message = ex11.Message;
+                    }
                 sdrcResponse.Exception = ex1;
             }
             catch (Exception ex3)
@@ -54,34 +62,39 @@ namespace SmartDose.RestClient.Extensions
                 sdrcResponse.StatusCode = (HttpStatusCode)(SdrcHttpStatusCode.Exception);
                 sdrcResponse.Exception = ex3;
             }
-            return sdrcResponse;
+            return sdrcResponse.MarkReceived();
         }
+        private async static Task<SdrcFlurHttpResponse<T>> SdrcHttpCallAsync<T>(Url request, Func<Task<T>> httpCallAsync)
+            => await SdrcHttpCallAsync(request?.ToString() ?? "", httpCallAsync).ConfigureAwait(false);
+        private async static Task<SdrcFlurHttpResponse<T>> SdrcHttpCallAsync<T>(IFlurlRequest request, Func<Task<T>> httpCallAsync)
+            => await SdrcHttpCallAsync(request?.ToString() ?? "", httpCallAsync).ConfigureAwait(false);
+
         #endregion
 
         public async static Task<SdrcFlurHttpResponse<T>> SdrcGetJsonAsync<T>(this string url, CancellationToken cancellationToken = default(CancellationToken), HttpCompletionOption completionOption = HttpCompletionOption.ResponseContentRead)
-            => await SdrcHttpCallAsync(() => url.GetJsonAsync<T>(cancellationToken, completionOption));
+        => await SdrcHttpCallAsync(url, () => url.GetJsonAsync<T>(cancellationToken, completionOption));
         public async static Task<SdrcFlurHttpResponse<T>> SdrcGetJsonAsync<T>(this Url url, CancellationToken cancellationToken = default(CancellationToken), HttpCompletionOption completionOption = HttpCompletionOption.ResponseContentRead)
-            => await SdrcHttpCallAsync(() => url.GetJsonAsync<T>(cancellationToken, completionOption));
+            => await SdrcHttpCallAsync(url, () => url.GetJsonAsync<T>(cancellationToken, completionOption));
         public async static Task<SdrcFlurHttpResponse> SdrcGetAsync(this string url, CancellationToken cancellationToken = default(CancellationToken), HttpCompletionOption completionOption = HttpCompletionOption.ResponseContentRead)
-                => await SdrcHttpCallAsync(() => url.GetAsync(cancellationToken, completionOption));
+                => await SdrcHttpCallAsync(url, () => url.GetAsync(cancellationToken, completionOption));
         public async static Task<SdrcFlurHttpResponse> SdrcGetAsync(this Url url, CancellationToken cancellationToken = default(CancellationToken), HttpCompletionOption completionOption = HttpCompletionOption.ResponseContentRead)
-                => await SdrcHttpCallAsync(() => url.GetAsync(cancellationToken, completionOption));
+                => await SdrcHttpCallAsync(url, () => url.GetAsync(cancellationToken, completionOption));
 
         public async static Task<SdrcFlurHttpResponse> SdrcPutJsonAsync(this string url, object data, CancellationToken cancellationToken = default(CancellationToken), HttpCompletionOption completionOption = HttpCompletionOption.ResponseContentRead)
-            => await SdrcHttpCallAsync(() => url.PutJsonAsync(data));
+            => await SdrcHttpCallAsync(url, () => url.PutJsonAsync(data));
         public async static Task<SdrcFlurHttpResponse> SdrcPutJsonAsync(this Url url, object data, CancellationToken cancellationToken = default(CancellationToken), HttpCompletionOption completionOption = HttpCompletionOption.ResponseContentRead)
-            => await SdrcHttpCallAsync(() => url.PutJsonAsync(data));
+            => await SdrcHttpCallAsync(url, () => url.PutJsonAsync(data));
 
         public async static Task<SdrcFlurHttpResponse> SdrcPostJsonAsync(this string url, object data, CancellationToken cancellationToken = default(CancellationToken), HttpCompletionOption completionOption = HttpCompletionOption.ResponseContentRead)
-            => await SdrcHttpCallAsync(() => url.PostJsonAsync(data, cancellationToken, completionOption));
+            => await SdrcHttpCallAsync(url, () => url.PostJsonAsync(data, cancellationToken, completionOption));
         public async static Task<SdrcFlurHttpResponse> SdrcPostJsonAsync(this Url url, object data, CancellationToken cancellationToken = default(CancellationToken), HttpCompletionOption completionOption = HttpCompletionOption.ResponseContentRead)
-            => await SdrcHttpCallAsync(() => url.PostJsonAsync(data, cancellationToken, completionOption));
+            => await SdrcHttpCallAsync(url, () => url.PostJsonAsync(data, cancellationToken, completionOption));
         public async static Task<SdrcFlurHttpResponse> SdrcPostJsonAsync(this IFlurlRequest flurlRequest, object data, CancellationToken cancellationToken = default(CancellationToken), HttpCompletionOption completionOption = HttpCompletionOption.ResponseContentRead)
-        => await SdrcHttpCallAsync(() => flurlRequest.PostJsonAsync(data, cancellationToken, completionOption));
+        => await SdrcHttpCallAsync(flurlRequest, () => flurlRequest.PostJsonAsync(data, cancellationToken, completionOption));
 
         public async static Task<SdrcFlurHttpResponse<HttpResponseMessage>> SdrcDeleteAsync(this string url, CancellationToken cancellationToken = default(CancellationToken), HttpCompletionOption completionOption = HttpCompletionOption.ResponseContentRead)
-            => await SdrcHttpCallAsync(() => url.DeleteAsync(cancellationToken, completionOption));
+            => await SdrcHttpCallAsync(url, () => url.DeleteAsync(cancellationToken, completionOption));
         public async static Task<SdrcFlurHttpResponse<HttpResponseMessage>> SdrcDeleteAsync(this Url url, CancellationToken cancellationToken = default(CancellationToken), HttpCompletionOption completionOption = HttpCompletionOption.ResponseContentRead)
-            => await SdrcHttpCallAsync(() => url.DeleteAsync(cancellationToken, completionOption));
+            => await SdrcHttpCallAsync(url, () => url.DeleteAsync(cancellationToken, completionOption));
     }
 }

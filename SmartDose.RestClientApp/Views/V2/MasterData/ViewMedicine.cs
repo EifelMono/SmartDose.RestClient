@@ -9,7 +9,22 @@ namespace SmartDose.RestClientApp.Views.V2.MasterData
         public ViewMedicine() : base()
         {
             _labelHeader.Content = typeof(ViewMedicine).Namespace;
-            _tabControl.Items.Add(new ViewTabItemCreate
+
+            _tabControl.Items.Add(new ViewTabItemReadList<Models.MasterData.Medicine>
+            {
+                OnButtonExecute = async (self) => self.ResponseObject = await Crud.MasterData.Medicine.Instance.ReadListAsync(),
+            });
+
+            _tabControl.Items.Add(new ViewTabItemRead<Models.MasterData.Medicine>
+            {
+                RequestParams = new List<ViewParam>
+                {
+                    new ViewParam {Name="MedicineCode", IsViewObjectJson= false, Value= "" },
+                },
+                OnButtonExecute = async (self) => self.ResponseObject = await Crud.MasterData.Medicine.Instance.ReadAsync(self.RequestParamsValueAsString(0)),
+            });
+
+            _tabControl.Items.Add(new ViewTabItemCreate<Models.MasterData.Medicine>
             {
                 RequestParams = new List<ViewParam>
                 {
@@ -19,7 +34,7 @@ namespace SmartDose.RestClientApp.Views.V2.MasterData
                                                     self.RequestParams[0].Value as Models.MasterData.Medicine),
             });
 
-            _tabControl.Items.Add(new ViewTabItemUpdate
+            _tabControl.Items.Add(new ViewTabItemUpdate<Models.MasterData.Medicine>
             {
                 RequestParams = new List<ViewParam>
                 {
@@ -27,16 +42,18 @@ namespace SmartDose.RestClientApp.Views.V2.MasterData
                     new ViewParam {Name="Medicine", IsViewObjectJson= true, Value= new Models.MasterData.Medicine() }
                 },
                 OnButtonExecute = async (self) => self.ResponseObject = await Crud.MasterData.Medicine.Instance.UpdateAsync(
-                                                    self.RequestParams[0].Value as string,
-                                                    self.RequestParams[1].Value as Models.MasterData.Medicine),
+                                                    self.RequestParamsValueAsString(0),
+                                                    self.RequestParamsValueAsT(1))
             });
 
-            _tabControl.Items.Add(new ViewTabItemReadList<Models.MasterData.Medicine>
+            _tabControl.Items.Add(new ViewTabItemDelete<Models.MasterData.Medicine>
             {
-                OnButtonExecute = async (self) => self.ResponseObject = await Crud.MasterData.Medicine.Instance.ReadListAsync(),
+                RequestParams = new List<ViewParam>
+                {
+                    new ViewParam {Name="MedicineCode", IsViewObjectJson= false, Value= "" },
+                },
+                OnButtonExecute = async (self) => self.ResponseObject = await Crud.MasterData.Medicine.Instance.DeleteAsync(self.RequestParamsValueAsString(0)),
             });
-
-
         }
     }
 }
