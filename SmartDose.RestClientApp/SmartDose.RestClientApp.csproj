@@ -99,7 +99,12 @@
     <Compile Include="Views\RelayCommand.cs" />
     <Compile Include="Views\V1\MasterData\ViewCustomer.cs" />
     <Compile Include="Views\V1\MasterData\ViewMedicine.cs" />
+    <Compile Include="Views\V2\MasterData\ViewPharmacy.cs" />
+    <Compile Include="Views\V2\MasterData\ViewPatient.cs" />
+    <Compile Include="Views\V2\MasterData\ViewDestinationFacility.cs" />
+    <Compile Include="Views\V2\MasterData\ViewManufacturer.cs" />
     <Compile Include="Views\V2\MasterData\ViewCustomer.cs" />
+    <Compile Include="Views\V2\Production\ViewOrder.cs" />
     <Compile Include="Views\ViewConnections.xaml.cs">
       <DependentUpon>ViewConnections.xaml</DependentUpon>
     </Compile>

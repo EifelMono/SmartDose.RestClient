@@ -60,6 +60,14 @@ namespace SmartDose.RestClientApp.Views
             var crudMenuV2MasterDataItem = crudMenuV2Item.Add("MasterData", true);
             crudMenuV2MasterDataItem.Add("Medicine", new RestDomain.Models.ModelsItem { Type = typeof(V2.MasterData.ViewMedicine) });
             crudMenuV2MasterDataItem.Add("Customer", new RestDomain.Models.ModelsItem { Type = typeof(V2.MasterData.ViewCustomer) });
+            crudMenuV2MasterDataItem.Add("DestinationFacility", new RestDomain.Models.ModelsItem { Type = typeof(V2.MasterData.ViewDestinationFacility) });
+            crudMenuV2MasterDataItem.Add("Manufacturer", new RestDomain.Models.ModelsItem { Type = typeof(V2.MasterData.ViewManufacturer) });
+            crudMenuV2MasterDataItem.Add("Patient", new RestDomain.Models.ModelsItem { Type = typeof(V2.MasterData.ViewPatient) });
+            crudMenuV2MasterDataItem.Add("Pharmacy", new RestDomain.Models.ModelsItem { Type = typeof(V2.MasterData.ViewPharmacy) });
+            var crudMenuV2ProdcutionItem = crudMenuV2Item.Add("Production", true);
+            crudMenuV2ProdcutionItem.Add("Order", new RestDomain.Models.ModelsItem { Type = typeof(V2.Production.ViewOrder) });
+
+
 
             treeViewModels.Items.Add(rootMenuItem);
         }

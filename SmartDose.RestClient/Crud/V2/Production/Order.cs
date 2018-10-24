@@ -7,7 +7,7 @@ using Flurl;
 using SmartDose.RestClient.Extensions;
 using Models = SmartDose.RestDomain.Models.V2;
 
-namespace SmartDose.RestClient.Crud.V2.MasterData
+namespace SmartDose.RestClient.Crud.V2.Production
 {
     public class Order : CoreV2<Models.Production.Order>
     {
@@ -16,6 +16,11 @@ namespace SmartDose.RestClient.Crud.V2.MasterData
         }
 
         public static Order Instance => Instance<Order>();
+
+        public async Task<SdrcFlurHttpResponse> CreateAsync(Models.Production.Order value, CancellationToken cancellationToken = default(CancellationToken), HttpCompletionOption completionOption = HttpCompletionOption.ResponseContentRead)
+            => await UrlClone.SdrcPostJsonAsync(value, cancellationToken, completionOption).ConfigureAwait(false);
+        public async Task<SdrcFlurHttpResponse> DeleteAsync(string orderId, CancellationToken cancellationToken = default(CancellationToken), HttpCompletionOption completionOption = HttpCompletionOption.ResponseContentRead)
+            => await UrlClone.AppendPathSegment(orderId).SdrcDeleteAsync(cancellationToken, completionOption).ConfigureAwait(false);
 
         public async Task<SdrcFlurHttpResponse<Models.Production.OrderResult>> GetOrderResult(string orderId, CancellationToken cancellationToken = default(CancellationToken), HttpCompletionOption completionOption = HttpCompletionOption.ResponseContentRead)
             => await UrlClone.AppendPathSegment("Result").AppendPathSegment(orderId).SdrcGetJsonAsync<Models.Production.OrderResult>(cancellationToken, completionOption).ConfigureAwait(false);

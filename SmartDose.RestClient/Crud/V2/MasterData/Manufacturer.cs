@@ -17,8 +17,8 @@ namespace SmartDose.RestClient.Crud.V2.MasterData
 
         public async Task<SdrcFlurHttpResponse> AssignManufacturerToMedicineAsync(string manufacturerId, string medicineId, CancellationToken cancellationToken = default(CancellationToken), HttpCompletionOption completionOption = HttpCompletionOption.ResponseContentRead)
                 => await UrlClone.AppendPathSegment(manufacturerId)
-                            .AppendPathSegment("MedicineCode")
+                            .AppendPathSegment("AssignMedicine")
                             .AppendPathSegment(medicineId)
-                            .SdrcGetJsonAsync<int>(cancellationToken, completionOption).ConfigureAwait(false);
+                            .SdrcPutJsonAsync(null, cancellationToken, completionOption).ConfigureAwait(false);
     }
 }

@@ -26,11 +26,6 @@ namespace SmartDose.RestClient.Crud
         {
         }
 
-        internal static object S_Instance;
-        public static void ClearInstance()
-            => S_Instance = null;
-
-
         public Core(Url url, params string[] pathSegments) : this()
         {
             Url = url;
@@ -44,6 +39,7 @@ namespace SmartDose.RestClient.Crud
         public Core(string url, params string[] pathSegments) : base(new Url(url), pathSegments)
         {
         }
+        internal static object S_Instance;
         public static Tx Instance<Tx>() where Tx : Core<T>, new()
         {
             if (S_Instance == null)
