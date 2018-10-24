@@ -16,9 +16,9 @@ namespace SmartDose.RestDomain.Models
 
         public static string ModelsNamespace => ModelsAssembly.GetName().Name;
 
-        private static List<ModelsItem> _ModelsItems = null;
-        public static List<ModelsItem> ModelsItems => _ModelsItems
-                        ?? (_ModelsItems = (from type in ModelsAssembly.GetTypes()
+        private static List<ModelsItem> s_modelsItems = null;
+        public static List<ModelsItem> ModelsItems => s_modelsItems
+                        ?? (s_modelsItems = (from type in ModelsAssembly.GetTypes()
                                             where type.IsClass && type.FullName.Contains($".{ModelsName}.V")
                                             let splitModelsFullPath = type.FullName.SplitModelsFullPath()
                                             select new ModelsItem

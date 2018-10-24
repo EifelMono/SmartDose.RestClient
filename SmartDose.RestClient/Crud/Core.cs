@@ -56,13 +56,13 @@ namespace SmartDose.RestClient.Crud
 
         public async Task<SdrcFlurHttpResponse<List<T>>> ReadListAsync(CancellationToken cancellationToken = default(CancellationToken), HttpCompletionOption completionOption = HttpCompletionOption.ResponseContentRead)
              => await UrlClone.SdrcGetJsonAsync<List<T>>(cancellationToken, completionOption).ConfigureAwait(false);
-        public async Task<SdrcFlurHttpResponse<T>> ReadAsync(string searchId, CancellationToken cancellationToken = default(CancellationToken), HttpCompletionOption completionOption = HttpCompletionOption.ResponseContentRead)
-          => await UrlClone.AppendPathSegment(searchId).SdrcGetJsonAsync<T>(cancellationToken, completionOption).ConfigureAwait(false);
+        public async Task<SdrcFlurHttpResponse<T>> ReadAsync(string readId, CancellationToken cancellationToken = default(CancellationToken), HttpCompletionOption completionOption = HttpCompletionOption.ResponseContentRead)
+          => await UrlClone.AppendPathSegment(readId).SdrcGetJsonAsync<T>(cancellationToken, completionOption).ConfigureAwait(false);
         public async Task<SdrcFlurHttpResponse> CreateAsync(T value, CancellationToken cancellationToken = default(CancellationToken), HttpCompletionOption completionOption = HttpCompletionOption.ResponseContentRead)
             => await UrlClone.SdrcPostJsonAsync(value, cancellationToken, completionOption).ConfigureAwait(false);
         public async Task<SdrcFlurHttpResponse> UpdateAsync(string updateId, T value, CancellationToken cancellationToken = default(CancellationToken), HttpCompletionOption completionOption = HttpCompletionOption.ResponseContentRead)
             => await UrlClone.AppendPathSegment(updateId).SdrcPutJsonAsync(value, cancellationToken, completionOption).ConfigureAwait(false);
-        public async Task<SdrcFlurHttpResponse> DeleteAsync(string valueId, CancellationToken cancellationToken = default(CancellationToken), HttpCompletionOption completionOption = HttpCompletionOption.ResponseContentRead)
-            => await UrlClone.AppendPathSegment(valueId).SdrcDeleteAsync(cancellationToken, completionOption).ConfigureAwait(false);
+        public async Task<SdrcFlurHttpResponse> DeleteAsync(string deleteId, CancellationToken cancellationToken = default(CancellationToken), HttpCompletionOption completionOption = HttpCompletionOption.ResponseContentRead)
+            => await UrlClone.AppendPathSegment(deleteId).SdrcDeleteAsync(cancellationToken, completionOption).ConfigureAwait(false);
     }
 }
