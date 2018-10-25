@@ -101,6 +101,7 @@
     <Compile Include="Views\RelayCommand.cs" />
     <Compile Include="Views\V1\MasterData\ViewCustomer.cs" />
     <Compile Include="Views\V1\MasterData\ViewMedicine.cs" />
+    <Compile Include="Views\V1\Production\ViewOrder.cs" />
     <Compile Include="Views\V2\Inverntory\ViewStockBottle.cs" />
     <Compile Include="Views\V2\Inverntory\ViewMedicineStock.cs" />
     <Compile Include="Views\V2\MasterData\ViewPharmacy.cs" />

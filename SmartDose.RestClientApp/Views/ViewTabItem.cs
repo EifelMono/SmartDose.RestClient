@@ -69,15 +69,16 @@ namespace SmartDose.RestClientApp.Views
         public ViewTabItem()
         {
             Content = _gridTabItem = new Grid();
-            _gridTabItem.RowDefinitions.Add(new RowDefinition { Height = new System.Windows.GridLength(1, System.Windows.GridUnitType.Star) });
-            _gridTabItem.RowDefinitions.Add(new RowDefinition { Height = new System.Windows.GridLength(1, System.Windows.GridUnitType.Auto) });
-            _gridTabItem.RowDefinitions.Add(new RowDefinition { Height = new System.Windows.GridLength(1, System.Windows.GridUnitType.Auto) });
-            _gridTabItem.RowDefinitions.Add(new RowDefinition { Height = new System.Windows.GridLength(1, System.Windows.GridUnitType.Star) });
+
+            _gridTabItem.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
+            _gridTabItem.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Auto) });
+            _gridTabItem.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Auto) });
+            _gridTabItem.RowDefinitions.Add(new RowDefinition { Height = new GridLength(300, GridUnitType.Pixel) });
 
 
             _gridRequest = new Grid();
-            _gridRequest.ColumnDefinitions.Add(new ColumnDefinition { Width = new System.Windows.GridLength(1, System.Windows.GridUnitType.Auto) });
-            _gridRequest.ColumnDefinitions.Add(new ColumnDefinition { Width = new System.Windows.GridLength(1, System.Windows.GridUnitType.Star) });
+            _gridRequest.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Auto) });
+            _gridRequest.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
             _gridTabItem.Children.Add(_gridRequest);
             Grid.SetRow(_gridRequest, 0);
 
@@ -96,19 +97,20 @@ namespace SmartDose.RestClientApp.Views
             {
                 Height = 3,
                 HorizontalAlignment = System.Windows.HorizontalAlignment.Stretch,
-                VerticalAlignment = System.Windows.VerticalAlignment.Stretch,
+                VerticalAlignment = System.Windows.VerticalAlignment.Center,
+                ResizeDirection = GridResizeDirection.Rows,
                 ShowsPreview = false
             };
             _gridTabItem.Children.Add(gridSplitter);
             Grid.SetRow(gridSplitter, 2);
 
             _gridResponse = new Grid();
-            _gridResponse.RowDefinitions.Add(new RowDefinition { Height = new System.Windows.GridLength(1, System.Windows.GridUnitType.Auto) });
-            _gridResponse.RowDefinitions.Add(new RowDefinition { Height = new System.Windows.GridLength(1, System.Windows.GridUnitType.Star) });
+            _gridResponse.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Auto) });
+            _gridResponse.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
             _gridTabItem.Children.Add(_gridResponse);
             Grid.SetRow(_gridResponse, 3);
 
-            _labelResponse = new Label { VerticalContentAlignment = System.Windows.VerticalAlignment.Center, FontWeight = FontWeights.Bold };
+            _labelResponse = new Label { VerticalContentAlignment = VerticalAlignment.Center, FontWeight = FontWeights.Bold };
             _gridResponse.Children.Add(_labelResponse);
             Grid.SetRow(_labelResponse, 0);
 

@@ -293,7 +293,9 @@ namespace SmartDose.RestClientApp.Views
 
         public void NotifyPropertyChanged(string propName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
 
+#pragma warning disable IDE1006 // Naming Styles
         private void listBoxJsonFiles_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+#pragma warning restore IDE1006 // Naming Styles
         {
             var filename = (string) listBoxJsonFiles.SelectedItem;
             try
