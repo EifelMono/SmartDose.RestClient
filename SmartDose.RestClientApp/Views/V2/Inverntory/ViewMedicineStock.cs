@@ -13,8 +13,7 @@ namespace SmartDose.RestClientApp.Views.V2.Inventory
             var labelIdName = "MedicineStockCode";
 #pragma warning restore CS0219 // Variable is assigned but its value is never used
             var crudInstance = Crud.Inventory.MedicineStock.Instance;
-
-            _labelHeader.Content = GetType().Namespace;
+            _labelHeader.Content = crudInstance.UrlClone;
 
             _tabControl.Items.Add(new ViewTabItemCreate<Models.Inventory.StockBottle>
             {

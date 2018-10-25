@@ -11,8 +11,7 @@ namespace SmartDose.RestClientApp.Views.V2.MasterData
             var labelName = "DestinationFacility";
             var labelIdName = "DestinationFacilityCode";
             var crudInstance = Crud.MasterData.DestinationFacility.Instance;
-
-            _labelHeader.Content = GetType().Namespace;
+            _labelHeader.Content = crudInstance.UrlClone;
 
             _tabControl.Items.Add(new ViewTabItemReadList<Models.MasterData.DestinationFacility>
             {

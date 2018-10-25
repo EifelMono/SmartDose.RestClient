@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Net;
+using Newtonsoft.Json;
 
 namespace SmartDose.RestClient.Extensions
 {

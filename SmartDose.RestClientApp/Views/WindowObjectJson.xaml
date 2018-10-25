@@ -37,7 +37,6 @@
             Grid.Column="1"
             Width="3"
             HorizontalAlignment="Stretch" />
-
         <Grid Name="gridContent" Grid.Column="2">
             <views:ViewObjectJson x:Name="viewObjectJson" Grid.Column="2" />
         </Grid>

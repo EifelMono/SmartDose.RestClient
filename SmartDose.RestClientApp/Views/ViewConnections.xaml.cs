@@ -87,8 +87,6 @@ namespace SmartDose.RestClientApp.Views
             }));
         }
 
-
-
         ICommand _commandOpenFolder = null;
         public ICommand CommandOpenDataFolder
         {

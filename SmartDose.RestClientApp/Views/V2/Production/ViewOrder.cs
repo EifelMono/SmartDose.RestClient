@@ -11,8 +11,7 @@ namespace SmartDose.RestClientApp.Views.V2.Production
             var labelName = "Order";
             var labelIdName = "OrderCode";
             var crudInstance = Crud.Production.Order.Instance;
-
-            _labelHeader.Content = GetType().Namespace;
+            _labelHeader.Content = crudInstance.UrlClone;
 
             _tabControl.Items.Add(new ViewTabItemCreate<Models.Production.Order>
             {

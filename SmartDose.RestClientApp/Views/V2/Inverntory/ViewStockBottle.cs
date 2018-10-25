@@ -11,8 +11,7 @@ namespace SmartDose.RestClientApp.Views.V2.Inventory
             var labelName = "StockBottel";
             var labelIdName = "StockBottelCode";
             var crudInstance = Crud.Inventory.StockBottle.Instance;
-
-            _labelHeader.Content = GetType().Namespace;
+            _labelHeader.Content = crudInstance.UrlClone;
 
             _tabControl.Items.Add(new ViewTabItemCreate<Models.Inventory.StockBottle>
             {

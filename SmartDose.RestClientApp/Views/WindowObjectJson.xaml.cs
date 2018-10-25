@@ -70,8 +70,6 @@ namespace SmartDose.RestClientApp.Views
             var crudMenuV2ProdcutionItem = crudMenuV2Item.Add("Production", true);
             crudMenuV2ProdcutionItem.Add("Order", new RestDomain.Models.ModelsItem { Type = typeof(V2.Production.ViewOrder) });
 
-
-
             treeViewModels.Items.Add(rootMenuItem);
         }
 

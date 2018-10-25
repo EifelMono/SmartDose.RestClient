@@ -8,12 +8,50 @@
     xmlns:jsonEdit="clr-namespace:SmartDose.RestClientApp.Editor"
     xmlns:local="clr-namespace:SmartDose.RestClientApp"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:views="clr-namespace:SmartDose.RestClientApp.Views"
     d:DesignHeight="450"
     d:DesignWidth="800"
     mc:Ignorable="d">
+    <UserControl.Resources>
+        <views:BoolToVisibilityCollapsedConverter x:Key="BoolToVisibilityCollapsedConverter" />
+    </UserControl.Resources>
     <Grid>
-        <TabControl Name="tabControlMain" SelectionChanged="tabControlMain_SelectionChanged">
-            <TabItem Header="Object View">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Button
+                Grid.Column="0"
+                Margin="5"
+                Padding="10,5,10,5"
+                Command="{Binding CommandSaveObject}"
+                Content="Save Object"
+                Visibility="{Binding IsDataObject, Converter={StaticResource BoolToVisibilityCollapsedConverter}}" />
+            <CheckBox
+                Grid.Column="1"
+                Padding="5"
+                VerticalContentAlignment="Center"
+                Content="Auto Convert Object-&gt;Json"
+                IsChecked="{Binding CheckBoxAutoConvertObjectToJson}" />
+            <Button
+                Grid.Column="2"
+                Margin="5"
+                Padding="10,5,10,5"
+                Command="{Binding CommandJsonToObject}"
+                Content="JsonToObject"
+                Visibility="{Binding IsJsonTab, Converter={StaticResource BoolToVisibilityCollapsedConverter}}" />
+        </Grid>
+        <TabControl
+            Name="tabControlMain"
+            Grid.Row="1"
+            SelectionChanged="tabControlMain_SelectionChanged">
+            <TabItem Header="Object">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*" />
@@ -32,14 +70,21 @@
                         Height="45" />
                 </Grid>
             </TabItem>
-            <TabItem Header="Json View">
+            <TabItem Header="Json">
                 <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="97*" />
+                        <ColumnDefinition Width="697*" />
+                    </Grid.ColumnDefinitions>
                     <jsonEdit:JsonEditor x:Name="jsonEditor" Grid.ColumnSpan="2" />
                 </Grid>
             </TabItem>
-            <TabItem Header="Files">
+            <TabItem Header="Files" Visibility="{Binding IsDataObject, Converter={StaticResource BoolToVisibilityCollapsedConverter}}">
                 <Grid>
-                    <ListView Name="listView" />
+                    <ListBox
+                        Name="listBoxJsonFiles"
+                        ItemsSource="{Binding JsonFiles}"
+                        MouseDoubleClick="listBoxJsonFiles_MouseDoubleClick" />
                 </Grid>
             </TabItem>
         </TabControl>

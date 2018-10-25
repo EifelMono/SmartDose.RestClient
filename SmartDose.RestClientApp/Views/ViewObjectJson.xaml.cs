@@ -1,9 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
 using Newtonsoft.Json;
 using SmartDose.RestClientApp.Globals;
@@ -14,8 +20,87 @@ namespace SmartDose.RestClientApp.Views
     /// <summary>
     /// Interaction logic for ObjectJsonView.xaml
     /// </summary>
-    public partial class ViewObjectJson : UserControl
+    public partial class ViewObjectJson : UserControl, INotifyPropertyChanged
     {
+        public bool CheckBoxAutoConvertObjectToJson { get; set; } = true;
+        public bool IsDataObject { get; set; } = false;
+        public bool IsJsonTab { get; set; } = false;
+        private ICommand _commandSaveObject;
+        public ICommand CommandSaveObject
+        {
+            get => _commandSaveObject ?? (_commandSaveObject = new RelayCommand(o =>
+            {
+                var dlg = new Microsoft.Win32.SaveFileDialog
+                {
+                    FileName = "default.json",
+                    InitialDirectory = DataDirectory,
+                    DefaultExt = ".json",
+                    Filter = "Json documents (.json)|*.json"
+                };
+
+                var result = dlg.ShowDialog();
+                if (result == true)
+                {
+                    try
+                    {
+                        File.WriteAllText(dlg.FileName, ConvertDev.ToJsonFromObjectDev(DataDev));
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message);
+                    }
+                }
+            }));
+        }
+
+        private ICommand _commandJsonToObject;
+        public ICommand CommandJsonToObject
+        {
+            get => _commandJsonToObject ?? (_commandJsonToObject = new RelayCommand(o =>
+            {
+                try
+                {
+                    DataDev = ConvertDev.ToObjectDevFromJson(jsonEditor.Text, DataDev.GetType());
+                    tabControlMain.SelectedIndex = 0;
+                }
+                catch (Exception ex)
+                {
+                    var save = CheckBoxAutoConvertObjectToJson;
+                    CheckBoxAutoConvertObjectToJson = false;
+                    try
+                    {
+                        tabControlMain.SelectedIndex = 1;
+                    }
+                    finally
+                    {
+                        CheckBoxAutoConvertObjectToJson = save;
+                    }
+                    MessageBox.Show(ex.Message);
+                    // Message = "After parsing a value an unexpected character was encountered: d. Path 'UniqueId', line 2, position 21."
+                    var line = -1;
+                    var position = -1;
+                    foreach (var text in ex.Message.Split(','))
+                    {
+                        if (text.Contains(" line "))
+                            int.TryParse(text.Replace("line", "").Trim(), out line);
+                        if (text.Contains(" position "))
+                            int.TryParse(text.Replace("position", "").Replace(".", "").Trim(), out position);
+                    }
+                    if (line >= 0 && position >= 0)
+                    {
+                        jsonEditor.Focus();
+                        jsonEditor.TextArea.Caret.Location = new ICSharpCode.AvalonEdit.Document.TextLocation(line, position);
+                        jsonEditor.TextArea.Caret.BringCaretToView();
+                        NotifyPropertyChanged(string.Empty);
+                    }
+                }
+            }));
+        }
+        public List<string> JsonFiles { get; private set; } = new List<string>();
+
+
+        public string DataDirectory { get; set; }
+
         public ViewObjectJson()
         {
             InitializeComponent();
@@ -72,19 +157,31 @@ namespace SmartDose.RestClientApp.Views
             {
                 _data = value;
                 DataDev = ConvertDev.ToObjectDevFromObject(_data);
+                IsDataObject = true;
+                IsPlainData = false;
+                try
+                {
+                    DataDirectory = AppGlobals.DataBinObjectJsonDirectory(DataDev.GetType());
+                }
+                catch
+                {
+                    // What shall I do?
+                }
+                CheckBoxAutoConvertObjectToJson = true;
+                NotifyPropertyChanged(string.Empty);
             }
         }
 
         public bool IsPlainData { get; set; } = false;
         public object PlainData
         {
-            get
-            {
-                return _dataDev;
-            }
+            get => _dataDev;
             set
             {
+                DataDirectory = "";
                 IsPlainData = true;
+                IsDataObject = false;
+                NotifyPropertyChanged(string.Empty);
                 DataDev = value;
             }
         }
@@ -103,8 +200,7 @@ namespace SmartDose.RestClientApp.Views
         protected void UpdateView(object objectValue)
         {
             propertyGridView.SelectedObject = FillEmtpyModels(_dataDev);
-            if (!IsPlainData)
-                jsonEditor.Text = ConvertDev.ToJsonFromObjectDev(objectValue);
+            tabControlMain_SelectionChanged(null, null);
         }
 
 #pragma warning disable IDE1006 // Naming Styles
@@ -116,21 +212,33 @@ namespace SmartDose.RestClientApp.Views
                 // Property Editor
                 case 0:
                     {
+                        IsJsonTab = false;
                         break;
                     }
                 // Json Editor
                 case 1:
                     {
-                        if (!IsPlainData)
-                            jsonEditor.Text = ConvertDev.ToJsonFromObjectDev(DataDev);
+                        if (IsDataObject)
+                            IsJsonTab = true;
+                        if (CheckBoxAutoConvertObjectToJson)
+                        {
+                            if (!IsPlainData)
+                                jsonEditor.Text = ConvertDev.ToJsonFromObjectDev(DataDev);
+                        }
                         break;
                     }
                 // File seleciton
                 case 2:
                     {
+                        IsJsonTab = false;
+                        lock (this)
+                        {
+                            JsonFiles = Directory.GetFiles(DataDirectory, "*.json").Select(f=> Path.GetFileName(f)).ToList();
+                        }
                         break;
                     }
             }
+            NotifyPropertyChanged(string.Empty);
         }
 
         protected T FillEmtpyModels<T>(T objectValue) where T : class
@@ -179,6 +287,24 @@ namespace SmartDose.RestClientApp.Views
         {
             // todo remove
             return thisValue;
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public void NotifyPropertyChanged(string propName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
+
+        private void listBoxJsonFiles_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            var filename = (string) listBoxJsonFiles.SelectedItem;
+            try
+            {
+                jsonEditor.Text = File.ReadAllText(Path.Combine(DataDirectory, filename));
+                CommandJsonToObject.Execute(null);
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
     }
 }

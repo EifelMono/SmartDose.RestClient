@@ -108,7 +108,7 @@ namespace SmartDose.RestClientApp.Views
             _gridTabItem.Children.Add(_gridResponse);
             Grid.SetRow(_gridResponse, 3);
 
-            _labelResponse = new Label { VerticalContentAlignment = System.Windows.VerticalAlignment.Center, FontWeight= FontWeights.Bold};
+            _labelResponse = new Label { VerticalContentAlignment = System.Windows.VerticalAlignment.Center, FontWeight = FontWeights.Bold };
             _gridResponse.Children.Add(_labelResponse);
             Grid.SetRow(_labelResponse, 0);
 
@@ -180,12 +180,14 @@ namespace SmartDose.RestClientApp.Views
                     {
                         try
                         {
-                            _viewObjectJsonResponse.Data = response.Data;
+                            if (response.Data is null)
+                                _viewObjectJsonResponse.PlainData = _responseObject;
+                            else
+                                _viewObjectJsonResponse.Data = response.Data;
                         }
                         catch
                         {
                             _viewObjectJsonResponse.PlainData = _responseObject;
-
                         }
                         _tabControlResponse.SelectedIndex = 0;
                     }
@@ -197,9 +199,14 @@ namespace SmartDose.RestClientApp.Views
                     }
                     _labelResponse.Content = $"Status={response.StatusCode.ToString()}";
                     _labelResponse.Foreground = resultColor;
-                    _jsonEditorResponse.Text = $"// Timestamp={response.ReceivedOn}\r\n" +
-                                               $"// Status={response.StatusCode.ToString()}\r\n" +
-                                               ((_responseObject as SdrcFlurHttpResponse)?.Message ?? "").Replace("\\r", "\r").Replace("\\n", "\n");
+                    _jsonEditorResponse.Text = $"\r\n// Timestamp={response.ReceivedOn}" +
+                                               $"\r\n// Status={response.StatusCode.ToString()}\r\n" +
+                                               $"\r\n// Data\r\n" +
+                                               (response.Data?.ToString() ?? "").Replace("\\r", "\r").Replace("\\n", "\n") +
+                                               $"\r\n// Message\r\n" +
+                                               (response.Message ?? "").Replace("\\r", "\r").Replace("\\n", "\n") +
+                                               $"\r\n// Exception\r\n" +
+                                               (response.Exception?.ToString() ?? "").Replace("\\r", "\r").Replace("\\n", "\n");
                 }
                 else
                 {
