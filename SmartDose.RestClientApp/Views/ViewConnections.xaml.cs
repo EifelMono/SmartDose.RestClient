@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -28,6 +29,7 @@ namespace SmartDose.RestClientApp.Views
             DataContext = this;
         }
 
+        public string Version => $"Version {Assembly.GetExecutingAssembly().GetName().Version.ToString()}";
         public MenuItem RootMenuItem { get; set; } = new MenuItem();
 
         public ConfigurationData ConfigurationData { get => AppGlobals.Configuration.Data; }
