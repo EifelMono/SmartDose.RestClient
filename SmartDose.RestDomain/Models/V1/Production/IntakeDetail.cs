@@ -26,5 +26,8 @@ namespace SmartDose.RestDomain.Models.V1.Production
         /// Gets or sets the medication details.
         /// </summary>
         public MedicationDetail[] MedicationDetails { get; set; }
+
+        public override string ToString()
+            => $"{IntakeDateTime}";
     }
 }

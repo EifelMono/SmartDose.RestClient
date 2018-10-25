@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Models = SmartDose.RestDomain.Models.V2;
 using Crud = SmartDose.RestClient.Crud.V2;
+using System.Windows;
 
 namespace SmartDose.RestClientApp.Views.V2.Production
 {
@@ -17,10 +18,21 @@ namespace SmartDose.RestClientApp.Views.V2.Production
             {
                 RequestParams = new List<ViewParam>
                 {
+                    new ViewParam {Name="Create Medicine" , IsViewObjectJson= false, Value= false },
                     new ViewParam {Name=labelName, IsViewObjectJson= true, Value= new Models.Production.Order() }
                 },
-                OnButtonExecute = async (self) => self.ResponseObject = await crudInstance.CreateAsync(
-                                                    self.RequestParamsValueAsT(0)),
+                OnButtonExecute = async (self) =>
+                {
+                    if (self.RequestParamsValueAsBool(0))
+                    {
+                        MessageBox.Show("Todo Create Medicine"); 
+                        foreach (var medicinesId in self.RequestParamsValueAsT(1).UsedMedicines)
+                        {
+                     
+                        }
+                    }
+                    self.ResponseObject = await crudInstance.CreateAsync(self.RequestParamsValueAsT(1));
+                },
             });
 
             _tabControl.Items.Add(new ViewTabItemDelete<Models.Production.Order>

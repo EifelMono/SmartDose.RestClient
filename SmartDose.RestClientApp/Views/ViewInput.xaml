@@ -10,5 +10,6 @@
     mc:Ignorable="d">
     <Grid>
         <TextBox Name="textBox" VerticalContentAlignment="Center" />
+        <CheckBox Name="checkBox" VerticalContentAlignment="Center" />
     </Grid>
 </UserControl>

@@ -52,5 +52,8 @@ namespace SmartDose.RestDomain.Models.V1.Production
         /// Gets or sets the contact address.
         /// </summary>
         public ContactAddress ContactAddress { get; set; }
+
+        public override string ToString()
+            => $"{ExternalPatientNumber}";
     }
 }

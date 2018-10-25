@@ -30,6 +30,7 @@ namespace SmartDose.RestClientApp.Views
         protected List<ViewParam> _requestParams = new List<ViewParam>();
 
         public string RequestParamsValueAsString(int index) => (string)RequestParams[index].Value ?? "";
+        public bool RequestParamsValueAsBool(int index) => (bool)RequestParams[index].Value;
         public List<ViewParam> RequestParams
         {
             get => _requestParams;
@@ -40,13 +41,13 @@ namespace SmartDose.RestClientApp.Views
                 foreach (var item in value)
                 {
                     _gridRequest.RowDefinitions.Add(new RowDefinition { Height = new System.Windows.GridLength(1, item.IsViewObjectJson ? System.Windows.GridUnitType.Star : System.Windows.GridUnitType.Auto) });
-                    var label = new Label { Content = item.Name };
+                    var label = new Label { Content = item.Name, Margin = new Thickness(2, 1, 2, 1), VerticalContentAlignment = VerticalAlignment.Center };
                     _gridRequest.Children.Add(label);
                     Grid.SetColumn(label, 0);
                     Grid.SetRow(label, _gridRequest.RowDefinitions.Count - 1);
                     if (item.IsViewObjectJson)
                     {
-                        var viewObjectJson = new ViewObjectJson();
+                        var viewObjectJson = new ViewObjectJson { Margin = new Thickness(2, 1, 2, 1) };
                         _gridRequest.Children.Add(viewObjectJson);
                         Grid.SetColumn(viewObjectJson, 1);
                         Grid.SetRow(viewObjectJson, _gridRequest.RowDefinitions.Count - 1);
@@ -55,11 +56,11 @@ namespace SmartDose.RestClientApp.Views
                     }
                     else
                     {
-                        var viewInput = new ViewInput();
+                        var viewInput = new ViewInput { Margin = new Thickness(2,1,2,1) };
                         _gridRequest.Children.Add(viewInput);
                         Grid.SetColumn(viewInput, 1);
                         Grid.SetRow(viewInput, _gridRequest.RowDefinitions.Count - 1);
-                        viewInput.Data = (string)item.Value;
+                        viewInput.Data = item.Value;
                         item.View = viewInput;
                     }
                 }
@@ -89,9 +90,10 @@ namespace SmartDose.RestClientApp.Views
 
             _buttonExecute = new Button
             {
-                Margin = new Thickness(5),
-                Padding = new Thickness(5),
-                Foreground = Brushes.Green,
+                Margin = new Thickness(2),
+                Padding = new Thickness(10, 0, 10, 0),
+                Background = Brushes.Black,
+                Foreground = Brushes.White,
                 Content = "Execute"
             };
             _buttonExecute.Click += (s, e) => InternalButtonExecute();

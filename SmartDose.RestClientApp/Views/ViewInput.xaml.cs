@@ -1,17 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace SmartDose.RestClientApp.Views
 {
@@ -25,6 +13,37 @@ namespace SmartDose.RestClientApp.Views
             InitializeComponent();
         }
 
-        public string Data { get => textBox.Text; set => textBox.Text = value; }
+        private object _data;
+        public object Data
+        {
+            get
+            {
+                switch (_data)
+                {
+                    case bool b:
+                        return checkBox.IsChecked;
+                    case string s:
+                        return textBox.Text;
+                }
+                return null;
+            }
+            set
+            {
+                _data = value;
+                switch (_data)
+                {
+                    case bool b:
+                        textBox.Visibility = Visibility.Collapsed;
+                        checkBox.Visibility = Visibility.Visible;
+                        checkBox.IsChecked = b;
+                        break;
+                    case string s:
+                        textBox.Visibility = Visibility.Visible;
+                        checkBox.Visibility = Visibility.Collapsed;
+                        textBox.Text = s;
+                        break;
+                }
+            }
+        }
     }
 }

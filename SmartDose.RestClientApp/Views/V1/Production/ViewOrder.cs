@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Models = SmartDose.RestDomain.Models.V1;
 using Crud = SmartDose.RestClient.Crud.V1;
+using System.Windows;
 
 namespace SmartDose.RestClientApp.Views.V1.Production
 {
@@ -18,21 +19,22 @@ namespace SmartDose.RestClientApp.Views.V1.Production
                 Header = "Create Order",
                 RequestParams = new List<ViewParam>
                 {
+                    new ViewParam {Name="Create Medicine" , IsViewObjectJson= false, Value= false },
+                    new ViewParam {Name="Check Medicine" , IsViewObjectJson= false, Value= true },
                     new ViewParam {Name=labelName, IsViewObjectJson= true, Value= new Models.Production.RestExternalOrder() }
                 },
-                OnButtonExecute = async (self) => self.ResponseObject = await crudInstance.CreateAsync(
-                                                    self.RequestParamsValueAsT(0)),
-            });
-
-            _tabControl.Items.Add(new ViewTabItemCreate<Models.Production.RestExternalOrder>
-            {
-                Header = "Create Order with Medicine check",
-                RequestParams = new List<ViewParam>
+                OnButtonExecute = async (self) =>
                 {
-                    new ViewParam {Name=labelName, IsViewObjectJson= true, Value= new Models.Production.RestExternalOrder() }
+                    if (self.RequestParamsValueAsBool(0))
+                    {
+                        MessageBox.Show("Todo Create Medicine");
+                        foreach (var medicinesId in self.RequestParamsValueAsT(2).UsedMedicines)
+                        {
+                         
+                        }
+                    }
+                    self.ResponseObject = await crudInstance.CreateAsync(self.RequestParamsValueAsT(2), self.RequestParamsValueAsBool(1));
                 },
-                OnButtonExecute = async (self) => self.ResponseObject = await crudInstance.CreateWithMedicinesCheckAsync(
-                                                    self.RequestParamsValueAsT(0)),
             });
 
             _tabControl.Items.Add(new ViewTabItemDelete<Models.Production.RestExternalOrder>
@@ -95,7 +97,7 @@ namespace SmartDose.RestClientApp.Views.V1.Production
                 RequestParams = new List<ViewParam>
                 {
                 },
-                OnButtonExecute = async(self) => self.ResponseObject = await crudInstance.GetArchivedOrdersAsync(),
+                OnButtonExecute = async (self) => self.ResponseObject = await crudInstance.GetArchivedOrdersAsync(),
             });
 
             _tabControl.Items.Add(new ViewTabItemCreate<Models.Production.ExternalOrder>
@@ -107,7 +109,7 @@ namespace SmartDose.RestClientApp.Views.V1.Production
                 OnButtonExecute = async (self) => self.ResponseObject = await crudInstance.GetOrdersAsync(),
             });
 
-          
+
         }
     }
 }

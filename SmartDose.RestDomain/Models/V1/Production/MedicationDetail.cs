@@ -45,5 +45,8 @@ namespace SmartDose.RestDomain.Models.V1.Production
         /// This is only valid for this order.
         /// </summary>
         public string PrescribedMedicine { get; set; }
+
+        public override string ToString()
+            => $"{MedicineId} {PrescribedMedicine}";
     }
 }

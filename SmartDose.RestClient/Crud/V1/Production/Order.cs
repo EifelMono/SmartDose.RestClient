@@ -41,10 +41,10 @@ namespace SmartDose.RestClient.Crud.V1.Production
         public async Task<SdrcFlurHttpResponse<List<Models.Production.BasicOrderInfo>>> GetOrdersAsync(CancellationToken cancellationToken = default(CancellationToken), HttpCompletionOption completionOption = HttpCompletionOption.ResponseContentRead)
             => await UrlClone.SdrcGetJsonAsync<List<Models.Production.BasicOrderInfo>>(cancellationToken, completionOption).ConfigureAwait(false);
 
-        public async Task<SdrcFlurHttpResponse> CreateAsync(Models.Production.RestExternalOrder value, CancellationToken cancellationToken = default(CancellationToken), HttpCompletionOption completionOption = HttpCompletionOption.ResponseContentRead)
-            => await UrlClone.SdrcPostJsonAsync(value, cancellationToken, completionOption).ConfigureAwait(false);
-        public async Task<SdrcFlurHttpResponse> CreateWithMedicinesCheckAsync(Models.Production.RestExternalOrder value, CancellationToken cancellationToken = default(CancellationToken), HttpCompletionOption completionOption = HttpCompletionOption.ResponseContentRead)
-            => await UrlClone.WithHeader("CheckMedicines", "True").SdrcPostJsonAsync(value, cancellationToken, completionOption).ConfigureAwait(false);
+        public async Task<SdrcFlurHttpResponse> CreateAsync(Models.Production.RestExternalOrder value, bool checkMedicine= false, CancellationToken cancellationToken = default(CancellationToken), HttpCompletionOption completionOption = HttpCompletionOption.ResponseContentRead)
+           => checkMedicine 
+            ? await UrlClone.WithHeader("CheckMedicines", "True").SdrcPostJsonAsync(value, cancellationToken, completionOption).ConfigureAwait(false)
+            : await UrlClone.SdrcPostJsonAsync(value, cancellationToken, completionOption).ConfigureAwait(false);
 
         public async Task<SdrcFlurHttpResponse> DeleteAsync(string identifier, CancellationToken cancellationToken = default(CancellationToken), HttpCompletionOption completionOption = HttpCompletionOption.ResponseContentRead)
             => await UrlClone.AppendPathSegment(identifier).SdrcDeleteAsync(cancellationToken, completionOption).ConfigureAwait(false);
