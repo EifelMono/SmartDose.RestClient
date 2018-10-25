@@ -71,9 +71,9 @@ namespace SmartDose.RestClientApp.Views
         {
             Content = _gridTabItem = new Grid();
 
-            _gridTabItem.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
+            _gridTabItem.RowDefinitions.Add(new RowDefinition { Height = new GridLength(2, GridUnitType.Star) });
             _gridTabItem.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Auto) });
-            _gridTabItem.RowDefinitions.Add(new RowDefinition { Height = new GridLength(300, GridUnitType.Pixel) });
+            _gridTabItem.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
 
             _gridRequestMain = new Grid();
             _gridRequestMain.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });

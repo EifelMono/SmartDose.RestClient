@@ -6,7 +6,7 @@
     xmlns:local="clr-namespace:SmartDose.RestClientApp"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:views="clr-namespace:SmartDose.RestClientApp.Views"
-    Title="WindowObjectJson"
+    Title="SmartDose.RestClient (Crud Interface)"
     Width="1024"
     Height="800"
     WindowState="Maximized"

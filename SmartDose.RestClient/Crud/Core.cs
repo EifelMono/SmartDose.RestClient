@@ -32,6 +32,17 @@ namespace SmartDose.RestClient.Crud
             foreach (var pathSegment in pathSegments)
                 Url = Url.AppendPathSegment(pathSegment);
         }
+
+        public bool UseNewInstance { get; set; } = false;
+        public static List<Core> S_Instances { get; set; } = new List<Core>();
+        public static void ClearInstances()
+        {
+            lock (S_Instances)
+            {
+                S_Instances.ForEach(i => i.UseNewInstance = true);
+                S_Instances.Clear();
+            }
+        }
     }
 
     public class Core<T> : Core where T : class
@@ -39,12 +50,19 @@ namespace SmartDose.RestClient.Crud
         public Core(string url, params string[] pathSegments) : base(new Url(url), pathSegments)
         {
         }
-        internal static object S_Instance;
+
+        internal static Core S_Instance;
         public static Tx Instance<Tx>() where Tx : Core<T>, new()
+            => (Tx) (S_Instance is null || S_Instance.UseNewInstance ? S_Instance = AddInstance<Tx>() : S_Instance);
+
+        private static Tx AddInstance<Tx>() where Tx : Core<T>, new()
         {
-            if (S_Instance == null)
-                S_Instance = new Tx();
-            return (Tx)S_Instance;
+            lock (S_Instances)
+            {
+                var instance = new Tx();
+                S_Instances.Add(instance);
+                return instance;
+            }
         }
     }
 

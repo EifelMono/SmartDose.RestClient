@@ -47,7 +47,7 @@ namespace SmartDose.RestClientApp.Views
             {
                 try
                 {
-                    Process.Start(AppGlobals.Configuration.Data.UrlRestV2 + "/swagger/ui/index");
+                    Process.Start(AppGlobals.Configuration.Data.UrlV2 + "/swagger/ui/index");
                 }
                 catch { }
             }));
@@ -61,8 +61,8 @@ namespace SmartDose.RestClientApp.Views
 
                 try
                 {
-                    RestClient.UrlConfig.UrlV1 = ConfigurationData.UrlRestV1;
-                    RestClient.UrlConfig.UrlV2 = ConfigurationData.UrlRestV2;
+                    RestClient.UrlConfig.UrlV1 = ConfigurationData.UrlV1;
+                    RestClient.UrlConfig.UrlV2 = ConfigurationData.UrlV2;
                     RestClient.UrlConfig.ClearUrls();
                     RemoveViews(RootMenuItem);
                     AppGlobals.Configuration.Save();

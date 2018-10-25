@@ -8,10 +8,10 @@ namespace SmartDose.RestClientApp.Globals
 {
     public class ConfigurationData
     {
-        public string UrlRestV1 { get; set; } = "http://localhost:6040/SmartDose";
+        public string UrlV1 { get; set; } = "http://localhost:6040/SmartDose";
         // http://localhost:6040/SmartDose/Customers
 
-        public string UrlRestV2 { get; set; } = "http://localhost:56040/SmartDose/V2.0";
+        public string UrlV2 { get; set; } = "http://localhost:56040/SmartDose/V2.0";
 
         // http://localhost:56040/SmartDose/V2.0/MasterData/Customers
         // http://localhost:56040/SmartDose/V2.0/swagger/docs/v2

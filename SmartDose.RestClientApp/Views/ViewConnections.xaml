@@ -35,13 +35,13 @@
             Grid.Column="0"
             Margin="5"
             VerticalContentAlignment="Center"
-            Content="Uri Rest V1" />
+            Content="Url V1" />
         <TextBox
             Grid.Row="1"
             Grid.Column="1"
             Margin="5"
             VerticalContentAlignment="Center"
-            Text="{Binding ConfigurationData.UrlRestV1}" />
+            Text="{Binding ConfigurationData.UrlV1}" />
         <Button
             Grid.Row="1"
             Grid.Column="2"
@@ -54,13 +54,13 @@
             Grid.Column="0"
             Margin="5"
             VerticalContentAlignment="Center"
-            Content="Uri Rest V2" />
+            Content="Url V2" />
         <TextBox
             Grid.Row="2"
             Grid.Column="1"
             Margin="5"
             VerticalContentAlignment="Center"
-            Text="{Binding ConfigurationData.UrlRestV2}" />
+            Text="{Binding ConfigurationData.UrlV2}" />
         <Button
             Grid.Row="2"
             Grid.Column="2"

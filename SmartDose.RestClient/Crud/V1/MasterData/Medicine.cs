@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Net.Http;
+﻿using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
-using Flurl;
 using SmartDose.RestClient.Extensions;
 using Models = SmartDose.RestDomain.Models.V1;
 

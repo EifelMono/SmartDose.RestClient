@@ -16,20 +16,7 @@ namespace SmartDose.RestClient
         // http://localhost:6040/SmartDose/V2.0/MasterData/Customers
         public static void ClearUrls()
         {
-            foreach (var type in typeof(UrlConfig).Assembly.GetTypes().Where(t => t.IsSubclassOf(typeof(Core))))
-            {
-                if (type.GetMethod("ClearInstance", BindingFlags.Public | BindingFlags.Static | BindingFlags.Instance) is MethodInfo method)
-                {
-                    try
-                    {
-                        method.Invoke(null, null);
-                    }
-                    catch(Exception ex)
-                    {
-                        Debug.WriteLine(ex.ToString());
-                    }
-                }
-            }
+            Core.ClearInstances();
         }
     }
 }

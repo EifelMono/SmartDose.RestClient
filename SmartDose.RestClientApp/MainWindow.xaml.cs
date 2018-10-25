@@ -21,8 +21,8 @@ namespace SmartDose.RestClientApp
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            var u1 = AppGlobals.Configuration.Data.UrlRestV1;
-            var u2 = AppGlobals.Configuration.Data.UrlRestV1;
+            var u1 = AppGlobals.Configuration.Data.UrlV1;
+            var u2 = AppGlobals.Configuration.Data.UrlV1;
         }
 
 

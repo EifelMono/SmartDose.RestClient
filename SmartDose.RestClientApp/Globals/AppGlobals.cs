@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.IO;
 using Newtonsoft.Json;
+using SmartDose.RestClient;
 
 namespace SmartDose.RestClientApp.Globals
 {
@@ -54,6 +55,9 @@ namespace SmartDose.RestClientApp.Globals
                 {
                     if (FileExists)
                         Data = JsonConvert.DeserializeObject<ConfigurationData>(File.ReadAllText(FileName));
+                    UrlConfig.UrlV1 = Data.UrlV1;
+                    UrlConfig.UrlV2 = Data.UrlV2;
+
                 }
                 catch (Exception ex)
                 {
