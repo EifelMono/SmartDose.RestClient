@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 
 
 #if RestDomainDev
@@ -56,5 +57,19 @@ namespace SmartDose.RestDomain.Models.V2.Production
         /// </value>
         [Required(ErrorMessage = "Order Details are required")]
         public OrderDetail[] OrderDetails { get; set; }
+
+        [JsonIgnore]
+        public List<string> UsedMedicines
+        {
+            get => OrderDetails == null
+                    ? new List<string>()
+                    : OrderDetails.Where(od => od != null)
+                        .SelectMany(od => od.IntakeDetails)
+                            .Where(id => id != null)
+                                .SelectMany(id => id.MedicationDetails)
+                                    .Where(md => md != null && md.MedicineCode != null)
+                                        .Select(md => md.MedicineCode)
+                                            .Distinct().ToList();
+        }
     }
 }
