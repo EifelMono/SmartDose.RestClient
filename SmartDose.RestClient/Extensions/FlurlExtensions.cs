@@ -51,9 +51,9 @@ namespace SmartDose.RestClient.Extensions
                     {
                         sdrcResponse.Message = await ex1.Call.Response.Content.ReadAsStringAsync().ConfigureAwait(false);
                     }
-                    catch (Exception ex11)
+                    catch // (Exception ex11)
                     {
-                        sdrcResponse.Message = ex11.Message;
+                        // sdrcResponse.Message = ex11.Message;
                     }
                 sdrcResponse.Exception = ex1;
             }

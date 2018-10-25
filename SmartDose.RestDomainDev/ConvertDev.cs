@@ -72,7 +72,7 @@ namespace SmartDose.RestDomainDev
                 if (Models.ModelsGlobals.FindModelsItem(objectValue.GetType().FullName.Replace(".RestDomain.", ".RestDomainDev.")) is var item && item != null)
                     return JsonConvert.DeserializeObject(json, item.Type, JsonSerializerSettingsDev);
             }
-            return null;
+            throw new Exception("no dev object found");
         }
     }
 

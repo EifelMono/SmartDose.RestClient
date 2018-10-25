@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -107,7 +108,7 @@ namespace SmartDose.RestClientApp.Views
             _gridTabItem.Children.Add(_gridResponse);
             Grid.SetRow(_gridResponse, 3);
 
-            _labelResponse = new Label { VerticalContentAlignment = System.Windows.VerticalAlignment.Center };
+            _labelResponse = new Label { VerticalContentAlignment = System.Windows.VerticalAlignment.Center, FontWeight= FontWeights.Bold};
             _gridResponse.Children.Add(_labelResponse);
             Grid.SetRow(_labelResponse, 0);
 
@@ -181,20 +182,21 @@ namespace SmartDose.RestClientApp.Views
                         {
                             _viewObjectJsonResponse.Data = response.Data;
                         }
-                        catch (Exception ex)
+                        catch
                         {
-                            _viewObjectJsonResponse.Data = null;
-                            response.Message += response.Data + "\r\n\r\n\r\n" + ex.ToString();
+                            _viewObjectJsonResponse.PlainData = _responseObject;
+
                         }
                         _tabControlResponse.SelectedIndex = 0;
                     }
                     else
                     {
-                        _viewObjectJsonResponse.Data = null;
-                        _tabControlResponse.SelectedIndex = 1;
+                        _viewObjectJsonResponse.PlainData = _responseObject;
+                        _tabControlResponse.SelectedIndex = 0;
                         resultColor = Brushes.Red;
                     }
                     _labelResponse.Content = $"Status={response.StatusCode.ToString()}";
+                    _labelResponse.Foreground = resultColor;
                     _jsonEditorResponse.Text = $"// Timestamp={response.ReceivedOn}\r\n" +
                                                $"// Status={response.StatusCode.ToString()}\r\n" +
                                                ((_responseObject as SdrcFlurHttpResponse)?.Message ?? "").Replace("\\r", "\r").Replace("\\n", "\n");

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Windows.Controls;
 using System.Windows.Media;
+using Newtonsoft.Json;
 using SmartDose.RestClientApp.Globals;
 using SmartDose.RestDomainDev;
 
@@ -59,40 +60,32 @@ namespace SmartDose.RestClientApp.Views
         {
             listBoxPropertyInfo.Visibility = showBottomListBox ? System.Windows.Visibility.Visible : System.Windows.Visibility.Collapsed;
         }
-        public bool Enabled { get; set; } = false;
-        public bool IsModel { get; set; } = false;
         private object _data;
         public object Data
         {
             get
             {
-                if (IsModel)
-                    _data = ConvertDev.ToObjectFromObjectDev(DataDev);
-                else
-                    _data = DataDev;
+                _data = ConvertDev.ToObjectFromObjectDev(DataDev);
                 return _data;
             }
             set
             {
-                Enabled = false;
-                try
-                {
-                    _data = value;
-                    try
-                    {
-                        IsModel = true;
-                        DataDev = ConvertDev.ToObjectDevFromObject(_data);
-                    }
-                    catch
-                    {
-                        IsModel = false;
-                        DataDev = _data;
-                    }
-                }
-                finally
-                {
-                    Enabled = true;
-                }
+                _data = value;
+                DataDev = ConvertDev.ToObjectDevFromObject(_data);
+            }
+        }
+
+        public bool IsPlainData { get; set; } = false;
+        public object PlainData
+        {
+            get
+            {
+                return _dataDev;
+            }
+            set
+            {
+                IsPlainData = true;
+                DataDev = value;
             }
         }
 
@@ -110,15 +103,14 @@ namespace SmartDose.RestClientApp.Views
         protected void UpdateView(object objectValue)
         {
             propertyGridView.SelectedObject = FillEmtpyModels(_dataDev);
-            jsonEditor.Text = ConvertDev.ToJsonFromObjectDev(objectValue);
+            if (!IsPlainData)
+                jsonEditor.Text = ConvertDev.ToJsonFromObjectDev(objectValue);
         }
 
 #pragma warning disable IDE1006 // Naming Styles
         private void tabControlMain_SelectionChanged(object sender, SelectionChangedEventArgs e)
 #pragma warning restore IDE1006 // Naming Styles
         {
-            if (!Enabled)
-                return;
             switch (tabControlMain.SelectedIndex)
             {
                 // Property Editor
@@ -129,7 +121,8 @@ namespace SmartDose.RestClientApp.Views
                 // Json Editor
                 case 1:
                     {
-                        jsonEditor.Text = ConvertDev.ToJsonFromObjectDev(DataDev);
+                        if (!IsPlainData)
+                            jsonEditor.Text = ConvertDev.ToJsonFromObjectDev(DataDev);
                         break;
                     }
                 // File seleciton
