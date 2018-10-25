@@ -15,6 +15,7 @@ namespace SmartDose.RestClientApp.Views
     public class ViewTabItem : TabItem
     {
         protected Grid _gridTabItem;
+        protected Grid _gridRequestMain;
         protected Grid _gridRequest;
         protected Button _buttonExecute;
 
@@ -72,43 +73,47 @@ namespace SmartDose.RestClientApp.Views
 
             _gridTabItem.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
             _gridTabItem.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Auto) });
-            _gridTabItem.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Auto) });
             _gridTabItem.RowDefinitions.Add(new RowDefinition { Height = new GridLength(300, GridUnitType.Pixel) });
 
+            _gridRequestMain = new Grid();
+            _gridRequestMain.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
+            _gridRequestMain.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Auto) });
+            _gridTabItem.Children.Add(_gridRequestMain);
+            Grid.SetRow(_gridRequestMain, 0);
 
             _gridRequest = new Grid();
             _gridRequest.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Auto) });
             _gridRequest.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
-            _gridTabItem.Children.Add(_gridRequest);
+            _gridRequestMain.Children.Add(_gridRequest);
             Grid.SetRow(_gridRequest, 0);
 
             _buttonExecute = new Button
             {
-                Margin = new System.Windows.Thickness(5),
-                Padding = new System.Windows.Thickness(5),
+                Margin = new Thickness(5),
+                Padding = new Thickness(5),
                 Foreground = Brushes.Green,
                 Content = "Execute"
             };
             _buttonExecute.Click += (s, e) => InternalButtonExecute();
-            _gridTabItem.Children.Add(_buttonExecute);
+            _gridRequestMain.Children.Add(_buttonExecute);
             Grid.SetRow(_buttonExecute, 1);
 
             var gridSplitter = new GridSplitter
             {
                 Height = 3,
-                HorizontalAlignment = System.Windows.HorizontalAlignment.Stretch,
-                VerticalAlignment = System.Windows.VerticalAlignment.Center,
+                HorizontalAlignment = HorizontalAlignment.Stretch,
+                VerticalAlignment = VerticalAlignment.Center,
                 ResizeDirection = GridResizeDirection.Rows,
                 ShowsPreview = false
             };
             _gridTabItem.Children.Add(gridSplitter);
-            Grid.SetRow(gridSplitter, 2);
+            Grid.SetRow(gridSplitter, 1);
 
             _gridResponse = new Grid();
             _gridResponse.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Auto) });
             _gridResponse.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
             _gridTabItem.Children.Add(_gridResponse);
-            Grid.SetRow(_gridResponse, 3);
+            Grid.SetRow(_gridResponse, 2);
 
             _labelResponse = new Label { VerticalContentAlignment = VerticalAlignment.Center, FontWeight = FontWeights.Bold };
             _gridResponse.Children.Add(_labelResponse);
