@@ -15,6 +15,21 @@
     <Deterministic>true</Deterministic>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <TargetFrameworkProfile />
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -38,7 +53,7 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>SmartDose.RestClient.ico</ApplicationIcon>
+    <ApplicationIcon>pill.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Flurl, Version=2.8.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -102,6 +117,8 @@
     <Compile Include="Globals\AppExtensions.cs" />
     <Compile Include="Views\BoolToVisibilityCollapsedConverter.cs" />
     <Compile Include="Views\RelayCommand.cs" />
+    <Compile Include="Views\V1\Inverntory\ViewMedicineContainer.cs" />
+    <Compile Include="Views\V1\MasterData\ViewManufacturer.cs" />
     <Compile Include="Views\V1\MasterData\ViewRefillCanister.cs" />
     <Compile Include="Views\V1\MasterData\ViewCanister.cs" />
     <Compile Include="Views\V1\MasterData\ViewCustomer.cs" />
@@ -188,6 +205,7 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <EmbeddedResource Include="Resources\pill.icns" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SmartDose.RestClient\SmartDose.RestClient.csproj">
@@ -206,8 +224,28 @@
   <ItemGroup>
     <EmbeddedResource Include="Editor\json.xshd" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Resource Include="SmartDose.RestClient.ico" />
+    <Resource Include="Resources\rowadose.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.7.1">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.7.1 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\pill.ico" />
+    <Resource Include="Resources\pill.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="pill.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -37,8 +37,19 @@
             Grid.Column="1"
             Width="3"
             HorizontalAlignment="Stretch" />
-        <Grid Name="gridContent" Grid.Column="2">
-            <views:ViewObjectJson x:Name="viewObjectJson" Grid.Column="2" />
+        <Grid Grid.Column="2">
+            <Image
+                Grid.Column="0"
+                Margin="10"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Width="100"
+                Height="100"
+                Opacity=".68"
+                Source="pack://application:,,,/Resources/pill.png" />
+            <Grid Name="gridContent" Grid.Column="2">
+                <views:ViewObjectJson x:Name="viewObjectJson" Grid.Column="2" />
+            </Grid>
         </Grid>
     </Grid>
 </Window>

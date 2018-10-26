@@ -52,10 +52,13 @@ namespace SmartDose.RestClientApp.Views
 
             var crudMenuItem = rootMenuItem.Add("CRUD", true);
             var crudMenuV1Item = crudMenuItem.Add("V1", true);
+            var crudMenuV1InverntoryItem = crudMenuV1Item.Add("Inventory", true);
+            crudMenuV1InverntoryItem.Add("MedicineContainer", new RestDomain.Models.ModelsItem { Type = typeof(V1.Inventory.ViewMedicineContainer) });
             var crudMenuV1MasterDataItem = crudMenuV1Item.Add("MasterData", true);
             crudMenuV1MasterDataItem.Add("Canister", new RestDomain.Models.ModelsItem { Type = typeof(V1.MasterData.ViewCanister) });
             crudMenuV1MasterDataItem.Add("Customer", new RestDomain.Models.ModelsItem { Type = typeof(V1.MasterData.ViewCustomer) });
             crudMenuV1MasterDataItem.Add("Medicine", new RestDomain.Models.ModelsItem { Type = typeof(V1.MasterData.ViewMedicine) });
+            crudMenuV1MasterDataItem.Add("Manufacturer", new RestDomain.Models.ModelsItem { Type = typeof(V1.MasterData.ViewManufacturer) });
             crudMenuV1MasterDataItem.Add("RefillCanister", new RestDomain.Models.ModelsItem { Type = typeof(V1.MasterData.ViewRefillCanister) });
             var crudMenuV1ProdcutionItem = crudMenuV1Item.Add("Production", true);
             crudMenuV1ProdcutionItem.Add("Order", new RestDomain.Models.ModelsItem { Type = typeof(V1.Production.ViewOrder) });

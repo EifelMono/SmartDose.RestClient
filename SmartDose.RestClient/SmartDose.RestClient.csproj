@@ -2,8 +2,13 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Version>0.0.1</Version>
+    <Description>A Client for the SmartDose Rest V1 and V2 interface</Description>
+    <Copyright>(c) BD Rowa Germany</Copyright>
+    <PackageProjectUrl />
+    <RepositoryUrl>https://github.com/EifelMono/SmartDose.RestClient</RepositoryUrl>
   </PropertyGroup>
-
   <ItemGroup>
     <PackageReference Include="Flurl.Http" Version="2.4.0" />
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
@@ -15,7 +20,12 @@
 
   <ItemGroup>
     <Folder Include="Crud\V0\" />
-    <Folder Include="Crud\V1\Inventory\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Crud\V0\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\README.md" PackagePath="README.md" Pack="true" />
+  </ItemGroup>
 </Project>

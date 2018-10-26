@@ -10,7 +10,7 @@ using Models = SmartDose.RestDomain.Models.V1;
 
 namespace SmartDose.RestClient.Crud.V1.MasterData
 {
-    public class RefillCanister : CoreV1<Models.MasterData.Canister>
+    public class RefillCanister : CoreV1<Models.MasterData.CanisterRefillInformation>
     {
         public RefillCanister() : base("RefillCanister")
         {
