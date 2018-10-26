@@ -102,6 +102,7 @@
     <Compile Include="Globals\AppExtensions.cs" />
     <Compile Include="Views\BoolToVisibilityCollapsedConverter.cs" />
     <Compile Include="Views\RelayCommand.cs" />
+    <Compile Include="Views\V1\MasterData\ViewCanister.cs" />
     <Compile Include="Views\V1\MasterData\ViewCustomer.cs" />
     <Compile Include="Views\V1\MasterData\ViewMedicine.cs" />
     <Compile Include="Views\V1\Production\ViewOrder.cs" />

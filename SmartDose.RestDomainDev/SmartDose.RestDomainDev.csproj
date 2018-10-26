@@ -52,6 +52,7 @@
     <Compile Include="..\SmartDose.RestDomain\Models\V1\Production\SingleOrderResultSet.cs" Link="Models\V1\Production\SingleOrderResultSet.cs" />
     <Compile Include="..\SmartDose.RestDomain\Models\V1\Production\SpecialHandling.cs" Link="Models\V1\Production\SpecialHandling.cs" />
     <Compile Include="..\SmartDose.RestDomain\Models\V1\Production\SynonymId.cs" Link="Models\V1\Production\SynonymId.cs" />
+    <Compile Include="..\SmartDose.RestDomain\Models\V1\ResultSet.cs" Link="Models\V1\ResultSet.cs" />
     <Compile Include="..\SmartDose.RestDomain\Models\V2\Inventory\MedicineStock.cs" Link="Models\V2\Inventory\MedicineStock.cs" />
     <Compile Include="..\SmartDose.RestDomain\Models\V2\Inventory\QuantityDetails.cs" Link="Models\V2\Inventory\QuantityDetails.cs" />
     <Compile Include="..\SmartDose.RestDomain\Models\V2\Inventory\StockBottle.cs" Link="Models\V2\Inventory\StockBottle.cs" />

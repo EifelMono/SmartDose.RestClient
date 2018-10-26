@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -56,7 +57,7 @@ namespace SmartDose.RestClientApp.Views
                     }
                     else
                     {
-                        var viewInput = new ViewInput { Margin = new Thickness(2,1,2,1) };
+                        var viewInput = new ViewInput { Margin = new Thickness(2, 1, 2, 1) };
                         _gridRequest.Children.Add(viewInput);
                         Grid.SetColumn(viewInput, 1);
                         Grid.SetRow(viewInput, _gridRequest.RowDefinitions.Count - 1);
@@ -96,6 +97,7 @@ namespace SmartDose.RestClientApp.Views
                 Foreground = Brushes.White,
                 Content = "Execute"
             };
+            ButtonExecuteState(true);
             _buttonExecute.Click += (s, e) => InternalButtonExecute();
             _gridRequestMain.Children.Add(_buttonExecute);
             Grid.SetRow(_buttonExecute, 1);
@@ -166,12 +168,46 @@ namespace SmartDose.RestClientApp.Views
             }
         }
 
-        public Action<ViewTabItem> OnButtonExecute { get; set; }
+        public Func<ViewTabItem, Task> OnButtonExecute { get; set; }
 
-        public virtual void ButtonExecute()
+        public virtual async void ButtonExecute()
         {
-            OnButtonExecute?.Invoke(this);
+            if (!IsButtonExecuteEnabled)
+                return;
+            ButtonExecuteState(false);
+            try
+            {
+                await OnButtonExecute(this);
+            }
+            catch (Exception ex)
+            {
+                ex.LogException();
+            }
+            finally
+            {
+                ButtonExecuteState(true);
+            }
         }
+
+        public void ButtonExecuteState(bool enable)
+        {
+            if (enable)
+            {
+                _buttonExecute.Background = Brushes.Black;
+                _buttonExecute.Foreground = Brushes.White;
+                _buttonExecute.Cursor = null;
+                _buttonExecute.Content = "Execute";
+            }
+            else
+            {
+                _buttonExecute.Background = Brushes.Yellow;
+                _buttonExecute.Foreground = Brushes.Red;
+                _buttonExecute.Cursor = Cursors.Wait;
+                _buttonExecute.Content = "Executing .........................................";
+            }
+        }
+
+        public bool IsButtonExecuteEnabled => _buttonExecute.Cursor == null;
         public string ButtonExecuteText { get => (string)_buttonExecute.Content; set => _buttonExecute.Content = value; }
 
         private object _responseObject;
@@ -227,24 +263,30 @@ namespace SmartDose.RestClientApp.Views
                 // _tabItemJsonEditorResponse.Background = resultColor;
             }
         }
-
     }
 
     public class ViewTabItem<T> : ViewTabItem
     {
         public T RequestParamsValueAsT(int index) => (T)RequestParams[index].Value;
 
-        public new Action<ViewTabItem<T>> OnButtonExecute { get; set; }
+        public new Func<ViewTabItem<T>, Task> OnButtonExecute { get; set; }
 
-        public override void ButtonExecute()
+        public override async void ButtonExecute()
         {
+            if (!IsButtonExecuteEnabled)
+                return;
+            ButtonExecuteState(false);
             try
             {
-                OnButtonExecute?.Invoke(this);
+                await OnButtonExecute(this);
             }
             catch (Exception ex)
             {
                 ex.LogException();
+            }
+            finally
+            {
+                ButtonExecuteState(true);
             }
         }
     }

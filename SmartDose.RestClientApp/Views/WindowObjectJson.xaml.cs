@@ -53,8 +53,9 @@ namespace SmartDose.RestClientApp.Views
             var crudMenuItem = rootMenuItem.Add("CRUD", true);
             var crudMenuV1Item = crudMenuItem.Add("V1", true);
             var crudMenuV1MasterDataItem = crudMenuV1Item.Add("MasterData", true);
-            crudMenuV1MasterDataItem.Add("Medicine", new RestDomain.Models.ModelsItem { Type = typeof(V1.MasterData.ViewMedicine) });
+            crudMenuV1MasterDataItem.Add("Canister", new RestDomain.Models.ModelsItem { Type = typeof(V1.MasterData.ViewCanister) });
             crudMenuV1MasterDataItem.Add("Customer", new RestDomain.Models.ModelsItem { Type = typeof(V1.MasterData.ViewCustomer) });
+            crudMenuV1MasterDataItem.Add("Medicine", new RestDomain.Models.ModelsItem { Type = typeof(V1.MasterData.ViewMedicine) });
             var crudMenuV1ProdcutionItem = crudMenuV1Item.Add("Production", true);
             crudMenuV1ProdcutionItem.Add("Order", new RestDomain.Models.ModelsItem { Type = typeof(V1.Production.ViewOrder) });
 
@@ -63,8 +64,8 @@ namespace SmartDose.RestClientApp.Views
             crudMenuV2InverntoryItem.Add("MedicineStock", new RestDomain.Models.ModelsItem { Type = typeof(V2.Inventory.ViewMedicineStock) });
             crudMenuV2InverntoryItem.Add("StockBottle", new RestDomain.Models.ModelsItem { Type = typeof(V2.Inventory.ViewStockBottle) });
             var crudMenuV2MasterDataItem = crudMenuV2Item.Add("MasterData", true);
-            crudMenuV2MasterDataItem.Add("Medicine", new RestDomain.Models.ModelsItem { Type = typeof(V2.MasterData.ViewMedicine) });
             crudMenuV2MasterDataItem.Add("Customer", new RestDomain.Models.ModelsItem { Type = typeof(V2.MasterData.ViewCustomer) });
+            crudMenuV2MasterDataItem.Add("Medicine", new RestDomain.Models.ModelsItem { Type = typeof(V2.MasterData.ViewMedicine) });
             crudMenuV2MasterDataItem.Add("DestinationFacility", new RestDomain.Models.ModelsItem { Type = typeof(V2.MasterData.ViewDestinationFacility) });
             crudMenuV2MasterDataItem.Add("Manufacturer", new RestDomain.Models.ModelsItem { Type = typeof(V2.MasterData.ViewManufacturer) });
             crudMenuV2MasterDataItem.Add("Patient", new RestDomain.Models.ModelsItem { Type = typeof(V2.MasterData.ViewPatient) });
