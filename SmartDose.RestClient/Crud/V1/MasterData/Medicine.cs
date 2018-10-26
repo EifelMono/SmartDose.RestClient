@@ -7,7 +7,7 @@ using Models = SmartDose.RestDomain.Models.V1;
 
 namespace SmartDose.RestClient.Crud.V1.MasterData
 {
-    public class Medicine : CoreCrudV1<Models.MasterData.Medicine>
+    public class Medicine : CoreV1Crud<Models.MasterData.Medicine>
     {
         public Medicine() : base(nameof(Medicine) + "s")
         {

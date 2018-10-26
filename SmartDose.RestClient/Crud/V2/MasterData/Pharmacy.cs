@@ -10,7 +10,7 @@ using Models = SmartDose.RestDomain.Models.V2;
 
 namespace SmartDose.RestClient.Crud.V2.MasterData
 {
-    public class Pharmacy : CoreCrudV2<Models.MasterData.Pharmacy>
+    public class Pharmacy : CoreV2Crud<Models.MasterData.Pharmacy>
     {
         public Pharmacy() : base(MasterDataName,  "Pharmacies")
         {

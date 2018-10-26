@@ -8,7 +8,7 @@ using Models = SmartDose.RestDomain.Models.V2;
 
 namespace SmartDose.RestClient.Crud.V2.MasterData
 {
-    public class Manufacturer : CoreCrudV2<Models.MasterData.Manufacturer>
+    public class Manufacturer : CoreV2Crud<Models.MasterData.Manufacturer>
     {
         public Manufacturer() : base(MasterDataName, nameof(Manufacturer))
         {

@@ -10,18 +10,12 @@ namespace SmartDose.RestClient.Crud.V2
 {
     public class CoreV2<T> : Core<T> where T : class
     {
-        public CoreV2(params string[] pathSegments) : base(UrlConfig.UrlV2, pathSegments)
-        {
-
-        }
+        public CoreV2(params string[] pathSegments) : base(UrlConfig.UrlV2, pathSegments) { }
     }
 
-    public class CoreCrudV2<T> : CoreV2<T> where T : class
+    public class CoreV2Crud<T> : CoreV2<T> where T : class
     {
-        public CoreCrudV2(params string[] pathSegments) : base(pathSegments)
-        {
-
-        }
+        public CoreV2Crud(params string[] pathSegments) : base(pathSegments) { }
 
         public async Task<SdrcFlurHttpResponse<List<T>>> ReadListAsync(CancellationToken cancellationToken = default(CancellationToken), HttpCompletionOption completionOption = HttpCompletionOption.ResponseContentRead)
          => await UrlClone.SdrcGetJsonAsync<List<T>>(cancellationToken, completionOption).ConfigureAwait(false);
