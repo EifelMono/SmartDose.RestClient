@@ -18,15 +18,15 @@ namespace SmartDose.RestClientApp.Views.V2.Production
             {
                 RequestParams = new List<ViewParam>
                 {
-                    new ViewParam {Name="Create Medicine" , IsViewObjectJson= false, Value= false },
+                    new ViewParam {Name="Create Dummy Medicine" , IsViewObjectJson= false, Value= false },
                     new ViewParam {Name=labelName, IsViewObjectJson= true, Value= new Models.Production.Order() }
                 },
                 OnButtonExecute = async (self) =>
                 {
                     if (self.RequestParamsValueAsBool(0))
                     {
-                        MessageBox.Show("Todo Create Medicine"); 
-                        foreach (var medicinesId in self.RequestParamsValueAsT(1).UsedMedicines)
+                        MessageBox.Show("Todo Create Medicine");
+                        foreach (var medicinesId in self.RequestParamsValueAsT(1).UsedMedicinesIdsAndName)
                         {
                      
                         }

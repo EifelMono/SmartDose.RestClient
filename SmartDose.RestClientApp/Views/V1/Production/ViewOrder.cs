@@ -19,7 +19,7 @@ namespace SmartDose.RestClientApp.Views.V1.Production
                 Header = "Create Order",
                 RequestParams = new List<ViewParam>
                 {
-                    new ViewParam {Name="Create Medicine" , IsViewObjectJson= false, Value= false },
+                    new ViewParam {Name="Create Dummy Medicine" , IsViewObjectJson= false, Value= false },
                     new ViewParam {Name="Check Medicine" , IsViewObjectJson= false, Value= true },
                     new ViewParam {Name=labelName, IsViewObjectJson= true, Value= new Models.Production.RestExternalOrder() }
                 },
@@ -27,11 +27,8 @@ namespace SmartDose.RestClientApp.Views.V1.Production
                 {
                     if (self.RequestParamsValueAsBool(0))
                     {
-                        MessageBox.Show("Todo Create Medicine");
-                        foreach (var medicinesId in self.RequestParamsValueAsT(2).UsedMedicines)
-                        {
-                         
-                        }
+                        foreach (var medicine in self.RequestParamsValueAsT(2).UsedMedicinesIdsAndName)
+                            await Crud.MasterData.Medicine.Instance.CreateAsync(Models.MasterData.Medicine.Dummy(medicine.Id, medicine.Name));
                     }
                     self.ResponseObject = await crudInstance.CreateAsync(self.RequestParamsValueAsT(2), self.RequestParamsValueAsBool(1));
                 },

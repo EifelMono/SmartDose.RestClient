@@ -48,17 +48,23 @@ namespace SmartDose.RestDomain.Models.V1.Production
         public OrderState State { get; set; }
 
         [JsonIgnore]
-        public List<string> UsedMedicines
-        {
-            get => OrderDetails == null
-                    ? new List<string>()
+        public IEnumerable<MedicationDetail> UsedMedicines
+            =>  OrderDetails == null
+                    ? new List<MedicationDetail>()
                     : OrderDetails.Where(od => od != null)
                         .SelectMany(od => od.IntakeDetails)
                             .Where(id => id != null)
                                 .SelectMany(id => id.MedicationDetails)
                                     .Where(md => md != null && md.MedicineId != null)
-                                        .Select(md => md.MedicineId)
-                                            .Distinct().ToList();
-        }
+                                            .GroupBy(md => md.MedicineId)
+                                                .Select(g => g.First());
+
+        [JsonIgnore]
+        public IEnumerable<string> UsedMedicineIds
+            => UsedMedicines.Select(md => md.MedicineId).Distinct();
+
+        [JsonIgnore]
+        public IEnumerable<(string Id, string Name)> UsedMedicinesIdsAndName
+            => UsedMedicines.Select(md => (md.MedicineId, md.PrescribedMedicine));
     }
 }
