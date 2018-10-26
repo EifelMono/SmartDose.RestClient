@@ -45,8 +45,8 @@ namespace SmartDose.RestClientApp.Views.V1.MasterData
                     new ViewParam {Name=labelName, IsViewObjectJson= true, Value= new Models.MasterData.Medicine() }
                 },
                 OnButtonExecute = async (self) => self.ResponseObject = await crudInstance.UpdateAsync(
-                                                    self.RequestParamsValueAsT(1).Identifier,
-                                                    self.RequestParamsValueAsT(1))
+                                                    self.RequestParamsValueAsT(0).Identifier,
+                                                    self.RequestParamsValueAsT(0))
             });
 
             _tabControl.Items.Add(new ViewTabItemDelete<Models.MasterData.Medicine>

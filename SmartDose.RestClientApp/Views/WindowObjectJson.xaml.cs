@@ -56,6 +56,7 @@ namespace SmartDose.RestClientApp.Views
             crudMenuV1MasterDataItem.Add("Canister", new RestDomain.Models.ModelsItem { Type = typeof(V1.MasterData.ViewCanister) });
             crudMenuV1MasterDataItem.Add("Customer", new RestDomain.Models.ModelsItem { Type = typeof(V1.MasterData.ViewCustomer) });
             crudMenuV1MasterDataItem.Add("Medicine", new RestDomain.Models.ModelsItem { Type = typeof(V1.MasterData.ViewMedicine) });
+            crudMenuV1MasterDataItem.Add("RefillCanister", new RestDomain.Models.ModelsItem { Type = typeof(V1.MasterData.ViewRefillCanister) });
             var crudMenuV1ProdcutionItem = crudMenuV1Item.Add("Production", true);
             crudMenuV1ProdcutionItem.Add("Order", new RestDomain.Models.ModelsItem { Type = typeof(V1.Production.ViewOrder) });
 
