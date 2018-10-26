@@ -10,9 +10,11 @@ namespace SmartDose.RestClient.ConsoleSample
         static async Task Main(string[] args)
         {
             Console.WriteLine(UrlConfig.UrlV1);
-            await Rest.V1.MasterData.MasterData.RestTest();
-
             Console.WriteLine(UrlConfig.UrlV2);
+
+            await Test();
+
+            await Rest.V1.MasterData.MasterData.RestTest();
             await Rest.V2.MasterData.MasterData.RestTest();
 
             Console.WriteLine("Wait for Result and return to end");
