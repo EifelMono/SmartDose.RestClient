@@ -25,7 +25,7 @@ namespace SmartDose.RestClient.ConsoleSample
         {
             try
             {
-                var x = await UrlConfig.UrlV1.AppendPathSegment("SmartDose").AppendPathSegment("Medicines").PutJsonAsync(null);
+                var x = await UrlConfig.UrlV1.AppendPathSegment("Medicines").PutJsonAsync(null);
             }
             catch (Exception ex)
             {

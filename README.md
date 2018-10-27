@@ -104,3 +104,35 @@ namespace SmartDose.RestClient.ConsoleSample.Rest.V2.MasterData
     }
 }
 ```
+
+# Scripting mit Roslynpad or WorksBooks
+
+* [Rosylnpad](https://roslynpad.net/)
+* [WorksBooks](https://docs.microsoft.com/de-de/xamarin/tools/workbooks/) 
+
+```csharp
+// please use the correct path
+// xxxxxxxxxxxxxxxxxxxxxxxx
+#r "C:\Dev\tools\RoslynLibs\Flurl.dll"
+#r "C:\Dev\tools\RoslynLibs\Flurl.Http.dll"
+#r "C:\Dev\tools\RoslynLibs\Newtonsoft.Json.dll"
+#r "C:\Dev\tools\RoslynLibs\SmartDose.RestClient.dll"
+#r "C:\Dev\tools\RoslynLibs\SmartDose.RestDomain.dll"
+
+using Newtonsoft.Json;
+using sdModels = SmartDose.RestDomain.Models.V1;
+using sdCrud = SmartDose.RestClient.Crud.V1;
+
+Console.WriteLine(SmartDose.RestClient.UrlConfig.UrlV1);
+Console.WriteLine(SmartDose.RestClient.UrlConfig.UrlV2);
+
+if (await sdCrud.MasterData.Medicine.Instance.ReadListAsync() is var response && response.Ok)
+{
+    foreach (var medicine in response.Data)
+    {
+        Console.WriteLine($"{medicine.Name} {medicine.Identifier}");
+    }
+}
+else
+    Console.WriteLine($"{response.Request}\r\n{response.StatusCode}\r\n{response.Message}\r\n{response.Data}");
+```

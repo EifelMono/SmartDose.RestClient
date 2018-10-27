@@ -18,18 +18,24 @@ namespace SmartDose.RestClient.Crud.V2.Production
         public static Order Instance => Instance<Order>();
 
         public async Task<SdrcFlurHttpResponse> CreateAsync(Models.Production.Order value, CancellationToken cancellationToken = default(CancellationToken), HttpCompletionOption completionOption = HttpCompletionOption.ResponseContentRead)
-            => await UrlClone.SdrcPostJsonAsync(value, cancellationToken, completionOption).ConfigureAwait(false);
+            => await UrlClone
+                .SdrcPostJsonAsync(value, cancellationToken, completionOption).ConfigureAwait(false);
         public async Task<SdrcFlurHttpResponse> DeleteAsync(string orderId, CancellationToken cancellationToken = default(CancellationToken), HttpCompletionOption completionOption = HttpCompletionOption.ResponseContentRead)
-            => await UrlClone.AppendPathSegment(orderId).SdrcDeleteAsync(cancellationToken, completionOption).ConfigureAwait(false);
+            => await UrlClone.AppendPathSegment(orderId)
+                .SdrcDeleteAsync(cancellationToken, completionOption).ConfigureAwait(false);
 
         public async Task<SdrcFlurHttpResponse<Models.Production.OrderResult>> GetOrderResult(string orderId, CancellationToken cancellationToken = default(CancellationToken), HttpCompletionOption completionOption = HttpCompletionOption.ResponseContentRead)
-            => await UrlClone.AppendPathSegment("Result").AppendPathSegment(orderId).SdrcGetJsonAsync<Models.Production.OrderResult>(cancellationToken, completionOption).ConfigureAwait(false);
+            => await UrlClone.AppendPathSegments("Result", orderId)
+                .SdrcGetJsonAsync<Models.Production.OrderResult>(cancellationToken, completionOption).ConfigureAwait(false);
         public async Task<SdrcFlurHttpResponse<Models.Production.OrderResultByTime>> GetOrderResultByTime(string orderId, CancellationToken cancellationToken = default(CancellationToken), HttpCompletionOption completionOption = HttpCompletionOption.ResponseContentRead)
-            => await UrlClone.AppendPathSegment("ResultByTime").AppendPathSegment(orderId).SdrcGetJsonAsync<Models.Production.OrderResultByTime>(cancellationToken, completionOption).ConfigureAwait(false);
+            => await UrlClone.AppendPathSegments("ResultByTime", orderId)
+                .SdrcGetJsonAsync<Models.Production.OrderResultByTime>(cancellationToken, completionOption).ConfigureAwait(false);
 
         public async Task<SdrcFlurHttpResponse<List<Models.Production.OrderStatus>>> GetOrderStatus(CancellationToken cancellationToken = default(CancellationToken), HttpCompletionOption completionOption = HttpCompletionOption.ResponseContentRead)
-            => await UrlClone.AppendPathSegment("Status").SdrcGetJsonAsync<List<Models.Production.OrderStatus>>(cancellationToken, completionOption).ConfigureAwait(false);
+            => await UrlClone.AppendPathSegment("Status")
+                .SdrcGetJsonAsync<List<Models.Production.OrderStatus>>(cancellationToken, completionOption).ConfigureAwait(false);
         public async Task<SdrcFlurHttpResponse<Models.Production.OrderStatus>> GetOrderStatus(string orderId, CancellationToken cancellationToken = default(CancellationToken), HttpCompletionOption completionOption = HttpCompletionOption.ResponseContentRead)
-            => await UrlClone.AppendPathSegment("Status").AppendPathSegment(orderId).SdrcGetJsonAsync<Models.Production.OrderStatus>(cancellationToken, completionOption).ConfigureAwait(false);
+            => await UrlClone.AppendPathSegments("Status", orderId)
+                .SdrcGetJsonAsync<Models.Production.OrderStatus>(cancellationToken, completionOption).ConfigureAwait(false);
     }
 }

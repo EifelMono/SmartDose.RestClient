@@ -17,14 +17,19 @@ namespace SmartDose.RestClient.Crud.V1
         public CoreV1Crud(params string[] pathSegments) : base(pathSegments) { }
 
         public async Task<SdrcFlurHttpResponse<List<T>>> ReadListAsync(CancellationToken cancellationToken = default(CancellationToken), HttpCompletionOption completionOption = HttpCompletionOption.ResponseContentRead)
-             => await UrlClone.SdrcGetJsonAsync<List<T>>(cancellationToken, completionOption).ConfigureAwait(false);
+             => await UrlClone
+                .SdrcGetJsonAsync<List<T>>(cancellationToken, completionOption).ConfigureAwait(false);
         public async Task<SdrcFlurHttpResponse<T>> ReadAsync(string readId, CancellationToken cancellationToken = default(CancellationToken), HttpCompletionOption completionOption = HttpCompletionOption.ResponseContentRead)
-          => await UrlClone.AppendPathSegment(readId).SdrcGetJsonAsync<T>(cancellationToken, completionOption).ConfigureAwait(false);
+          => await UrlClone
+                .AppendPathSegment(readId).SdrcGetJsonAsync<T>(cancellationToken, completionOption).ConfigureAwait(false);
         public async Task<SdrcFlurHttpResponse<Models.ResultSet>> CreateAsync(T value, CancellationToken cancellationToken = default(CancellationToken), HttpCompletionOption completionOption = HttpCompletionOption.ResponseContentRead)
-            => await UrlClone.SdrcPostJsonAsync<Models.ResultSet>(value, cancellationToken, completionOption).ConfigureAwait(false);
+            => await UrlClone   
+                .SdrcPostJsonAsync<Models.ResultSet>(value, cancellationToken, completionOption).ConfigureAwait(false);
         public async Task<SdrcFlurHttpResponse<Models.ResultSet>> UpdateAsync(string updateId, T value, CancellationToken cancellationToken = default(CancellationToken), HttpCompletionOption completionOption = HttpCompletionOption.ResponseContentRead)
-            => await UrlClone.AppendPathSegment(updateId).SdrcPutJsonAsync<Models.ResultSet>(value, cancellationToken, completionOption).ConfigureAwait(false);
+            => await UrlClone.AppendPathSegment(updateId)
+                .SdrcPutJsonAsync<Models.ResultSet>(value, cancellationToken, completionOption).ConfigureAwait(false);
         public async Task<SdrcFlurHttpResponse<Models.ResultSet>> DeleteAsync(string deleteId, CancellationToken cancellationToken = default(CancellationToken), HttpCompletionOption completionOption = HttpCompletionOption.ResponseContentRead)
-            => await UrlClone.AppendPathSegment(deleteId).SdrcDeleteAsync<Models.ResultSet>(cancellationToken, completionOption).ConfigureAwait(false);
+            => await UrlClone.AppendPathSegment(deleteId)
+                .SdrcDeleteAsync<Models.ResultSet>(cancellationToken, completionOption).ConfigureAwait(false);
     }
 }

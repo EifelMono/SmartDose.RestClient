@@ -16,6 +16,7 @@ namespace SmartDose.RestClient.Crud.V1.MasterData
         public static Medicine Instance => Instance<Medicine>();
 
         public async Task<SdrcFlurHttpResponse<int>> GetCanisterCountAsync(string medicineCode, CancellationToken cancellationToken = default(CancellationToken), HttpCompletionOption completionOption = HttpCompletionOption.ResponseContentRead)
-                => await UrlClone.AppendPathSegment(medicineCode).AppendPathSegment("CanisterCount").SdrcGetJsonAsync<int>(cancellationToken, completionOption).ConfigureAwait(false);
+            => await UrlClone.AppendPathSegments(medicineCode, "CanisterCount")
+                .SdrcGetJsonAsync<int>(cancellationToken, completionOption).ConfigureAwait(false);
     }
 }
