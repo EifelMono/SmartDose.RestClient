@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using SmartDose.RestClient.Extensions;
 using Models = SmartDose.RestDomain.Models.V1;
 
-
 namespace SmartDose.RestClient.Crud.V1.MasterData
 {
     public class Medicine : CoreV1Crud<Models.MasterData.Medicine>

@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Net.Http;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Flurl;
-using SmartDose.RestClient.Extensions;
 
 namespace SmartDose.RestClient.Crud
 {

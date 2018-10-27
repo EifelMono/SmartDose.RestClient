@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using SmartDose.RestClient.Extensions;
 using Models = SmartDose.RestDomain.Models.V2;
 
-
 namespace SmartDose.RestClient.Crud.V2.Inventory
 {
     public class MedicineStock : CoreV2<Models.Inventory.MedicineStock>
