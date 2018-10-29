@@ -12,18 +12,18 @@ namespace SmartDose.RestDomain.Models
 {
     internal static class ModelsExtensions
     {
-        public static (bool Ok, string Group, string Version, string Name, bool IsDev) SplitModelsFullPath(this string thisValue)
+        internal static (bool Ok, string Group, string Version, string Name, bool IsDev) SplitModelsFullPath(this string thisValue)
         {
             if (thisValue is null)
                 return (false, "", "", "", false);
             try
             {
                 var splitName = thisValue.Split('.');
-                var name = splitName.Last();
-                var version = splitName.Skip(3).Take(1).FirstOrDefault();
-                var group = splitName.Skip(4).Take(1).FirstOrDefault();
-                var IsDev = splitName.Skip(1).Take(1).FirstOrDefault().EndsWith("Dev");
-                return (true, group, version, name, false);
+                return (true,
+                        splitName.Skip(4).Take(1).FirstOrDefault(),
+                        splitName.Skip(3).Take(1).FirstOrDefault(),
+                        splitName.Last(),
+                        splitName.Skip(1).Take(1).FirstOrDefault().EndsWith("Dev"));
             }
             catch (Exception ex)
             {

@@ -48,10 +48,7 @@
                 Content="JsonToObject"
                 Visibility="{Binding IsJsonTab, Converter={StaticResource BoolToVisibilityCollapsedConverter}}" />
         </Grid>
-        <TabControl
-            Name="tabControlMain"
-            Grid.Row="1"
-            SelectionChanged="tabControlMain_SelectionChanged">
+        <TabControl Name="tabControlMain" Grid.Row="1">
             <TabItem Header="Object">
                 <Grid>
                     <Grid.RowDefinitions>

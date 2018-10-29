@@ -9,8 +9,8 @@ namespace SmartDose.RestClientApp.Views
         protected Label _labelHeader { get; set; }
         public ViewCrud()
         {
-            RowDefinitions.Add(new RowDefinition { Height = new System.Windows.GridLength(1, System.Windows.GridUnitType.Auto) });
-            RowDefinitions.Add(new RowDefinition { Height = new System.Windows.GridLength(1, System.Windows.GridUnitType.Star) });
+            RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Auto) });
+            RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
 
             Children.Add(_labelHeader = new Label { FontWeight = FontWeights.Black });
             Grid.SetRow(_labelHeader, 0);

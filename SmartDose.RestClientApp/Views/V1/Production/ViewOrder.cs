@@ -19,8 +19,8 @@ namespace SmartDose.RestClientApp.Views.V1.Production
                 Header = "Create Order",
                 RequestParams = new List<ViewParam>
                 {
-                    new ViewParam {Name="Create Dummy Medicine" , IsViewObjectJson= false, Value= false },
-                    new ViewParam {Name="Check Medicine" , IsViewObjectJson= false, Value= true },
+                    new ViewParam {Name="Create medicine\r\nbefore order is send" , IsViewObjectJson= false, Value= false },
+                    new ViewParam {Name="Check medicine" , IsViewObjectJson= false, Value= true },
                     new ViewParam {Name=labelName, IsViewObjectJson= true, Value= new Models.Production.RestExternalOrder() }
                 },
                 OnButtonExecute = async (self) =>

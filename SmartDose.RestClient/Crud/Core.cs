@@ -47,7 +47,7 @@ namespace SmartDose.RestClient.Crud
 
         internal static Core S_Instance;
         public static Tx Instance<Tx>() where Tx : Core<T>, new()
-            => (Tx) (S_Instance is null || S_Instance.UseNewInstance ? S_Instance = AddInstance<Tx>() : S_Instance);
+            => (Tx)(S_Instance is null || S_Instance.UseNewInstance ? S_Instance = AddInstance<Tx>() : S_Instance);
 
         private static Tx AddInstance<Tx>() where Tx : Core<T>, new()
         {

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
@@ -11,7 +10,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-using Newtonsoft.Json;
 using SmartDose.RestClientApp.Globals;
 using SmartDose.RestDomainDev;
 
@@ -138,6 +136,38 @@ namespace SmartDose.RestClientApp.Views
                 };
             tabControlMain.SelectionChanged += (s, e) =>
                 {
+                    switch (tabControlMain.SelectedIndex)
+                    {
+                        // Property Editor
+                        case 0:
+                            {
+                                IsJsonTab = false;
+                                break;
+                            }
+                        // Json Editor
+                        case 1:
+                            {
+                                if (IsDataObject)
+                                    IsJsonTab = true;
+                                if (CheckBoxAutoConvertObjectToJson)
+                                {
+                                    if (!IsPlainData)
+                                        jsonEditor.Text = ConvertDev.ToJsonFromObjectDev(DataDev);
+                                }
+                                break;
+                            }
+                        // File seleciton
+                        case 2:
+                            {
+                                IsJsonTab = false;
+                                lock (this)
+                                {
+                                    JsonFiles = Directory.GetFiles(DataDirectory, "*.json").Select(f => Path.GetFileName(f)).ToList();
+                                }
+                                break;
+                            }
+                    }
+                    NotifyPropertyChanged(string.Empty);
                 };
         }
 
@@ -200,45 +230,7 @@ namespace SmartDose.RestClientApp.Views
         protected void UpdateView(object objectValue)
         {
             propertyGridView.SelectedObject = FillEmtpyModels(_dataDev);
-            tabControlMain_SelectionChanged(null, null);
-        }
-
-#pragma warning disable IDE1006 // Naming Styles
-        private void tabControlMain_SelectionChanged(object sender, SelectionChangedEventArgs e)
-#pragma warning restore IDE1006 // Naming Styles
-        {
-            switch (tabControlMain.SelectedIndex)
-            {
-                // Property Editor
-                case 0:
-                    {
-                        IsJsonTab = false;
-                        break;
-                    }
-                // Json Editor
-                case 1:
-                    {
-                        if (IsDataObject)
-                            IsJsonTab = true;
-                        if (CheckBoxAutoConvertObjectToJson)
-                        {
-                            if (!IsPlainData)
-                                jsonEditor.Text = ConvertDev.ToJsonFromObjectDev(DataDev);
-                        }
-                        break;
-                    }
-                // File seleciton
-                case 2:
-                    {
-                        IsJsonTab = false;
-                        lock (this)
-                        {
-                            JsonFiles = Directory.GetFiles(DataDirectory, "*.json").Select(f=> Path.GetFileName(f)).ToList();
-                        }
-                        break;
-                    }
-            }
-            NotifyPropertyChanged(string.Empty);
+            tabControlMain.RaiseEvent(new SelectionChangedEventArgs(TabControl.SelectionChangedEvent, new List<TabItem> { }, new List<TabItem> { }));
         }
 
         protected T FillEmtpyModels<T>(T objectValue) where T : class
@@ -297,13 +289,13 @@ namespace SmartDose.RestClientApp.Views
         private void listBoxJsonFiles_MouseDoubleClick(object sender, MouseButtonEventArgs e)
 #pragma warning restore IDE1006 // Naming Styles
         {
-            var filename = (string) listBoxJsonFiles.SelectedItem;
+            var filename = (string)listBoxJsonFiles.SelectedItem;
             try
             {
                 jsonEditor.Text = File.ReadAllText(Path.Combine(DataDirectory, filename));
                 CommandJsonToObject.Execute(null);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
