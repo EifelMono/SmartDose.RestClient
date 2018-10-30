@@ -168,25 +168,9 @@ namespace SmartDose.RestClientApp.Views
             }
         }
 
-        public Func<ViewTabItem, Task> OnButtonExecute { get; set; }
-
-        public virtual async void ButtonExecute()
+        public virtual void ButtonExecute()
         {
-            if (!IsButtonExecuteEnabled)
-                return;
-            ButtonExecuteState(false);
-            try
-            {
-                await OnButtonExecute(this);
-            }
-            catch (Exception ex)
-            {
-                ex.LogException();
-            }
-            finally
-            {
-                ButtonExecuteState(true);
-            }
+
         }
 
         public void ButtonExecuteState(bool enable)
@@ -268,8 +252,7 @@ namespace SmartDose.RestClientApp.Views
     public class ViewTabItem<T> : ViewTabItem
     {
         public T RequestParamsValueAsT(int index) => (T)RequestParams[index].Value;
-
-        public new Func<ViewTabItem<T>, Task> OnButtonExecute { get; set; }
+        public Func<ViewTabItem<T>, Task> OnButtonExecute { get; set; }
 
         public override async void ButtonExecute()
         {

@@ -27,12 +27,20 @@ namespace SmartDose.RestClientApp.Editor
             FontFamily = new FontFamily("Consolas");
             FontSize = 11;
 
-            using (var stream = Assembly.GetAssembly(typeof(JsonEditor)).GetManifestResourceStream($"{typeof(JsonEditor).Namespace}.json.xshd"))
+            // why not 2 using!!!! ? => set this https://msdn.microsoft.com/library/ms182334.aspx
+            Stream stream = null;
+            try
             {
+                stream = Assembly.GetAssembly(typeof(JsonEditor)).GetManifestResourceStream($"{typeof(JsonEditor).Namespace}.json.xshd");
                 using (var reader = new XmlTextReader(stream))
                 {
+                    stream = null;
                     SyntaxHighlighting = HighlightingLoader.Load(reader, HighlightingManager.Instance);
                 }
+            }
+            finally
+            {
+                if (stream != null) stream.Dispose();
             }
 
             SearchPanel.Install(this);
