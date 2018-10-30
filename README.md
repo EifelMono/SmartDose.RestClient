@@ -105,12 +105,13 @@ namespace SmartDose.RestClient.ConsoleSample.Rest.V2.MasterData
 }
 ```
 
-# Scripting mit Roslynpad or WorksBooks
+# Scripting mit other tools see the folder samples
 
-* [Rosylnpad](https://roslynpad.net/)
+* [CakeBuild](https://cakebuild.net/)
 * [WorksBooks](https://docs.microsoft.com/de-de/xamarin/tools/workbooks/) 
-* [CakeBuild](https://cakebuild.net/) 
+* [Rosylnpad](https://roslynpad.net/)
 
+* [Dotnet.Core](https://dot.net)
 ## Libraries...
 ```csharp
 // please use the correct path
