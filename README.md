@@ -107,11 +107,15 @@ namespace SmartDose.RestClient.ConsoleSample.Rest.V2.MasterData
 
 # Scripting mit other tools see the folder samples
 
+## Tools link
 * [CakeBuild](https://cakebuild.net/)
+        * [VsCode integration](https://cakebuild.net/docs/editors/vscode)
+
 * [WorksBooks](https://docs.microsoft.com/de-de/xamarin/tools/workbooks/) 
 * [Rosylnpad](https://roslynpad.net/)
 
 * [Dotnet.Core](https://dot.net)
+
 ## Libraries...
 ```csharp
 // please use the correct path
