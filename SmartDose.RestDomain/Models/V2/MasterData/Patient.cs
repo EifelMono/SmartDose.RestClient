@@ -52,6 +52,7 @@ namespace SmartDose.RestDomain.Models.V2.MasterData
         /// <summary>
         /// Gets or sets the postal code of the patient
         /// </summary>
+        [StringLength(25, ErrorMessage = "PostalCode length is greater 25 characters")]
         public string PostalCode { get; set; }
 
         /// <summary>
