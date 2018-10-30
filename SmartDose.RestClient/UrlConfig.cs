@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using Flurl;
+using Flurl.Http;
 using SmartDose.RestClient.Crud;
 
 namespace SmartDose.RestClient
@@ -22,7 +23,27 @@ namespace SmartDose.RestClient
         {
             get => new Url(UrlV2);
         }
-     
+
+        public static TimeSpan? UrlTimeout
+        {
+            get
+            {
+                TimeSpan? result = null;
+                FlurlHttp.Configure(settings =>
+                {
+                    result = settings.Timeout;
+                });
+                return result;
+            }
+            set
+            {
+                FlurlHttp.Configure(settings =>
+                {
+                    settings.Timeout = value;
+                });
+            }
+        }
+
         public static void ClearUrls()
         {
             // reset the the instance vars....
