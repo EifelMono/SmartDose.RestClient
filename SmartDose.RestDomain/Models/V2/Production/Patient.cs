@@ -68,8 +68,7 @@ namespace SmartDose.RestDomain.Models.V2.Production
         /// The gender.
         /// </value>
         [EnumValidation(typeof(Gender), optional:true)]
-        [JsonConverter(typeof(StringEnumConverter))]
-        public Gender Gender { get; set; }
+        public string Gender { get; set; }
 
         /// <summary>
         /// Gets or sets the date of birth.

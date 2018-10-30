@@ -100,8 +100,7 @@ namespace SmartDose.RestDomain.Models.V2.MasterData
         /// Gets or sets the gender of the patient
         /// </summary>
         [EnumValidation(typeof(Gender), optional:true)]
-        [JsonConverter(typeof(StringEnumConverter))]
-        public Gender Gender { get; set; }
+        public string Gender { get; set; }
 
         /// <summary>
         /// Get or sets the birthday of the patient       
