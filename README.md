@@ -109,28 +109,51 @@ namespace SmartDose.RestClient.ConsoleSample.Rest.V2.MasterData
 
 * [Rosylnpad](https://roslynpad.net/)
 * [WorksBooks](https://docs.microsoft.com/de-de/xamarin/tools/workbooks/) 
+* [CakeBuild](https://cakebuild.net/) 
 
+## Libraries...
 ```csharp
 // please use the correct path
 // xxxxxxxxxxxxxxxxxxxxxxxx
-#r "C:\Dev\tools\RoslynLibs\Flurl.dll"
-#r "C:\Dev\tools\RoslynLibs\Flurl.Http.dll"
-#r "C:\Dev\tools\RoslynLibs\Newtonsoft.Json.dll"
-#r "C:\Dev\tools\RoslynLibs\SmartDose.RestClient.dll"
-#r "C:\Dev\tools\RoslynLibs\SmartDose.RestDomain.dll"
+#r "PathTo...SmartDose.RestClientApp\bin\Debug\Flurl.dll"
+#r "PathTo...SmartDose.RestClientApp\bin\Debug\Flurl.Http.dll"
+#r "PathTo...SmartDose.RestClientApp\bin\Debug\Newtonsoft.Json.dll"
+#r "PathTo...SmartDose.RestClientApp\bin\Debug\SmartDose.RestClient.dll"
+#r "PathTo...SmartDose.RestClientApp\bin\Debug\SmartDose.RestDomain.dll"
 
 using Newtonsoft.Json;
-using sdModels = SmartDose.RestDomain.Models.V1;
-using sdCrud = SmartDose.RestClient.Crud.V1;
+using sdModelsV1 = SmartDose.RestDomain.Models.V1;
+using sdCrudV1 = SmartDose.RestClient.Crud.V1;
+using sdModelsV2 = SmartDose.RestDomain.Models.V2;
+using sdCrudV2 = SmartDose.RestClient.Crud.V2;
+```
 
+## Infos about the Lib
+```csharp
 Console.WriteLine(SmartDose.RestClient.UrlConfig.UrlV1);
 Console.WriteLine(SmartDose.RestClient.UrlConfig.UrlV2);
+```
 
-if (await sdCrud.MasterData.Medicine.Instance.ReadListAsync() is var response && response.Ok)
+## V1 get Medicine list 
+```csharp
+if (await sdCrudV1.MasterData.Medicine.Instance.ReadListAsync() is var response && response.Ok)
 {
     foreach (var medicine in response.Data)
     {
         Console.WriteLine($"{medicine.Name} {medicine.Identifier}");
+    }
+}
+else
+    Console.WriteLine($"{response.Request}\r\n{response.StatusCode}\r\n{response.Message}\r\n{response.Data}");
+```
+
+## V2 get Medicine list
+```csharp
+if (await sdCrudV2.MasterData.Medicine.Instance.ReadListAsync() is var response && response.Ok)
+{
+    foreach (var medicine in response.Data)
+    {
+        Console.WriteLine($"{medicine.MedicineName} {medicine.MedicineCode}");
     }
 }
 else

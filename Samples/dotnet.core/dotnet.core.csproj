@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <LangVersion>7.3</LangVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="Flurl">
+      <HintPath>..\..\SmartDose.RestClientApp\bin\Debug\Flurl.dll</HintPath>
+    </Reference>
+    <Reference Include="Flurl.Http">
+      <HintPath>..\..\SmartDose.RestClientApp\bin\Debug\Flurl.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json.dll">
+      <HintPath>..\..\SmartDose.RestClientApp\bin\Debug\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="SmartDose.RestClient.dll">
+      <HintPath>..\..\SmartDose.RestClientApp\bin\Debug\SmartDose.RestClient.dll</HintPath>
+    </Reference>
+   <Reference Include="SmartDose.RestDomain.dll">
+      <HintPath>..\..\SmartDose.RestClientApp\bin\Debug\SmartDose.RestDomain.dll</HintPath>
+    </Reference>
+</ItemGroup>
+
+</Project>
