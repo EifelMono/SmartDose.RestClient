@@ -1,10 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Newtonsoft.Json;
+using SmartDose.RestDomain.Converter;
+using SmartDose.RestDomain.Validation;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using SmartDose.RestDomain.Validation;
+using Newtonsoft.Json.Converters;
+using System;
 
 #if RestDomainDev
+using System.Drawing.Design;
+using SmartDose.RestDomainDev.PropertyEditorThings;
 namespace SmartDose.RestDomainDev.Models.V2.Production
 #else
 namespace SmartDose.RestDomain.Models.V2.Production
@@ -64,7 +68,8 @@ namespace SmartDose.RestDomain.Models.V2.Production
         /// The gender.
         /// </value>
         [EnumValidation(typeof(Gender), optional:true)]
-        public string Gender { get; set; }
+        [JsonConverter(typeof(StringEnumConverter))]
+        public Gender Gender { get; set; }
 
         /// <summary>
         /// Gets or sets the date of birth.
@@ -72,8 +77,13 @@ namespace SmartDose.RestDomain.Models.V2.Production
         /// <value>
         /// The date of birth.
         /// </value>
-        [DateTimeValidation("yyyy-MM-dd", "DateOfBirth is required with yyyy-MM-dd format.", optional:true)]
-        public string DateOfBirth { get; set; }
+        [DateTimeValidation("yyyy-MM-dd", "DateOfBirth is required with yyyy-MM-dd format.")]
+        [JsonConverter(typeof(DateTime_yyyy_MM_dd_Converter))]
+#if RestDomainDev
+        // [DisplayName("DateOfBirth"), Editor(typeof(DateTime_yyyy_MM_dd_Editor), typeof(UITypeEditor))]
+        [TypeConverter(typeof(Date_yyyy_MM_dd_TypeConverter))]
+#endif
+        public DateTime DateOfBirth { get; set; }
 
         /// <summary>
         /// Gets or sets the culture.

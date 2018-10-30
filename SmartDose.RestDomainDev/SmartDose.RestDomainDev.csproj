@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>net471</TargetFramework>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -115,10 +115,15 @@
     <Folder Include="Models\V1\Inventory\" />
     <Folder Include="Models\V1\MasterData\" />
     <Folder Include="Models\V1\Production\" />
-    <Folder Include="Models\V2\Inventory\" />
+    <Folder Include="Models\V2\Inventory\" />    
     <Folder Include="Models\V2\MasterData\" />
     <Folder Include="Models\V2\Production\" />
     <Folder Include="Models\Validation\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="System.Drawing.Design" />
+    <Reference Include="System.Windows.Forms" />
   </ItemGroup>
 
 </Project>

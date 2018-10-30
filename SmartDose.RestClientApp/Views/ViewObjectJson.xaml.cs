@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -10,8 +9,10 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using Newtonsoft.Json;
 using SmartDose.RestClientApp.Globals;
 using SmartDose.RestDomainDev;
+using SmartDose.RestDomain.Converter;
 
 namespace SmartDose.RestClientApp.Views
 {
@@ -120,12 +121,34 @@ namespace SmartDose.RestClientApp.Views
 
                         var pd = e?.NewSelection?.PropertyDescriptor;
                         var pp = pd.ComponentType.GetProperty(pd.Name);
+                        JsonConverterAttribute jcA = null;
+                        foreach (var attribute in pp.GetCustomAttributes().Where(aaa => aaa is JsonConverterAttribute))
+                        {
+                            jcA = attribute as JsonConverterAttribute;
+                            if (jcA != null)
+                                break;
+                        }
                         foreach (var attribute in pp.GetCustomAttributes().Where(aaa => aaa is ValidationAttribute))
                         {
                             var a = attribute as ValidationAttribute;
                             if (a is null)
                                 continue;
-                            var isValid = a.IsValid(e?.NewSelection?.Value);
+                            var obj = e?.NewSelection?.Value;
+                            if (jcA != null)
+                            {
+                                try
+                                {
+                                    if (Activator.CreateInstance(jcA.ConverterType) is JsonConverter jc)
+                                    {
+                                        if (jc is SmartDose.RestDomain.Converter.DateTimeConverter dtc)
+                                        {
+                                            obj = ((DateTime)obj).ToString(dtc.CustomFormat);
+                                        }
+                                    }
+                                }
+                                catch { }
+                            }
+                            var isValid = a.IsValid(obj);
                             listBoxPropertyInfo.Background = isValid ? Brushes.White : Brushes.Red;
                             listBoxPropertyInfo.Items.Add($"IsValid {isValid} {a.GetType().FullName}");
                             if (!string.IsNullOrEmpty(a.FormatErrorMessage(pd.Name)))

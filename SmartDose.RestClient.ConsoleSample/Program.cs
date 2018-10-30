@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Threading.Tasks;
 using Flurl;
 using Flurl.Http;
@@ -13,7 +14,8 @@ namespace SmartDose.RestClient.ConsoleSample
             Console.WriteLine($"UrlV2={UrlConfig.UrlV2}");
             Console.WriteLine($"TimeOut={UrlConfig.UrlTimeout?.TotalMilliseconds ?? -1} ms");
 
-            await Test();
+            Test();
+            await TestAsync();
 
             await Rest.V1.MasterData.MasterData.RestTest();
             await Rest.V2.MasterData.MasterData.RestTest();
@@ -22,16 +24,32 @@ namespace SmartDose.RestClient.ConsoleSample
             Console.ReadLine();
         }
 
-        static async Task Test()
+        static void Test()
         {
             try
             {
-                var x = await UrlConfig.UrlV1.AppendPathSegment("Medicines").PutJsonAsync(null);
+                Console.WriteLine("CULTURE ISO ISO WIN DISPLAYNAME                              ENGLISHNAME");
+                foreach (CultureInfo ci in CultureInfo.GetCultures(CultureTypes.NeutralCultures))
+                {
+                    Console.Write("{0,-7}", ci.Name);
+                    Console.Write(" {0,-3}", ci.TwoLetterISOLanguageName);
+                    Console.Write(" {0,-3}", ci.ThreeLetterISOLanguageName);
+                    Console.Write(" {0,-3}", ci.ThreeLetterWindowsLanguageName);
+                    Console.Write(" {0,-40}", ci.DisplayName);
+                    Console.WriteLine(" {0,-40}", ci.EnglishName);
+                }
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex);
             }
+            Console.WriteLine("Test()");
+            Console.ReadLine();
+        }
+
+        static async Task TestAsync()
+        {
+            await Task.Delay(1);
         }
     }
 }

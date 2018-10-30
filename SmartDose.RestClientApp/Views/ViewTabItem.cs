@@ -5,8 +5,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-using ICSharpCode.AvalonEdit;
-using Newtonsoft.Json;
 using SmartDose.RestClient.Extensions;
 using SmartDose.RestClientApp.Editor;
 using SmartDose.RestClientApp.Globals;

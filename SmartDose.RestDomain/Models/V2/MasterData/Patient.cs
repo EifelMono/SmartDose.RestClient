@@ -1,9 +1,15 @@
-﻿using SmartDose.RestDomain.Validation;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using SmartDose.RestDomain.Converter;
+using SmartDose.RestDomain.Validation;
 using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
+
 #if RestDomainDev
+using System.Drawing.Design;
+using SmartDose.RestDomainDev.PropertyEditorThings;
 namespace SmartDose.RestDomainDev.Models.V2.MasterData
 #else
 namespace SmartDose.RestDomain.Models.V2.MasterData
@@ -94,18 +100,24 @@ namespace SmartDose.RestDomain.Models.V2.MasterData
         /// Gets or sets the gender of the patient
         /// </summary>
         [EnumValidation(typeof(Gender), optional:true)]
-        public string Gender { get; set; }
+        [JsonConverter(typeof(StringEnumConverter))]
+        public Gender Gender { get; set; }
 
         /// <summary>
         /// Get or sets the birthday of the patient       
         /// </summary>
-        [DateTimeValidation("yyyy-MM-dd", "DateOfBirth is required with yyyy-MM-dd format.", optional:true)]
-        public string DateOfBirth { get; set; }
+        [DateTimeValidation("yyyy-MM-dd", "DateOfBirth is required with yyyy-MM-dd format.")]
+        [JsonConverter(typeof(DateTime_yyyy_MM_dd_Converter))]
+#if RestDomainDev
+        // [DisplayName("DateOfBirth"), Editor(typeof(DateTime_yyyy_MM_dd_Editor), typeof(UITypeEditor))]
+        [TypeConverter(typeof(Date_yyyy_MM_dd_TypeConverter))]
+#endif
+        public DateTime DateOfBirth { get; set; }
 
         /// <summary>
         /// Gets or sets the culture of the patient
         /// </summary>
-        [CultureValidationAttribute("Culture (Combination of languagecode-regioncode) is required.")]
+        [CultureValidation("Culture (Combination of languagecode-regioncode) is required.")]
         public string Culture { get; set; }
 
         public override string ToString()
