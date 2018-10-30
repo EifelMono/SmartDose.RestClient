@@ -40,11 +40,11 @@
         <Grid Grid.Column="2">
             <Image
                 Grid.Column="0"
+                Width="100"
+                Height="100"
                 Margin="10"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
-                Width="100"
-                Height="100"
                 Opacity=".68"
                 Source="pack://application:,,,/Resources/pill.png" />
             <Grid Name="gridContent" Grid.Column="2">

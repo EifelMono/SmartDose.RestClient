@@ -10,7 +10,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{C48D5D2B-FC50-4D6C-AA9A-1E3FF9886CEA}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
-		RuleSet1.ruleset = RuleSet1.ruleset
+		RuleSet.ruleset = RuleSet.ruleset
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartDose.RestClientApp", "SmartDose.RestClientApp\SmartDose.RestClientApp.csproj", "{D0C10B86-51AB-4748-A324-2D535968F0CF}"
