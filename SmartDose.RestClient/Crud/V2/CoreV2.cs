@@ -8,7 +8,7 @@ namespace SmartDose.RestClient.Crud.V2
 {
     public class CoreV2<T> : Core<T> where T : class
     {
-        public CoreV2(params string[] pathSegments) : base(UrlConfig.UrlV2, pathSegments) { }
+        public CoreV2(params string[] pathSegments) : base(RestClientGlobals.UrlV2, pathSegments) { }
     }
 
     public class CoreV2Crud<T> : CoreV2<T> where T : class

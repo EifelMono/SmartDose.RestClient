@@ -5,6 +5,7 @@ using System.Linq;
 using Newtonsoft.Json;
 
 #if RestDomainDev
+using SmartDose.RestDomainDev.PropertyEditorThings;
 namespace SmartDose.RestDomainDev.Models.V1.Production
 #else
 namespace SmartDose.RestDomain.Models.V1.Production
@@ -40,7 +41,10 @@ namespace SmartDose.RestDomain.Models.V1.Production
         /// <summary>
         /// Gets or sets the order details.
         /// </summary>
-        public RestOrderDetail[] OrderDetails { get; set; }
+#if RestDomainDev
+        [TypeConverter(typeof(ListConverter))]
+#endif
+        public List<RestOrderDetail> OrderDetails { get; set; } = new List<RestOrderDetail>();
 
         /// <summary>
         /// Gets or sets the state.

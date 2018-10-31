@@ -11,6 +11,8 @@ namespace SmartDose.RestDomain.Models.V2.MasterData
     /// </summary>
     public enum Status
     {
+        Emtpy = -2,
+        Null = -1,
         /// <summary>
         /// The released
         /// </summary>
@@ -35,6 +37,8 @@ namespace SmartDose.RestDomain.Models.V2.MasterData
     /// </summary>
     public enum FillingMode
     {
+        Emtpy = -2,
+        Null = -1,
         /// <summary>
         /// The multidose
         /// </summary>

@@ -6,23 +6,23 @@ using System.Text;
 using System.Threading.Tasks;
 using Models = SmartDose.RestDomain.Models.V1;
 
-namespace SmartDose.RestClientApp.Generators.V1
+namespace SmartDose.RestGenerator.Generator.V1
 {
     public class ExternalOrderGenerator
     {
         public static Models.Production.ExternalOrder CreateNewExternalOrder(
-                        List<Models.Production.Medicine> medicine, 
+                        List<Models.Production.Medicine> medicine,
                         Models.Production.Customer value,
-                        Models.Production.DestinationFacility destinationFacility, 
+                        Models.Production.DestinationFacility destinationFacility,
                         int mPatientCounter,
-                        int mPatientDays, 
-                        int mIntakeTimesPerDay, 
-                        int mMedicationPerIntakeTime, 
+                        int mPatientDays,
+                        int mIntakeTimesPerDay,
+                        int mMedicationPerIntakeTime,
                         int mPillsPerMedication,
-                        bool mRandomValuePatientDays, 
-                        bool mRandomValueIntakeTimesPerDay, 
+                        bool mRandomValuePatientDays,
+                        bool mRandomValueIntakeTimesPerDay,
                         bool mRandomValueMedicationPerIntakeTime,
-                        bool mRandomValuePillsPerMedication, 
+                        bool mRandomValuePillsPerMedication,
                         bool isYesSelected)
         {
             var random = new Random();
@@ -55,7 +55,7 @@ namespace SmartDose.RestClientApp.Generators.V1
                         ContactPerson = value?.ContactPerson,
                         CustomerId = "Pharmacy_" + value?.CustomerId
                     },
-                    IntakeDetails = new Models.Production.IntakeDetail[] { },
+                    IntakeDetails = new List<Models.Production.IntakeDetail> { },
                     DestinationFacility = destinationFacility
                 };
                 orderDetail.ExternalDetailPrintInfo1 = "EDPI1: " + orderDetail.Patient.ContactPerson.Name + "/" +
@@ -96,12 +96,12 @@ namespace SmartDose.RestClientApp.Generators.V1
                         var intakeDetail = new Models.Production.IntakeDetail
                         {
                             IntakeDateTime = (intakeDateAndTime + TimeSpan.FromDays(k)).ToString("s"),
-                            MedicationDetails = new Models.Production.MedicationDetail[] { },
+                            MedicationDetails = new List<Models.Production.MedicationDetail> { },
                         };
                         // intakeDetail.ExternalIntakePrintInfo1 = "EIPI1: " + intakeDetail.IntakeDateTime;
-                        //intakeDetail.MedicationDetails.AddRange(medicationDetails);
-                        //intakeDetail.ExternalIntakePrintInfo2 = "EIPI2: " + intakeDetail.MedicationDetails.Count;
-                        // orderDetail.IntakeDetails.Add(intakeDetail);
+                        intakeDetail.MedicationDetails.AddRange(medicationDetails);
+                        // intakeDetail.ExternalIntakePrintInfo2 = "EIPI2: " + intakeDetail.MedicationDetails.Count;
+                        orderDetail.IntakeDetails.Add(intakeDetail);
                     }
                 }
 

@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 #if RestDomainDev
+using SmartDose.RestDomainDev.PropertyEditorThings;
 namespace SmartDose.RestDomainDev.Models.V2.Production
 #else
 namespace SmartDose.RestDomain.Models.V2.Production
@@ -72,6 +73,9 @@ namespace SmartDose.RestDomain.Models.V2.Production
         /// The order details.
         /// </value>
         [Required(AllowEmptyStrings = false, ErrorMessage = "Order details are required.")]
-        public ResultOrderDetail[] ResultOrderDetails { get; set; }
+#if RestDomainDev
+        [TypeConverter(typeof(ListConverter))]
+#endif
+        public List<ResultOrderDetail> ResultOrderDetails { get; set; } = new List<ResultOrderDetail>();
     }
 }

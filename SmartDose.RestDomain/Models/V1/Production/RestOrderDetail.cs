@@ -2,6 +2,7 @@
 using System.ComponentModel;
 
 #if RestDomainDev
+using SmartDose.RestDomainDev.PropertyEditorThings;
 namespace SmartDose.RestDomainDev.Models.V1.Production
 #else
 namespace SmartDose.RestDomain.Models.V1.Production
@@ -48,6 +49,9 @@ namespace SmartDose.RestDomain.Models.V1.Production
         /// <summary>
         /// Gets or sets the intake details.
         /// </summary>
-        public IntakeDetail[] IntakeDetails { get; set; }
+#if RestDomainDev
+        [TypeConverter(typeof(ListConverter))]
+#endif 
+        public List<IntakeDetail> IntakeDetails { get; set; } = new List<IntakeDetail>();
     }
 }

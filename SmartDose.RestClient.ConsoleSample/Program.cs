@@ -10,9 +10,9 @@ namespace SmartDose.RestClient.ConsoleSample
     {
         static async Task Main(string[] args)
         {
-            Console.WriteLine($"UrlV1={UrlConfig.UrlV1}");
-            Console.WriteLine($"UrlV2={UrlConfig.UrlV2}");
-            Console.WriteLine($"TimeOut={UrlConfig.UrlTimeout?.TotalMilliseconds ?? -1} ms");
+            Console.WriteLine($"UrlV1={RestClientGlobals.UrlV1}");
+            Console.WriteLine($"UrlV2={RestClientGlobals.UrlV2}");
+            Console.WriteLine($"TimeOut={RestClientGlobals.UrlTimeout?.TotalMilliseconds ?? -1} ms");
 
             Test();
             await TestAsync();

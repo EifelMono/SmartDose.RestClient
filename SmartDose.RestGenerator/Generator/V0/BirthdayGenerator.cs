@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SmartDose.RestClientApp.Generators.V0
+namespace SmartDose.RestGenerator.Generator.V0
 {
     public class BirthdayGenerator
     {

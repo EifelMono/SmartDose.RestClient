@@ -1,0 +1,31 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Generator\V0\Cities.json" />
+    <None Remove="Generator\V0\Departments.json" />
+    <None Remove="Generator\V0\Names.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Generator\V0\Cities.json" />
+    <EmbeddedResource Include="Generator\V0\Departments.json" />
+    <EmbeddedResource Include="Generator\V0\Names.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Generator\V2\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SmartDose.RestClient\SmartDose.RestClient.csproj" />
+  </ItemGroup>
+
+</Project>

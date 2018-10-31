@@ -63,10 +63,9 @@ namespace SmartDose.RestDomain.Models.V2.Production
         /// </value>
         [Required(ErrorMessage = "Order Details are required")]
 #if RestDomainDev
-        // [TypeConverter(typeof(ListExpandableObjectConverter))]
+        [TypeConverter(typeof(ListConverter))]
 #endif
-        [Browsable(true)]
-        public OrderDetail[] OrderDetails { get; set; }
+        public List<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
 
         [JsonIgnore]
         public IEnumerable<MedicationDetail> UsedMedicines

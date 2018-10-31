@@ -11,6 +11,8 @@ namespace SmartDose.RestDomain.Models.V2.Production
     /// </summary>
     public enum DispenseStatus
     {
+        Emtpy = -2,
+        Null = -1,
         /// <summary>
         /// "Unknown": No information about job state (failing connection etc.)
         /// </summary>

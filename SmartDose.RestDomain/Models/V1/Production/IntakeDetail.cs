@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using Newtonsoft.Json;
 
 #if RestDomainDev
+using SmartDose.RestDomainDev.PropertyEditorThings;
 namespace SmartDose.RestDomainDev.Models.V1.Production
 #else
 namespace SmartDose.RestDomain.Models.V1.Production
@@ -27,7 +26,10 @@ namespace SmartDose.RestDomain.Models.V1.Production
         /// <summary>
         /// Gets or sets the medication details.
         /// </summary>
-        public MedicationDetail[] MedicationDetails { get; set; }
+#if RestDomainDev
+        [TypeConverter(typeof(ListConverter))]
+#endif
+        public List<MedicationDetail> MedicationDetails { get; set; } = new List<MedicationDetail>();
 
         public override string ToString()
             => $"{IntakeDateTime}";

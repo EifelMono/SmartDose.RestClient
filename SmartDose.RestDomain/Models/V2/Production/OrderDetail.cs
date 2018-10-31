@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 #if RestDomainDev
+using SmartDose.RestDomainDev.PropertyEditorThings;
 namespace SmartDose.RestDomainDev.Models.V2.Production
 #else
 namespace SmartDose.RestDomain.Models.V2.Production
@@ -50,7 +51,10 @@ namespace SmartDose.RestDomain.Models.V2.Production
         /// The intake details.
         /// </value>
         [Required(ErrorMessage = "IntakeDetails are required")]
-        public IntakeDetail[] IntakeDetails { get; set; }
+#if RestDomainDev
+        [TypeConverter(typeof(ListConverter))]
+#endif
+        public List<IntakeDetail> IntakeDetails { get; set; } = new List<IntakeDetail>();
 
         /// <summary>
         /// Gets or sets the order details attributes.
@@ -58,7 +62,10 @@ namespace SmartDose.RestDomain.Models.V2.Production
         /// <value>
         /// The order details attributes.
         /// </value>
-        public AdditionalAttribute[] OrderDetailsAttributes { get; set; }
+#if RestDomainDev
+        [TypeConverter(typeof(ListConverter))]
+#endif
+        public List<AdditionalAttribute> OrderDetailsAttributes { get; set; } = new List<AdditionalAttribute>();
 
     }
 }

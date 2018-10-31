@@ -95,9 +95,6 @@ namespace SmartDose.RestDomain.Models.V2.MasterData
         /// </summary>
         public string Fax { get; set; }
 
-        /// <summary>
-        /// Gets or sets the gender of the patient
-        /// </summary>
         [EnumValidation(typeof(Gender), optional: true)]
 #if RestDomainDev
         [CategoryAsString]

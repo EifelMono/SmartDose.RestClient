@@ -3,11 +3,10 @@ using SmartDose.RestDomain.Converter;
 using SmartDose.RestDomain.Validation;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using Newtonsoft.Json.Converters;
 using System;
+using System.Collections.Generic;
 
 #if RestDomainDev
-using System.Drawing.Design;
 using SmartDose.RestDomainDev.PropertyEditorThings;
 namespace SmartDose.RestDomainDev.Models.V2.Production
 #else
@@ -120,6 +119,9 @@ namespace SmartDose.RestDomain.Models.V2.Production
         /// <value>
         /// The patient attributes.
         /// </value>
-        public AdditionalAttribute[] PatientAttributes { get; set; }
+#if RestDomainDev
+        [TypeConverter(typeof(ListConverter))]
+#endif
+        public List<AdditionalAttribute> PatientAttributes { get; set; } = new List<AdditionalAttribute>();
     }
 }

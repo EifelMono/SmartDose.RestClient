@@ -1,7 +1,7 @@
 ﻿using System;
 using Models = SmartDose.RestDomain.Models.V1;
 
-namespace SmartDose.RestClientApp.Generators.V1
+namespace SmartDose.RestGenerator.Generator.V1
 {
     public class CustomerGenerator
     {

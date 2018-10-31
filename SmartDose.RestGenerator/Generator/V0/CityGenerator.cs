@@ -4,9 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
-using SmartDose.RestClientApp.Globals;
 
-namespace SmartDose.RestClientApp.Generators.V0
+namespace SmartDose.RestGenerator.Generator.V0
 {
     public class City
     {
@@ -27,7 +26,7 @@ namespace SmartDose.RestClientApp.Generators.V0
         private static Random s_random = new Random();
         public static Cities Cities
         {
-            get => s_cities ?? (s_cities = JsonConvert.DeserializeObject<Cities>(AppGlobals.ReadFromResource($"{typeof(CityGenerator).Namespace}.Cities.json")));
+            get => s_cities ?? (s_cities = JsonConvert.DeserializeObject<Cities>(RestGeneratorGlobals.ReadFromResource($"{typeof(CityGenerator).Namespace}.Cities.json")));
         }
 
         public static City Random()

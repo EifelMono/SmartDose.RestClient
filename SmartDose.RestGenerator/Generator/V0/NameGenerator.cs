@@ -1,12 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Newtonsoft.Json;
-using SmartDose.RestClientApp.Globals;
 
-namespace SmartDose.RestClientApp.Generators.V0
+namespace SmartDose.RestGenerator.Generator.V0
 {
     public class Names
     {
@@ -21,7 +17,7 @@ namespace SmartDose.RestClientApp.Generators.V0
         private static Random s_random = new Random();
         public static Names Names
         {
-            get => s_names ?? (s_names = JsonConvert.DeserializeObject<Names>(AppGlobals.ReadFromResource($"{typeof(NameGenerator).Namespace}.Names.json")));
+            get => s_names ?? (s_names = JsonConvert.DeserializeObject<Names>(RestGeneratorGlobals.ReadFromResource($"{typeof(NameGenerator).Namespace}.Names.json")));
         }
 
         public static (string FirstName, string LastName) Random()

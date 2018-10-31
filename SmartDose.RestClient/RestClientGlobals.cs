@@ -10,7 +10,7 @@ using SmartDose.RestClient.Crud;
 
 namespace SmartDose.RestClient
 {
-    public static class UrlConfig
+    public static class RestClientGlobals
     {
         public static string UrlV1 = "http://127.0.0.1:6040/SmartDose";
         public static string UrlV1Clone

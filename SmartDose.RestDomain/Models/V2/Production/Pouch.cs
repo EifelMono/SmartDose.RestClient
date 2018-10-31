@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 #if RestDomainDev
+using SmartDose.RestDomainDev.PropertyEditorThings;
 namespace SmartDose.RestDomainDev.Models.V2.Production
 #else
 namespace SmartDose.RestDomain.Models.V2.Production
@@ -59,7 +60,10 @@ namespace SmartDose.RestDomain.Models.V2.Production
         /// <value>
         /// The pills.
         /// </value>
-        public Pill[] Pills { get; set; }
+#if RestDomainDev
+        [TypeConverter(typeof(ListConverter))]
+#endif
+        public List<Pill> Pills { get; set; } = new List<Pill>();
 
     }
 }

@@ -42,7 +42,7 @@ namespace SmartDose.RestClientApp.Views
                 {
                     try
                     {
-                        File.WriteAllText(dlg.FileName, ConvertDev.ToJsonFromObjectDev(DataDev));
+                        File.WriteAllText(dlg.FileName, RestDomainDevGlobals.ToJsonFromObjectDev(DataDev));
                     }
                     catch (Exception ex)
                     {
@@ -59,7 +59,7 @@ namespace SmartDose.RestClientApp.Views
             {
                 try
                 {
-                    DataDev = ConvertDev.ToObjectDevFromJson(jsonEditor.Text, DataDev.GetType());
+                    DataDev = RestDomainDevGlobals.ToObjectDevFromJson(jsonEditor.Text, DataDev.GetType());
                     tabControlMain.SelectedIndex = 0;
                 }
                 catch (Exception ex)
@@ -109,7 +109,6 @@ namespace SmartDose.RestClientApp.Views
 
             propertyGridView.PropertyValueChanged += (s, e) =>
             {
-                FillEmtpyModels(e?.ChangedItem?.Value);
                 propertyGridView.Refresh();
             };
 
@@ -176,7 +175,7 @@ namespace SmartDose.RestClientApp.Views
                                 if (CheckBoxAutoConvertObjectToJson)
                                 {
                                     if (!IsPlainData)
-                                        jsonEditor.Text = ConvertDev.ToJsonFromObjectDev(DataDev);
+                                        jsonEditor.Text = RestDomainDevGlobals.ToJsonFromObjectDev(DataDev);
                                 }
                                 break;
                             }
@@ -204,13 +203,13 @@ namespace SmartDose.RestClientApp.Views
         {
             get
             {
-                _data = ConvertDev.ToObjectFromObjectDev(DataDev);
+                _data = RestDomainDevGlobals.ToObjectFromObjectDev(DataDev);
                 return _data;
             }
             set
             {
                 _data = value;
-                DataDev = ConvertDev.ToObjectDevFromObject(_data);
+                DataDev = RestDomainDevGlobals.ToObjectDevFromObject(_data);
                 IsDataObject = true;
                 IsPlainData = false;
                 try
@@ -253,50 +252,8 @@ namespace SmartDose.RestClientApp.Views
 
         protected void UpdateView(object objectValue)
         {
-            propertyGridView.SelectedObject = FillEmtpyModels(_dataDev);
+            propertyGridView.SelectedObject = _dataDev;
             tabControlMain.RaiseEvent(new SelectionChangedEventArgs(TabControl.SelectionChangedEvent, new List<TabItem> { }, new List<TabItem> { }));
-        }
-
-        protected T FillEmtpyModels<T>(T objectValue) where T : class
-        {
-            if (objectValue is null)
-                return objectValue;
-            if (objectValue.GetType().IsArray)
-                foreach (var item in objectValue as IEnumerable<object>)
-                    FillEmtpyModels(item);
-
-            foreach (var property in objectValue.GetType().GetProperties())
-            {
-                if (property.PropertyType.IsClass)
-                {
-                    if (property.PropertyType.FullName.StartsWith(RestDomainDev.Models.ModelsGlobals.ModelsNamespace))
-                    {
-                        var value = property.GetValue(objectValue);
-                        if (value is null)
-                        {
-                            try
-                            {
-                                if (property.PropertyType.IsArray)
-                                {
-                                    value = Activator.CreateInstance(property.PropertyType, 0);
-                                    property.SetValue(objectValue, value);
-                                }
-                                else
-                                {
-                                    value = Activator.CreateInstance(property.PropertyType);
-                                    property.SetValue(objectValue, value);
-                                    FillEmtpyModels(value);
-                                }
-                            }
-                            catch (Exception ex)
-                            {
-                                ex.LogException();
-                            }
-                        }
-                    }
-                }
-            }
-            return objectValue;
         }
 
         public T RemoveEmtpyModels<T>(T thisValue) where T : class

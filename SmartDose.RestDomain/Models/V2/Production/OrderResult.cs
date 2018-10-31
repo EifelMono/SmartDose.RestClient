@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 #if RestDomainDev
+using SmartDose.RestDomainDev.PropertyEditorThings;
 namespace SmartDose.RestDomainDev.Models.V2.Production
 #else
 namespace SmartDose.RestDomain.Models.V2.Production
@@ -71,6 +72,9 @@ namespace SmartDose.RestDomain.Models.V2.Production
         /// The pouches.
         /// </value>
         [Required(AllowEmptyStrings = false, ErrorMessage = "List of pouches is required.")]
-        public Pouch[] Pouches { get; set; }
+#if RestDomainDev
+        [TypeConverter(typeof(ListConverter))]
+#endif
+        public List<Pouch> Pouches { get; set; } = new List<Pouch>();
     }
 }

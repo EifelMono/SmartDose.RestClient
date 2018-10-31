@@ -1,8 +1,8 @@
 ﻿using System;
-using SmartDose.RestClientApp.Generators.V0;
+using SmartDose.RestGenerator.Generator.V0;
 using Models = SmartDose.RestDomain.Models.V1;
 
-namespace SmartDose.RestClientApp.Generators.V1
+namespace SmartDose.RestGenerator.Generator.V1
 {
     public class PatientGenerator
     {

@@ -7,7 +7,7 @@ using Newtonsoft.Json.Serialization;
 
 namespace SmartDose.RestDomainDev
 {
-    public static class ConvertDev
+    public static class RestDomainDevGlobals
     {
 
         public static JsonSerializerSettings JsonSerializerSettingsDev = new JsonSerializerSettings()

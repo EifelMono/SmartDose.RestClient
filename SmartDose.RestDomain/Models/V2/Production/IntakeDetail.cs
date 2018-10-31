@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using SmartDose.RestDomain.Validation;
 
 #if RestDomainDev
+using SmartDose.RestDomainDev.PropertyEditorThings;
 namespace SmartDose.RestDomainDev.Models.V2.Production
 #else
 namespace SmartDose.RestDomain.Models.V2.Production
@@ -34,7 +35,10 @@ namespace SmartDose.RestDomain.Models.V2.Production
         /// The medication details.
         /// </value>
         [Required(AllowEmptyStrings = false, ErrorMessage = "Array of all medications for that intake time is required.")]
-        public MedicationDetail[] MedicationDetails { get; set; }
+#if RestDomainDev
+        [TypeConverter(typeof(ListConverter))]
+#endif
+        public List<MedicationDetail> MedicationDetails { get; set; } = new List<MedicationDetail>();
 
         /// <summary>
         /// Gets or sets the intake detail attributes.
@@ -42,7 +46,10 @@ namespace SmartDose.RestDomain.Models.V2.Production
         /// <value>
         /// The intake detail attributes.
         /// </value>
-        public AdditionalAttribute[] IntakeDetailAttributes { get; set; }
+#if RestDomainDev
+        [TypeConverter(typeof(ListConverter))]
+#endif
+        public List<AdditionalAttribute> IntakeDetailAttributes { get; set; } = new List<AdditionalAttribute>();
         
     }
 }

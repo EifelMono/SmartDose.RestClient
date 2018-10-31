@@ -19,6 +19,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartDose.RestDomainDev", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartDose.RestClient.ConsoleSample", "SmartDose.RestClient.ConsoleSample\SmartDose.RestClient.ConsoleSample.csproj", "{43FB8069-5C6F-4666-9F9D-4773D4612BEB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartDose.RestGenerator", "SmartDose.RestGenerator\SmartDose.RestGenerator.csproj", "{2667A6F0-2902-4F04-91FE-43AEE65BFA18}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,10 @@ Global
 		{43FB8069-5C6F-4666-9F9D-4773D4612BEB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{43FB8069-5C6F-4666-9F9D-4773D4612BEB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{43FB8069-5C6F-4666-9F9D-4773D4612BEB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2667A6F0-2902-4F04-91FE-43AEE65BFA18}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2667A6F0-2902-4F04-91FE-43AEE65BFA18}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2667A6F0-2902-4F04-91FE-43AEE65BFA18}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2667A6F0-2902-4F04-91FE-43AEE65BFA18}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

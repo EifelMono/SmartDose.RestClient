@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 
 #if RestDomainDev
+using SmartDose.RestDomainDev.PropertyEditorThings;
 namespace SmartDose.RestDomainDev.Models.V1.MasterData
 #else
 namespace SmartDose.RestDomain.Models.V1.MasterData
@@ -18,9 +19,18 @@ namespace SmartDose.RestDomain.Models.V1.MasterData
         public string Description { get; set; }
         public string Comment { get; set; }
         public bool Active { get; set; }
-        public Synonym[] SynonymIds { get; set; } = new Synonym[] { };
-        public PrintDetail[] PrintDetails { get; set; } = new PrintDetail[] { };
-        public MedicinePicture[] MedicinePictures { get; set; } = new MedicinePicture[] { };
+#if RestDomainDev
+        [TypeConverter(typeof(ListConverter))]
+#endif
+        public List<Synonym> SynonymIds { get; set; } = new List<Synonym>();
+#if RestDomainDev
+        [TypeConverter(typeof(ListConverter))]
+#endif
+        public List<PrintDetail> PrintDetails { get; set; } = new List<PrintDetail>();
+#if RestDomainDev
+        [TypeConverter(typeof(ListConverter))]
+#endif
+        public List<MedicinePicture> MedicinePictures { get; set; } = new List<MedicinePicture>();
         public SpecialHandling SpecialHandling { get; set; }
         public bool TrayFillOnly { get; set; }
 
@@ -38,9 +48,6 @@ namespace SmartDose.RestDomain.Models.V1.MasterData
                 Description = $"Med Desc {identifier}",
                 Comment = $"Comment {identifier}",
                 Active = true,
-                SynonymIds = new Synonym[] { },
-                PrintDetails = new PrintDetail[] { },
-                MedicinePictures = new MedicinePicture[] { },
                 SpecialHandling = new SpecialHandling
                 {
                     Narcotic = true,

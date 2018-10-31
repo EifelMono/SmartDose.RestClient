@@ -119,7 +119,6 @@
     <Folder Include="Models\V2\Inventory\" />    
     <Folder Include="Models\V2\MasterData\" />
     <Folder Include="Models\V2\Production\" />
-    <Folder Include="Models\Validation\" />
   </ItemGroup>
 
   <ItemGroup>

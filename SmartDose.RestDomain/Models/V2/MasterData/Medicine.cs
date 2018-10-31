@@ -1,10 +1,11 @@
 ﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 using SmartDose.RestDomain.Validation;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 #if RestDomainDev
+using SmartDose.RestDomainDev.PropertyEditorThings;
 namespace SmartDose.RestDomainDev.Models.V2.MasterData
 #else
 namespace SmartDose.RestDomain.Models.V2.MasterData
@@ -63,7 +64,10 @@ namespace SmartDose.RestDomain.Models.V2.MasterData
         /// <summary>
         /// Gets or sets the additional medicine codes.
         /// </summary>
-        public AdditionalMedicineCode[] AdditionalMedicineCodes { get; set; }
+#if RestDomainDev
+        [TypeConverter(typeof(ListConverter))]
+#endif 
+        public List<AdditionalMedicineCode> AdditionalMedicineCodes { get; set; } = new List<AdditionalMedicineCode>();
 
         /// <summary>
         /// Gets or sets the print details.
@@ -72,7 +76,10 @@ namespace SmartDose.RestDomain.Models.V2.MasterData
         /// The print details.
         /// </value>
         [Required(AllowEmptyStrings = false, ErrorMessage = "Array of print details for the medicine are required.")]
-        public MedicinePrintDetail[] PrintDetails { get; set; }
+#if RestDomainDev
+        [TypeConverter(typeof(ListConverter))]
+#endif 
+        public List<MedicinePrintDetail> PrintDetails { get; set; } = new List<MedicinePrintDetail>();
 
         /// <summary>
         /// Gets or sets the medicine pictures.
@@ -80,7 +87,10 @@ namespace SmartDose.RestDomain.Models.V2.MasterData
         /// <value>
         /// The medicine pictures.
         /// </value>
-        public MedicinePicture[] MedicinePictures { get; set; }
+#if RestDomainDev
+        [TypeConverter(typeof(ListConverter))]
+#endif
+        public List<MedicinePicture> MedicinePictures { get; set; } = new List<MedicinePicture>();
 
         /// <summary>
         /// Gets or sets the production attributes.

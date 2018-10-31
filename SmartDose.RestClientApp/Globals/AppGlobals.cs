@@ -56,8 +56,8 @@ namespace SmartDose.RestClientApp.Globals
                 {
                     if (FileExists)
                         Data = JsonConvert.DeserializeObject<ConfigurationData>(File.ReadAllText(FileName));
-                    UrlConfig.UrlV1 = Data.UrlV1;
-                    UrlConfig.UrlV2 = Data.UrlV2;
+                    RestClientGlobals.UrlV1 = Data.UrlV1;
+                    RestClientGlobals.UrlV2 = Data.UrlV2;
 
                 }
                 catch (Exception ex)
@@ -81,24 +81,7 @@ namespace SmartDose.RestClientApp.Globals
 
         }
 
-        public static string ReadFromResource(string name)
-        {
-            // why not 2 using!!!! ? => set this https://msdn.microsoft.com/library/ms182334.aspx
-            Stream stream = null;
-            try
-            {
-                stream = Assembly.GetAssembly(typeof(AppGlobals)).GetManifestResourceStream(name);
-                using (var reader = new StreamReader(stream))
-                {
-                    stream = null;
-                    return reader.ReadToEnd();
-                }
-            }
-            finally
-            {
-                if (stream != null) stream.Dispose();
-            }
-        }
+      
     }
 
 

@@ -115,15 +115,6 @@
     </ApplicationDefinition>
     <Compile Include="Editor\JsonFoldingStrategy.cs" />
     <Compile Include="Editor\JsonEditor.cs" />
-    <Compile Include="Generators\V0\BirthdayGenerator.cs" />
-    <Compile Include="Generators\V0\CityGenerator.cs" />
-    <Compile Include="Generators\V0\DepartmentGenerator.cs" />
-    <Compile Include="Generators\V0\WardGenerator.cs" />
-    <Compile Include="Generators\V0\NameGenerator.cs" />
-    <Compile Include="Generators\V1\ExternalOrderGenerator.cs" />
-    <Compile Include="Generators\V1\PatientGenerator.cs" />
-    <Compile Include="Generators\V1\DestinationFacilityGenerator.cs" />
-    <Compile Include="Generators\V1\CustomerGenerator.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Globals\AppExtensions.cs" />
     <Compile Include="Views\BoolToVisibilityCollapsedConverter.cs" />
@@ -211,10 +202,6 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <None Include="app.config" />
-    <EmbeddedResource Include="Generators\V0\Departments.json" />
-    <EmbeddedResource Include="Generators\V0\Names.json" />
-    <EmbeddedResource Include="Generators\V0\Cities.json" />
-    <None Include="Generators\V0\Wards.json" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -235,13 +222,15 @@
       <Project>{cf621eb8-7f85-4010-8fa1-7468c3842795}</Project>
       <Name>SmartDose.RestDomain</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SmartDose.RestGenerator\SmartDose.RestGenerator.csproj">
+      <Project>{2667a6f0-2902-4f04-91fe-43aee65bfa18}</Project>
+      <Name>SmartDose.RestGenerator</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Editor\json.xshd" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Generators\V2\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Resource Include="Resources\rowadose.png" />
   </ItemGroup>
