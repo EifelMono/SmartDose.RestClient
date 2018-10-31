@@ -12,6 +12,8 @@ namespace SmartDose.RestDomain.Models.V2.Production
     /// </summary>
     public enum Gender
     {
+        Emtpy = -2,
+        Null = -1,
         /// <summary>
         /// the gender is not set, this is the default value used.
         /// </summary>

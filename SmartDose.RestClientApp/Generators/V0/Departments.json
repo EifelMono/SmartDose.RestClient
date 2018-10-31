@@ -1,0 +1,172 @@
+﻿{
+  "Items": [
+    {
+      "Name": "Accident and emergency",
+      "Code": "10100"
+    },
+    {
+      "Name": "Admissions",
+      "Code": "10200"
+    },
+    {
+      "Name": "Anesthetics",
+      "Code": "10300"
+    },
+    {
+      "Name": "Breast Screening",
+      "Code": "10400"
+    },
+    {
+      "Name": "Cardiology",
+      "Code": "10500"
+    },
+    {
+      "Name": "Chaplaincy",
+      "Code": "10600"
+    },
+    {
+      "Name": "Critical Care",
+      "Code": "10700"
+    },
+    {
+      "Name": "Diagnostic Imaging",
+      "Code": "10800"
+    },
+    {
+      "Name": "Elderly services",
+      "Code": "10900"
+    },
+    {
+      "Name": "Gastroenterology",
+      "Code": "11100"
+    },
+    {
+      "Name": "General Services",
+      "Code": "11200"
+    },
+    {
+      "Name": "General Surgery",
+      "Code": "11300"
+    },
+    {
+      "Name": "Gynecology",
+      "Code": "11400"
+    },
+    {
+      "Name": "Haematology",
+      "Code": "11500"
+    },
+    {
+      "Name": "Health and Safety",
+      "Code": "11600"
+    },
+    {
+      "Name": "Human Resources",
+      "Code": "11700"
+    },
+    {
+      "Name": "Infection Control",
+      "Code": "11800"
+    },
+    {
+      "Name": "Information Management",
+      "Code": "11900"
+    },
+    {
+      "Name": "Maternity",
+      "Code": "12100"
+    },
+    {
+      "Name": "Microbiology",
+      "Code": "12200"
+    },
+    {
+      "Name": "Neonatal",
+      "Code": "12300"
+    },
+    {
+      "Name": "Nephrology",
+      "Code": "12400"
+    },
+    {
+      "Name": "Neurology",
+      "Code": "12500"
+    },
+    {
+      "Name": "Nutrition and Dietetics",
+      "Code": "12600"
+    },
+    {
+      "Name": "Obstetrics/Gynecology",
+      "Code": "12700"
+    },
+    {
+      "Name": "Oncology",
+      "Code": "12900"
+    },
+    {
+      "Name": "Ophthalmology",
+      "Code": "12900"
+    },
+    {
+      "Name": "Orthopaedics",
+      "Code": "13100"
+    },
+    {
+      "Name": "Otolaryngology (Ear, Nose, and Throat)",
+      "Code": "13200"
+    },
+    {
+      "Name": "Pain Management",
+      "Code": "13300"
+    },
+    {
+      "Name": "Patient Accounts",
+      "Code": "13400"
+    },
+    {
+      "Name": "Patient Services",
+      "Code": "13500"
+    },
+    {
+      "Name": "Pharmacy ",
+      "Code": "13600"
+    },
+    {
+      "Name": "Physiotherapy",
+      "Code": "13700"
+    },
+    {
+      "Name": "Purchasing and Supplies",
+      "Code": "13800"
+    },
+    {
+      "Name": "Radiology",
+      "Code": "13900"
+    },
+    {
+      "Name": "Radiotherapy",
+      "Code": "14100"
+    },
+    {
+      "Name": "Renal",
+      "Code": "14200"
+    },
+    {
+      "Name": "Rheumatology",
+      "Code": "14300"
+    },
+    {
+      "Name": "Sexual Health",
+      "Code": "14400"
+    },
+    {
+      "Name": "Social Work",
+      "Code": "14500"
+    },
+    {
+      "Name": "Urology",
+      "Code": "14600"
+    }
+  ]
+}

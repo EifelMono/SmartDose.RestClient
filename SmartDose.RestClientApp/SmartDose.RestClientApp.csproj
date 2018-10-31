@@ -115,6 +115,10 @@
     </ApplicationDefinition>
     <Compile Include="Editor\JsonFoldingStrategy.cs" />
     <Compile Include="Editor\JsonEditor.cs" />
+    <Compile Include="Generators\V0\Cities.cs" />
+    <Compile Include="Generators\V0\Departments.cs" />
+    <Compile Include="Generators\V0\Names.cs" />
+    <Compile Include="Generators\V1\CustomerGenerator.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Globals\AppExtensions.cs" />
     <Compile Include="Views\BoolToVisibilityCollapsedConverter.cs" />
@@ -202,6 +206,9 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <None Include="app.config" />
+    <EmbeddedResource Include="Generators\V0\Departments.json" />
+    <EmbeddedResource Include="Generators\V0\Names.json" />
+    <EmbeddedResource Include="Generators\V0\Cities.json" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -226,7 +233,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Editor\json.xshd" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Generators\V2\" />
+  </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\rowadose.png" />
   </ItemGroup>

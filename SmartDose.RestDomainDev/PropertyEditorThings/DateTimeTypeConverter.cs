@@ -24,9 +24,8 @@ namespace SmartDose.RestDomainDev.PropertyEditorThings
 
         public override object ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, object value)
         {
-            if (value is string)
+            if (value is string s)
             {
-                string s = (string)value;
                 try
                 {
                     return DateTime.ParseExact(s, CustomFormat, CultureInfo.InvariantCulture);
@@ -54,6 +53,7 @@ namespace SmartDose.RestDomainDev.PropertyEditorThings
 
             return base.ConvertTo(context, culture, value, destinationType);
         }
+
     }
 
     public class Date_yyyy_MM_dd_TypeConverter : DateTimeTypeConverter

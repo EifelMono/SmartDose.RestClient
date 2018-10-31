@@ -9,15 +9,15 @@ namespace SmartDose.RestDomainDev.PropertyEditorThings
 {
     public class DateTimePickerEditor : UITypeEditor
     {
-        IWindowsFormsEditorService editorService;
-        DateTimePicker picker = new DateTimePicker();
+        IWindowsFormsEditorService _editorService;
+        DateTimePicker _picker = new DateTimePicker();
 
         public DateTimePickerEditor(string customFormat)
         {
-            picker.Format = DateTimePickerFormat.Custom;
-            picker.CustomFormat = customFormat;
-            picker.MinDate = DateTimeGlobals.MinValue;
-            picker.MaxDate = DateTimeGlobals.MaxValue;
+            _picker.Format = DateTimePickerFormat.Custom;
+            _picker.CustomFormat = customFormat;
+            _picker.MinDate = DateTimeGlobals.MinValue;
+            _picker.MaxDate = DateTimeGlobals.MaxValue;
         }
 
         public override UITypeEditorEditStyle GetEditStyle(ITypeDescriptorContext context)
@@ -29,21 +29,21 @@ namespace SmartDose.RestDomainDev.PropertyEditorThings
         {
             if (provider != null)
             {
-                this.editorService = provider.GetService(typeof(IWindowsFormsEditorService)) as IWindowsFormsEditorService;
+                _editorService = provider.GetService(typeof(IWindowsFormsEditorService)) as IWindowsFormsEditorService;
             }
 
-            if (this.editorService != null)
+            if (_editorService != null)
             {
                 try
                 {
-                    picker.Value = (DateTime)value;
+                    _picker.Value = (DateTime)value;
                 }
                 catch
                 {
-                    picker.Value = picker.MinDate;
+                    _picker.Value = _picker.MinDate;
                 }
-                this.editorService.DropDownControl(picker);
-                value = picker.Value;
+                _editorService.DropDownControl(_picker);
+                value = _picker.Value;
             }
 
             return value;

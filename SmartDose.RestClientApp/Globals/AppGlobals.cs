@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
+using System.Reflection;
 using Newtonsoft.Json;
 using SmartDose.RestClient;
 
@@ -78,6 +79,25 @@ namespace SmartDose.RestClientApp.Globals
                 }
             }
 
+        }
+
+        public static string ReadFromResource(string name)
+        {
+            // why not 2 using!!!! ? => set this https://msdn.microsoft.com/library/ms182334.aspx
+            Stream stream = null;
+            try
+            {
+                stream = Assembly.GetAssembly(typeof(AppGlobals)).GetManifestResourceStream(name);
+                using (var reader = new StreamReader(stream))
+                {
+                    stream = null;
+                    return reader.ReadToEnd();
+                }
+            }
+            finally
+            {
+                if (stream != null) stream.Dispose();
+            }
         }
     }
 

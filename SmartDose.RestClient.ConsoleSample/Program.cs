@@ -29,7 +29,7 @@ namespace SmartDose.RestClient.ConsoleSample
             try
             {
                 Console.WriteLine("CULTURE ISO ISO WIN DISPLAYNAME                              ENGLISHNAME");
-                foreach (CultureInfo ci in CultureInfo.GetCultures(CultureTypes.NeutralCultures))
+                foreach (var ci in CultureInfo.GetCultures(CultureTypes.NeutralCultures))
                 {
                     Console.Write("{0,-7}", ci.Name);
                     Console.Write(" {0,-3}", ci.TwoLetterISOLanguageName);

@@ -110,6 +110,7 @@ namespace SmartDose.RestClientApp.Views
             propertyGridView.PropertyValueChanged += (s, e) =>
             {
                 FillEmtpyModels(e?.ChangedItem?.Value);
+                propertyGridView.Refresh();
             };
 
             propertyGridView.SelectedGridItemChanged += (s, e) =>

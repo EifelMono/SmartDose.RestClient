@@ -62,27 +62,45 @@ namespace SmartDose.RestDomain.Models.V2.Production
         public string PrintName { get; set; }
 
         /// <summary>
-        /// Gets or sets the gender.
+        /// Gets or sets the gender of the patient
         /// </summary>
-        /// <value>
-        /// The gender.
-        /// </value>
-        [EnumValidation(typeof(Gender), optional:true)]
+        [EnumValidation(typeof(Gender), optional: true)]
+#if RestDomainDev
+        [CategoryAsString]
+#endif
         public string Gender { get; set; }
 
-        /// <summary>
-        /// Gets or sets the date of birth.
-        /// </summary>
-        /// <value>
-        /// The date of birth.
-        /// </value>
-        [DateTimeValidation("yyyy-MM-dd", "DateOfBirth is required with yyyy-MM-dd format.")]
-        [JsonConverter(typeof(DateTime_yyyy_MM_dd_Converter))]
+        [JsonIgnore]
 #if RestDomainDev
-        // [DisplayName("DateOfBirth"), Editor(typeof(DateTime_yyyy_MM_dd_Editor), typeof(UITypeEditor))]
-        [TypeConverter(typeof(Date_yyyy_MM_dd_TypeConverter))]
+        [CategoryAsType]
 #endif
-        public DateTime DateOfBirth { get; set; }
+        public Gender GenderAsType
+        {
+            get => NameAsStringConvert.StringToEnum<Gender>(Gender);
+            set => Gender = NameAsStringConvert.EnumToString(value);
+        }
+
+        /// <summary>
+        /// Get or sets the birthday of the patient       
+        /// </summary>
+        [DateTimeValidation("yyyy-MM-dd", "DateOfBirth is required with yyyy-MM-dd format.")]
+#if RestDomainDev
+        [CategoryAsString]
+#endif
+        public string DateOfBirth { get; set; }
+
+        [JsonIgnore]
+#if RestDomainDev
+        [TypeConverter(typeof(Date_yyyy_MM_dd_TypeConverter))]
+        [NotifyParentProperty(true)]
+        [CategoryAsType]
+#endif
+        public DateTime DateOfBirthAsType
+        {
+            get => NameAsStringConvert.StringToDateTime_yyyy_MM_dd(DateOfBirth);
+            set => DateOfBirth = NameAsStringConvert.DateTimeToString_yyyy_MM_dd(value);
+        }
+
 
         /// <summary>
         /// Gets or sets the culture.
@@ -91,6 +109,9 @@ namespace SmartDose.RestDomain.Models.V2.Production
         /// The culture.
         /// </value>
         [CultureValidation("Culture (Combination of languagecode-regioncode) is required.")]
+#if RestDomainDev
+        [TypeConverter(typeof(CultureTypeConverter))]
+#endif
         public string Culture { get; set; }
 
         /// <summary>

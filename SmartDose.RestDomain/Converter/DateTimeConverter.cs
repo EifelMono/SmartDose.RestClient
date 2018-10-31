@@ -28,9 +28,8 @@ namespace SmartDose.RestDomain.Converter
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
             var obj = reader.Value;
-            if (obj is string)
+            if (obj is string dateTimeAsString)
             {
-                var dateTimeAsString = (string)obj;
                 var dateTime = DateTimeGlobals.MinValue;
                 if (!string.IsNullOrEmpty(dateTimeAsString))
                 {
@@ -39,10 +38,10 @@ namespace SmartDose.RestDomain.Converter
                         dateTime = DateTime.ParseExact(dateTimeAsString, CustomFormat, CultureInfo.InvariantCulture);
                     }
                     catch { }
-                    return dateTime;
+                    return DateTimeGlobals.MinValue;
                 }
                 else
-                    return dateTime;
+                    return DateTimeGlobals.MinValue;
             }
             else
                 if (obj is DateTime)
