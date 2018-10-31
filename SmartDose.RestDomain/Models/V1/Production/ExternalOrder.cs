@@ -39,6 +39,7 @@ namespace SmartDose.RestDomain.Models.V1.Production
         /// <summary>
         /// Gets or sets the order details.
         /// </summary>
+        [TypeConverter(typeof(ExpandableObjectConverter))]
         public List<OrderDetail> OrderDetails { get; set; }
 
         /// <summary>

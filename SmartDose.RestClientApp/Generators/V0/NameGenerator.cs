@@ -15,16 +15,16 @@ namespace SmartDose.RestClientApp.Generators.V0
         public List<string> Firstnames { get; set; }
     }
 
-    public static class NamesGenerator
+    public static class NameGenerator
     {
         private static Names s_names = null;
         private static Random s_random = new Random();
         public static Names Names
         {
-            get => s_names ?? (s_names = JsonConvert.DeserializeObject<Names>(AppGlobals.ReadFromResource($"{typeof(NamesGenerator).Namespace}.Names.json")));
+            get => s_names ?? (s_names = JsonConvert.DeserializeObject<Names>(AppGlobals.ReadFromResource($"{typeof(NameGenerator).Namespace}.Names.json")));
         }
 
-        public static (string FirstName, string LastName) RandomNames()
+        public static (string FirstName, string LastName) Random()
             => (Names.Firstnames[s_random.Next(Names.Firstnames.Count)], Names.Lastnames[s_random.Next(Names.Lastnames.Count)]);
     }
 }

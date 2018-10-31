@@ -27,7 +27,7 @@ namespace SmartDose.RestClientApp.Generators.V0
             get => s_departments ?? (s_departments = JsonConvert.DeserializeObject<Departments>(AppGlobals.ReadFromResource($"{typeof(DepartmentGenerator).Namespace}.Departments.json")));
         }
 
-        public static Department RandomDepartment()
+        public static Department Random()
             => Departments.Items[s_random.Next(Departments.Items.Count)];
     }
 }

@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Models = SmartDose.RestDomain.Models.V1;
-using Crud = SmartDose.RestClient.Crud.V1;
 
 namespace SmartDose.RestClientApp.Generators.V1
 {

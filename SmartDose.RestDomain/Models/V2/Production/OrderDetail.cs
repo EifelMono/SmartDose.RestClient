@@ -14,6 +14,7 @@ namespace SmartDose.RestDomain.Models.V2.Production
     /// <seealso cref="SmartDose.Production.RESTV2.Models.BaseData" />
 #if RestDomainDev
     [TypeConverter(typeof(ExpandableObjectConverter))]
+    [Browsable(true)]
 #endif
     public class OrderDetail 
     {

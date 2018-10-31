@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
+using Newtonsoft.Json;
 
 #if RestDomainDev
 namespace SmartDose.RestDomainDev.Models.V1.Production

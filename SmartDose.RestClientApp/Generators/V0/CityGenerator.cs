@@ -14,6 +14,7 @@ namespace SmartDose.RestClientApp.Generators.V0
         public string Cip { get; set; }
         public string AreCode { get; set; }
         public string State { get; set; }
+        public string Country { get; set; } = "Germany";
     }
     public class Cities
     {
@@ -22,14 +23,14 @@ namespace SmartDose.RestClientApp.Generators.V0
 
     public static class CityGenerator
     {
-        private static Cities s_Cities = null;
+        private static Cities s_cities = null;
         private static Random s_random = new Random();
         public static Cities Cities
         {
-            get => s_Cities ?? (s_Cities = JsonConvert.DeserializeObject<Cities>(AppGlobals.ReadFromResource($"{typeof(CityGenerator).Namespace}.Cities.json")));
+            get => s_cities ?? (s_cities = JsonConvert.DeserializeObject<Cities>(AppGlobals.ReadFromResource($"{typeof(CityGenerator).Namespace}.Cities.json")));
         }
 
-        public static City RandomCity()
+        public static City Random()
             => Cities.Items[s_random.Next(Cities.Items.Count)];
     }
 }

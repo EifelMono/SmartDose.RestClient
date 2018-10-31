@@ -14,7 +14,7 @@ namespace SmartDose.RestDomain.Models.V1.Production
         /// <summary>
         /// Gets or sets the customer id.
         /// </summary>
-        public long CustomerId { get; set; }
+        public string CustomerId { get; set; }
 
         public string Identifier { get; set; }
         /// <summary>
