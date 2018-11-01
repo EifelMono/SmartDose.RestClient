@@ -15,15 +15,14 @@ namespace SmartDose.RestDomainDev.PropertyEditorThings
         {
             return true; // display drop
         }
-        public override bool
-        GetStandardValuesExclusive(ITypeDescriptorContext context)
+        public override bool GetStandardValuesExclusive(ITypeDescriptorContext context)
         {
             return true; // drop-down vs combo
         }
         public override StandardValuesCollection GetStandardValues(ITypeDescriptorContext context)
         {
             var cinfo = CultureInfo.GetCultures(CultureTypes.AllCultures & ~CultureTypes.NeutralCultures);
-            return new StandardValuesCollection(cinfo.Select(c=> c.Name).Where(s=> !string.IsNullOrEmpty(s)).ToArray());
+            return new StandardValuesCollection(cinfo.Select(c => c.Name).Where(s => !string.IsNullOrEmpty(s)).ToArray());
         }
     }
 }

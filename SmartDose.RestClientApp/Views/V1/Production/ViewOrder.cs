@@ -1,17 +1,16 @@
 ﻿using System.Collections.Generic;
 using Models = SmartDose.RestDomain.Models.V1;
-using Crud = SmartDose.RestClient.Crud.V1;
-using System.Windows;
+using Cruds = SmartDose.RestClient.Cruds.V1;
 
 namespace SmartDose.RestClientApp.Views.V1.Production
 {
-    public class ViewOrder : ViewCrud
+    public class ViewOrder : ViewCruds
     {
         public ViewOrder() : base()
         {
             var labelName = "Order";
             var labelIdName = "Identifier";
-            var crudInstance = Crud.Production.Order.Instance;
+            var crudInstance = Cruds.Production.Order.Instance;
             _labelHeader.Content = crudInstance.UrlClone;
 
             _tabControl.Items.Add(new ViewTabItemCreate<Models.Production.RestExternalOrder>
@@ -28,7 +27,7 @@ namespace SmartDose.RestClientApp.Views.V1.Production
                     if (self.RequestParamsValueAsBool(0))
                     {
                         foreach (var medicine in self.RequestParamsValueAsT(2).UsedMedicinesIdsAndName)
-                            await Crud.MasterData.Medicine.Instance.CreateAsync(Models.MasterData.Medicine.Dummy(medicine.Id, medicine.Name));
+                            await Cruds.MasterData.Medicine.Instance.CreateAsync(Models.MasterData.Medicine.Dummy(medicine.Id, medicine.Name));
                     }
                     self.ResponseObject = await crudInstance.CreateAsync(self.RequestParamsValueAsT(2), self.RequestParamsValueAsBool(1));
                 },

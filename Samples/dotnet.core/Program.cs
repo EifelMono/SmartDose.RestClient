@@ -2,9 +2,9 @@
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using sdModelsV1 = SmartDose.RestDomain.Models.V1;
-using sdCrudV1 = SmartDose.RestClient.Crud.V1;
+using sdCrudsV1 = SmartDose.RestClient.Cruds.V1;
 using sdModelsV2 = SmartDose.RestDomain.Models.V2;
-using sdCrudV2 = SmartDose.RestClient.Crud.V2;
+using sdCrudsV2 = SmartDose.RestClient.Cruds.V2;
 
 namespace dotnet.core
 {
@@ -12,11 +12,11 @@ namespace dotnet.core
     {
         static async Task Main(string[] args)
         {
-            Console.WriteLine(SmartDose.RestClient.UrlConfig.UrlV1);
-            Console.WriteLine(SmartDose.RestClient.UrlConfig.UrlV2);
+            Console.WriteLine(SmartDose.RestClient.RestClientGlobals.UrlV1);
+            Console.WriteLine(SmartDose.RestClient.RestClientGlobals.UrlV2);
 
             {
-                if (await sdCrudV1.MasterData.Medicine.Instance.ReadListAsync() is var response && response.Ok)
+                if (await sdCrudsV1.MasterData.Medicine.Instance.ReadListAsync() is var response && response.Ok)
                 {
                     foreach (var medicine in response.Data)
                     {
@@ -28,7 +28,7 @@ namespace dotnet.core
             }
 
             {
-                if (await sdCrudV2.MasterData.Medicine.Instance.ReadListAsync() is var response && response.Ok)
+                if (await sdCrudsV2.MasterData.Medicine.Instance.ReadListAsync() is var response && response.Ok)
                 {
                     foreach (var medicine in response.Data)
                     {

@@ -1,16 +1,16 @@
 ﻿using System.Collections.Generic;
 using Models = SmartDose.RestDomain.Models.V2;
-using Crud = SmartDose.RestClient.Crud.V2;
+using Cruds = SmartDose.RestClient.Cruds.V2;
 
 namespace SmartDose.RestClientApp.Views.V2.MasterData
 {
-    public class ViewDestinationFacility : ViewCrud
+    public class ViewDestinationFacility : ViewCruds
     {
         public ViewDestinationFacility() : base()
         {
             var labelName = "DestinationFacility";
             var labelIdName = "DestinationFacilityCode";
-            var crudInstance = Crud.MasterData.DestinationFacility.Instance;
+            var crudInstance = Cruds.MasterData.DestinationFacility.Instance;
             _labelHeader.Content = crudInstance.UrlClone;
 
             _tabControl.Items.Add(new ViewTabItemReadList<Models.MasterData.DestinationFacility>

@@ -24,17 +24,17 @@ namespace SmartDose.RestDomain.Models.V1.Production
         /// <summary>
         /// Gets or sets the pharmacy.
         /// </summary>
-        public RestExternalCustomer Pharmacy { get; set; }
+        public RestExternalCustomer Pharmacy { get; set; } = new RestExternalCustomer();
 
         /// <summary>
         /// Gets or sets the patient.
         /// </summary>
-        public Patient Patient { get; set; }
+        public Patient Patient { get; set; } = new Patient();
 
         /// <summary>
         /// Gets or sets the destination facility.
         /// </summary>
-        public DestinationFacility DestinationFacility { get; set; }
+        public DestinationFacility DestinationFacility { get; set; } = new DestinationFacility();
 
         /// <summary>
         /// Gets or sets the external detail print info 1.

@@ -59,4 +59,9 @@ namespace SmartDose.RestDomainDev.PropertyEditorThings
     {
         public DateTime_yyyy_MM_ddTHH_mm_ssZ_Editor() : base(DateTimeGlobals.DateTime_yyyy_MM_ddTHH_mm_ssZ) { }
     }
+
+    public class DateTime_yyyy_MM_ddTHH_mm_ss_Editor : DateTimePickerEditor
+    {
+        public DateTime_yyyy_MM_ddTHH_mm_ss_Editor() : base(DateTimeGlobals.DateTime_yyyy_MM_ddTHH_mm_ss) { }
+    }
 }

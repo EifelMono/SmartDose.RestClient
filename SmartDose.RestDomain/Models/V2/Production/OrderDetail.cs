@@ -25,7 +25,7 @@ namespace SmartDose.RestDomain.Models.V2.Production
         /// <value>
         /// The pharmacy.
         /// </value>
-        public Pharmacy Pharmacy { get; set; }
+        public Pharmacy Pharmacy { get; set; } = new Pharmacy();
 
         /// <summary>
         /// Gets or sets the patient.
@@ -34,7 +34,7 @@ namespace SmartDose.RestDomain.Models.V2.Production
         /// The patient.
         /// </value>
         [Required(ErrorMessage = "Patient is required")]
-        public Patient Patient { get; set; }
+        public Patient Patient { get; set; } = new Patient();
 
         /// <summary>
         /// Gets or sets the destination facility.
@@ -42,7 +42,7 @@ namespace SmartDose.RestDomain.Models.V2.Production
         /// <value>
         /// The destination facility.
         /// </value>
-        public DestinationFacility DestinationFacility { get; set; }
+        public DestinationFacility DestinationFacility { get; set; } = new DestinationFacility();
 
         /// <summary>
         /// Gets or sets the intake details.

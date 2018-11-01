@@ -36,7 +36,7 @@ namespace SmartDose.RestDomain.Models.V1.Production
         /// <summary>
         /// Gets or sets the customer.
         /// </summary>
-        public RestExternalCustomer Customer { get; set; }
+        public RestExternalCustomer Customer { get; set; } = new RestExternalCustomer();
 
         /// <summary>
         /// Gets or sets the order details.
@@ -49,8 +49,9 @@ namespace SmartDose.RestDomain.Models.V1.Production
         /// <summary>
         /// Gets or sets the state.
         /// </summary>
-        public OrderState State { get; set; }
+        public OrderState State { get; set; } = OrderState.Null;
 
+        [Browsable(false)]
         [JsonIgnore]
         public IEnumerable<MedicationDetail> UsedMedicines
             =>  OrderDetails == null
@@ -63,10 +64,12 @@ namespace SmartDose.RestDomain.Models.V1.Production
                                             .GroupBy(md => md.MedicineId)
                                                 .Select(g => g.First());
 
+        [Browsable(false)]
         [JsonIgnore]
         public IEnumerable<string> UsedMedicineIds
             => UsedMedicines.Select(md => md.MedicineId).Distinct();
 
+        [Browsable(false)]
         [JsonIgnore]
         public IEnumerable<(string Id, string Name)> UsedMedicinesIdsAndName
             => UsedMedicines.Select(md => (md.MedicineId, md.PrescribedMedicine));

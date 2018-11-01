@@ -5,8 +5,10 @@
 #r "..\..\SmartDose.RestClientApp\bin\Debug\SmartDose.RestDomain.dll"
 
 using Newtonsoft.Json;
-using sdModels = SmartDose.RestDomain.Models.V1;
-using sdCrud = SmartDose.RestClient.Crud.V1;
+using sdModelsV1 = SmartDose.RestDomain.Models.V1;
+using sdCrudsV1 = SmartDose.RestClient.Cruds.V1;
+using sdModelsV2 = SmartDose.RestDomain.Models.V2;
+using sdCrudsV2 = SmartDose.RestClient.Cruds.V2;
 
 Console.WriteLine(SmartDose.RestClient.UrlConfig.UrlV1);
 Console.WriteLine(SmartDose.RestClient.UrlConfig.UrlV2);

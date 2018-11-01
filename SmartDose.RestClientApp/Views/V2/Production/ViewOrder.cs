@@ -1,17 +1,17 @@
 ﻿using System.Collections.Generic;
 using Models = SmartDose.RestDomain.Models.V2;
-using Crud = SmartDose.RestClient.Crud.V2;
+using Cruds = SmartDose.RestClient.Cruds.V2;
 using System.Windows;
 
 namespace SmartDose.RestClientApp.Views.V2.Production
 {
-    public class ViewOrder : ViewCrud
+    public class ViewOrder : ViewCruds
     {
         public ViewOrder() : base()
         {
             var labelName = "Order";
             var labelIdName = "OrderCode";
-            var crudInstance = Crud.Production.Order.Instance;
+            var crudInstance = Cruds.Production.Order.Instance;
             _labelHeader.Content = crudInstance.UrlClone;
 
             _tabControl.Items.Add(new ViewTabItemCreate<Models.Production.Order>

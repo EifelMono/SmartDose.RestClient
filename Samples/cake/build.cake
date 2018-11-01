@@ -6,9 +6,9 @@
 
 using Newtonsoft.Json;
 using sdModelsV1 = SmartDose.RestDomain.Models.V1;
-using sdCrudV1 = SmartDose.RestClient.Crud.V1;
+using sdCrudsV1 = SmartDose.RestClient.Cruds.V1;
 using sdModelsV2 = SmartDose.RestDomain.Models.V2;
-using sdCrudV2 = SmartDose.RestClient.Crud.V2;
+using sdCrudsV2 = SmartDose.RestClient.Cruds.V2;
 
 ///////////////////////////////////////////////////////////////////////////////
 // ARGUMENTS
@@ -38,13 +38,13 @@ Teardown(ctx =>
 ///////////////////////////////////////////////////////////////////////////////
 Task("ShowUrls")
 .Does(() => {
-   Information($"UrlV1={SmartDose.RestClient.UrlConfig.UrlV1}");
-   Information($"UrlV2={SmartDose.RestClient.UrlConfig.UrlV2}");
+   Information($"UrlV1={SmartDose.RestClient.RestClientGlobals.UrlV1}");
+   Information($"UrlV2={SmartDose.RestClient.RestClientGlobals.UrlV2}");
 });
 
 Task("GetMedicineV1")
 .Does(async () => {
-    if (await sdCrudV1.MasterData.Medicine.Instance.ReadListAsync() is var response && response.Ok)
+    if (await sdCrudsV1.MasterData.Medicine.Instance.ReadListAsync() is var response && response.Ok)
     {
         foreach (var medicine in response.Data)
         {
@@ -57,7 +57,7 @@ Task("GetMedicineV1")
 
 Task("GetMedicineV2")
 .Does(async () => {
-    if (await sdCrudV2.MasterData.Medicine.Instance.ReadListAsync() is var response && response.Ok)
+    if (await sdCrudsV2.MasterData.Medicine.Instance.ReadListAsync() is var response && response.Ok)
     {
         foreach (var medicine in response.Data)
         {

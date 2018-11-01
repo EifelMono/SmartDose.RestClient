@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using Newtonsoft.Json;
+using SmartDose.RestDomain.Converter;
 
 #if RestDomainDev
 using SmartDose.RestDomainDev.PropertyEditorThings;
@@ -34,8 +36,20 @@ namespace SmartDose.RestDomain.Models.V2.Production
         /// <value>
         /// The type of the pouch.
         /// </value>
+#if RestDomainDev
+        [CategoryAsString]
+#endif 
         [EnumValidation(typeof(PouchType))]
         public string PouchType { get; set; }
+#if RestDomainDev
+        [CategoryAsType]
+#endif
+        [JsonIgnore]
+        public PouchType PouchTypeAsType
+        {
+            get => NameAsStringConvert.StringToEnum<PouchType>(PouchType);
+            set => PouchType = NameAsStringConvert.EnumToString(value);
+        }
 
         /// <summary>
         /// Gets or sets the patient code.

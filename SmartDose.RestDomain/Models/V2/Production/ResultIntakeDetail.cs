@@ -25,7 +25,7 @@ namespace SmartDose.RestDomain.Models.V2.Production
         /// <value>
         /// The intake date time.
         /// </value>
-        [DateTimeValidation("yyyy-MM-ddThh:mm:ss", "IntakeDateTime requires this format yyyy-MM-ddThh:mm:ss")]
+        [DateTimeValidation("yyyy-MM-ddTHH:mm:ss", "IntakeDateTime requires this format yyyy-MM-ddTHH:mm:ss")]
         public string IntakeDateTime { get; set; }
 
         /// <summary>

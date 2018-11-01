@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using Newtonsoft.Json;
+using SmartDose.RestDomain.Converter;
 
 #if RestDomainDev
 using SmartDose.RestDomainDev.PropertyEditorThings;
@@ -44,8 +46,21 @@ namespace SmartDose.RestDomain.Models.V2.Production
         /// <value>
         /// The state of the dispense.
         /// </value>
+        
+#if RestDomainDev
+        [CategoryAsString]
+#endif
         [EnumValidation(typeof(DispenseStatus))]
         public string DispenseState { get; set; }
+#if RestDomainDev
+        [CategoryAsType]
+#endif
+        [JsonIgnore]
+        public DispenseStatus DispenseStateAsType
+        {
+            get => NameAsStringConvert.StringToEnum<DispenseStatus>(DispenseState);
+            set => DispenseState = NameAsStringConvert.EnumToString(value);
+        }
 
         /// <summary>
         /// Gets or sets the creation date.

@@ -43,7 +43,7 @@ namespace SmartDose.RestDomain.Models.V1.Inventory
         /// <summary>
         /// Gets or sets the entry date.
         /// </summary>
-        public DateTime EntryDate { get; set; }
+        public DateTime EntryDate { get; set; } 
 
         /// <summary>
         /// Gets or sets the quantity.

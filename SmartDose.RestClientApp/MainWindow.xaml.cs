@@ -3,7 +3,7 @@ using System.IO;
 using System.Windows;
 using SmartDose.RestClientApp.Globals;
 using ModelsV2 = SmartDose.RestDomain.Models.V2;
-using CrudV2 = SmartDose.RestClient.Crud.V2;
+using CrudV2 = SmartDose.RestClient.Cruds.V2;
 
 
 namespace SmartDose.RestClientApp

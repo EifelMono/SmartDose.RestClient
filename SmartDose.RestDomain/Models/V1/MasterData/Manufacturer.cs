@@ -12,7 +12,7 @@ namespace SmartDose.RestDomain.Models.V1.MasterData
     public class Manufacturer
     {
         public string Identifier { get; set; }
-        public ContactAddress Address { get; set; }
+        public ContactAddress Address { get; set; } = new ContactAddress();
         public string Comment { get; set; }
         public string Name { get; set; }
     }

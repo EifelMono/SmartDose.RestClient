@@ -24,7 +24,7 @@
 using System;
 using System.Threading.Tasks;
 using sdModels = SmartDose.RestDomain.Models.V1;
-using sdCrud = SmartDose.RestClient.Crud.V1;
+using sdCruds = SmartDose.RestClient.Cruds.V1;
 
 namespace SmartDose.RestClient.ConsoleSample.Rest.V1.MasterData
 {
@@ -33,7 +33,7 @@ namespace SmartDose.RestClient.ConsoleSample.Rest.V1.MasterData
         public async static Task RestTest()
         {
             {
-                if (await sdCrud.MasterData.Medicine.Instance.ReadListAsync() is var response && response.Ok)
+                if (await sdCruds.MasterData.Medicine.Instance.ReadListAsync() is var response && response.Ok)
                 {
                     foreach (var medicine in response.Data)
                         Console.WriteLine($"{medicine.Name} {medicine.Identifier}");
@@ -43,7 +43,7 @@ namespace SmartDose.RestClient.ConsoleSample.Rest.V1.MasterData
             }
 
             {
-                if (await sdCrud.MasterData.Medicine.Instance.CreateAsync(new sdModels.MasterData.Medicine
+                if (await sdCruds.MasterData.Medicine.Instance.CreateAsync(new sdModels.MasterData.Medicine
                 {
                     Identifier = "4711.V1",
                     Name = "Name 4711.V1"
@@ -68,7 +68,7 @@ namespace SmartDose.RestClient.ConsoleSample.Rest.V1.MasterData
 using System;
 using System.Threading.Tasks;
 using sdModels = SmartDose.RestDomain.Models.V2;
-using sdCrud = SmartDose.RestClient.Crud.V2;
+using sdCruds = SmartDose.RestClient.Cruds.V2;
 
 namespace SmartDose.RestClient.ConsoleSample.Rest.V2.MasterData
 {
@@ -77,7 +77,7 @@ namespace SmartDose.RestClient.ConsoleSample.Rest.V2.MasterData
         public async static Task RestTest()
         {
             {
-                if (await sdCrud.MasterData.Medicine.Instance.ReadListAsync() is var response && response.Ok)
+                if (await sdCruds.MasterData.Medicine.Instance.ReadListAsync() is var response && response.Ok)
                 {
                     foreach (var medicine in response.Data)
                         Console.WriteLine($"{medicine.MedicineName} {medicine.MedicineCode}");
@@ -87,7 +87,7 @@ namespace SmartDose.RestClient.ConsoleSample.Rest.V2.MasterData
             }
 
             {
-                if (await sdCrud.MasterData.Medicine.Instance.CreateAsync(new sdModels.MasterData.Medicine
+                if (await sdCruds.MasterData.Medicine.Instance.CreateAsync(new sdModels.MasterData.Medicine
                 {
                     MedicineCode = "4711.V2",
                     MedicineName = "Name 4711.V2"
@@ -128,20 +128,20 @@ namespace SmartDose.RestClient.ConsoleSample.Rest.V2.MasterData
 
 using Newtonsoft.Json;
 using sdModelsV1 = SmartDose.RestDomain.Models.V1;
-using sdCrudV1 = SmartDose.RestClient.Crud.V1;
+using sdCrudsV1 = SmartDose.RestClient.Cruds.V1;
 using sdModelsV2 = SmartDose.RestDomain.Models.V2;
-using sdCrudV2 = SmartDose.RestClient.Crud.V2;
+using sdCrudsV2 = SmartDose.RestClient.Cruds.V2;
 ```
 
 ## Infos about the Lib
 ```csharp
-Console.WriteLine(SmartDose.RestClient.UrlConfig.UrlV1);
-Console.WriteLine(SmartDose.RestClient.UrlConfig.UrlV2);
+    Console.WriteLine(SmartDose.RestClient.RestClientGlobals.UrlV1);
+    Console.WriteLine(SmartDose.RestClient.RestClientGlobals.UrlV2);
 ```
 
 ## V1 get Medicine list 
 ```csharp
-if (await sdCrudV1.MasterData.Medicine.Instance.ReadListAsync() is var response && response.Ok)
+if (await sdCrudsV1.MasterData.Medicine.Instance.ReadListAsync() is var response && response.Ok)
 {
     foreach (var medicine in response.Data)
     {
@@ -154,7 +154,7 @@ else
 
 ## V2 get Medicine list
 ```csharp
-if (await sdCrudV2.MasterData.Medicine.Instance.ReadListAsync() is var response && response.Ok)
+if (await sdCrudsV2.MasterData.Medicine.Instance.ReadListAsync() is var response && response.Ok)
 {
     foreach (var medicine in response.Data)
     {

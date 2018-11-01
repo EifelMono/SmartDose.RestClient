@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using sdModels = SmartDose.RestDomain.Models.V2;
-using sdCrud = SmartDose.RestClient.Crud.V2;
+using sdCruds = SmartDose.RestClient.Cruds.V2;
 
 namespace SmartDose.RestClient.ConsoleSample.Rest.V2.MasterData
 {
@@ -10,7 +10,7 @@ namespace SmartDose.RestClient.ConsoleSample.Rest.V2.MasterData
         public async static Task RestTest()
         {
             {
-                if (await sdCrud.MasterData.Medicine.Instance.ReadListAsync() is var response && response.Ok)
+                if (await sdCruds.MasterData.Medicine.Instance.ReadListAsync() is var response && response.Ok)
                 {
                     foreach (var medicine in response.Data)
                         Console.WriteLine($"{medicine.MedicineName} {medicine.MedicineCode}");
@@ -20,7 +20,7 @@ namespace SmartDose.RestClient.ConsoleSample.Rest.V2.MasterData
             }
 
             {
-                if (await sdCrud.MasterData.Medicine.Instance.CreateAsync(new sdModels.MasterData.Medicine
+                if (await sdCruds.MasterData.Medicine.Instance.CreateAsync(new sdModels.MasterData.Medicine
                 {
                     MedicineCode = "4711.V2",
                     MedicineName = "Name 4711.V2"

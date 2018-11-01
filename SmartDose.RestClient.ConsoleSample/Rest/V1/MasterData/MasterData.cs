@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using sdModels = SmartDose.RestDomain.Models.V1;
-using sdCrud = SmartDose.RestClient.Crud.V1;
+using sdCrud = SmartDose.RestClient.Cruds.V1;
 
 namespace SmartDose.RestClient.ConsoleSample.Rest.V1.MasterData
 {

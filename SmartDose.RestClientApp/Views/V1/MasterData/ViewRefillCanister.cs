@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using Models = SmartDose.RestDomain.Models.V1;
-using Crud = SmartDose.RestClient.Crud.V1;
+using Cruds = SmartDose.RestClient.Cruds.V1;
 
 namespace SmartDose.RestClientApp.Views.V1.MasterData
 {
-    public class ViewRefillCanister : ViewCrud
+    public class ViewRefillCanister : ViewCruds
     {
         public ViewRefillCanister() : base()
         {
@@ -12,7 +12,7 @@ namespace SmartDose.RestClientApp.Views.V1.MasterData
             var labelName = "RefillCanister";
             var labelIdName = "RefillCanisterId";
 #pragma warning restore CS0219 // Variable is assigned but its value is never used
-            var crudInstance = Crud.MasterData.RefillCanister.Instance;
+            var crudInstance = Cruds.MasterData.RefillCanister.Instance;
             _labelHeader.Content = crudInstance.UrlClone;
 
             _tabControl.Items.Add(new ViewTabItemDelete<Models.MasterData.Canister>

@@ -34,11 +34,11 @@ namespace SmartDose.RestDomain.Models.V1.Production
         /// <summary>
         /// Gets or sets the contact address.
         /// </summary>
-        public ContactAddress ContactAddress { get; set; }
+        public ContactAddress ContactAddress { get; set; } = new ContactAddress();
 
         /// <summary>
         /// Gets or sets the contact person.
         /// </summary>
-        public ContactPerson ContactPerson { get; set; }
+        public ContactPerson ContactPerson { get; set; } = new ContactPerson();
     }
 }

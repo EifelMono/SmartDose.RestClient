@@ -1,12 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Reflection;
-using System.Text;
 using Flurl;
 using Flurl.Http;
-using SmartDose.RestClient.Crud;
+using SmartDose.RestClient.Cruds;
 
 namespace SmartDose.RestClient
 {

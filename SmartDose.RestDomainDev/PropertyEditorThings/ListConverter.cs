@@ -16,14 +16,13 @@ namespace SmartDose.RestDomainDev.PropertyEditorThings
 
         public override PropertyDescriptorCollection GetProperties(ITypeDescriptorContext context, object value, Attribute[] attributes)
         {
-            IList list = value as IList;
-            if (list == null || list.Count == 0)
+            if (!(value is IList list) || list.Count == 0)
                 return base.GetProperties(context, value, attributes);
 
             var items = new PropertyDescriptorCollection(null);
-            for (int i = 0; i < list.Count; i++)
+            for (var i = 0; i < list.Count; i++)
             {
-                object item = list[i];
+                var item = list[i];
                 items.Add(new ExpandableCollectionPropertyDescriptor(list, i));
             }
             return items;
@@ -32,13 +31,13 @@ namespace SmartDose.RestDomainDev.PropertyEditorThings
 
     public class ExpandableCollectionPropertyDescriptor : PropertyDescriptor
     {
-        private IList collection;
+        private readonly IList _collection;
         private readonly int _index;
 
         public ExpandableCollectionPropertyDescriptor(IList coll, int idx)
             : base(GetDisplayName(coll, idx), null)
         {
-            collection = coll;
+            _collection = coll;
             _index = idx;
         }
 
@@ -68,12 +67,12 @@ namespace SmartDose.RestDomainDev.PropertyEditorThings
 
         public override Type ComponentType
         {
-            get { return this.collection.GetType(); }
+            get { return _collection.GetType(); }
         }
 
         public override object GetValue(object component)
         {
-            return collection[_index];
+            return _collection[_index];
         }
 
         public override bool IsReadOnly
@@ -88,7 +87,7 @@ namespace SmartDose.RestDomainDev.PropertyEditorThings
 
         public override Type PropertyType
         {
-            get { return collection[_index].GetType(); }
+            get { return _collection[_index].GetType(); }
         }
 
         public override void ResetValue(object component)
@@ -102,7 +101,7 @@ namespace SmartDose.RestDomainDev.PropertyEditorThings
 
         public override void SetValue(object component, object value)
         {
-            collection[_index] = value;
+            _collection[_index] = value;
         }
     }
 }

@@ -65,4 +65,9 @@ namespace SmartDose.RestDomainDev.PropertyEditorThings
     {
         public Date_yyyy_MM_ddTHH_mm_ssZ_TypeConverter() : base(DateTimeGlobals.DateTime_yyyy_MM_ddTHH_mm_ssZ) { }
     }
+
+    public class Date_yyyy_MM_ddTHH_mm_ss_TypeConverter : DateTimeTypeConverter
+    {
+        public Date_yyyy_MM_ddTHH_mm_ss_TypeConverter() : base(DateTimeGlobals.DateTime_yyyy_MM_ddTHH_mm_ss) { }
+    }
 }

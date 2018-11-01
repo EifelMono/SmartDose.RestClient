@@ -1,8 +1,11 @@
 ﻿
 using System.ComponentModel;
+using Newtonsoft.Json;
+using SmartDose.RestDomain.Converter;
 using SmartDose.RestDomain.Validation;
 
 #if RestDomainDev
+using SmartDose.RestDomainDev.PropertyEditorThings;
 namespace SmartDose.RestDomainDev.Models.V2.MasterData
 #else
 namespace SmartDose.RestDomain.Models.V2.MasterData
@@ -54,7 +57,19 @@ namespace SmartDose.RestDomain.Models.V2.MasterData
         /// <value>
         /// The filling mode.
         /// </value>
-        [EnumValidation(typeof(FillingMode), optional:true)]
+#if RestDomainDev
+        [CategoryAsString]
+#endif
+        [EnumValidation(typeof(FillingMode), optional: true)]
         public string FillingMode { get; set; }
+#if RestDomainDev
+        [CategoryAsType]
+#endif
+        [JsonIgnore]
+        public FillingMode FillingModeAsType
+        {
+            get => NameAsStringConvert.StringToEnum<FillingMode>(FillingMode);
+            set => FillingMode = NameAsStringConvert.EnumToString(value);
+        }
     }
 }

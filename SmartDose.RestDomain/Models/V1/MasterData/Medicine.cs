@@ -31,7 +31,7 @@ namespace SmartDose.RestDomain.Models.V1.MasterData
         [TypeConverter(typeof(ListConverter))]
 #endif
         public List<MedicinePicture> MedicinePictures { get; set; } = new List<MedicinePicture>();
-        public SpecialHandling SpecialHandling { get; set; }
+        public SpecialHandling SpecialHandling { get; set; } = new SpecialHandling();
         public bool TrayFillOnly { get; set; }
 
         public override string ToString()

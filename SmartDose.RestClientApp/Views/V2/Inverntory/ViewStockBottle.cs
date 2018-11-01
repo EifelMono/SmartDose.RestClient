@@ -1,16 +1,16 @@
 ﻿using System.Collections.Generic;
 using Models = SmartDose.RestDomain.Models.V2;
-using Crud = SmartDose.RestClient.Crud.V2;
+using Cruds = SmartDose.RestClient.Cruds.V2;
 
 namespace SmartDose.RestClientApp.Views.V2.Inventory
 {
-    public class ViewStockBottle : ViewCrud
+    public class ViewStockBottle : ViewCruds
     {
         public ViewStockBottle() : base()
         {
             var labelName = "StockBottel";
             var labelIdName = "StockBottelCode";
-            var crudInstance = Crud.Inventory.StockBottle.Instance;
+            var crudInstance = Cruds.Inventory.StockBottle.Instance;
             _labelHeader.Content = crudInstance.UrlClone;
 
             _tabControl.Items.Add(new ViewTabItemCreate<Models.Inventory.StockBottle>

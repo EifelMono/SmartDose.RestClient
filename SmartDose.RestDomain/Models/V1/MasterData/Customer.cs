@@ -17,14 +17,9 @@ namespace SmartDose.RestDomain.Models.V1.MasterData
         public string Description { get; set; }
         public string Website { get; set; }
         public string Fax { get; set; }
-        public ContactAddress ContactAddress { get; set; }
-    
-        public ContactPerson ContactPerson { get; set; }
+        public ContactAddress ContactAddress { get; set; } = new ContactAddress();
 
-        public object ModelExtensions()
-        {
-            throw new NotImplementedException();
-        }
+        public ContactPerson ContactPerson { get; set; } = new ContactPerson();
     }
 
 }

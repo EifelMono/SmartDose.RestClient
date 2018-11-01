@@ -27,7 +27,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Crud\V0\" />
+    <Folder Include="Cruds\V0\" />
   </ItemGroup>
 
   <ItemGroup>

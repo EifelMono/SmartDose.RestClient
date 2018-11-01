@@ -79,7 +79,7 @@ namespace SmartDose.RestClientApp.Views
                     if (menuItem != null)
                     {
                         if (menuItem.ModelsItem != null)
-                            if (menuItem.ModelsItem.Value is ViewCrud viewCrud)
+                            if (menuItem.ModelsItem.Value is ViewCruds viewCrud)
                                 menuItem.ModelsItem.Value = null;
                         foreach (var m in menuItem.Items)
                             RemoveViews(m);

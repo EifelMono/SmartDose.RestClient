@@ -34,19 +34,20 @@ namespace SmartDose.RestDomain.Models.V1.Production
         /// <summary>
         /// Gets or sets the customer.
         /// </summary>
-        public Customer Customer { get; set; }
+        public Customer Customer { get; set; } = new Customer();
 
         /// <summary>
         /// Gets or sets the order details.
         /// </summary>
         [TypeConverter(typeof(ExpandableObjectConverter))]
-        public List<OrderDetail> OrderDetails { get; set; }
+        public List<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
 
         /// <summary>
         /// Gets or sets the state.
         /// </summary>
-        public OrderState State { get; set; }
+        public OrderState State { get; set; } = OrderState.Null;
 
+        [Browsable(false)]
         [JsonIgnore]
         public List<string> UsedMedicines
         {

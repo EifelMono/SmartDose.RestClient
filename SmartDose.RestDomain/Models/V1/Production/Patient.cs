@@ -15,7 +15,7 @@ namespace SmartDose.RestDomain.Models.V1.Production
         /// <summary>
         /// Gets or sets the gender.
         /// </summary>
-        public Gender Gender { get; set; }
+        public Gender Gender { get; set; } = Gender.Null;
 
         /// <summary>
         /// Gets or sets the external patient number.
@@ -46,12 +46,12 @@ namespace SmartDose.RestDomain.Models.V1.Production
         /// <summary>
         /// Gets or sets the contact person.
         /// </summary>
-        public ContactPerson ContactPerson { get; set; }
+        public ContactPerson ContactPerson { get; set; } = new ContactPerson();
 
         /// <summary>
         /// Gets or sets the contact address.
         /// </summary>
-        public ContactAddress ContactAddress { get; set; }
+        public ContactAddress ContactAddress { get; set; } = new ContactAddress();
 
         public override string ToString()
             => $"{ExternalPatientNumber}";

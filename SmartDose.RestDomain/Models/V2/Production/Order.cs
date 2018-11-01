@@ -39,13 +39,23 @@ namespace SmartDose.RestDomain.Models.V2.Production
         /// <value>
         /// The timestamp.
         /// </value>
-        [DateTimeValidation("yyyy-MM-ddTHH:mm:ssZ", "Timestamp is required with yyyy-MM-ddTHH:mm:ssZ format.")]
-        [JsonConverter(typeof(DateTime_yyyy_MM_ddTHH_mm_ssZ_Converter))]
+
 #if RestDomainDev
-        // [DisplayName("Timestamp"), Editor(typeof(DateTime_yyyy_MM_ddTHH_mm_ssZ_Editor), typeof(UITypeEditor))]
-        [TypeConverter(typeof(Date_yyyy_MM_ddTHH_mm_ssZ_TypeConverter))]
+        [CategoryAsString]
 #endif
-        public DateTime Timestamp { get; set; }
+        [DateTimeValidation("yyyy-MM-ddTHH:mm:ssZ", "Timestamp is required with yyyy-MM-ddTHH:mm:ssZ format.")]
+        public string Timestamp { get; set; } = NameAsStringConvert.DateTimeToString_yyyy_MM_ddTHH_mm_ssZ(DateTime.Now);
+#if RestDomainDev
+        [CategoryAsType]
+        [TypeConverter(typeof(Date_yyyy_MM_ddTHH_mm_ssZ_TypeConverter))]
+        [Editor(typeof(DateTime_yyyy_MM_ddTHH_mm_ssZ_Editor), typeof(UITypeEditor))]
+#endif
+        [JsonIgnore]
+        public DateTime TimestampAsType
+        {
+            get => NameAsStringConvert.StringToDateTime_yyyy_MM_ddTHH_mm_ssZ(Timestamp);
+            set => Timestamp = NameAsStringConvert.DateTimeToString_yyyy_MM_ddTHH_mm_ssZ(value);
+        }
 
         /// <summary>
         /// Gets or sets the customer.
@@ -53,7 +63,7 @@ namespace SmartDose.RestDomain.Models.V2.Production
         /// <value>
         /// The customer.
         /// </value>
-        public Customer Customer { get; set; }
+        public Customer Customer { get; set; } = new Customer();
 
         /// <summary>
         /// Gets or sets the order details.
@@ -67,6 +77,7 @@ namespace SmartDose.RestDomain.Models.V2.Production
 #endif
         public List<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
 
+        [Browsable(false)]
         [JsonIgnore]
         public IEnumerable<MedicationDetail> UsedMedicines
             => OrderDetails == null
@@ -79,10 +90,12 @@ namespace SmartDose.RestDomain.Models.V2.Production
                                             .GroupBy(md => md.MedicineCode)
                                                 .Select(g => g.First());
 
+        [Browsable(false)]
         [JsonIgnore]
         public IEnumerable<string> UsedMedicineIds
             => UsedMedicines.Select(md => md.MedicineCode).Distinct();
 
+        [Browsable(false)]
         [JsonIgnore]
         public IEnumerable<(string Id, string Name)> UsedMedicinesIdsAndName
             => UsedMedicines.Select(md => (md.MedicineCode, $"NoName {md.MedicineCode}"));

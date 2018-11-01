@@ -95,16 +95,15 @@ namespace SmartDose.RestDomain.Models.V2.MasterData
         /// </summary>
         public string Fax { get; set; }
 
-        [EnumValidation(typeof(Gender), optional: true)]
 #if RestDomainDev
         [CategoryAsString]
 #endif
+        [EnumValidation(typeof(Gender), optional: true)]
         public string Gender { get; set; }
-
-        [JsonIgnore]
 #if RestDomainDev
         [CategoryAsType]
 #endif
+        [JsonIgnore]
         public Gender GenderAsType
         {
             get => NameAsStringConvert.StringToEnum<Gender>(Gender);
@@ -114,18 +113,16 @@ namespace SmartDose.RestDomain.Models.V2.MasterData
         /// <summary>
         /// Get or sets the birthday of the patient       
         /// </summary>
-        [DateTimeValidation("yyyy-MM-dd", "DateOfBirth is required with yyyy-MM-dd format.")]
 #if RestDomainDev
         [CategoryAsString]
 #endif
+        [DateTimeValidation("yyyy-MM-dd", "DateOfBirth is required with yyyy-MM-dd format.")]
         public string DateOfBirth { get; set; }
-
-        [JsonIgnore]
 #if RestDomainDev
-        [TypeConverter(typeof(Date_yyyy_MM_dd_TypeConverter))]
-        [NotifyParentProperty(true)]
         [CategoryAsType]
+        [TypeConverter(typeof(Date_yyyy_MM_dd_TypeConverter))]
 #endif
+        [JsonIgnore]
         public DateTime DateOfBirthAsType
         {
             get => NameAsStringConvert.StringToDateTime_yyyy_MM_dd(DateOfBirth);

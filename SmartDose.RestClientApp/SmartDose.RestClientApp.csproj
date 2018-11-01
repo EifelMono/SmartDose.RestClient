@@ -141,7 +141,7 @@
       <DependentUpon>ViewInput.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ViewParam.cs" />
-    <Compile Include="Views\ViewCrud.cs" />
+    <Compile Include="Views\ViewCruds.cs" />
     <Compile Include="Views\ViewTabItem.cs" />
     <Compile Include="Views\V2\MasterData\ViewMedicine.cs" />
     <Compile Include="Views\WindowObjectJson.xaml.cs">
@@ -221,10 +221,6 @@
     <ProjectReference Include="..\SmartDose.RestDomain\SmartDose.RestDomain.csproj">
       <Project>{cf621eb8-7f85-4010-8fa1-7468c3842795}</Project>
       <Name>SmartDose.RestDomain</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SmartDose.RestGenerator\SmartDose.RestGenerator.csproj">
-      <Project>{2667a6f0-2902-4f04-91fe-43aee65bfa18}</Project>
-      <Name>SmartDose.RestGenerator</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
