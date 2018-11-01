@@ -9,8 +9,8 @@ namespace SmartDose.RestDomain.Models.V2.Production
     /// </summary>
     public enum PouchType
     {
-        Emtpy = -2,
-        Null = -1,
+        FixEmpty = -2,
+        FixNull = -1,
         /// <summary>
         /// Empty
         /// </summary>

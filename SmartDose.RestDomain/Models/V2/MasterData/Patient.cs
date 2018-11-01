@@ -106,8 +106,8 @@ namespace SmartDose.RestDomain.Models.V2.MasterData
         [JsonIgnore]
         public Gender GenderAsType
         {
-            get => NameAsStringConvert.StringToEnum<Gender>(Gender);
-            set => Gender = NameAsStringConvert.EnumToString(value);
+            get => NameAsTypeConverter.StringToEnum<Gender>(Gender);
+            set => Gender = NameAsTypeConverter.EnumToString(value);
         }
 
         /// <summary>
@@ -125,8 +125,8 @@ namespace SmartDose.RestDomain.Models.V2.MasterData
         [JsonIgnore]
         public DateTime DateOfBirthAsType
         {
-            get => NameAsStringConvert.StringToDateTime_yyyy_MM_dd(DateOfBirth);
-            set => DateOfBirth = NameAsStringConvert.DateTimeToString_yyyy_MM_dd(value);
+            get => NameAsTypeConverter.StringToDateTime_yyyy_MM_dd(DateOfBirth);
+            set => DateOfBirth = NameAsTypeConverter.DateTimeToString_yyyy_MM_dd(value);
         }
 
         /// <summary>

@@ -121,6 +121,8 @@ namespace SmartDose.RestClientApp.Views
 
                         var pd = e?.NewSelection?.PropertyDescriptor;
                         var pp = pd.ComponentType.GetProperty(pd.Name);
+
+                        labelPropertyInfo.Content = pd?.Name ?? ""; 
                         JsonConverterAttribute jcA = null;
                         foreach (var attribute in pp.GetCustomAttributes().Where(aaa => aaa is JsonConverterAttribute))
                         {

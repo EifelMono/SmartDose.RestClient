@@ -1,41 +1,68 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Text;
+using ModelsV2 = SmartDose.RestDomain.Models.V2;
+using SmartDose.RestDomain;
 
 namespace SmartDose.RestDomain.Converter
 {
-    public static class NameAsStringConvert
+    public static class NameAsTypeConverter
     {
         #region Enum
-        public const int Null = -1;
-        public const int Empty = -2;
+        public const string FixNullAsString = "FixNull";
+        public const string FixEmptyAsString = "FixEmpty";
+        public const int FixNullAsValue = -1;
+        public const int FixEmptyAsValue = -2;
         public static T StringToEnum<T>(string value) where T : Enum
         {
             if (value is null)
-                return (T)Enum.ToObject(typeof(T), Null);
+                return (T)Enum.ToObject(typeof(T), FixNullAsValue);
             if (value == "")
-                return (T)Enum.ToObject(typeof(T), Empty);
+                return (T)Enum.ToObject(typeof(T), FixEmptyAsValue);
             try
             {
                 var enumValue = (T)Enum.Parse(typeof(T), value, true);
                 return enumValue;
             }
             catch { }
-            return (T)Enum.ToObject(typeof(T), Empty);
+            return (T)Enum.ToObject(typeof(T), FixEmptyAsValue);
         }
 
         public static string EnumToString<T>(T value) where T : Enum
         {
             switch (Convert.ToInt16(value))
             {
-                case Empty:
+                case FixEmptyAsValue:
                     return "";
-                case Null:
+                case FixNullAsValue:
                     return null;
                 default:
                     return value.ToString();
             }
+        }
+
+        public static ModelsV2.CultureInfoName StringToCultureInfoName(string value)
+        {
+            if (!string.IsNullOrEmpty(value))
+            {
+                if (!(value == FixNullAsString.ToLower() || value == FixEmptyAsString.ToLower()))
+                    if (value.StartsWith("cin_"))
+                        value = value.Replace("-", "_");
+                    else
+                        value = $"cin_{value.Replace("-", "_")}";
+            }
+            return StringToEnum<ModelsV2.CultureInfoName>(value);
+        }
+
+        public static string CultureInfoNameToString(ModelsV2.CultureInfoName value)
+        {
+            var result = EnumToString(value);
+            if (result != null)
+            {
+                if (result.StartsWith("cin_"))
+                    result = result.Replace("cin_", "");
+                result = result.Replace("_", "-");
+            }
+            return result;
         }
         #endregion
 

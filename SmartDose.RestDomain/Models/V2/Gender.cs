@@ -2,9 +2,9 @@
 
 
 #if RestDomainDev
-namespace SmartDose.RestDomainDev.Models.V2.Production
+namespace SmartDose.RestDomainDev.Models.V2
 #else
-namespace SmartDose.RestDomain.Models.V2.Production
+namespace SmartDose.RestDomain.Models.V2
 #endif
 {
     /// <summary>
@@ -12,8 +12,8 @@ namespace SmartDose.RestDomain.Models.V2.Production
     /// </summary>
     public enum Gender
     {
-        Emtpy = -2,
-        Null = -1,
+        FixEmpty = -2,
+        FixNull = -1,
         /// <summary>
         /// the gender is not set, this is the default value used.
         /// </summary>

@@ -49,7 +49,7 @@ namespace SmartDose.RestDomain.Models.V1.Production
         /// <summary>
         /// Gets or sets the state.
         /// </summary>
-        public OrderState State { get; set; } = OrderState.Null;
+        public OrderState State { get; set; } = OrderState.FixNull;
 
         [Browsable(false)]
         [JsonIgnore]

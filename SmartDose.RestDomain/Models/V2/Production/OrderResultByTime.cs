@@ -58,8 +58,8 @@ namespace SmartDose.RestDomain.Models.V2.Production
         [JsonIgnore]
         public DispenseStatus DispenseStateAsType
         {
-            get => NameAsStringConvert.StringToEnum<DispenseStatus>(DispenseState);
-            set => DispenseState = NameAsStringConvert.EnumToString(value);
+            get => NameAsTypeConverter.StringToEnum<DispenseStatus>(DispenseState);
+            set => DispenseState = NameAsTypeConverter.EnumToString(value);
         }
 
         /// <summary>

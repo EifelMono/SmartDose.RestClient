@@ -67,7 +67,6 @@
     <Compile Include="..\SmartDose.RestDomain\Models\V2\MasterData\Contact.cs" Link="Models\V2\MasterData\Contact.cs" />
     <Compile Include="..\SmartDose.RestDomain\Models\V2\MasterData\Customer.cs" Link="Models\V2\MasterData\Customer.cs" />
     <Compile Include="..\SmartDose.RestDomain\Models\V2\MasterData\DestinationFacility.cs" Link="Models\V2\MasterData\DestinationFacility.cs" />
-    <Compile Include="..\SmartDose.RestDomain\Models\V2\MasterData\Gender.cs" Link="Models\V2\MasterData\Gender.cs" />
     <Compile Include="..\SmartDose.RestDomain\Models\V2\MasterData\Manufacturer.cs" Link="Models\V2\MasterData\Manufacturer.cs" />
     <Compile Include="..\SmartDose.RestDomain\Models\V2\MasterData\Medicine.cs" Link="Models\V2\MasterData\Medicine.cs" />
     <Compile Include="..\SmartDose.RestDomain\Models\V2\MasterData\MedicinePicture.cs" Link="Models\V2\MasterData\MedicinePicture.cs" />
@@ -83,7 +82,6 @@
     <Compile Include="..\SmartDose.RestDomain\Models\V2\Production\DestinationFacility.cs" Link="Models\V2\Production\DestinationFacility.cs" />
     <Compile Include="..\SmartDose.RestDomain\Models\V2\Production\DispenseStatus.cs" Link="Models\V2\Production\DispenseStatus.cs" />
     <Compile Include="..\SmartDose.RestDomain\Models\V2\Production\ExternalOrderSourceInfo.cs" Link="Models\V2\Production\ExternalOrderSourceInfo.cs" />
-    <Compile Include="..\SmartDose.RestDomain\Models\V2\Production\Gender.cs" Link="Models\V2\Production\Gender.cs" />
     <Compile Include="..\SmartDose.RestDomain\Models\V2\Production\IntakeDetail.cs" Link="Models\V2\Production\IntakeDetail.cs" />
     <Compile Include="..\SmartDose.RestDomain\Models\V2\Production\MedicationDetail.cs" Link="Models\V2\Production\MedicationDetail.cs" />
     <Compile Include="..\SmartDose.RestDomain\Models\V2\Production\Order.cs" Link="Models\V2\Production\Order.cs" />
@@ -100,6 +98,8 @@
     <Compile Include="..\SmartDose.RestDomain\Models\V2\Production\ResultMedicationDetail.cs" Link="Models\V2\Production\ResultMedicationDetail.cs" />
     <Compile Include="..\SmartDose.RestDomain\Models\V2\Production\ResultOrderDetail.cs" Link="Models\V2\Production\ResultOrderDetail.cs" />
     <Compile Include="..\SmartDose.RestDomain\Models\V2\Production\ResultPatient.cs" Link="Models\V2\Production\ResultPatient.cs" />
+    <Compile Include="..\SmartDose.RestDomain\Models\V2\Gender.cs" Link="Models\V2\Gender.cs" />
+
   </ItemGroup>
 
   <ItemGroup>

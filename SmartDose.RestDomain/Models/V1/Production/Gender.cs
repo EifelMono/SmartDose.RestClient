@@ -9,8 +9,8 @@ namespace SmartDose.RestDomain.Models.V1.Production
     /// </summary>
     public enum Gender
     {
-        Emtpy = -2,
-        Null = -1,
+        FixEmpty = -2,
+        FixNull = -1,
         /// <summary>
         /// The undefined.
         /// </summary>

@@ -47,8 +47,8 @@ namespace SmartDose.RestDomain.Models.V2.Production
         [JsonIgnore]
         public PouchType PouchTypeAsType
         {
-            get => NameAsStringConvert.StringToEnum<PouchType>(PouchType);
-            set => PouchType = NameAsStringConvert.EnumToString(value);
+            get => NameAsTypeConverter.StringToEnum<PouchType>(PouchType);
+            set => PouchType = NameAsTypeConverter.EnumToString(value);
         }
 
         /// <summary>

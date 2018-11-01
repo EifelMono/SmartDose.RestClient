@@ -10,8 +10,8 @@ namespace SmartDose.RestDomain.Models.V1.Production
     /// </summary>
     public enum OrderState
     {
-        Emtpy = -2,
-        Null = -1,
+        FixEmpty = -2,
+        FixNull = -1,
         /// <summary>
         ///     "Unknown": No information about job state (failing connection etc.)
         /// </summary>

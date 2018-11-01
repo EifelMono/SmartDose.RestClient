@@ -50,7 +50,7 @@ namespace SmartDose.RestClientApp.Views
                 }
             }
 
-            var crudMenuItem = rootMenuItem.Add("CRUD", true);
+            var crudMenuItem = rootMenuItem.Add("Cruds", true);
             var crudMenuV1Item = crudMenuItem.Add("V1", true);
             var crudMenuV1InverntoryItem = crudMenuV1Item.Add("Inventory", true);
             crudMenuV1InverntoryItem.Add("MedicineContainer", new RestDomain.Models.ModelsItem { Type = typeof(V1.Inventory.ViewMedicineContainer) });

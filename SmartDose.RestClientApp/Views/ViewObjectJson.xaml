@@ -54,6 +54,7 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*" />
                         <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
                     <WindowsFormsHost Grid.Row="0">
                         <forms:PropertyGrid x:Name="propertyGridView">
@@ -62,9 +63,14 @@
                             </forms:PropertyGrid.ContextMenuStrip>
                         </forms:PropertyGrid>
                     </WindowsFormsHost>
+                    <Label
+                        Name="labelPropertyInfo"
+                        Grid.Row="1"
+                        Content=" "
+                        FontWeight="Bold" />
                     <ListBox
                         Name="listBoxPropertyInfo"
-                        Grid.Row="1"
+                        Grid.Row="2"
                         Height="45" />
                 </Grid>
             </TabItem>

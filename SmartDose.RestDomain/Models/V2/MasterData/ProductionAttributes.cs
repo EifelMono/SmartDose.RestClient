@@ -68,8 +68,8 @@ namespace SmartDose.RestDomain.Models.V2.MasterData
         [JsonIgnore]
         public FillingMode FillingModeAsType
         {
-            get => NameAsStringConvert.StringToEnum<FillingMode>(FillingMode);
-            set => FillingMode = NameAsStringConvert.EnumToString(value);
+            get => NameAsTypeConverter.StringToEnum<FillingMode>(FillingMode);
+            set => FillingMode = NameAsTypeConverter.EnumToString(value);
         }
     }
 }

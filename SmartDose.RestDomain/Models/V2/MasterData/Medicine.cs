@@ -70,8 +70,8 @@ namespace SmartDose.RestDomain.Models.V2.MasterData
         [JsonIgnore]
         public Status StatusAsType
         {
-            get => NameAsStringConvert.StringToEnum<Status>(Status);
-            set => Status = NameAsStringConvert.EnumToString(value);
+            get => NameAsTypeConverter.StringToEnum<Status>(Status);
+            set => Status = NameAsTypeConverter.EnumToString(value);
         }
 
         /// <summary>

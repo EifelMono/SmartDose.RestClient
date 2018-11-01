@@ -15,7 +15,7 @@ namespace SmartDose.RestDomain.Models.V1.Production
         /// <summary>
         /// Gets or sets the gender.
         /// </summary>
-        public Gender Gender { get; set; } = Gender.Null;
+        public Gender Gender { get; set; } = Gender.FixNull;
 
         /// <summary>
         /// Gets or sets the external patient number.
