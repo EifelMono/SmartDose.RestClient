@@ -2,7 +2,7 @@
 using System.ComponentModel;
 
 #if RestDomainDev
-namespace SmartDose.RestDomainDev.Models
+namespace SmartDose.RestDomainDev.Models.V1
 #else
 namespace SmartDose.RestDomain.Models.V1
 #endif

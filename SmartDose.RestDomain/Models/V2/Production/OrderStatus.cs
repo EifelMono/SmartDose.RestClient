@@ -35,14 +35,8 @@ namespace SmartDose.RestDomain.Models.V2.Production
         /// <value>
         /// The dispense status.
         /// </value>
-#if RestDomainDev
-        [CategoryAsString]
-#endif
         [EnumValidation(typeof(DispenseStatus))]
         public string DispenseState { get; set; }
-#if RestDomainDev
-        [CategoryAsType]
-#endif
         [JsonIgnore]
         public DispenseStatus DispenseStateAsType
         {

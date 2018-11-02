@@ -59,14 +59,8 @@ namespace SmartDose.RestDomain.Models.V2.MasterData
         /// <summary>
         /// Gets or sets the status.
         /// </summary>
-#if RestDomainDev
-        [CategoryAsString]
-#endif
         [EnumValidation(typeof(Status), optional: true)]
         public string Status { get; set; }
-#if RestDomainDev
-        [CategoryAsType]
-#endif
         [JsonIgnore]
         public Status StatusAsType
         {

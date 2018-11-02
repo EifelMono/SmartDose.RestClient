@@ -57,14 +57,8 @@ namespace SmartDose.RestDomain.Models.V2.MasterData
         /// <value>
         /// The filling mode.
         /// </value>
-#if RestDomainDev
-        [CategoryAsString]
-#endif
         [EnumValidation(typeof(FillingMode), optional: true)]
         public string FillingMode { get; set; }
-#if RestDomainDev
-        [CategoryAsType]
-#endif
         [JsonIgnore]
         public FillingMode FillingModeAsType
         {

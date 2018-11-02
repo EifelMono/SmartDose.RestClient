@@ -4,10 +4,9 @@ using SmartDose.RestDomain.Validation;
 using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-
+using SmartDose.RestDomain.Models.V2;
 
 #if RestDomainDev
-using System.Drawing.Design;
 using SmartDose.RestDomainDev.PropertyEditorThings;
 namespace SmartDose.RestDomainDev.Models.V2.MasterData
 #else
@@ -95,14 +94,8 @@ namespace SmartDose.RestDomain.Models.V2.MasterData
         /// </summary>
         public string Fax { get; set; }
 
-#if RestDomainDev
-        [CategoryAsString]
-#endif
         [EnumValidation(typeof(Gender), optional: true)]
-        public string Gender { get; set; }
-#if RestDomainDev
-        [CategoryAsType]
-#endif
+        public string Gender { get; set; }= NameAsTypeConverter.EnumToString(V2.Gender.Undefined);
         [JsonIgnore]
         public Gender GenderAsType
         {
@@ -113,13 +106,9 @@ namespace SmartDose.RestDomain.Models.V2.MasterData
         /// <summary>
         /// Get or sets the birthday of the patient       
         /// </summary>
-#if RestDomainDev
-        [CategoryAsString]
-#endif
         [DateTimeValidation("yyyy-MM-dd", "DateOfBirth is required with yyyy-MM-dd format.")]
         public string DateOfBirth { get; set; }
 #if RestDomainDev
-        [CategoryAsType]
         [TypeConverter(typeof(Date_yyyy_MM_dd_TypeConverter))]
 #endif
         [JsonIgnore]
@@ -133,10 +122,14 @@ namespace SmartDose.RestDomain.Models.V2.MasterData
         /// Gets or sets the culture of the patient
         /// </summary>
         [CultureValidation("Culture (Combination of languagecode-regioncode) is required.")]
-#if RestDomainDev
-        [TypeConverter(typeof(CultureTypeConverter))]
-#endif
         public string Culture { get; set; }
+        [JsonIgnore]
+        public CultureInfoName CultureAsType
+        {
+            get => NameAsTypeConverter.StringToCultureInfoName(Culture);
+            set => Culture = NameAsTypeConverter.CultureInfoNameToString(value);
+        }
+
 
         public override string ToString()
           => $"{PatientCode} {FirstName} {LastName}";

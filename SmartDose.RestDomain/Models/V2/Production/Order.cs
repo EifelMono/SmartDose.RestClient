@@ -39,14 +39,9 @@ namespace SmartDose.RestDomain.Models.V2.Production
         /// <value>
         /// The timestamp.
         /// </value>
-
-#if RestDomainDev
-        [CategoryAsString]
-#endif
         [DateTimeValidation("yyyy-MM-ddTHH:mm:ssZ", "Timestamp is required with yyyy-MM-ddTHH:mm:ssZ format.")]
         public string Timestamp { get; set; } = NameAsTypeConverter.DateTimeToString_yyyy_MM_ddTHH_mm_ssZ(DateTime.Now);
 #if RestDomainDev
-        [CategoryAsType]
         [TypeConverter(typeof(Date_yyyy_MM_ddTHH_mm_ssZ_TypeConverter))]
         [Editor(typeof(DateTime_yyyy_MM_ddTHH_mm_ssZ_Editor), typeof(UITypeEditor))]
 #endif

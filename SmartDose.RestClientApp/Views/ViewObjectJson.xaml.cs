@@ -12,7 +12,6 @@ using System.Windows.Media;
 using Newtonsoft.Json;
 using SmartDose.RestClientApp.Globals;
 using SmartDose.RestDomainDev;
-using SmartDose.RestDomain.Converter;
 
 namespace SmartDose.RestClientApp.Views
 {
@@ -122,7 +121,10 @@ namespace SmartDose.RestClientApp.Views
                         var pd = e?.NewSelection?.PropertyDescriptor;
                         var pp = pd.ComponentType.GetProperty(pd.Name);
 
-                        labelPropertyInfo.Content = pd?.Name ?? ""; 
+                        labelPropertyInfo.Content = FindPropertyFullName(propertyGridView.SelectedGridItem, pd?.Name ?? "");
+
+                        // var xx = ((System.Windows.Forms.PropertyGridInternal.GridEntry)propertyGridView.SelectedGridItem).FullLabel;
+
                         JsonConverterAttribute jcA = null;
                         foreach (var attribute in pp.GetCustomAttributes().Where(aaa => aaa is JsonConverterAttribute))
                         {
@@ -282,6 +284,43 @@ namespace SmartDose.RestClientApp.Views
             {
                 MessageBox.Show(ex.Message);
             }
+        }
+
+        private string FindPropertyFullName(System.Windows.Forms.GridItem gridItem, string name)
+        {
+            if (gridItem.Parent != null)
+            {
+                if (gridItem.Parent.GridItemType != System.Windows.Forms.GridItemType.Category)
+                {
+                    var parentName = gridItem.Parent.Label.Trim();
+                    if (gridItem.Parent.GridItemType == System.Windows.Forms.GridItemType.Root)
+                    {
+                        // this does not work!
+                        // parentName = parentName.Split('.').LastOrDefault();
+                        parentName = propertyGridView.SelectedObject.GetType().FullName.Split('.').LastOrDefault();
+                    }
+                    if (int.TryParse(name, out var index))
+                    {
+                        name = $"{parentName}[{index}]";
+                    }
+                    else
+                    {
+                        if (parentName.StartsWith("["))
+                        {
+                            var pos = parentName.IndexOf("]");
+                            name = parentName.Substring(0, pos+ 1) + "." + name;
+                        }
+                        else
+                        {
+                            if (!string.IsNullOrEmpty(name) && !name.StartsWith("["))
+                                name = '.' + name;
+                            name = parentName + name;
+                        }
+                    }
+                }
+                name = FindPropertyFullName(gridItem.Parent, name);
+            }
+            return name;
         }
     }
 }

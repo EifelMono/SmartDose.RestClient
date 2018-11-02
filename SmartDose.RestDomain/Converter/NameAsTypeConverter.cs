@@ -44,7 +44,7 @@ namespace SmartDose.RestDomain.Converter
         {
             if (!string.IsNullOrEmpty(value))
             {
-                if (!(value == FixNullAsString.ToLower() || value == FixEmptyAsString.ToLower()))
+                if (!(value.ToLower() == FixNullAsString.ToLower() || value.ToLower() == FixEmptyAsString.ToLower()))
                     if (value.StartsWith("cin_"))
                         value = value.Replace("-", "_");
                     else

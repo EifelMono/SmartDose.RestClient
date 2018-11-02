@@ -5,7 +5,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System;
 using System.Collections.Generic;
-
+using SmartDose.RestDomain.Models.V2;
 
 #if RestDomainDev
 using System.Drawing.Design;
@@ -65,14 +65,8 @@ namespace SmartDose.RestDomain.Models.V2.Production
         /// <summary>
         /// Gets or sets the gender of the patient
         /// </summary>
-#if RestDomainDev
-        [CategoryAsString]
-#endif
         [EnumValidation(typeof(Gender), optional: true)]
         public string Gender { get; set; }
-#if RestDomainDev
-        [CategoryAsType]
-#endif
         [JsonIgnore]
         public Gender GenderAsType
         {
@@ -83,13 +77,9 @@ namespace SmartDose.RestDomain.Models.V2.Production
         /// <summary>
         /// Get or sets the birthday of the patient       
         /// </summary>
-#if RestDomainDev
-        [CategoryAsString]
-#endif
         [DateTimeValidation("yyyy-MM-dd", "DateOfBirth is required with yyyy-MM-dd format.")]
         public string DateOfBirth { get; set; }
 #if RestDomainDev
-        [CategoryAsType]
         [TypeConverter(typeof(Date_yyyy_MM_dd_TypeConverter))]
         [Editor(typeof(DateTime_yyyy_MM_dd_Editor), typeof(UITypeEditor))]
 #endif
@@ -107,10 +97,13 @@ namespace SmartDose.RestDomain.Models.V2.Production
         /// The culture.
         /// </value>
         [CultureValidation("Culture (Combination of languagecode-regioncode) is required.")]
-#if RestDomainDev
-        [TypeConverter(typeof(CultureTypeConverter))]
-#endif
         public string Culture { get; set; }
+        [JsonIgnore]
+        public CultureInfoName CultureAsType
+        {
+            get => NameAsTypeConverter.StringToCultureInfoName(Culture);
+            set => Culture = NameAsTypeConverter.CultureInfoNameToString(value);
+        }
 
         /// <summary>
         /// Gets or sets the patient attributes.

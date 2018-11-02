@@ -36,14 +36,8 @@ namespace SmartDose.RestDomain.Models.V2.Production
         /// <value>
         /// The type of the pouch.
         /// </value>
-#if RestDomainDev
-        [CategoryAsString]
-#endif 
         [EnumValidation(typeof(PouchType))]
         public string PouchType { get; set; }
-#if RestDomainDev
-        [CategoryAsType]
-#endif
         [JsonIgnore]
         public PouchType PouchTypeAsType
         {
