@@ -36,29 +36,5 @@ namespace SmartDose.RestDomain.Models.V1.MasterData
 
         public override string ToString()
             => $"{Name} ({Identifier})";
-
-        public static Medicine Dummy(string identifier, string name = null)
-        {
-            identifier = identifier ?? Guid.NewGuid().ToString();
-            return new Medicine
-            {
-
-                Identifier = identifier,
-                Name = string.IsNullOrEmpty(name) ? $"Medicine {identifier}" : name,
-                Description = $"Med Desc {identifier}",
-                Comment = $"Comment {identifier}",
-                Active = true,
-                SpecialHandling = new SpecialHandling
-                {
-                    Narcotic = true,
-                    SeparatePouch = false,
-                    MaxAmountPerPouch = 4,
-                    RoboticHandling = false,
-                    NeedsCooling = false,
-                    Splittable = true
-                },
-                TrayFillOnly = false,
-            };
-        }
     }
 }

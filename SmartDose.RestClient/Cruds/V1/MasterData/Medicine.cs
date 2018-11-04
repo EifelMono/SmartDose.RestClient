@@ -1,4 +1,5 @@
-﻿using System.Net.Http;
+﻿using System;
+using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using SmartDose.RestClient.Extensions;
@@ -17,5 +18,7 @@ namespace SmartDose.RestClient.Cruds.V1.MasterData
         public async Task<SdrcFlurHttpResponse<int>> GetCanisterCountAsync(string medicineCode, CancellationToken cancellationToken = default(CancellationToken), HttpCompletionOption completionOption = HttpCompletionOption.ResponseContentRead)
             => await UrlClone.AppendPathSegments(medicineCode, "CanisterCount")
                 .SdrcGetJsonAsync<int>(cancellationToken, completionOption).ConfigureAwait(false);
+        public async Task<SdrcFlurHttpResponse<int>> GetCanisterCountAsync(string medicineCode, TimeSpan timeSpan)
+            => await GetCanisterCountAsync(medicineCode, CancellationTokenFromTimeSpan(timeSpan)).ConfigureAwait(false);
     }
 }

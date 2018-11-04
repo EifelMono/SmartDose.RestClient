@@ -21,7 +21,6 @@ namespace SmartDose.RestDomainDev.PropertyEditorThings
             return sourceType == typeof(string);
         }
 
-
         public override object ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, object value)
         {
             if (value is string s)
@@ -47,7 +46,7 @@ namespace SmartDose.RestDomainDev.PropertyEditorThings
                 }
                 catch
                 {
-                    return DateTimeGlobals.MinValue;
+                    return NameAsTypeConverter.MinValue;
                 }
 
 
@@ -58,16 +57,16 @@ namespace SmartDose.RestDomainDev.PropertyEditorThings
 
     public class Date_yyyy_MM_dd_TypeConverter : DateTimeTypeConverter
     {
-        public Date_yyyy_MM_dd_TypeConverter() : base(DateTimeGlobals.DateTime_yyyy_MM_dd) { }
+        public Date_yyyy_MM_dd_TypeConverter() : base(NameAsTypeConverter.DateTime_yyyy_MM_dd) { }
     }
 
     public class Date_yyyy_MM_ddTHH_mm_ssZ_TypeConverter : DateTimeTypeConverter
     {
-        public Date_yyyy_MM_ddTHH_mm_ssZ_TypeConverter() : base(DateTimeGlobals.DateTime_yyyy_MM_ddTHH_mm_ssZ) { }
+        public Date_yyyy_MM_ddTHH_mm_ssZ_TypeConverter() : base(NameAsTypeConverter.DateTime_yyyy_MM_ddTHH_mm_ssZ) { }
     }
 
     public class Date_yyyy_MM_ddTHH_mm_ss_TypeConverter : DateTimeTypeConverter
     {
-        public Date_yyyy_MM_ddTHH_mm_ss_TypeConverter() : base(DateTimeGlobals.DateTime_yyyy_MM_ddTHH_mm_ss) { }
+        public Date_yyyy_MM_ddTHH_mm_ss_TypeConverter() : base(NameAsTypeConverter.DateTime_yyyy_MM_ddTHH_mm_ss) { }
     }
 }

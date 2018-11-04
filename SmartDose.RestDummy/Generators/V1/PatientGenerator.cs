@@ -2,7 +2,7 @@
 using SmartDose.RestDummy.Generators.V0;
 using Models = SmartDose.RestDomain.Models.V1;
 
-namespace SmartDose.RestDummy.Generator.V1
+namespace SmartDose.RestDummy.Generators.V1
 {
     public class PatientGenerator
     {

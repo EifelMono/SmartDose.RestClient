@@ -22,71 +22,71 @@ namespace SmartDose.RestTest
         public void TestCultureEnum()
         {
             {
-                var e = ModelsV2.CultureInfoName.cin_de_DE;
-                var s = NameAsTypeConverter.CultureInfoNameToString(e);
-                var enew = NameAsTypeConverter.StringToCultureInfoName(s);
+                var e = ModelsV2.CultureName.cn_de_DE;
+                var s = NameAsTypeConverter.CultureNameToString(e);
+                var enew = NameAsTypeConverter.StringToCultureName(s);
                 Assert.Equal(e, enew);
             }
             {
-                var e = ModelsV2.CultureInfoName.FixEmpty;
-                var s = NameAsTypeConverter.CultureInfoNameToString(e);
-                var enew = NameAsTypeConverter.StringToCultureInfoName(s);
+                var e = ModelsV2.CultureName.FixEmpty;
+                var s = NameAsTypeConverter.CultureNameToString(e);
+                var enew = NameAsTypeConverter.StringToCultureName(s);
                 Assert.Equal(e, enew);
             }
             {
-                var e = ModelsV2.CultureInfoName.FixNull;
-                var s = NameAsTypeConverter.CultureInfoNameToString(e);
-                var enew = NameAsTypeConverter.StringToCultureInfoName(s);
+                var e = ModelsV2.CultureName.FixNull;
+                var s = NameAsTypeConverter.CultureNameToString(e);
+                var enew = NameAsTypeConverter.StringToCultureName(s);
                 Assert.Equal(e, enew);
             }
             {
                 var s = "de-DE";
-                var e = NameAsTypeConverter.StringToCultureInfoName(s);
-                var snew = NameAsTypeConverter.CultureInfoNameToString(e);
+                var e = NameAsTypeConverter.StringToCultureName(s);
+                var snew = NameAsTypeConverter.CultureNameToString(e);
                 Assert.Equal(s, snew);
             }
             {
-                var s = "cin_de_DE";
-                var e = NameAsTypeConverter.StringToCultureInfoName(s);
-                var snew = NameAsTypeConverter.CultureInfoNameToString(e);
+                var s = "cn_de_DE";
+                var e = NameAsTypeConverter.StringToCultureName(s);
+                var snew = NameAsTypeConverter.CultureNameToString(e);
                 Assert.Equal("de-DE", snew);
             }
 
             {
                 var s = "FixEmpty";
-                var e = NameAsTypeConverter.StringToCultureInfoName(s);
-                var snew = NameAsTypeConverter.CultureInfoNameToString(e);
+                var e = NameAsTypeConverter.StringToCultureName(s);
+                var snew = NameAsTypeConverter.CultureNameToString(e);
                 Assert.Equal("", snew);
             }
             {
                 var s = "FixNull";
-                var e = NameAsTypeConverter.StringToCultureInfoName(s);
-                var snew = NameAsTypeConverter.CultureInfoNameToString(e);
+                var e = NameAsTypeConverter.StringToCultureName(s);
+                var snew = NameAsTypeConverter.CultureNameToString(e);
                 Assert.Null(snew);
             }
 
-            foreach (ModelsV2.CultureInfoName e in Enum.GetValues(typeof(ModelsV2.CultureInfoName)))
+            foreach (ModelsV2.CultureName e in Enum.GetValues(typeof(ModelsV2.CultureName)))
             {
-                var s = NameAsTypeConverter.CultureInfoNameToString(e);
-                var enew = NameAsTypeConverter.StringToCultureInfoName(s);
+                var s = NameAsTypeConverter.CultureNameToString(e);
+                var enew = NameAsTypeConverter.StringToCultureName(s);
                 Assert.Equal(e, enew);
             }
-            foreach (var s in Enum.GetNames(typeof(ModelsV2.CultureInfoName)))
+            foreach (var s in Enum.GetNames(typeof(ModelsV2.CultureName)))
             {
-                var e = NameAsTypeConverter.StringToCultureInfoName(s);
-                var snew = NameAsTypeConverter.CultureInfoNameToString(e);
+                var e = NameAsTypeConverter.StringToCultureName(s);
+                var snew = NameAsTypeConverter.CultureNameToString(e);
                 switch (e)
                 {
-                    case ModelsV2.CultureInfoName.FixEmpty:
+                    case ModelsV2.CultureName.FixEmpty:
                         Assert.Equal("FixEmpty", s);
                         Assert.Equal("", snew);
                         break;
-                    case ModelsV2.CultureInfoName.FixNull:
+                    case ModelsV2.CultureName.FixNull:
                         Assert.Equal("FixNull", s);
                         Assert.Null(snew);
                         break;
                     default:
-                        Assert.Equal(s.Replace("cin_", "").Replace("_", "-"), snew);
+                        Assert.Equal(s.Replace("cn_", "").Replace("_", "-"), snew);
                         break;
                 }
             }

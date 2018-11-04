@@ -1,4 +1,5 @@
-﻿using System.Net.Http;
+﻿using System;
+using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using SmartDose.RestClient.Extensions;
@@ -17,14 +18,25 @@ namespace SmartDose.RestClient.Cruds.V2.Inventory
         public async Task<SdrcFlurHttpResponse> CreateAsync(Models.Inventory.StockBottle value, CancellationToken cancellationToken = default(CancellationToken), HttpCompletionOption completionOption = HttpCompletionOption.ResponseContentRead)
             => await UrlClone
                 .SdrcPostJsonAsync(value, cancellationToken, completionOption).ConfigureAwait(false);
+        public async Task<SdrcFlurHttpResponse> CreateAsync(Models.Inventory.StockBottle value, TimeSpan timeSpan)
+            => await CreateAsync(value, CancellationTokenFromTimeSpan(timeSpan)).ConfigureAwait(false);
+
         public async Task<SdrcFlurHttpResponse<Models.Inventory.StockBottle>> ReadAsync(string readId, CancellationToken cancellationToken = default(CancellationToken), HttpCompletionOption completionOption = HttpCompletionOption.ResponseContentRead)
             => await UrlClone.AppendPathSegment(readId)
                 .SdrcGetJsonAsync<Models.Inventory.StockBottle>(cancellationToken, completionOption).ConfigureAwait(false);
+        public async Task<SdrcFlurHttpResponse<Models.Inventory.StockBottle>> ReadAsync(string readId, TimeSpan timeSpan)
+            => await ReadAsync(readId, CancellationTokenFromTimeSpan(timeSpan)).ConfigureAwait(false);
+
         public async Task<SdrcFlurHttpResponse> UpdateAsync(Models.Inventory.StockBottle value, CancellationToken cancellationToken = default(CancellationToken), HttpCompletionOption completionOption = HttpCompletionOption.ResponseContentRead)
             => await UrlClone.SdrcPutJsonAsync(value, cancellationToken, completionOption).ConfigureAwait(false);
+        public async Task<SdrcFlurHttpResponse> UpdateAsync(Models.Inventory.StockBottle value, TimeSpan timeSpan)
+            => await UpdateAsync(value, CancellationTokenFromTimeSpan(timeSpan)).ConfigureAwait(false);
+
         public async Task<SdrcFlurHttpResponse> DeleteAsync(string deleteId, CancellationToken cancellationToken = default(CancellationToken), HttpCompletionOption completionOption = HttpCompletionOption.ResponseContentRead)
             => await UrlClone.AppendPathSegment(deleteId)
                 .SdrcDeleteAsync(cancellationToken, completionOption).ConfigureAwait(false);
+        public async Task<SdrcFlurHttpResponse> DeleteAsync(string deleteId, TimeSpan timeSpan)
+            => await DeleteAsync(deleteId, CancellationTokenFromTimeSpan(timeSpan)).ConfigureAwait(false);
 
     }
 }

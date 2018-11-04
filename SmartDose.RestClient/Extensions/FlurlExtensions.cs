@@ -19,8 +19,10 @@ namespace SmartDose.RestClient.Extensions
             => thisValue.StatusCode.IsHttpStatusCode(HttpStatusCode.OK);
         public static bool IsHttpStatusCodeUndefined(this SdrcFlurHttpResponse thisValue)
             => thisValue.StatusCode.IsHttpStatusCode((HttpStatusCode)SdrcHttpStatusCode.Undefined);
-        public static bool IsHttpStatusCodeRequestTimeout(this SdrcFlurHttpResponse thisValue)
+        public static bool IsHttpStatusCodeFlurlTimeout(this SdrcFlurHttpResponse thisValue)
             => thisValue.StatusCode.IsHttpStatusCode((HttpStatusCode)SdrcHttpStatusCode.FlurlTimeOut);
+        public static bool IsHttpStatusCodeFlurlTaskCanceled(this SdrcFlurHttpResponse thisValue)
+       => thisValue.StatusCode.IsHttpStatusCode((HttpStatusCode)SdrcHttpStatusCode.FlurlTaskCanceled);
         public static bool IsHttpStatusCodeFlurException(this SdrcFlurHttpResponse thisValue)
             => thisValue.StatusCode.IsHttpStatusCode((HttpStatusCode)SdrcHttpStatusCode.FlurlException);
         public static bool IsHttpStatusCodeException(this SdrcFlurHttpResponse thisValue)
@@ -45,7 +47,10 @@ namespace SmartDose.RestClient.Extensions
             }
             catch (FlurlHttpException ex1)
             {
-                sdrcResponse.StatusCode = ex1.Call.Response?.StatusCode ?? (HttpStatusCode)(SdrcHttpStatusCode.FlurlException);
+                if (ex1.InnerException is TaskCanceledException)
+                    sdrcResponse.StatusCode = ex1.Call.Response?.StatusCode ?? (HttpStatusCode)(SdrcHttpStatusCode.FlurlTaskCanceled);
+                else
+                    sdrcResponse.StatusCode = ex1.Call.Response?.StatusCode ?? (HttpStatusCode)(SdrcHttpStatusCode.FlurlException);
                 if (ex1.Call?.Response?.Content != null)
                     try
                     {

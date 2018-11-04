@@ -16,7 +16,7 @@ namespace SmartDose.RestClient.ConsoleSample.Rest.V1.MasterData
                         Console.WriteLine($"{medicine.Name} {medicine.Identifier}");
                 }
                 else
-                    Console.WriteLine($"{response.Request}\r\n{response.StatusCode}\r\n{response.Message}\r\n{response.Data}");
+                    Console.WriteLine($"{response.Request}\r\n{response.StatusCodeAsString}\r\n{response.Message}\r\n{response.Data}");
             }
 
             {
@@ -32,7 +32,18 @@ namespace SmartDose.RestClient.ConsoleSample.Rest.V1.MasterData
                     Console.WriteLine($"{response.Data.Detail}");
                 }
                 else
-                    Console.WriteLine($"{response.Request}\r\n{response.StatusCode}\r\n{response.Message}\r\n{response.Data}");
+                    Console.WriteLine($"{response.Request}\r\n{response.StatusCodeAsString}\r\n{response.Message}\r\n{response.Data}");
+            }
+
+            // Read list with short responsetime
+            {
+                if (await sdCrud.MasterData.Medicine.Instance.ReadListAsync(TimeSpan.FromSeconds(1)) is var response && response.Ok)
+                {
+                    foreach (var medicine in response.Data)
+                        Console.WriteLine($"{medicine.Name} {medicine.Identifier}");
+                }
+                else
+                    Console.WriteLine($"{response.Request}\r\n{response.StatusCodeAsString}\r\n{response.Message}\r\n{response.Data}");
             }
         }
     }

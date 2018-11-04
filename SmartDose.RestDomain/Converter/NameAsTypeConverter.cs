@@ -40,26 +40,26 @@ namespace SmartDose.RestDomain.Converter
             }
         }
 
-        public static ModelsV2.CultureInfoName StringToCultureInfoName(string value)
+        public static ModelsV2.CultureName StringToCultureName(string value)
         {
             if (!string.IsNullOrEmpty(value))
             {
                 if (!(value.ToLower() == FixNullAsString.ToLower() || value.ToLower() == FixEmptyAsString.ToLower()))
-                    if (value.StartsWith("cin_"))
+                    if (value.StartsWith("cn_"))
                         value = value.Replace("-", "_");
                     else
-                        value = $"cin_{value.Replace("-", "_")}";
+                        value = $"cn_{value.Replace("-", "_")}";
             }
-            return StringToEnum<ModelsV2.CultureInfoName>(value);
+            return StringToEnum<ModelsV2.CultureName>(value);
         }
 
-        public static string CultureInfoNameToString(ModelsV2.CultureInfoName value)
+        public static string CultureNameToString(ModelsV2.CultureName value)
         {
             var result = EnumToString(value);
             if (result != null)
             {
-                if (result.StartsWith("cin_"))
-                    result = result.Replace("cin_", "");
+                if (result.StartsWith("cn_"))
+                    result = result.Replace("cn_", "");
                 result = result.Replace("_", "-");
             }
             return result;
@@ -72,6 +72,7 @@ namespace SmartDose.RestDomain.Converter
 
         public static string DateTime_yyyy_MM_dd { get; private set; } = "yyyy-MM-dd";
         public static string DateTime_yyyy_MM_ddTHH_mm_ssZ { get; private set; } = "yyyy-MM-ddTHH:mm:ssZ";
+        public static string DateTime_yyyy_MM_ddTHH_mm_ss { get; private set; } = "yyyy-MM-ddTHH:mm:ss";
 
         public static DateTime StringToDateTime(string value, string format)
         {
@@ -97,7 +98,12 @@ namespace SmartDose.RestDomain.Converter
         public static DateTime StringToDateTime_yyyy_MM_ddTHH_mm_ssZ(string value)
             => StringToDateTime(value, DateTime_yyyy_MM_ddTHH_mm_ssZ);
         public static string DateTimeToString_yyyy_MM_ddTHH_mm_ssZ(DateTime value)
-         => value.ToString(DateTime_yyyy_MM_ddTHH_mm_ssZ, CultureInfo.InvariantCulture);
+             => value.ToString(DateTime_yyyy_MM_ddTHH_mm_ssZ, CultureInfo.InvariantCulture);
+
+        public static DateTime StringToDateTime_yyyy_MM_ddTHH_mm_ss(string value)
+     => StringToDateTime(value, DateTime_yyyy_MM_ddTHH_mm_ss);
+        public static string DateTimeToString_yyyy_MM_ddTHH_mm_ss(DateTime value)
+             => value.ToString(DateTime_yyyy_MM_ddTHH_mm_ss, CultureInfo.InvariantCulture);
         #endregion
     }
 }

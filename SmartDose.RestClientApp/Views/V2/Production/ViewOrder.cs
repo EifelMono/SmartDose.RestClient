@@ -52,7 +52,7 @@ namespace SmartDose.RestClientApp.Views.V2.Production
                 {
                     new ViewParam {Name=labelIdName, IsViewObjectJson= false, Value= "" },
                 },
-                OnButtonExecute = async (self) => self.ResponseObject = await crudInstance.GetOrderResult(
+                OnButtonExecute = async (self) => self.ResponseObject = await crudInstance.GetOrderResultAsync(
                                         self.RequestParamsValueAsString(0)),
             });
 
@@ -63,7 +63,7 @@ namespace SmartDose.RestClientApp.Views.V2.Production
                 {
                     new ViewParam {Name=labelIdName, IsViewObjectJson= false, Value= "" },
                 },
-                OnButtonExecute = async (self) => self.ResponseObject = await crudInstance.GetOrderResultByTime(
+                OnButtonExecute = async (self) => self.ResponseObject = await crudInstance.GetOrderResultByTimeAsync(
                                         self.RequestParamsValueAsString(0))
             });
 
@@ -73,7 +73,7 @@ namespace SmartDose.RestClientApp.Views.V2.Production
                 RequestParams = new List<ViewParam>
                 {
                 },
-                OnButtonExecute = async (self) => self.ResponseObject = await crudInstance.GetOrderStatus()
+                OnButtonExecute = async (self) => self.ResponseObject = await crudInstance.GetOrderStatusAsync()
             });
 
             _tabControl.Items.Add(new ViewTabItem<Models.Production.Order>
@@ -83,7 +83,7 @@ namespace SmartDose.RestClientApp.Views.V2.Production
                 {
                     new ViewParam {Name=labelIdName, IsViewObjectJson= false, Value= "" },
                 },
-                OnButtonExecute = async (self) => self.ResponseObject = await crudInstance.GetOrderStatus(
+                OnButtonExecute = async (self) => self.ResponseObject = await crudInstance.GetOrderStatusAsync(
                                         self.RequestParamsValueAsString(0))
             });
         }

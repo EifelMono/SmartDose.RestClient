@@ -21,7 +21,7 @@ namespace SmartDose.RestClientApp.Views.V2.Inventory
                 RequestParams = new List<ViewParam>
                 {
                 },
-                OnButtonExecute = async (self) => self.ResponseObject = await crudInstance.GetMedicineStocks()
+                OnButtonExecute = async (self) => self.ResponseObject = await crudInstance.GetMedicineStocksAsync()
             });
 
             _tabControl.Items.Add(new ViewTabItemCreate<Models.Inventory.StockBottle>
@@ -31,7 +31,7 @@ namespace SmartDose.RestClientApp.Views.V2.Inventory
                 {
                         new ViewParam {Name="MedicineCode", IsViewObjectJson= false, Value= "" },
                 },
-                OnButtonExecute = async (self) => self.ResponseObject = await crudInstance.GetMedicineStock(self.RequestParamsValueAsString(0))
+                OnButtonExecute = async (self) => self.ResponseObject = await crudInstance.GetMedicineStockAsync(self.RequestParamsValueAsString(0))
             });
 
             _tabControl.Items.Add(new ViewTabItemCreate<Models.Inventory.StockBottle>
@@ -41,7 +41,7 @@ namespace SmartDose.RestClientApp.Views.V2.Inventory
                 {
                         new ViewParam {Name="MedicineCode", IsViewObjectJson= false, Value= "" },
                 },
-                OnButtonExecute = async (self) => self.ResponseObject = await crudInstance.GetStockBottles(self.RequestParamsValueAsString(0))
+                OnButtonExecute = async (self) => self.ResponseObject = await crudInstance.GetStockBottlesAsync(self.RequestParamsValueAsString(0))
             });
         }
     }

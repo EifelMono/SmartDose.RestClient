@@ -1,9 +1,13 @@
-﻿using SmartDose.RestDomain.Validation;
+﻿using Newtonsoft.Json;
+using SmartDose.RestDomain.Converter;
+using SmartDose.RestDomain.Validation;
 using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 #if RestDomainDev
+using System.Drawing.Design;
+using SmartDose.RestDomainDev.PropertyEditorThings;
 namespace SmartDose.RestDomainDev.Models.V2.Inventory
 #else
 namespace SmartDose.RestDomain.Models.V2.Inventory
@@ -41,6 +45,16 @@ namespace SmartDose.RestDomain.Models.V2.Inventory
         /// </summary>
         [DateTimeValidation("yyyy-MM-dd", "ExpiryDate is required with yyyy-MM-dd format.", optional:true)]
         public string ExpiryDate { get; set; }
+#if RestDomainDev
+        [TypeConverter(typeof(Date_yyyy_MM_dd_TypeConverter))]
+        [Editor(typeof(DateTime_yyyy_MM_dd_Editor), typeof(UITypeEditor))]
+#endif
+        [JsonIgnore]
+        public DateTime ExpiryDateAsType
+        {
+            get => NameAsTypeConverter.StringToDateTime_yyyy_MM_dd(ExpiryDate);
+            set => ExpiryDate = NameAsTypeConverter.DateTimeToString_yyyy_MM_dd(value);
+        }
 
         /// <summary>
         /// Batch number of the stock bottle

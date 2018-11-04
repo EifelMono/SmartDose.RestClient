@@ -135,8 +135,9 @@ using sdCrudsV2 = SmartDose.RestClient.Cruds.V2;
 
 ## Infos about the Lib
 ```csharp
-    Console.WriteLine(SmartDose.RestClient.RestClientGlobals.UrlV1);
-    Console.WriteLine(SmartDose.RestClient.RestClientGlobals.UrlV2);
+    Console.WriteLine($"UrlV1={RestClientGlobals.UrlV1}");
+    Console.WriteLine($"UrlV2={RestClientGlobals.UrlV2}");
+    Console.WriteLine($"TimeOut={RestClientGlobals.UrlTimeSpan.TotalMilliseconds} ms");
 ```
 
 ## V1 get Medicine list 
@@ -149,7 +150,20 @@ if (await sdCrudsV1.MasterData.Medicine.Instance.ReadListAsync() is var response
     }
 }
 else
-    Console.WriteLine($"{response.Request}\r\n{response.StatusCode}\r\n{response.Message}\r\n{response.Data}");
+    Console.WriteLine($"{response.Request}\r\n{response.StatusCodeAsString}\r\n{response.Message}\r\n{response.Data}");
+```
+
+## V1 get Medicine list with user wait
+```csharp
+if (await sdCrudsV1.MasterData.Medicine.Instance.ReadListAsync(TimeSpan.FromSeconds(10)) is var response && response.Ok)
+{
+    foreach (var medicine in response.Data)
+    {
+        Console.WriteLine($"{medicine.Name} {medicine.Identifier}");
+    }
+}
+else
+    Console.WriteLine($"{response.Request}\r\n{response.StatusCodeAsString}\r\n{response.Message}\r\n{response.Data}");
 ```
 
 ## V2 get Medicine list
@@ -162,5 +176,5 @@ if (await sdCrudsV2.MasterData.Medicine.Instance.ReadListAsync() is var response
     }
 }
 else
-    Console.WriteLine($"{response.Request}\r\n{response.StatusCode}\r\n{response.Message}\r\n{response.Data}");
+    Console.WriteLine($"{response.Request}\r\n{response.StatusCodeAsString}\r\n{response.Message}\r\n{response.Data}");
 ```

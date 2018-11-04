@@ -10,7 +10,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{C48D5D2B-FC50-4D6C-AA9A-1E3FF9886CEA}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
-		RuleSet.ruleset = RuleSet.ruleset
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartDose.RestClientApp", "SmartDose.RestClientApp\SmartDose.RestClientApp.csproj", "{D0C10B86-51AB-4748-A324-2D535968F0CF}"
@@ -19,9 +18,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartDose.RestDomainDev", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartDose.RestClient.ConsoleSample", "SmartDose.RestClient.ConsoleSample\SmartDose.RestClient.ConsoleSample.csproj", "{43FB8069-5C6F-4666-9F9D-4773D4612BEB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartDose.RestTest", "SmartDose.RestTest\SmartDose.RestTest.csproj", "{9247632F-F8B0-418A-9A75-F39997B77C98}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartDose.RestTest", "SmartDose.RestTest\SmartDose.RestTest.csproj", "{9247632F-F8B0-418A-9A75-F39997B77C98}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartDose.RestDummy", "SmartDose.RestDummy\SmartDose.RestDummy.csproj", "{E8F68F8D-AC74-4F26-8D33-BE5843F14974}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartDose.RestDummy", "SmartDose.RestDummy\SmartDose.RestDummy.csproj", "{E8F68F8D-AC74-4F26-8D33-BE5843F14974}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

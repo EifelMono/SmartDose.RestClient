@@ -4,19 +4,13 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Version>0.0.1</Version>
-    <Description>A Client for the SmartDose Rest V1 and V2 interface</Description>
+    <Description>Cruds for the SmartDose Rest V1 and V2 interface</Description>
     <Copyright>(c) BD Rowa Germany</Copyright>
     <PackageProjectUrl />
     <RepositoryUrl>https://github.com/EifelMono/SmartDose.RestClient</RepositoryUrl>
+    <PackageIconUrl>https://pbs.twimg.com/profile_images/922823239763709953/npBvjqn3_400x400.jpg</PackageIconUrl>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <CodeAnalysisRuleSet>..\RuleSet.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <CodeAnalysisRuleSet>..\RuleSet.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Flurl.Http" Version="2.4.0" />
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
@@ -36,4 +30,9 @@
   <ItemGroup>
     <None Include="..\README.md" PackagePath="README.md" Pack="true" />
   </ItemGroup>
+
+  <Target Name="CopyPackage" AfterTargets="Pack">
+    <Copy SourceFiles="$(OutputPath)..\$(PackageId).$(PackageVersion).nupkg" DestinationFolder="..\nugets\$(Configuration)\" />
+  </Target>
+  
 </Project>

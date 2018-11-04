@@ -3,14 +3,13 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <LangVersion>7.3</LangVersion>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <CodeAnalysisRuleSet>..\RuleSet.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <CodeAnalysisRuleSet>..\RuleSet.ruleset</CodeAnalysisRuleSet>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Description>Models for the SmartDose Rest V1 and V2 interface</Description>
+    <Copyright>(c) BD Rowa Germany</Copyright>
+    <PackageProjectUrl></PackageProjectUrl>
+    <PackageIconUrl>https://pbs.twimg.com/profile_images/922823239763709953/npBvjqn3_400x400.jpg</PackageIconUrl>
+    <RepositoryUrl>https://github.com/EifelMono/SmartDose.RestClient</RepositoryUrl>
+    <Version>0.0.1</Version>
   </PropertyGroup>
 
   <ItemGroup>
@@ -21,5 +20,9 @@
   <ItemGroup>
     <Folder Include="Models\V0\" />
   </ItemGroup>
+
+  <Target Name="CopyPackage" AfterTargets="Pack">
+    <Copy SourceFiles="$(OutputPath)..\$(PackageId).$(PackageVersion).nupkg" DestinationFolder="..\nugets\$(Configuration)\" />
+  </Target>
 
 </Project>

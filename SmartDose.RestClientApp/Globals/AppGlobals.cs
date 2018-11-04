@@ -58,6 +58,7 @@ namespace SmartDose.RestClientApp.Globals
                         Data = JsonConvert.DeserializeObject<ConfigurationData>(File.ReadAllText(FileName));
                     RestClientGlobals.UrlV1 = Data.UrlV1;
                     RestClientGlobals.UrlV2 = Data.UrlV2;
+                    RestClientGlobals.UrlTimeSpan = Data.UrlTimeSpan;
 
                 }
                 catch (Exception ex)

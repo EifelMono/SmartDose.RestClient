@@ -19,14 +19,15 @@ namespace SmartDose.RestClient
             get => new Url(UrlV2);
         }
 
-        public static TimeSpan? UrlTimeout
+        public static TimeSpan UrlTimeSpan
         {
             get
             {
-                TimeSpan? result = null;
+                TimeSpan result = TimeSpan.FromSeconds(100);
                 FlurlHttp.Configure(settings =>
                 {
-                    result = settings.Timeout;
+                    if (settings.Timeout != null)
+                        result = (TimeSpan)settings.Timeout;
                 });
                 return result;
             }

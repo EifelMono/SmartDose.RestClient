@@ -65,6 +65,7 @@ namespace SmartDose.RestClientApp.Views
                 {
                     RestClient.RestClientGlobals.UrlV1 = ConfigurationData.UrlV1;
                     RestClient.RestClientGlobals.UrlV2 = ConfigurationData.UrlV2;
+                    RestClient.RestClientGlobals.UrlTimeSpan = ConfigurationData.UrlTimeSpan;
                     RestClient.RestClientGlobals.ClearUrls();
                     RemoveViews(RootMenuItem);
                     AppGlobals.Configuration.Save();

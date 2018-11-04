@@ -1,7 +1,13 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Description>Generators for the SmartDose Rest V1 and V2 interface</Description>
+    <Copyright>(c) BD Rowa Germany</Copyright>
+    <PackageIconUrl>https://pbs.twimg.com/profile_images/922823239763709953/npBvjqn3_400x400.jpg</PackageIconUrl>
+    <RepositoryUrl>https://github.com/EifelMono/SmartDose.RestClient</RepositoryUrl>
+    <Version>0.0.1</Version>
   </PropertyGroup>
 
   <ItemGroup>
@@ -27,5 +33,9 @@
   <ItemGroup>
     <ProjectReference Include="..\SmartDose.RestDomain\SmartDose.RestDomain.csproj" />
   </ItemGroup>
+
+  <Target Name="CopyPackage" AfterTargets="Pack">
+    <Copy SourceFiles="$(OutputPath)..\$(PackageId).$(PackageVersion).nupkg" DestinationFolder="..\nugets\$(Configuration)\" />
+  </Target>
 
 </Project>

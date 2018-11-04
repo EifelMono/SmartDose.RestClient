@@ -224,10 +224,10 @@ namespace SmartDose.RestClientApp.Views
                         _tabControlResponse.SelectedIndex = 0;
                         resultColor = Brushes.Red;
                     }
-                    _labelResponse.Content = $"Status={response.StatusCode.ToString()}";
+                    _labelResponse.Content = $"Status={response.StatusCodeAsString} [{(int)response.StatusCode}]";
                     _labelResponse.Foreground = resultColor;
                     _jsonEditorResponse.Text = $"\r\n// Timestamp={response.ReceivedOn}" +
-                                               $"\r\n// Status={response.StatusCode.ToString()}\r\n" +
+                                               $"\r\n// Status={response.StatusCodeAsString} [{(int)response.StatusCode}]\r\n" +
                                                $"\r\n// Data\r\n" +
                                                (response.Data?.ToString() ?? "").Replace("\\r", "\r").Replace("\\n", "\n") +
                                                $"\r\n// Message\r\n" +

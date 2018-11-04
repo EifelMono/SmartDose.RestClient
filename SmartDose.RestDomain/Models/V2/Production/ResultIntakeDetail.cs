@@ -2,8 +2,12 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System;
+using Newtonsoft.Json;
+using SmartDose.RestDomain.Converter;
 
 #if RestDomainDev
+using System.Drawing.Design;
 using SmartDose.RestDomainDev.PropertyEditorThings;
 namespace SmartDose.RestDomainDev.Models.V2.Production
 #else
@@ -27,6 +31,16 @@ namespace SmartDose.RestDomain.Models.V2.Production
         /// </value>
         [DateTimeValidation("yyyy-MM-ddTHH:mm:ss", "IntakeDateTime requires this format yyyy-MM-ddTHH:mm:ss")]
         public string IntakeDateTime { get; set; }
+#if RestDomainDev
+        [TypeConverter(typeof(Date_yyyy_MM_dd_TypeConverter))]
+        [Editor(typeof(DateTime_yyyy_MM_ddTHH_mm_ss_Editor), typeof(UITypeEditor))]
+#endif
+        [JsonIgnore]
+        public DateTime IntakeDateTimeAsType
+        {
+            get => NameAsTypeConverter.StringToDateTime_yyyy_MM_ddTHH_mm_ss(IntakeDateTime);
+            set => IntakeDateTime = NameAsTypeConverter.DateTimeToString_yyyy_MM_ddTHH_mm_ss(value);
+        }
 
         /// <summary>
         /// Gets or sets the medication details.

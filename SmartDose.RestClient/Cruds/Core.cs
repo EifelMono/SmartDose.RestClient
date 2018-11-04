@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading;
 using Flurl;
 
 namespace SmartDose.RestClient.Cruds
@@ -25,6 +27,13 @@ namespace SmartDose.RestClient.Cruds
             Url = url;
             foreach (var pathSegment in pathSegments)
                 Url = Url.AppendPathSegment(pathSegment);
+        }
+
+        protected CancellationToken CancellationTokenFromTimeSpan(TimeSpan timespan)
+        {
+            var cts = new CancellationTokenSource();
+            cts.CancelAfter(timespan);
+            return cts.Token;
         }
 
         public bool UseNewInstance { get; set; } = false;

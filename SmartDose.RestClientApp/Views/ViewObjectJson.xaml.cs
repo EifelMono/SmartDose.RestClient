@@ -123,36 +123,12 @@ namespace SmartDose.RestClientApp.Views
 
                         labelPropertyInfo.Content = FindPropertyFullName(propertyGridView.SelectedGridItem, pd?.Name ?? "");
 
-                        // var xx = ((System.Windows.Forms.PropertyGridInternal.GridEntry)propertyGridView.SelectedGridItem).FullLabel;
-
-                        JsonConverterAttribute jcA = null;
-                        foreach (var attribute in pp.GetCustomAttributes().Where(aaa => aaa is JsonConverterAttribute))
-                        {
-                            jcA = attribute as JsonConverterAttribute;
-                            if (jcA != null)
-                                break;
-                        }
                         foreach (var attribute in pp.GetCustomAttributes().Where(aaa => aaa is ValidationAttribute))
                         {
                             var a = attribute as ValidationAttribute;
                             if (a is null)
                                 continue;
-                            var obj = e?.NewSelection?.Value;
-                            if (jcA != null)
-                            {
-                                try
-                                {
-                                    if (Activator.CreateInstance(jcA.ConverterType) is JsonConverter jc)
-                                    {
-                                        if (jc is SmartDose.RestDomain.Converter.DateTimeConverter dtc)
-                                        {
-                                            obj = ((DateTime)obj).ToString(dtc.CustomFormat);
-                                        }
-                                    }
-                                }
-                                catch { }
-                            }
-                            var isValid = a.IsValid(obj);
+                            var isValid = a.IsValid(e?.NewSelection?.Value);
                             listBoxPropertyInfo.Background = isValid ? Brushes.White : Brushes.Red;
                             listBoxPropertyInfo.Items.Add($"IsValid {isValid} {a.GetType().FullName}");
                             if (!string.IsNullOrEmpty(a.FormatErrorMessage(pd.Name)))

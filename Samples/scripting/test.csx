@@ -10,9 +10,9 @@ using sdCrudsV1 = SmartDose.RestClient.Cruds.V1;
 using sdModelsV2 = SmartDose.RestDomain.Models.V2;
 using sdCrudsV2 = SmartDose.RestClient.Cruds.V2;
 
-Console.WriteLine(SmartDose.RestClient.UrlConfig.UrlV1);
-Console.WriteLine(SmartDose.RestClient.UrlConfig.UrlV2);
-
+Console.WriteLine($"UrlV1={SmartDose.RestClient.RestClientGlobals.UrlV1}");
+Console.WriteLine($"UrlV2={SmartDose.RestClient.RestClientGlobals.UrlV2}");
+Console.WriteLine($"TimeOut={SmartDose.RestClient.RestClientGlobals.UrlTimeSpan.TotalMilliseconds} ms");
 {
 	if (await sdCrudV1.MasterData.Medicine.Instance.ReadListAsync() is var response && response.Ok)
     {
@@ -22,7 +22,7 @@ Console.WriteLine(SmartDose.RestClient.UrlConfig.UrlV2);
         }
     }
     else
-		Console.WriteLine($"{response.Request}\r\n{response.StatusCode}\r\n{response.Message}\r\n{response.Data}");
+		Console.WriteLine($"{response.Request}\r\n{response.StatusCodeAsString}\r\n{response.Message}\r\n{response.Data}");
 }
 
 {
@@ -34,5 +34,5 @@ Console.WriteLine(SmartDose.RestClient.UrlConfig.UrlV2);
         }
     }
     else
-		Console.WriteLine($"{response.Request}\r\n{response.StatusCode}\r\n{response.Message}\r\n{response.Data}");
+		Console.WriteLine($"{response.Request}\r\n{response.StatusCodeAsString}\r\n{response.Message}\r\n{response.Data}");
 }

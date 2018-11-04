@@ -16,6 +16,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -63,9 +64,22 @@
             Grid.Column="0"
             Margin="5"
             VerticalContentAlignment="Center"
-            Content="Url V1" />
+            Content="Url TimeSpan" />
         <TextBox
             Grid.Row="2"
+            Grid.Column="1"
+            Margin="5"
+            VerticalContentAlignment="Center"
+            Text="{Binding ConfigurationData.UrlTimeSpan}" />
+
+        <Label
+            Grid.Row="3"
+            Grid.Column="0"
+            Margin="5"
+            VerticalContentAlignment="Center"
+            Content="Url V1" />
+        <TextBox
+            Grid.Row="3"
             Grid.Column="1"
             Margin="5"
             VerticalContentAlignment="Center"
@@ -78,37 +92,37 @@
             Content="Open Swagger"
             IsEnabled="false" />
         <Label
-            Grid.Row="3"
+            Grid.Row="4"
             Grid.Column="0"
             Margin="5"
             VerticalContentAlignment="Center"
             Content="Url V2" />
         <TextBox
-            Grid.Row="3"
+            Grid.Row="4"
             Grid.Column="1"
             Margin="5"
             VerticalContentAlignment="Center"
             Text="{Binding ConfigurationData.UrlV2}" />
         <Button
-            Grid.Row="3"
+            Grid.Row="4"
             Grid.Column="2"
             Margin="5"
             Command="{Binding CommandOpenSwaggerV2}"
             Content="Open Swagger" />
         <Button
-            Grid.Row="4"
+            Grid.Row="5"
             Grid.Column="2"
             Margin="5,20,5,5"
             Command="{Binding CommandSaveConfiguration}"
             Content="Save configuration" />
         <Button
-            Grid.Row="5"
+            Grid.Row="6"
             Grid.Column="2"
             Margin="5"
             Command="{Binding CommandOpenDataFolder}"
             Content="Open data folder" />
         <Grid
-            Grid.Row="6"
+            Grid.Row="7"
             Grid.Column="1"
             Background="White">
             <Image

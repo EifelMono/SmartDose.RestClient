@@ -19,8 +19,9 @@ using sdCruds = SmartDose.RestClient.Cruds.V1;
 ```
 
 ```csharp
-Console.WriteLine(SmartDose.RestClient.RestClientGlobals.UrlV1);
-Console.WriteLine(SmartDose.RestClient.RestClientGlobals.UrlV2);
+Console.WriteLine($"UrlV1={SmartDose.RestClient.RestClientGlobals.UrlV1}");
+Console.WriteLine($"UrlV2={SmartDose.RestClient.RestClientGlobals.UrlV2}");
+Console.WriteLine($"TimeOut={SmartDose.RestClient.RestClientGlobals.UrlTimeSpan.TotalMilliseconds} ms");
 ```
 
 ```csharp
@@ -32,5 +33,5 @@ if (await sdCruds.MasterData.Medicine.Instance.ReadListAsync() is var response &
     }
 }
 else
-    Console.WriteLine($"{response.Request}\r\n{response.StatusCode}\r\n{response.Message}\r\n{response.Data}");
+    Console.WriteLine($"{response.Request}\r\n{response.StatusCodeAsString}\r\n{response.Message}\r\n{response.Data}");
 ```

@@ -16,8 +16,8 @@ namespace SmartDose.RestDomainDev.PropertyEditorThings
         {
             _picker.Format = DateTimePickerFormat.Custom;
             _picker.CustomFormat = customFormat;
-            _picker.MinDate = DateTimeGlobals.MinValue;
-            _picker.MaxDate = DateTimeGlobals.MaxValue;
+            _picker.MinDate = NameAsTypeConverter.MinValue;
+            _picker.MaxDate = NameAsTypeConverter.MaxValue;
         }
 
         public override UITypeEditorEditStyle GetEditStyle(ITypeDescriptorContext context)
@@ -52,16 +52,16 @@ namespace SmartDose.RestDomainDev.PropertyEditorThings
 
     public class DateTime_yyyy_MM_dd_Editor : DateTimePickerEditor
     {
-        public DateTime_yyyy_MM_dd_Editor() : base(DateTimeGlobals.DateTime_yyyy_MM_dd) { }
+        public DateTime_yyyy_MM_dd_Editor() : base(NameAsTypeConverter.DateTime_yyyy_MM_dd) { }
     }
 
     public class DateTime_yyyy_MM_ddTHH_mm_ssZ_Editor : DateTimePickerEditor
     {
-        public DateTime_yyyy_MM_ddTHH_mm_ssZ_Editor() : base(DateTimeGlobals.DateTime_yyyy_MM_ddTHH_mm_ssZ) { }
+        public DateTime_yyyy_MM_ddTHH_mm_ssZ_Editor() : base(NameAsTypeConverter.DateTime_yyyy_MM_ddTHH_mm_ssZ) { }
     }
 
     public class DateTime_yyyy_MM_ddTHH_mm_ss_Editor : DateTimePickerEditor
     {
-        public DateTime_yyyy_MM_ddTHH_mm_ss_Editor() : base(DateTimeGlobals.DateTime_yyyy_MM_ddTHH_mm_ss) { }
+        public DateTime_yyyy_MM_ddTHH_mm_ss_Editor() : base(NameAsTypeConverter.DateTime_yyyy_MM_ddTHH_mm_ss) { }
     }
 }

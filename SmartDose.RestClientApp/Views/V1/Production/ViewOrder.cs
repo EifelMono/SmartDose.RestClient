@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Models = SmartDose.RestDomain.Models.V1;
 using Cruds = SmartDose.RestClient.Cruds.V1;
+using Generators = SmartDose.RestDummy.Generators.V1;
 
 namespace SmartDose.RestClientApp.Views.V1.Production
 {
@@ -27,7 +28,7 @@ namespace SmartDose.RestClientApp.Views.V1.Production
                     if (self.RequestParamsValueAsBool(0))
                     {
                         foreach (var medicine in self.RequestParamsValueAsT(2).UsedMedicinesIdsAndName)
-                            await Cruds.MasterData.Medicine.Instance.CreateAsync(Models.MasterData.Medicine.Dummy(medicine.Id, medicine.Name));
+                            await Cruds.MasterData.Medicine.Instance.CreateAsync(Generators.MedicineGenerator.New(medicine.Id, medicine.Name));
                     }
                     self.ResponseObject = await crudInstance.CreateAsync(self.RequestParamsValueAsT(2), self.RequestParamsValueAsBool(1));
                 },

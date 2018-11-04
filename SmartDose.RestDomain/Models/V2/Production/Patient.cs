@@ -99,10 +99,10 @@ namespace SmartDose.RestDomain.Models.V2.Production
         [CultureValidation("Culture (Combination of languagecode-regioncode) is required.")]
         public string Culture { get; set; }
         [JsonIgnore]
-        public CultureInfoName CultureAsType
+        public CultureName CultureAsType
         {
-            get => NameAsTypeConverter.StringToCultureInfoName(Culture);
-            set => Culture = NameAsTypeConverter.CultureInfoNameToString(value);
+            get => NameAsTypeConverter.StringToCultureName(Culture);
+            set => Culture = NameAsTypeConverter.CultureNameToString(value);
         }
 
         /// <summary>

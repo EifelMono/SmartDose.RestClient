@@ -16,7 +16,7 @@ namespace SmartDose.RestClient.ConsoleSample.Rest.V2.MasterData
                         Console.WriteLine($"{medicine.MedicineName} {medicine.MedicineCode}");
                 }
                 else
-                    Console.WriteLine($"{response.Request}\r\n{response.StatusCode}\r\n{response.Message}\r\n{response.Data}");
+                    Console.WriteLine($"{response.Request}\r\n{response.StatusCodeAsString}\r\n{response.Message}\r\n{response.Data}");
             }
 
             {
@@ -31,7 +31,7 @@ namespace SmartDose.RestClient.ConsoleSample.Rest.V2.MasterData
                     Console.WriteLine($"{response.Data.MedicineCode}");
                 }
                 else
-                    Console.WriteLine($"{response.Request}\r\n{response.StatusCode}\r\n{response.Message}\r\n{response.Data}");
+                    Console.WriteLine($"{response.Request}\r\n{response.StatusCodeAsString}\r\n{response.Message}\r\n{response.Data}");
             }
         }
     }

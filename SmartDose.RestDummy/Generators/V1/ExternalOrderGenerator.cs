@@ -4,11 +4,11 @@ using System.Globalization;
 using System.Linq;
 using Models = SmartDose.RestDomain.Models.V1;
 
-namespace SmartDose.RestDummy.Generator.V1
+namespace SmartDose.RestDummy.Generators.V1
 {
     public class ExternalOrderGenerator
     {
-        public static Models.Production.ExternalOrder CreateNewExternalOrder(
+        public static Models.Production.ExternalOrder New(
                         List<Models.Production.Medicine> medicine,
                         Models.Production.Customer value,
                         Models.Production.DestinationFacility destinationFacility,
@@ -32,8 +32,7 @@ namespace SmartDose.RestDummy.Generator.V1
                 OrderDetails = new List<Models.Production.OrderDetail>()
             };
             if (value != null)
-                externalOrder.ExternalId = "GO_" + value.Name.Replace(" ", "") + "_" +
-                                           DateTime.Now.ToString("yyyyMMdd_HHmmss");
+                externalOrder.ExternalId = "GO_" + value.Name.Replace(" ", "") + "_" + DateTime.Now.ToString("yyyyMMdd_HHmmss");
             else
                 externalOrder.ExternalId = "GO_NoCustomer_" + DateTime.Now.ToString("yyyyMMdd_HHmmss");
             for (var i = 0; i < mPatientCounter; i++)
