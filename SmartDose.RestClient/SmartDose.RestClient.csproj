@@ -12,6 +12,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Crud\**" />
+    <EmbeddedResource Remove="Crud\**" />
+    <None Remove="Crud\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Flurl.Http" Version="2.4.0" />
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
   </ItemGroup>
@@ -22,10 +28,6 @@
 
   <ItemGroup>
     <Folder Include="Cruds\V0\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Crud\V0\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\README.md" PackagePath="README.md" Pack="true" />
