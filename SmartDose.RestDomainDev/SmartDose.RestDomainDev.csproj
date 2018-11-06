@@ -9,6 +9,10 @@
     <DefineConstants>TRACE;RestDomainDev</DefineConstants>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DefineConstants>TRACE;RestDomainDev</DefineConstants>
+  </PropertyGroup>
+
   <ItemGroup>
     <Compile Include="..\SmartDose.RestDomain\Models\ModelsGlobals.cs" Link="Models\ModelsGlobals.cs" />
     <Compile Include="..\SmartDose.RestDomain\Models\ModelsExtensions.cs" Link="Models\ModelsExtensions.cs" />
