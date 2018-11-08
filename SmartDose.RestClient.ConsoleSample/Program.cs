@@ -3,6 +3,7 @@ using System.Globalization;
 using System.Threading.Tasks;
 using Flurl;
 using Flurl.Http;
+using SmartDose.WcfClient.MasterData;
 
 namespace SmartDose.RestClient.ConsoleSample
 {
@@ -25,6 +26,15 @@ namespace SmartDose.RestClient.ConsoleSample
 
         static void Test()
         {
+
+            var _callbackHandler = new MasterDataCallbackHandler();
+            var _masterDataClient =
+                new MasterDataClient(
+                    WellKnownUrl.Get(WellKnownUrlType.SDMasterData,
+                        ConfigurationManager.AppSettings["SmartDoseServer"]), _callbackHandler);
+            _masterDataClient.ConnectionEstablished += _masterDataClient_ConnectionEstablished;
+            _masterDataClient.ConnectionClosed += _masterDataClient_ConnectionClosed;
+            _masterDataClient.Start();
         }
 
         static async Task TestAsync()

@@ -9,6 +9,7 @@
   <ItemGroup>
     <ProjectReference Include="..\SmartDose.RestClient\SmartDose.RestClient.csproj" />
     <ProjectReference Include="..\SmartDose.RestDomain\SmartDose.RestDomain.csproj" />
+    <ProjectReference Include="..\SmartDose.WcfClient\SmartDose.WcfClient.csproj" />
   </ItemGroup>
 
   <ItemGroup>

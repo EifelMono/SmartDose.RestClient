@@ -37,7 +37,22 @@ namespace SmartDose.RestClientApp.Views
             };
             rootMenuItem.ModelsItem.Value = new ViewConnections { RootMenuItem = rootMenuItem };
 
-            var modelsMenueItem = rootMenuItem.Add("Models");
+            #region Rest
+            var restMenueItem = rootMenuItem.Add(new MenuItem
+            {
+                Title = "Rest",
+                IsExpanded = true,
+                IsSelected = true,
+                ModelsItem = new RestDomain.Models.ModelsItem
+                {
+                    Type = typeof(ViewConnections),
+                    Value = new ViewConnections()
+                }
+            });
+            restMenueItem.ModelsItem.Value = new ViewConnections { RootMenuItem = rootMenuItem };
+
+            #region Models
+            var modelsMenueItem = restMenueItem.Add("Models");
 
             foreach (var modelsVersionGroup in RestDomain.Models.ModelsGlobals.ModelsItems.GroupBy(i => i.Version).OrderBy(g => g.Key))
             {
@@ -50,7 +65,10 @@ namespace SmartDose.RestClientApp.Views
                 }
             }
 
-            var crudMenuItem = rootMenuItem.Add("Cruds", true);
+            #endregion
+
+            #region Cruds
+            var crudMenuItem = restMenueItem.Add("Cruds", true);
             var crudMenuV1Item = crudMenuItem.Add("V1", true);
             var crudMenuV1InverntoryItem = crudMenuV1Item.Add("Inventory", true);
             crudMenuV1InverntoryItem.Add("MedicineContainer", new RestDomain.Models.ModelsItem { Type = typeof(V1.Inventory.ViewMedicineContainer) });
@@ -76,6 +94,24 @@ namespace SmartDose.RestClientApp.Views
             crudMenuV2MasterDataItem.Add("Pharmacy", new RestDomain.Models.ModelsItem { Type = typeof(V2.MasterData.ViewPharmacy) });
             var crudMenuV2ProdcutionItem = crudMenuV2Item.Add("Production", true);
             crudMenuV2ProdcutionItem.Add("Order", new RestDomain.Models.ModelsItem { Type = typeof(V2.Production.ViewOrder) });
+            #endregion
+
+            #endregion
+
+            #region Wcf
+            var wcfMenueItem = rootMenuItem.Add(new MenuItem
+            {
+                Title = "Wcf",
+                IsExpanded = true,
+                IsSelected = true,
+                ModelsItem = new RestDomain.Models.ModelsItem
+                {
+                    Type = typeof(ViewConnections),
+                    Value = new ViewConnections()
+                }
+            });
+            rootMenuItem.ModelsItem.Value = new ViewConnections { RootMenuItem = rootMenuItem };
+            #endregion
 
             treeViewModels.Items.Add(rootMenuItem);
         }
@@ -129,6 +165,12 @@ namespace SmartDose.RestClientApp.Views
         public MenuItem Add(string title, RestDomain.Models.ModelsItem modelsItem = null, bool isExpanded = false)
         {
             var menuItem = new MenuItem { Title = title, ModelsItem = modelsItem, IsExpanded = isExpanded };
+            Items.Add(menuItem);
+            return menuItem;
+        }
+
+        public MenuItem Add(MenuItem menuItem)
+        {
             Items.Add(menuItem);
             return menuItem;
         }

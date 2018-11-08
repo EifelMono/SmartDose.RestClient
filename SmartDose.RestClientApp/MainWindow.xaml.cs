@@ -4,7 +4,9 @@ using System.Windows;
 using SmartDose.RestClientApp.Globals;
 using ModelsV2 = SmartDose.RestDomain.Models.V2;
 using CrudV2 = SmartDose.RestClient.Cruds.V2;
-
+using SmartDose.WcfClient.MasterData;
+using System.ServiceModel;
+using System;
 
 namespace SmartDose.RestClientApp
 {
@@ -21,44 +23,27 @@ namespace SmartDose.RestClientApp
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            var u1 = AppGlobals.Configuration.Data.UrlV1;
-            var u2 = AppGlobals.Configuration.Data.UrlV1;
+            var c = new SmartDose.WcfClient.MasterData.Customer();
+            c.ContactAddress = new WcfClient.MasterData.ContactAddress();
+            c.ContactPerson = new WcfClient.MasterData.ContactPerson();
+            propertyGridView.SelectedObject = c;
+
         }
 
-
-        private async void MedicineCreate_Click(object sender, RoutedEventArgs e)
+        private async void Button_Click(object sender, RoutedEventArgs e)
         {
-            if (await CrudV2.MasterData.Medicine.Instance.CreateAsync(new ModelsV2.MasterData.Medicine { }) is var response && response.Ok)
+            try
             {
-                Debug.WriteLine("Created");
-                // created!
+                var client = new MasterDataServiceClient(
+                         new NetTcpBinding(SecurityMode.None),
+                         new EndpointAddress("net.tcp://LWDEU08DTK2PH2:9002/MasterData"));
+                var c = await client.GetMedicinesAsync(new SearchFilter[] { }, null, null);
+                propertyGridView.SelectedObject = c;
             }
-            else
-                Debug.WriteLine(response.Message);
-        }
-
-        private async void MedicineGet_Click(object sender, RoutedEventArgs e)
-        {
-            if (await CrudV2.MasterData.Medicine.Instance.ReadListAsync() is var response && response.Ok)
+            catch (Exception ex)
             {
-                Debug.WriteLine("Medicine List");
-                Debug.WriteLine(response.Data.ToJson());
+                Debug.WriteLine(ex);
             }
-            else
-                Debug.WriteLine(response.Message);
-        }
-
-        private async void MedicineGetList_Click(object sender, RoutedEventArgs e)
-        {
-            if (await CrudV2.MasterData.Medicine.Instance.ReadAsync("me") is var response && response.Ok)
-            {
-                Debug.WriteLine("Medicine");
-                Debug.WriteLine(response.Data.ToJson());
-            }
-            else
-                Debug.WriteLine(response.Message);
         }
     }
-
-
 }

@@ -14,21 +14,18 @@
     Loaded="Window_Loaded"
     mc:Ignorable="d">
 
-    <Grid>
-        <!--Button
-            Name="MedicineCreate"
-            Click="MedicineCreate_Click"
-            Content="Medicine Create" />
-        <Button
-            Name="MedicineGet"
-            Click="MedicineGet_Click"
-            Content="Medicine GetList" />
-        <Button
-            Name="MedicineGetList"
-            Click="MedicineGetList_Click"
-            Content="Medicine Get" /-->
-        <viewsV2MasterData:ViewMedicine />
-
-
+    <Grid >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <WindowsFormsHost Grid.Row="0">
+            <forms:PropertyGrid x:Name="propertyGridView">
+                <forms:PropertyGrid.ContextMenuStrip>
+                    <forms:ContextMenuStrip />
+                </forms:PropertyGrid.ContextMenuStrip>
+            </forms:PropertyGrid>
+        </WindowsFormsHost>
+        <Button Grid.Row="1" Content="Click" Click="Button_Click"/>
     </Grid>
 </Window>
