@@ -35,25 +35,41 @@ namespace SmartDose.RestClient.ConsoleSample
         static async Task TestAsync()
         {
             var com = new WcfClient.Services.Communication(typeof(WcfClient.Test), "net.tcp://LWDEU08DTK2PH2:9002/MasterData");
-            // var m = (MasterDataServiceClient)com.ServiceClient;
-            //{
-            //    var a = await m.GetMedicinesAsync(new SearchFilter[] { }, null, null);
-            //    m.SetMedicinesReceived += (s, e) =>
-            //    {
-            //        Debug.WriteLine("x");
-            //    };
-            //    await m.DeleteMedicineAsync(4711);
-            //    try
-            //    {
-            //        await m.DeleteMedicineAsync(-1);
-            //    }
-            //    catch (Exception ex)
-            //    {
-            //        Debug.WriteLine(ex);
-            //    }
-            //}
+            var m = (MasterDataServiceClient)com.ServiceClient;
+            {
+                var a = await m.GetMedicinesAsync(new SearchFilter[] { }, null, null);
+                m.SetMedicinesReceived += (s, e) =>
+                {
+                    Debug.WriteLine("x");
+                };
+                m.SetManufacturersReceived += (s, e) =>
+                {
+                    Debug.WriteLine("x");
+                };
+                m.DeleteMedicinesReceived += (s, e) =>
+                 {
+                     Debug.WriteLine("x");
+                 };
+                //await m.DeleteMedicineAsync(4711);
+                //try
+                //{
+                //    await m.DeleteMedicineAsync(-1);
+                //}
+                //catch (Exception ex)
+                //{
+                //    Debug.WriteLine(ex);
+                //}
+
+            }
 
             {
+                com.OnEvents = (sender, eventArgs) =>
+                 {
+                     Debug.WriteLine("x");
+                 };
+                await Task.Delay(10000000);
+
+
                 var ps = com.GetMethodsParamsObjects("GetMedicinesAsync");
 
                 if (await com.CallMethodAsync("GetMedicinesAsync", ps) is var result0 && result0.Ok)

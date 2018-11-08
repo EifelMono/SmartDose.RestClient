@@ -4,7 +4,7 @@ using System.Text;
 
 namespace SmartDose.WcfClient.Services
 {
-    class Generate
+    public class Generator
     {
     }
 }
