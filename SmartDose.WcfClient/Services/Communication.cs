@@ -62,29 +62,29 @@ namespace SmartDose.WcfClient.Services
             var m = ServiceMethods[name];
             try
             {
+                #region Catch Errors befor the could happen on the OTHER SIDE
                 for (var i = 0; i < paramValues.Count(); i++)
                 {
                     var p = paramValues[i];
                     if (p != null)
                     {
-                        if (p.GetType().FullName.EndsWith("PageFilter"))
+                        if (p.GetType().FullName.EndsWith(".PageFilter"))
                         {
-                            var x = (uint)p.GetType().GetProperty("PageSize").GetValue(p);
-                            if (x == 0)
+                            if (p.GetType().GetProperty("PageSize").GetValue(p) is uint ps && ps == 0)
                                 paramValues[i] = null;
                         }
                         else
-                        if (p.GetType().FullName.EndsWith("SortFilter"))
+                        if (p.GetType().FullName.EndsWith(".SortFilter"))
                         {
-                            var x = (string)p.GetType().GetProperty("AttributeName").GetValue(p);
-                            if (string.IsNullOrEmpty(x))
+                            if (p.GetType().GetProperty("AttributeName").GetValue(p) is string sn && string.IsNullOrEmpty(sn))
                                 paramValues[i] = null;
                         }
                     }
                 }
+                #endregion
                 return (true, await (dynamic)m.Invoke(ServiceClient, paramValues));
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Debug.WriteLine(ex);
                 return (false, null);
@@ -100,14 +100,7 @@ namespace SmartDose.WcfClient.Services
             try
             {
                 foreach (var p in ServiceMethods[name].GetParameters())
-                    if (p.ParameterType.IsArray)
-                    {
-                        objects.Add(Activator.CreateInstance(p.ParameterType, 0));
-                    }
-                    else
-                    {
-                        objects.Add(Activator.CreateInstance(p.ParameterType));
-                    }
+                    objects.Add(p.ParameterType.IsArray ? Activator.CreateInstance(p.ParameterType, 0) : Activator.CreateInstance(p.ParameterType));
             }
 
             catch (Exception ex)
