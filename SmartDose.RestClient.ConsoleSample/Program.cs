@@ -11,11 +11,13 @@ namespace SmartDose.RestClient.ConsoleSample
     {
         static async Task Main(string[] args)
         {
+            await TestAsync();
+
+
             Console.WriteLine($"UrlV1={RestClientGlobals.UrlV1}");
             Console.WriteLine($"UrlV2={RestClientGlobals.UrlV2}");
             Console.WriteLine($"TimeOut={RestClientGlobals.UrlTimeSpan.TotalMilliseconds} ms");
 
-            await TestAsync();
 
             await Rest.V1.MasterData.MasterData.RestTest();
             await Rest.V2.MasterData.MasterData.RestTest();
@@ -26,20 +28,18 @@ namespace SmartDose.RestClient.ConsoleSample
 
         static void Test()
         {
-
-            var _callbackHandler = new MasterDataCallbackHandler();
-            var _masterDataClient =
-                new MasterDataClient(
-                    WellKnownUrl.Get(WellKnownUrlType.SDMasterData,
-                        ConfigurationManager.AppSettings["SmartDoseServer"]), _callbackHandler);
-            _masterDataClient.ConnectionEstablished += _masterDataClient_ConnectionEstablished;
-            _masterDataClient.ConnectionClosed += _masterDataClient_ConnectionClosed;
-            _masterDataClient.Start();
+           
         }
 
         static async Task TestAsync()
         {
-            await Task.Delay(1);
+            WcfClient.Test.FindServiceClientMethods();
+            var o = WcfClient.Test.CreateServiceClient("net.tcp://LWDEU08DTK2PH2:9002/MasterData");
+            var m = (MasterDataServiceClient)o;
+            var c = await m.GetMedicinesAsync(new SearchFilter[] { }, null, null);
+            WcfClient.Test.CreateServiceReference();
+            Console.WriteLine("Wait for Result and return to end");
+            Console.ReadLine();
         }
     }
 }
