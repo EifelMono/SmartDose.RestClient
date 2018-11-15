@@ -5,6 +5,8 @@ using System.Reflection;
 using Newtonsoft.Json;
 using SmartDose.RestClient;
 using SmartDose.Core;
+using SmartDose.WcfClient;
+using SmartDose.Core.Extensions;
 
 namespace SmartDose.RestClientApp.Globals
 {
@@ -15,6 +17,11 @@ namespace SmartDose.RestClientApp.Globals
             Configuration.Load();
             if (!Configuration.FileExists)
                 Configuration.Save();
+            var done= SmartDoseWcfClientGlobals.CopyWcfClientsToAppDirectory();
+            "WcfClients copied".LogInformation();
+            done.Copied.ForEach(d => d.LogInformation());
+            "WcfClients not copied".LogInformation();
+            done.NotCopied.ForEach(d => d.LogInformation());
         }
 
         public static class Configuration

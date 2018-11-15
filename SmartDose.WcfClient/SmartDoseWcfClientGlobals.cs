@@ -34,7 +34,7 @@ namespace SmartDose.WcfClient
 
         public static string WcfClientsFileName { get => Path.Combine(WcfDataBinDirectory, "wcfclients"); }
 
-        public static (List<string> Copied, List<string> NotCopied) CopyWcfClientsToCurrentDirectory()
+        public static (List<string> Copied, List<string> NotCopied) CopyWcfClientsToAppDirectory()
         {
             var copyied = new List<string>();
             var notCopied = new List<string>();
@@ -42,7 +42,7 @@ namespace SmartDose.WcfClient
             {
                 try
                 {
-                    File.Copy(file, Path.Combine(Directory.GetCurrentDirectory(), Path.GetFileName(file)));
+                    File.Copy(file, Path.Combine(Directory.GetCurrentDirectory(), Path.GetFileName(file)),true);
                     copyied.Add(file);
                 }
                 catch
