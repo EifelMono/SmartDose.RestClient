@@ -4,7 +4,9 @@ using System.Configuration;
 using System.Data;
 using System.Linq;
 using System.Windows;
+using SmartDose.Core;
 using SmartDose.RestClientApp.Globals;
+using SmartDose.WcfClient;
 
 namespace SmartDose.RestClientApp
 {

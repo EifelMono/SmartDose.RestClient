@@ -40,12 +40,6 @@ namespace SmartDose.RestClient.ConsoleSample
         static async Task TestAsync()
         {
 
-            SmartDoseWcfClientGlobals.ExtractCakeBuilds();
-
-
-            SmartDoseWcfClientGlobals.ExtractCakeBuilds();
-            var clients = SmartDoseWcfClientGlobals.FindWcfClients();
-            var copied= SmartDoseWcfClientGlobals.CopyWcfClientsToDirectory();
             var connectionString = "net.tcp://lwdeu08dtk2ph2:10000/MasterData/";
             var connectionAssembly = @"C:\ProgramData\Rowa\Bin\SmartDose.RestClientApp\WcfClients\lwdeu08dtk2ph2_10000_MasterData\bin\Debug\netstandard2.0\lwdeu08dtk2ph2_10000_MasterData.dll";
             try

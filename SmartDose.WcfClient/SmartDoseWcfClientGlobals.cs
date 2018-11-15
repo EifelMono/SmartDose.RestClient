@@ -1,6 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Reflection;
+using System.Text;
 using SmartDose.Core;
 using SmartDose.Core.Extensions;
 
@@ -28,7 +32,9 @@ namespace SmartDose.WcfClient
         public static string BuildCakeFileName { get => Path.Combine(WcfDataBinDirectory, "build.cake"); }
         public static string BuildPs1FileName { get => Path.Combine(WcfDataBinDirectory, "build.ps1"); }
 
-        public static (List<string> Copied, List<string> NotCopied) CopyWcfClientsToDirectory()
+        public static string WcfClientsFileName { get => Path.Combine(WcfDataBinDirectory, "wcfclients"); }
+
+        public static (List<string> Copied, List<string> NotCopied) CopyWcfClientsToCurrentDirectory()
         {
             var copyied = new List<string>();
             var notCopied = new List<string>();
@@ -58,8 +64,9 @@ namespace SmartDose.WcfClient
             return result;
         }
 
-        public static bool ExtractCakeBuilds()
+        public static bool ExtractCakeBuildToWcfClientDirectory()
         {
+            var count = 0;
             {
                 Stream stream = null;
                 try
@@ -70,6 +77,7 @@ namespace SmartDose.WcfClient
                         string result = reader.ReadToEnd();
                         stream = null;
                         File.WriteAllText(BuildCakeFileName, result);
+                        count++;
                     }
                 }
                 finally
@@ -87,6 +95,7 @@ namespace SmartDose.WcfClient
                         string result = reader.ReadToEnd();
                         stream = null;
                         File.WriteAllText(BuildPs1FileName, result);
+                        count++;
                     }
                 }
                 finally
@@ -94,9 +103,24 @@ namespace SmartDose.WcfClient
                     if (stream != null) stream.Dispose();
                 }
             }
-            return false;
+            return count == 2;
         }
-    }
+
+        public static void BuildWcfClientsAssemblies(List<WcfItem> wcfItems)
+        {
+            var exe = Environment.GetCommandLineArgs()[0];
+            var sb = new StringBuilder();
+            foreach (var item in wcfItems.Where(w => w.Rebuild))
+                sb.AppendLine(item.ConnectionString);
+            File.WriteAllText(WcfClientsFileName, sb.ToString());
+            Process.Start(new ProcessStartInfo
+            {
+                FileName = "powershell.exe",
+                Arguments = $"-NoProfile -ExecutionPolicy Bypass -Command \"& './build.ps1' --target=wcfclients --startafterready=\"{Environment.GetCommandLineArgs()[0]}\"",
+                WorkingDirectory = Path.GetDirectoryName(BuildPs1FileName),
+            });
+        }
+}
 
 
 }

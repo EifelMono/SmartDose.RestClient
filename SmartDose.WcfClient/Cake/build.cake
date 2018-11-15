@@ -4,6 +4,8 @@ using System.Xml.Linq;
 
 var target = Argument("target", "Default");
 var configuration = Argument("configuration", "Release");
+
+var startAfterReady= Argument("startafterready", "");
 var connectionString = Argument("connection", "net.tcp://localhost:10000/MasterData/");
 
 var assemblyFramework = Argument("assemblyframework", "netstandard2.0");
@@ -14,15 +16,24 @@ var connectionName= ConnectionStringToConnectionName(connectionString);
 var connectionDirectory= MakeAbsolute(wcfClientDirectory.Combine(new DirectoryPath(connectionName)));
 var connectionCsproj= new FilePath(System.IO.Path.Combine(connectionDirectory.ToString(), $"{connectionName}.csproj"));
 
+void KillStartAfterReady()
+{
+      if (!string.IsNullOrEmpty(startAfterReady))
+   {
+      StartProcess("taskkill", new  ProcessSettings {
+         Arguments= $"/F /IM {System.IO.Path.GetFileName(startAfterReady)}",
+         WorkingDirectory= connectionDirectory
+      });
+   }
+}
 
-
-// Setup(ctx =>
-// {
-// });
-
-// Teardown(ctx =>
-// {
-// });
+void StartStartAfterReady()
+{
+   if (!string.IsNullOrEmpty(startAfterReady))
+   {
+      StartAndReturnProcess(startAfterReady);
+   }
+}
 
 string ConnectionStringToConnectionName(string connectionString)
 {
@@ -102,8 +113,13 @@ void  AddReferencecsExpandableObjectConverter()
 
 Task("SetupDirectory")
   .Does(()=> {
+     Information(connectionDirectory);
      EnsureDirectoryDelete(connectionDirectory);
+     while(DirectoryExists(connectionDirectory))
+       Information(".");
      EnsureDirectoryExists(connectionDirectory);
+     while(!DirectoryExists(connectionDirectory))
+       Information(".");
   });
 
 Task("SetupProject")
@@ -172,32 +188,39 @@ Task("Cleanup")
    }
 });
 
-Task("Default")
+Task("WcfClient")
    .IsDependentOn("Info")
    .IsDependentOn("BuildProject")
    .IsDependentOn("Cleanup")
 .Does(() => {
-
 });
 
-Task("Defaults")
+Task("WcfClients")
 .Does(() => {
-   foreach(var l in System.IO.File.ReadAllLines("connections.txt"))
+   foreach(var l in System.IO.File.ReadAllLines("wcfclients"))
    {
       connectionString= l;
       wcfClientDirectory= MakeAbsolute(new DirectoryPath("."));
       connectionName= ConnectionStringToConnectionName(connectionString);
       connectionDirectory= MakeAbsolute(wcfClientDirectory.Combine(new DirectoryPath(connectionName)));
       connectionCsproj= new FilePath(System.IO.Path.Combine(connectionDirectory.ToString(), $"{connectionName}.csproj"));
-      RunTarget("Default");
+      RunTarget("WcfClient");
    }
 });
+
+Task("Default")
+   .IsDependentOn("WcfClient")
+.Does(() => {
+});
+
+KillStartAfterReady();
 
 try {
    RunTarget(target);
 }
-catch(Exception)
+catch(Exception ex)
 {
+   Error(ex);
    Information("");
    Information(new string ('-', 100));
    Error(connectionName);
@@ -209,4 +232,8 @@ catch(Exception)
    Information(configuration);
    Information(new string ('-', 100));
 }
+
+Console.ReadLine();
+
+StartStartAfterReady();
 
