@@ -14,6 +14,22 @@ namespace SmartDose.WcfClient
     {
         public static string AssemblyFramework = "netstandard2.0";
 
+        public static string ConnectionStringToConnectionName(string connectionString)
+        {
+            connectionString = connectionString ?? "";
+            try
+            {
+                var result = connectionString.Split(new[] { "//" }, StringSplitOptions.None)[1].Replace(":", "_").Replace("/", "_");
+                if (result.EndsWith("_"))
+                    result = result.Substring(0, result.Length - 1);
+                return result;
+            }
+            catch
+            {
+                return connectionString;
+            }
+        }
+
         static string _WcfDataBinDirectory = null;
         public static string WcfDataBinDirectory
         {
@@ -110,7 +126,7 @@ namespace SmartDose.WcfClient
         {
             var exe = Environment.GetCommandLineArgs()[0];
             var sb = new StringBuilder();
-            foreach (var item in wcfItems.Where(w => w.Rebuild))
+            foreach (var item in wcfItems.Where(w => w.Build))
                 sb.AppendLine(item.ConnectionString);
             File.WriteAllText(WcfClientsFileName, sb.ToString());
             Process.Start(new ProcessStartInfo

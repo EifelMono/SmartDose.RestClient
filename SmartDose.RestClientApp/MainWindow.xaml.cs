@@ -33,10 +33,6 @@ namespace SmartDose.RestClientApp
 
         private async void Button_Click(object sender, RoutedEventArgs e)
         {
-            AppGlobals.Configuration.Data.WcfClients.ForEach(w => w.Rebuild = true);
-            SmartDoseWcfClientGlobals.BuildWcfClientsAssemblies(AppGlobals.Configuration.Data.WcfClients);
-            return;
-
             try
             {
                 var client = new MasterDataServiceClient(

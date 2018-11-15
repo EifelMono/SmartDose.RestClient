@@ -14,6 +14,7 @@ using SmartDose.RestClientApp.Globals;
 using SmartDose.RestDomainDev;
 using SmartDose.Core.Extensions;
 using SmartDose.Core;
+using System.Diagnostics;
 
 namespace SmartDose.RestClientApp.Views
 {
@@ -110,7 +111,14 @@ namespace SmartDose.RestClientApp.Views
 
             propertyGridView.PropertyValueChanged += (s, e) =>
             {
-                propertyGridView.Refresh();
+                try
+                {
+                    propertyGridView.Refresh();
+                }
+                catch
+                {
+                    Debug.WriteLine("x");
+                }
             };
 
             propertyGridView.SelectedGridItemChanged += (s, e) =>

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Text;
@@ -27,6 +28,12 @@ namespace SmartDose.RestDomainDev.PropertyEditorThings
             }
             return items;
         }
+
+        public override bool IsValid(ITypeDescriptorContext context, object value)
+        {
+            return base.IsValid(context, value);
+        }
+
     }
 
     public class ExpandableCollectionPropertyDescriptor : PropertyDescriptor
@@ -72,7 +79,9 @@ namespace SmartDose.RestDomainDev.PropertyEditorThings
 
         public override object GetValue(object component)
         {
-            return _collection[_index];
+            if (_index < _collection.Count)
+                return _collection[_index];
+            return null;
         }
 
         public override bool IsReadOnly
@@ -90,10 +99,6 @@ namespace SmartDose.RestDomainDev.PropertyEditorThings
             get { return _collection[_index].GetType(); }
         }
 
-        public override void ResetValue(object component)
-        {
-        }
-
         public override bool ShouldSerializeValue(object component)
         {
             return true;
@@ -102,6 +107,10 @@ namespace SmartDose.RestDomainDev.PropertyEditorThings
         public override void SetValue(object component, object value)
         {
             _collection[_index] = value;
+        }
+
+        public override void ResetValue(object component)
+        {
         }
     }
 }

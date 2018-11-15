@@ -31,7 +31,9 @@ void StartStartAfterReady()
 {
    if (!string.IsNullOrEmpty(startAfterReady))
    {
-      StartAndReturnProcess(startAfterReady);
+      StartAndReturnProcess(startAfterReady, new  ProcessSettings {
+         WorkingDirectory= System.IO.Path.GetDirectoryName(startAfterReady)
+      });
    }
 }
 
@@ -233,6 +235,7 @@ catch(Exception ex)
    Information(new string ('-', 100));
 }
 
+Information("Press return to goon......");
 Console.ReadLine();
 
 StartStartAfterReady();

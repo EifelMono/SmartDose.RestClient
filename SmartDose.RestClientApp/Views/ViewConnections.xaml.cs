@@ -15,7 +15,9 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using SmartDose.Core;
+using SmartDose.Core.Extensions;
 using SmartDose.RestClientApp.Globals;
+using SmartDose.WcfClient;
 
 namespace SmartDose.RestClientApp.Views
 {
@@ -28,6 +30,21 @@ namespace SmartDose.RestClientApp.Views
         {
             InitializeComponent();
             DataContext = this;
+  
+        }
+
+        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            propertyGridView.SelectedObject = ConfigurationData;
+            propertyGridView.HelpVisible = false;
+            propertyGridView.PropertyValueChanged += (s1, e1) =>
+            {
+                propertyGridView.Refresh();
+            };
+            propertyGridView.SelectedGridItemChanged += (s2, e2) =>
+            {
+                propertyGridView.Refresh();
+            };
         }
 
         public string Version => $"Version {Assembly.GetExecutingAssembly().GetName().Version.ToString()}";
@@ -56,12 +73,51 @@ namespace SmartDose.RestClientApp.Views
             }));
         }
 
+        ICommand _CommandBuildWcfClientsAssemblies = null;
+        public ICommand CommandBuildWcfClientsAssemblies
+        {
+            get => _CommandBuildWcfClientsAssemblies ?? (_CommandBuildWcfClientsAssemblies = new RelayCommand(o =>
+            {
+                try
+                {
+                    SmartDoseWcfClientGlobals.BuildWcfClientsAssemblies(ConfigurationData.WcfClients);
+                }
+                catch { }
+            }));
+        }
+
+        ICommand _CommandDotNetDownload = null;
+        public ICommand CommandDotNetDownload
+        {
+            get => _CommandDotNetDownload ?? (_CommandDotNetDownload = new RelayCommand(o =>
+            {
+                try
+                {
+                    Process.Start("https://www.microsoft.com/net/download");
+                }
+                catch { }
+            }));
+        }
+
+        ICommand _CommandDotNet = null;
+        public ICommand CommandDotNet
+        {
+            get => _CommandDotNet ?? (_CommandDotNet = new RelayCommand(o =>
+            {
+                try
+                {
+                    Process.Start("http://dot.net");
+                }
+                catch { }
+            }));
+        }
+
+
         ICommand _commandSaveConfiguration = null;
         public ICommand CommandSaveConfiguration
         {
             get => _commandSaveConfiguration ?? (_commandSaveConfiguration = new RelayCommand(o =>
             {
-
                 try
                 {
                     RestClient.RestClientGlobals.UrlV1 = ConfigurationData.UrlV1;
@@ -103,5 +159,7 @@ namespace SmartDose.RestClientApp.Views
                 catch { }
             }));
         }
+
+
     }
 }
