@@ -37,8 +37,13 @@ namespace SmartDose.RestClientApp
                 var client = new MasterDataServiceClient(
                          new NetTcpBinding(SecurityMode.None),
                          new EndpointAddress("net.tcp://LWDEU08DTK2PH2:9002/MasterData"));
-                var c = await client.GetMedicinesAsync(new SearchFilter[] { }, null, null);
-                propertyGridView.SelectedObject = c;
+                var medicines = await client.GetMedicinesAsync(new SearchFilter[] { }, null, null);
+                client.SetMedicinesReceived += (s, a) =>
+                {
+
+                };
+
+                // propertyGridView.SelectedObject = c;
             }
             catch (Exception ex)
             {

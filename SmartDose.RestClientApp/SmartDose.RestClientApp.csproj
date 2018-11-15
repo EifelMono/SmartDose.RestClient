@@ -115,7 +115,6 @@
     <Compile Include="Editor\JsonFoldingStrategy.cs" />
     <Compile Include="Editor\JsonEditor.cs" />
     <Compile Include="GlobalSuppressions.cs" />
-    <Compile Include="Globals\AppExtensions.cs" />
     <Compile Include="Views\BoolToVisibilityCollapsedConverter.cs" />
     <Compile Include="Views\RelayCommand.cs" />
     <Compile Include="Views\V1\Inverntory\ViewMedicineContainer.cs" />
@@ -156,7 +155,6 @@
     </Compile>
     <Compile Include="Globals\ConfigurationData.cs" />
     <Compile Include="Globals\AppGlobals.cs" />
-    <Compile Include="Globals\LogExtensions.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -209,6 +207,10 @@
     <EmbeddedResource Include="Resources\pill.icns" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\SmartDose.Core\SmartDose.Core.csproj">
+      <Project>{fefa1c43-c690-4706-97cd-38f117df1858}</Project>
+      <Name>SmartDose.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SmartDose.RestClient\SmartDose.RestClient.csproj">
       <Project>{acc77580-56ca-4e52-b59e-e2242513a40e}</Project>
       <Name>SmartDose.RestClient</Name>

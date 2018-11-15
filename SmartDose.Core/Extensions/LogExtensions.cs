@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SmartDose.RestClientApp.Globals
+namespace SmartDose.Core.Extensions
 {
     public static class LogExtensions
     {
@@ -17,9 +17,9 @@ namespace SmartDose.RestClientApp.Globals
             {
                 lock (s_logObject)
                 {
-                    if (!File.Exists(AppGlobals.Log.LogFileName))
-                        File.AppendAllText(AppGlobals.Log.LogFileName, $"Time;Info;Message\r\n");
-                    File.AppendAllText(AppGlobals.Log.LogFileName, $"{timeStamp};{type};{message}\r\n");
+                    if (!File.Exists(SmartDoseCoreGlobals.Log.LogFileName))
+                        File.AppendAllText(SmartDoseCoreGlobals.Log.LogFileName, $"Time;Info;Message\r\n");
+                    File.AppendAllText(SmartDoseCoreGlobals.Log.LogFileName, $"{timeStamp};{type};{message}\r\n");
                 }
             });
         }

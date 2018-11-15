@@ -12,6 +12,8 @@ using System.Windows.Media;
 using Newtonsoft.Json;
 using SmartDose.RestClientApp.Globals;
 using SmartDose.RestDomainDev;
+using SmartDose.Core.Extensions;
+using SmartDose.Core;
 
 namespace SmartDose.RestClientApp.Views
 {
@@ -41,7 +43,7 @@ namespace SmartDose.RestClientApp.Views
                 {
                     try
                     {
-                        File.WriteAllText(dlg.FileName, RestDomainDevGlobals.ToJsonFromObjectDev(DataDev));
+                        File.WriteAllText(dlg.FileName, DataDev.ToJsonFromExpandableObject());
                     }
                     catch (Exception ex)
                     {
@@ -194,7 +196,7 @@ namespace SmartDose.RestClientApp.Views
                 IsPlainData = false;
                 try
                 {
-                    DataDirectory = AppGlobals.DataBinObjectJsonDirectory(DataDev.GetType());
+                    DataDirectory = SmartDoseCoreGlobals.DataBinObjectJsonDirectory(DataDev.GetType());
                 }
                 catch
                 {

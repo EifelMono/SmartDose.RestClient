@@ -14,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using SmartDose.Core;
 using SmartDose.RestClientApp.Globals;
 
 namespace SmartDose.RestClientApp.Views
@@ -97,7 +98,7 @@ namespace SmartDose.RestClientApp.Views
             {
                 try
                 {
-                    Process.Start(Globals.AppGlobals.DataBinDirectory);
+                    Process.Start(SmartDoseCoreGlobals.DataBinDirectory);
                 }
                 catch { }
             }));

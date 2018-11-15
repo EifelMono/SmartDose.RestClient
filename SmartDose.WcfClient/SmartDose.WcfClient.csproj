@@ -6,19 +6,32 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Cake\build.cake" />
+    <None Remove="Cake\build.ps1" />
+  </ItemGroup>
+
+  <ItemGroup>
     <WCFMetadata Include="Connected Services" />
   </ItemGroup>
 
   <ItemGroup>
     <DotNetCliToolReference Include="dotnet-svcutil" Version="1.0.*" />
   </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Cake\build.cake" />
+    <EmbeddedResource Include="Cake\build.ps1" />
+  </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.CSharp" Version="4.5.0" />
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
-    <PackageReference Include="System.ServiceModel.Duplex" Version="4.4.*" />
-    <PackageReference Include="System.ServiceModel.Http" Version="4.4.*" />
-    <PackageReference Include="System.ServiceModel.NetTcp" Version="4.4.*" />
-    <PackageReference Include="System.ServiceModel.Security" Version="4.4.*" />
+    <PackageReference Include="System.ServiceModel.Duplex" Version="4.5.3" />
+    <PackageReference Include="System.ServiceModel.Http" Version="4.5.3" />
+    <PackageReference Include="System.ServiceModel.NetTcp" Version="4.5.3" />
+    <PackageReference Include="System.ServiceModel.Security" Version="4.5.3" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SmartDose.Core\SmartDose.Core.csproj" />
   </ItemGroup>
 
 </Project>

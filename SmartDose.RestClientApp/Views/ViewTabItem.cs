@@ -8,6 +8,7 @@ using System.Windows.Media;
 using SmartDose.RestClient.Extensions;
 using SmartDose.RestClientApp.Editor;
 using SmartDose.RestClientApp.Globals;
+using SmartDose.Core.Extensions;
 
 namespace SmartDose.RestClientApp.Views
 {

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace SmartDose.WcfClient.Services
 {
-    public class Communication
+    public class Communication : IDisposable
     {
         #region Properties
         public Type FindAssemblyType { get; set; }
@@ -24,6 +24,10 @@ namespace SmartDose.WcfClient.Services
         public Dictionary<string, MethodInfo> AsyncServiceMethods { get; set; } = new Dictionary<string, MethodInfo>();
         public Dictionary<string, MethodInfo> EventAddMethods { get; set; } = new Dictionary<string, MethodInfo>();
 
+        // SubscribeForCallbacksAsync
+        public MethodInfo SubscribeForCallBacksMethod { get; set; } = null;
+        // UnsubscribeForCallbacksAsync
+        public MethodInfo UnsubscribeForCallbacksMethod { get; set; } = null;
 
         #endregion
 
@@ -34,17 +38,48 @@ namespace SmartDose.WcfClient.Services
 
             ServiceAssembly = findAssemblyType.Assembly;
             ServiceClientType = FindServiceClient();
-            ServiceClient = CreateServiceClient(endPointAddress);
-
             FindServiceClientMethods();
-            InstallEvents();
+
+            NewServiceClient();
         }
 
         ~Communication()
         {
-            ServiceClient.Close();
+            if (ServiceClient != null)
+                ServiceClient.Close();
             UninstallEvents();
         }
+
+        public void NewServiceClient()
+        {
+            if (ServiceClient != null)
+            {
+                UninstallEvents();
+                try
+                {
+                    ServiceClient.Close();
+                }
+                catch { }
+                try
+                {
+                    var d= ServiceClient as IDisposable;
+                    if (d != null)
+                        d.Dispose();
+                }
+                catch { }
+
+            }
+            try
+            {
+                ServiceClient = CreateServiceClient(EndPointAddress);
+                InstallEvents();
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+            }
+        }
+
 
         protected Type FindServiceClient()
             => ServiceAssembly.GetTypes()
@@ -59,6 +94,10 @@ namespace SmartDose.WcfClient.Services
                     AsyncServiceMethods[m.Name] = m;
                 if (m.Name.StartsWith("add"))
                     EventAddMethods[m.Name] = m;
+                if (m.Name.EndsWith("SubscribeForCallbacksAsync"))
+                    SubscribeForCallBacksMethod = m;
+                if (m.Name.EndsWith("UnsubscribeForCallbacksAsync"))
+                    UnsubscribeForCallbacksMethod = m;
             }
         }
 
@@ -86,7 +125,8 @@ namespace SmartDose.WcfClient.Services
                         else
                         if (p.GetType().FullName.EndsWith(".SortFilter"))
                         {
-                            if (p.GetType().GetProperty("AttributeName").GetValue(p) is string sn && string.IsNullOrEmpty(sn))
+                            var v = p.GetType().GetProperty("AttributeName").GetValue(p);
+                            if (v is null || v is string sn && string.IsNullOrEmpty(sn))
                                 paramValues[i] = null;
                         }
                     }
@@ -120,84 +160,63 @@ namespace SmartDose.WcfClient.Services
             return objects.ToArray(); ;
         }
 
-        public event System.EventHandler<object> TestEvent;
-        public void Test()
-        {
-            if (TestEvent != null)
-            {
-                TestEvent(null, null);
-            }
-        }
-
-        public delegate void ActionDelegate(object sender, object args);
-        public ActionDelegate OnEvents { get; set; }
+        public Action<object, object> OnEvents { get; set; }
 
         protected void Events(object sender, object args)
         {
-            OnEvents?.Invoke(sender, args);
+            try
+            {
+                OnEvents?.Invoke(sender, args);
+            }
+            catch { }
         }
 
-        public event EventHandler SomeEvent;
-
-        protected void InstallEvents()
+        private MethodInfo _EventsMethodInfo = null;
+        protected MethodInfo EventsMethodInfo { get => _EventsMethodInfo ?? (_EventsMethodInfo = GetType().GetMethod("Events", BindingFlags.NonPublic | BindingFlags.Instance)); }
+        public void InstallEvents()
         {
-            var methodInfo1 = this.GetType().GetMethod("Events", BindingFlags.NonPublic | BindingFlags.Instance);
-            var eventInfo = this.GetType().GetEvent("TestEvent");
-
-            Delegate handler = Delegate.CreateDelegate(eventInfo.EventHandlerType, this, methodInfo1);
-            eventInfo.AddEventHandler(this, handler);
-
-            this.Test();
-
             foreach (var e in ServiceClient.GetType().GetEvents())
             {
                 try
                 {
-                    Delegate handler1 = Delegate.CreateDelegate(e.EventHandlerType, this, methodInfo1);
-                    e.AddEventHandler(ServiceClient, handler1);
+                    e.AddEventHandler(ServiceClient,
+                                Delegate.CreateDelegate(e.EventHandlerType, this, EventsMethodInfo));
                 }
                 catch (Exception ex)
                 {
                     Debug.WriteLine(ex);
                 }
             }
+        }
 
-            /*
-            var eventsMethod = GetType().GetMethod("Events", BindingFlags.NonPublic | BindingFlags.Instance);
-            foreach (var e in ServiceClient.GetType().GetEvents())
+        public void UninstallEvents()
+        {
+            try
             {
-                try
+                foreach (var e in ServiceClient.GetType().GetEvents())
                 {
-                    var handler = Delegate.CreateDelegate(e.EventHandlerType, null, eventsMethod);
-                    e.AddEventHandler(this, handler);
-                }
-                catch (Exception ex)
-                {
-                    Debug.WriteLine(ex);
+                    try
+                    {
+                        e.RemoveEventHandler(ServiceClient,
+                                    Delegate.CreateDelegate(e.EventHandlerType, this, EventsMethodInfo));
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.WriteLine(ex);
+                    }
                 }
             }
-            */
-
-            //try
-            //{
-            //    var eventsMethod = GetType().GetMethod("Events", BindingFlags.NonPublic | BindingFlags.Instance);
-            //    var handler = Delegate.CreateDelegate(typeof(ActionDelegate), null, eventsMethod);
-            //    foreach (var ev in EventAddMethods)
-            //    {
-            //        ev.Value?.Invoke(this, new object[] { handler });
-            //    }
-            //}
-            //catch (Exception ex)
-            //{
-            //    Debug.WriteLine(ex);
-            //}
-
-
+            catch { }
         }
 
-        protected void UninstallEvents()
+        public void Dispose()
         {
+            try
+            {
+                UninstallEvents();
+                ServiceClient.Close();
+            }
+            catch { }
         }
-
     }
 }

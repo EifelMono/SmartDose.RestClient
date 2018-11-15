@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SmartDose.WcfClient;
 
 namespace SmartDose.RestClientApp.Globals
 {
@@ -17,5 +18,7 @@ namespace SmartDose.RestClientApp.Globals
         // http://localhost:56040/SmartDose/V2.0/swagger/docs/v2
 
         public TimeSpan UrlTimeSpan { get; set; } = TimeSpan.FromSeconds(100);
+
+        public List<WcfItem> WcfClients { get; set; } = new List<WcfItem>();
     }
 }

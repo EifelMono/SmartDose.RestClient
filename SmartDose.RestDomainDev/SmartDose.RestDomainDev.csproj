@@ -107,6 +107,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\SmartDose.Core\SmartDose.Core.csproj" />
     <ProjectReference Include="..\SmartDose.RestDomain\SmartDose.RestDomain.csproj" />
   </ItemGroup>
 
