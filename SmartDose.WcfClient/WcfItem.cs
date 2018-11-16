@@ -17,6 +17,8 @@ namespace SmartDose.WcfClient
             {
                 _ConnectionString = value;
                 ConnectionName = WcfClientGlobals.ConnectionStringToConnectionName(_ConnectionString);
+                if (string.IsNullOrEmpty(ConnectionStringUse))
+                    ConnectionStringUse = ConnectionString;
             }
         }
 
@@ -24,12 +26,12 @@ namespace SmartDose.WcfClient
 
         public string ConnectionStringUse { get; set; }
 
-        public bool Active { get; set; }
+        public bool Active { get; set; } = true;
 
         [JsonIgnore]
-        public bool Build { get; set; }
+        public bool Build { get; set; } = true;
 
         public override string ToString()
-            => ConnectionString;
+            => $"{ConnectionString} [Active={Active}/Build={Build}]";
     }
 }

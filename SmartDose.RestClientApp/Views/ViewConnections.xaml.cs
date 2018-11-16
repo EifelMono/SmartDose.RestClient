@@ -1,37 +1,34 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using SmartDose.Core;
-using SmartDose.Core.Extensions;
+using System.Linq;
 using SmartDose.RestClientApp.Globals;
 using SmartDose.WcfClient;
+using static SmartDose.Core.SafeExecuter;
+using System.ComponentModel;
 
 namespace SmartDose.RestClientApp.Views
 {
     /// <summary>
     /// Interaction logic for ViewConnection.xaml
     /// </summary>
-    public partial class ViewConnections : UserControl
+    public partial class ViewConnections : UserControl, INotifyPropertyChanged
     {
         public ViewConnections()
         {
             InitializeComponent();
             DataContext = this;
-  
         }
+
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public void NotifyPropertyChanged(string propName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
+
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
@@ -45,10 +42,17 @@ namespace SmartDose.RestClientApp.Views
             {
                 propertyGridView.Refresh();
             };
+
+            propertyGridView.GotFocus += (s3, e3) =>
+            {
+                propertyGridView.Refresh();
+            };
         }
 
         public string Version => $"Version {Assembly.GetExecutingAssembly().GetName().Version.ToString()}";
         public MenuItem RootMenuItem { get; set; } = new MenuItem();
+
+        public Action RefreshMain { get; set; } = null;
 
         public ConfigurationData ConfigurationData { get => AppGlobals.Configuration.Data; }
 
@@ -113,6 +117,36 @@ namespace SmartDose.RestClientApp.Views
         }
 
 
+        public bool BuildWcfClientsToggel { get; set; } = true;
+
+        ICommand _CommandBuildWcfClientsToggel = null;
+        public ICommand CommandBuildWcfClientsToggel
+        {
+            get => _CommandBuildWcfClientsToggel ?? (_CommandBuildWcfClientsToggel = new RelayCommand(o =>
+            {
+                Catcher(() => ConfigurationData.WcfClients.ForEach(wcf => wcf.Build = BuildWcfClientsToggel));
+                BuildWcfClientsToggel = !BuildWcfClientsToggel;
+                NotifyPropertyChanged(string.Empty);
+                propertyGridView.Refresh();
+            }));
+        }
+
+        public bool ActiveWcfClientsToggel { get; set; } = true;
+
+        ICommand _CommandActiveWcfClientsToggel = null;
+        public ICommand CommandActiveWcfClientsToggel
+        {
+            get => _CommandActiveWcfClientsToggel ?? (_CommandActiveWcfClientsToggel = new RelayCommand(o =>
+            {
+                Catcher(() => ConfigurationData.WcfClients.ForEach(wcf => wcf.Active = ActiveWcfClientsToggel));
+                ActiveWcfClientsToggel = !ActiveWcfClientsToggel;
+                NotifyPropertyChanged(string.Empty);
+                propertyGridView.Refresh();
+            }));
+        }
+
+
+
         ICommand _commandSaveConfiguration = null;
         public ICommand CommandSaveConfiguration
         {
@@ -125,6 +159,7 @@ namespace SmartDose.RestClientApp.Views
                     RestClient.RestClientGlobals.UrlTimeSpan = ConfigurationData.UrlTimeSpan;
                     RestClient.RestClientGlobals.ClearUrls();
                     RemoveViews(RootMenuItem);
+                    RefreshMain?.Invoke();
                     AppGlobals.Configuration.Save();
                 }
                 catch (Exception ex)

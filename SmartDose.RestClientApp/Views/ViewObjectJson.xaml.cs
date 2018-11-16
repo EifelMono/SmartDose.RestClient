@@ -9,8 +9,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-using Newtonsoft.Json;
-using SmartDose.RestClientApp.Globals;
 using SmartDose.RestDomainDev;
 using SmartDose.Core.Extensions;
 using SmartDose.Core;
@@ -119,6 +117,11 @@ namespace SmartDose.RestClientApp.Views
                 {
                     Debug.WriteLine("x");
                 }
+            };
+
+            propertyGridView.GotFocus += (s3, e3) =>
+            {
+                propertyGridView.Refresh();
             };
 
             propertyGridView.SelectedGridItemChanged += (s, e) =>
