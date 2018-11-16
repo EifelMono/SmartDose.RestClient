@@ -7,7 +7,7 @@ using System.ServiceModel;
 using System.Threading.Tasks;
 using static SmartDose.Core.SafeExecuter;
 
-namespace SmartDose.WcfClient.Services
+namespace SmartDose.WcfClient.Services.old
 {
     public class Communication : IDisposable
     {
