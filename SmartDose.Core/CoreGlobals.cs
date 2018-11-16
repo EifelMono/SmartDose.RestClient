@@ -31,6 +31,5 @@ namespace SmartDose.Core
         {
             public static string LogFileName => Path.Combine(DataProtocolDirectory, $"{DateTime.Now:yyyyMMdd}.{AppName}.Log");
         }
-
     }
 }

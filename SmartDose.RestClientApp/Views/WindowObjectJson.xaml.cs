@@ -6,6 +6,9 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using SmartDose.RestClientApp.Globals;
+using SmartDose.WcfClient;
+using static SmartDose.Core.SafeExecuter;
+using SmartDose.Core.Extensions;
 
 namespace SmartDose.RestClientApp.Views
 {
@@ -21,10 +24,13 @@ namespace SmartDose.RestClientApp.Views
             CreateObjectTree();
         }
 
+        protected MenuItem RootMenuItem;
+        protected MenuItem RestMenuItem;
+        protected MenuItem WcfMenuItem;
 
         private void CreateObjectTree()
         {
-            var rootMenuItem = new MenuItem
+            RootMenuItem = new MenuItem
             {
                 Title = "SmartDose.Rest",
                 IsExpanded = true,
@@ -35,10 +41,10 @@ namespace SmartDose.RestClientApp.Views
                     Value = new ViewConnections()
                 }
             };
-            rootMenuItem.ModelsItem.Value = new ViewConnections { RootMenuItem = rootMenuItem };
+            RootMenuItem.ModelsItem.Value = new ViewConnections { RootMenuItem = RootMenuItem };
 
             #region Rest
-            var restMenueItem = rootMenuItem.Add(new MenuItem
+            RestMenuItem = RootMenuItem.Add(new MenuItem
             {
                 Title = "Rest",
                 IsExpanded = true,
@@ -49,14 +55,14 @@ namespace SmartDose.RestClientApp.Views
                     Value = new ViewConnections()
                 }
             });
-            restMenueItem.ModelsItem.Value = new ViewConnections { RootMenuItem = rootMenuItem };
+            RestMenuItem.ModelsItem.Value = new ViewConnections { RootMenuItem = RootMenuItem };
 
             #region Models
-            var modelsMenueItem = restMenueItem.Add("Models");
+            var modelsMenuItem = RestMenuItem.Add("Models");
 
             foreach (var modelsVersionGroup in RestDomain.Models.ModelsGlobals.ModelsItems.GroupBy(i => i.Version).OrderBy(g => g.Key))
             {
-                var modelsVersionMenuItem = modelsMenueItem.Add(modelsVersionGroup.Key);
+                var modelsVersionMenuItem = modelsMenuItem.Add(modelsVersionGroup.Key);
                 foreach (var modelsGroupGroup in modelsVersionGroup.GroupBy(i => i.Group).OrderBy(g => g.Key))
                 {
                     var modelsGroupMenuItem = modelsVersionMenuItem.Add(modelsGroupGroup.Key);
@@ -68,7 +74,7 @@ namespace SmartDose.RestClientApp.Views
             #endregion
 
             #region Cruds
-            var crudMenuItem = restMenueItem.Add("Cruds", true);
+            var crudMenuItem = RestMenuItem.Add("Cruds", true);
             var crudMenuV1Item = crudMenuItem.Add("V1", true);
             var crudMenuV1InverntoryItem = crudMenuV1Item.Add("Inventory", true);
             crudMenuV1InverntoryItem.Add("MedicineContainer", new RestDomain.Models.ModelsItem { Type = typeof(V1.Inventory.ViewMedicineContainer) });
@@ -99,7 +105,7 @@ namespace SmartDose.RestClientApp.Views
             #endregion
 
             #region Wcf
-            var wcfMenueItem = rootMenuItem.Add(new MenuItem
+            WcfMenuItem = RootMenuItem.Add(new MenuItem
             {
                 Title = "Wcf",
                 IsExpanded = true,
@@ -110,10 +116,39 @@ namespace SmartDose.RestClientApp.Views
                     Value = new ViewConnections()
                 }
             });
-            rootMenuItem.ModelsItem.Value = new ViewConnections { RootMenuItem = rootMenuItem };
+            RootMenuItem.ModelsItem.Value = new ViewConnections { RootMenuItem = RootMenuItem };
+            AddWcfClientsMenues();
             #endregion
 
-            treeViewModels.Items.Add(rootMenuItem);
+            treeViewModels.Items.Add(RootMenuItem);
+        }
+
+        public void AddWcfClientsMenues()
+        {
+            foreach (var wcfMenuItem in WcfMenuItem.Items)
+            {
+                if (wcfMenuItem?.ModelsItem?.Value is ViewWcfClient view)
+                    Catcher(() =>
+                    {
+                        view.PrepareForStop();
+                        wcfMenuItem.ModelsItem.Value = null;
+                    });
+            }
+            WcfMenuItem.Items.Clear();
+            foreach (var wcfItem in AppGlobals.Configuration.Data.WcfClients)
+            {
+                WcfMenuItem.Add(new MenuItem
+                {
+                    Title = wcfItem.ConnectionName,
+                    IsExpanded = true,
+                    IsSelected = true,
+                    ModelsItem = new RestDomain.Models.ModelsItem
+                    {
+                        Type = typeof(ViewWcfClient),
+                        Value = new ViewWcfClient().Pipe(v => v.WcfItem = wcfItem)
+                    }
+                });
+            }
         }
 
         private void TreeView_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)

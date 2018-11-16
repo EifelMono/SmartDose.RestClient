@@ -162,6 +162,9 @@
     <Compile Include="Views\ViewCruds.cs" />
     <Compile Include="Views\ViewTabItem.cs" />
     <Compile Include="Views\V2\MasterData\ViewMedicine.cs" />
+    <Compile Include="Views\ViewWcfClient.xaml.cs">
+      <DependentUpon>ViewWcfClient.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\WindowObjectJson.xaml.cs">
       <DependentUpon>WindowObjectJson.xaml</DependentUpon>
     </Compile>
@@ -188,6 +191,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\ViewObjectJson.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ViewWcfClient.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
