@@ -135,6 +135,9 @@ namespace SmartDose.WcfClient
             return result;
         }
 
+        public static string WcfItemToAssemblyFilename(WcfItem wcfItem)
+            => $"{ConnectionStringToConnectionName(wcfItem.ConnectionString)}.dll";
+
         public static (List<string> Copied, List<string> NotCopied) CopyWcfClientAssembliesToAppExecutionDirectory()
         {
             var copyied = new List<string>();
@@ -143,7 +146,7 @@ namespace SmartDose.WcfClient
             {
                 try
                 {
-                    File.Copy(file, Path.Combine(Directory.GetCurrentDirectory(), Path.GetFileName(file)),true);
+                    File.Copy(file, Path.Combine(Directory.GetCurrentDirectory(), Path.GetFileName(file)), true);
                     copyied.Add(file);
                 }
                 catch
@@ -153,7 +156,7 @@ namespace SmartDose.WcfClient
             }
             return (copyied, notCopied);
         }
-}
+    }
 
 
 }

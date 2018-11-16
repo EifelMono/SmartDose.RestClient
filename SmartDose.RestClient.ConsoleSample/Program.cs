@@ -1,6 +1,6 @@
-﻿using System;
+﻿using System.IO;
+using System;
 using System.ComponentModel;
-using System.IO;
 using System.Reflection;
 using System.Security.Policy;
 using System.Threading.Tasks;
@@ -19,7 +19,6 @@ namespace SmartDose.RestClient.ConsoleSample
         {
             await TestAsync();
 
-
             Console.WriteLine($"UrlV1={RestClientGlobals.UrlV1}");
             Console.WriteLine($"UrlV2={RestClientGlobals.UrlV2}");
             Console.WriteLine($"TimeOut={RestClientGlobals.UrlTimeSpan.TotalMilliseconds} ms");
@@ -34,38 +33,20 @@ namespace SmartDose.RestClient.ConsoleSample
 
         static void Test()
         {
-
         }
 
         static async Task TestAsync()
         {
+            var wcfItem = new WcfItem
+            {
+                ConnectionString = "net.tcp://localhost:10000/MasterData/",
+                ConnectionStringUse = "net.tcp://localhost:10000/MasterData/",
+            };
+            await Task.Delay(1);
 
-            var connectionString = "net.tcp://lwdeu08dtk2ph2:10000/MasterData/";
-            var connectionAssembly = @"C:\ProgramData\Rowa\Bin\SmartDose.RestClientApp\WcfClients\lwdeu08dtk2ph2_10000_MasterData\bin\Debug\netstandard2.0\lwdeu08dtk2ph2_10000_MasterData.dll";
-            try
+            using (var service = new CommunicationService(wcfItem, wcfItem.ConnectionStringUse))
             {
-                string fileToLoad = @"C:\Dev\CSharp\Projects\smartdose\Source\Projects\SmartDose.RestClient\SmartDose.RestClient.ConsoleSample\bin\Debug\net471\lwdeu08dtk2ph2_10000_MasterData.dll";
-                // string fileToLoad = @"C:\Dev\CSharp\Projects\smartdose\Source\Projects\SmartDose.RestClient\SmartDose.RestClient.ConsoleSample\bin\Debug\x\lwdeu08dtk2ph2_10000_MasterData.dll";
-                var domaininfo = new AppDomainSetup();
-                // domaininfo.ApplicationBase = Path.GetDirectoryName(fileToLoad);
-                domaininfo.ApplicationBase = Directory.GetCurrentDirectory();
-                Evidence adEvidence = AppDomain.CurrentDomain.Evidence;
-                AppDomain domain = AppDomain.CreateDomain("Domain2", adEvidence, domaininfo);
-                AssemblyName assamblyName = AssemblyName.GetAssemblyName(fileToLoad);
-                var assembly= domain.Load(assamblyName);
-                var s = assembly.GetTypes();
-                AppDomain.Unload(domain);
-                GC.Collect();
-                GC.WaitForPendingFinalizers();
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex);
-            }
-
-            using (var client = new CommunicationService(connectionAssembly, connectionString))
-            {
-                client.Start();
+                service.Start();
                 Console.ReadLine();
             }
             Console.ReadLine();
@@ -79,8 +60,6 @@ namespace SmartDose.RestClient.ConsoleSample
 
         public static string ToJsonFromObjectDev(object objectDev)
             => JsonConvert.SerializeObject(objectDev, settings: JsonSerializerSettingsDev);
-
-
     }
 
     public class SerializableExpandableContractResolver : DefaultContractResolver

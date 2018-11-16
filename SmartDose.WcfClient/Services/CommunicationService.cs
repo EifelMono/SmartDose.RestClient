@@ -5,15 +5,19 @@ using System.Reflection;
 using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
+using static SmartDose.Core.SafeExecuter;
 
 namespace SmartDose.WcfClient.Services
 {
-    public enum FlowState
+    public enum ServiceNotiyEvent
     {
-        Init,
-        Running,
-        Error,
-        AssemblyError,
+        ClientClosing,
+        ClientClosed,
+        ClientFaulted,
+        ClientOpening,
+        ClientOpened,
+
+        AppCanel
     }
 
     public class CommunicationServiceCore : IDisposable
@@ -22,6 +26,18 @@ namespace SmartDose.WcfClient.Services
         {
             EndpointAddress = endpointAddress;
             SecurityMode = securityMode;
+        }
+
+        protected WcfItem WcfItem { get; set; }
+        protected string AssemblyFilename { get; private set; }
+        protected bool IsAssembly { get => !string.IsNullOrEmpty(AssemblyFilename); }
+
+        public CommunicationServiceCore(WcfItem wcfItem, string endpointAddress, SecurityMode securityMode = SecurityMode.None)
+            : this(endpointAddress, securityMode)
+        {
+            WcfItem = wcfItem;
+            EndpointAddress = wcfItem.ConnectionStringUse;
+            AssemblyFilename = WcfClientGlobals.WcfItemToAssemblyFilename(wcfItem);
         }
 
         #region Assembly Client
@@ -33,72 +49,9 @@ namespace SmartDose.WcfClient.Services
         protected MethodInfo SubscribeForCallBacksMethod { get; set; } = null;
         // UnsubscribeForCallbacksAsync
         protected MethodInfo UnsubscribeForCallbacksMethod { get; set; } = null;
-
-        public string AssemblyFilename { get; private set; }
-
-        public bool IsAssembly { get => !string.IsNullOrEmpty(AssemblyFilename); }
-
-        protected AppDomain AppDomain { get; set; }
-        protected AssemblyName AssemblyName { get; set; }
-
-        protected Assembly Assembly { get; set; }
-
-        string ConnectionStringToConnectionName(string connectionstring)
-        {
-            var result = connectionstring.Split(new[] { "//" }, StringSplitOptions.None)[1].Replace(":", "_").Replace("/", "_");
-            if (result.EndsWith("_"))
-                result = result.Substring(0, result.Length - 1);
-            return result;
-        }
-
-        public string ConnectionString { get; set; }
-        public string ConnectionName { get; set; }
-
-        public string ConnectionDirectory { get; set; }
-        public string ConnectionAssemblyFileName { get; set; }
-
-        public CommunicationServiceCore(string assemblyFilename, string endpointAddress, SecurityMode securityMode= SecurityMode.None)
-                    : this(endpointAddress, securityMode)
-        {
-            AssemblyFilename = assemblyFilename;
-        }
-
-        protected bool LoadAssembly()
-        {
-            if (!IsAssembly)
-                return true;
-            try
-            {
-                AppDomain = AppDomain.CreateDomain(Path.GetFileNameWithoutExtension(AssemblyFilename));
-                AssemblyName = new AssemblyName() { CodeBase = Path.GetDirectoryName(AssemblyFilename) };
-                Assembly = AppDomain.Load(AssemblyFilename);
-                var types = Assembly.GetTypes();
-                return true;
-            }
-            catch (Exception ex)
-            {
-                return false;
-            }
-        }
-
-        protected bool UnloadAssembly()
-        {
-            if (!IsAssembly)
-                return true;
-            try
-            {
-                AppDomain.Unload(AppDomain);
-                return true;
-            }
-            catch (Exception ex)
-            {
-                return false;
-            }
-        }
-
         #endregion
 
-        #region Service 
+        #region Client 
 
         public SecurityMode SecurityMode { get; protected set; }
         public string EndpointAddress { get; protected set; }
@@ -111,7 +64,43 @@ namespace SmartDose.WcfClient.Services
             Client = (ICommunicationObject)Activator.CreateInstance(ClientType,
                    new NetTcpBinding(SecurityMode.None),
                    new EndpointAddress(EndpointAddress));
+            SetClientNotifyEvents(Client, true);
         }
+        #endregion
+
+        #region Events
+        protected ICommunicationObject SetClientNotifyEvents(ICommunicationObject client, bool on)
+        {
+            switch (on)
+            {
+                case true:
+                    client.Closing += Client_Closing;
+                    client.Closed += Client_Closed;
+                    client.Faulted += Client_Faulted;
+                    client.Opening += Client_Opening;
+                    client.Opened += Client_Opened;
+                    break;
+                case false:
+                    client.Closing -= Client_Closing;
+                    client.Closed -= Client_Closed;
+                    client.Faulted -= Client_Faulted;
+                    client.Opening -= Client_Opening;
+                    client.Opened -= Client_Opened;
+                    break;
+            }
+            return client;
+        }
+
+        private void Client_Closing(object sender, EventArgs e)
+            => ServiceNotiyEvent(Services.ServiceNotiyEvent.ClientClosing);
+        private void Client_Closed(object sender, EventArgs e)
+            => ServiceNotiyEvent(Services.ServiceNotiyEvent.ClientClosed);
+        private void Client_Faulted(object sender, EventArgs e)
+            => ServiceNotiyEvent(Services.ServiceNotiyEvent.ClientFaulted);
+        private void Client_Opened(object sender, EventArgs e)
+            => ServiceNotiyEvent(Services.ServiceNotiyEvent.ClientOpened);
+        private void Client_Opening(object sender, EventArgs e)
+            => ServiceNotiyEvent(Services.ServiceNotiyEvent.ClientOpening);
         #endregion
 
         #region Run
@@ -123,34 +112,22 @@ namespace SmartDose.WcfClient.Services
             CancelRequested = true;
         }
 
+        protected void ServiceNotiyEvent(ServiceNotiyEvent serviceNotifyEvent)
+        {
 
-        public FlowState FlowState { get; protected set; }
+        }
+
         public void Start()
         {
             CancelRequested = false;
             Task.Run(async () =>
             {
-                try
-                {
-                    FlowState = FlowState.Init;
-                    if (!LoadAssembly())
-                    {
-                        FlowState = FlowState.AssemblyError;
-                        return;
-                    }
-                    while (!IsCancelRequested)
-                    {
-                        await Task.Delay(TimeSpan.FromMilliseconds(500));
-                    }
-                }
-                catch (Exception ex)
-                {
+                await Task.Delay(1);
 
-                }
-                finally
-                {
-                    UnloadAssembly();
-                }
+
+
+                // remove
+                // SetClientNotifyEvents(Client, false);
             });
         }
 
@@ -177,41 +154,21 @@ namespace SmartDose.WcfClient.Services
         }
 
         protected virtual void SubscribeCallBacks()
-        {
-            if (SubscribeForCallBacksMethod != null)
-                try
-                {
-                    SubscribeForCallBacksMethod.Invoke(Client, new object[] { });
-                }
-                catch (Exception ex)
-                {
-
-                }
-        }
+            => Catcher(() => SubscribeForCallBacksMethod?.Invoke(Client, new object[] { }));
 
         protected virtual void UnsubscribeCallBacks()
-        {
-            {
-                try
-                {
-                    UnsubscribeForCallbacksMethod.Invoke(Client, new object[] { });
-                }
-                catch
-                {
-
-                }
-            }
-        }
+            => Catcher(() => UnsubscribeForCallbacksMethod?.Invoke(Client, new object[] { }));
     }
 
-    public class CommunicationService: CommunicationServiceCore
+    public class CommunicationService : CommunicationServiceCore
     {
-        public CommunicationService(string connectionString, string endpointAddress, SecurityMode securityMode = SecurityMode.None) : base(connectionString, endpointAddress, securityMode) { }
+        public CommunicationService(WcfItem wcfItem, string endpointAddress, SecurityMode securityMode = SecurityMode.None)
+            : base(wcfItem, endpointAddress, securityMode) { }
 
     }
     public class CommunicationService<TClient> : CommunicationServiceCore where TClient : ICommunicationObject, new()
     {
-        public CommunicationService(string endpointAddress, SecurityMode securityMode= SecurityMode.None) : base(endpointAddress, securityMode)
+        public CommunicationService(string endpointAddress, SecurityMode securityMode = SecurityMode.None) : base(endpointAddress, securityMode)
         {
             ClientType = typeof(TClient);
         }
