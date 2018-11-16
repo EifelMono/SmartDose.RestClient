@@ -204,7 +204,7 @@ namespace SmartDose.RestClientApp.Views
                 IsPlainData = false;
                 try
                 {
-                    DataDirectory = SmartDoseCoreGlobals.DataBinObjectJsonDirectory(DataDev.GetType());
+                    DataDirectory = CoreGlobals.DataBinObjectJsonDirectory(DataDev.GetType());
                 }
                 catch
                 {

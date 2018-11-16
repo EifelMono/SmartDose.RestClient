@@ -10,7 +10,7 @@ using SmartDose.Core.Extensions;
 
 namespace SmartDose.WcfClient
 {
-    public static class SmartDoseWcfClientGlobals
+    public static class WcfClientGlobals
     {
         public static string AssemblyFramework = "netstandard2.0";
 
@@ -37,7 +37,7 @@ namespace SmartDose.WcfClient
             {
                 if (_WcfDataBinDirectory is null)
                 {
-                    var dataBinDirectory = SmartDoseCoreGlobals.DataBinDirectory;
+                    var dataBinDirectory = CoreGlobals.DataBinDirectory;
                     dataBinDirectory = Path.Combine(Path.GetDirectoryName(dataBinDirectory), "SmartDose.RestClientApp");
                     _WcfDataBinDirectory = Path.Combine(dataBinDirectory, "WcfClients").EnsureDirectoryExist();
                 }
@@ -50,36 +50,6 @@ namespace SmartDose.WcfClient
 
         public static string WcfClientsFileName { get => Path.Combine(WcfDataBinDirectory, "wcfclients"); }
 
-        public static (List<string> Copied, List<string> NotCopied) CopyWcfClientsToAppDirectory()
-        {
-            var copyied = new List<string>();
-            var notCopied = new List<string>();
-            foreach (var file in FindWcfClients())
-            {
-                try
-                {
-                    File.Copy(file, Path.Combine(Directory.GetCurrentDirectory(), Path.GetFileName(file)),true);
-                    copyied.Add(file);
-                }
-                catch
-                {
-                    notCopied.Add(file);
-                }
-            }
-            return (copyied, notCopied);
-        }
-
-        public static List<string> FindWcfClients()
-        {
-            var result = new List<string>();
-            foreach (var file in Directory.GetFiles(WcfDataBinDirectory, "*.dll", SearchOption.AllDirectories))
-            {
-                if (!file.ToLower().Contains(@"\tools\"))
-                    result.Add(file);
-            }
-            return result;
-        }
-
         public static bool ExtractCakeBuildToWcfClientDirectory()
         {
             var count = 0;
@@ -87,7 +57,7 @@ namespace SmartDose.WcfClient
                 Stream stream = null;
                 try
                 {
-                    stream = Assembly.GetAssembly(typeof(SmartDoseWcfClientGlobals)).GetManifestResourceStream($"{typeof(SmartDoseWcfClientGlobals).Namespace}.Cake.build.cake");
+                    stream = Assembly.GetAssembly(typeof(WcfClientGlobals)).GetManifestResourceStream($"{typeof(WcfClientGlobals).Namespace}.Cake.build.cake");
                     using (var reader = new StreamReader(stream))
                     {
                         string result = reader.ReadToEnd();
@@ -105,7 +75,7 @@ namespace SmartDose.WcfClient
                 Stream stream = null;
                 try
                 {
-                    stream = Assembly.GetAssembly(typeof(SmartDoseWcfClientGlobals)).GetManifestResourceStream($"{typeof(SmartDoseWcfClientGlobals).Namespace}.Cake.build.ps1");
+                    stream = Assembly.GetAssembly(typeof(WcfClientGlobals)).GetManifestResourceStream($"{typeof(WcfClientGlobals).Namespace}.Cake.build.ps1");
                     using (var reader = new StreamReader(stream))
                     {
                         string result = reader.ReadToEnd();
@@ -124,6 +94,23 @@ namespace SmartDose.WcfClient
 
         public static void BuildWcfClientsAssemblies(List<WcfItem> wcfItems)
         {
+            // made with Cake
+            /*
+            C:\ProgramData\Rowa\Bin\SmartDose.RestClientApp\WcfClients
+            echo net.tcp://localhost:10000/MasterData/
+            remove last backslash 
+            md localhost_10000_MasterData
+            cd localhost_10000_MasterData
+            dotnet new console
+            dotnet add package dotnet-svcutil
+            rename in csproj PackageReference=> DotNetCliToolReference 
+            rename Framework => netstandard2.0
+            dotnet restore
+            dotnet svcutil net.tcp://localhost:9002/MasterData -n *,localhost_10000_MasterData
+            Add (ExpandableObjectConverter) and more???? to classes in Reference.cs
+            dotnet build
+            cleanup
+            */
             var exe = Environment.GetCommandLineArgs()[0];
             var sb = new StringBuilder();
             foreach (var item in wcfItems.Where(w => w.Build))
@@ -135,6 +122,36 @@ namespace SmartDose.WcfClient
                 Arguments = $"-NoProfile -ExecutionPolicy Bypass -Command \"& './build.ps1' --target=wcfclients --startafterready=\"{Environment.GetCommandLineArgs()[0]}\"",
                 WorkingDirectory = Path.GetDirectoryName(BuildPs1FileName),
             });
+        }
+
+        public static List<string> FindWcfClientAssemblies()
+        {
+            var result = new List<string>();
+            foreach (var file in Directory.GetFiles(WcfDataBinDirectory, "*.dll", SearchOption.AllDirectories))
+            {
+                if (!file.ToLower().Contains(@"\tools\"))
+                    result.Add(file);
+            }
+            return result;
+        }
+
+        public static (List<string> Copied, List<string> NotCopied) CopyWcfClientAssembliesToAppExecutionDirectory()
+        {
+            var copyied = new List<string>();
+            var notCopied = new List<string>();
+            foreach (var file in FindWcfClientAssemblies())
+            {
+                try
+                {
+                    File.Copy(file, Path.Combine(Directory.GetCurrentDirectory(), Path.GetFileName(file)),true);
+                    copyied.Add(file);
+                }
+                catch
+                {
+                    notCopied.Add(file);
+                }
+            }
+            return (copyied, notCopied);
         }
 }
 

@@ -17,7 +17,7 @@ namespace SmartDose.RestClientApp.Globals
             Configuration.Load();
             if (!Configuration.FileExists)
                 Configuration.Save();
-            var done = SmartDoseWcfClientGlobals.CopyWcfClientsToAppDirectory();
+            var done = WcfClientGlobals.CopyWcfClientAssembliesToAppExecutionDirectory();
             "WcfClients copied".LogInformation();
             done.Copied.ForEach(d => d.LogInformation());
             "WcfClients not copied".LogInformation();
@@ -26,7 +26,7 @@ namespace SmartDose.RestClientApp.Globals
 
         public static class Configuration
         {
-            public static string FileName => Path.Combine(SmartDoseCoreGlobals.DataBinDirectory, $"{SmartDoseCoreGlobals.AppName}.json");
+            public static string FileName => Path.Combine(CoreGlobals.DataBinDirectory, $"{CoreGlobals.AppName}.json");
 
             public static ConfigurationData Data = new ConfigurationData();
 

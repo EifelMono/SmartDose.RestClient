@@ -6,7 +6,7 @@ using SmartDose.Core.Extensions;
 
 namespace SmartDose.Core
 {
-    public static class SmartDoseCoreGlobals
+    public static class CoreGlobals
     {
 
         public static string AppName => Path.GetFileNameWithoutExtension(AppDomain.CurrentDomain.FriendlyName);

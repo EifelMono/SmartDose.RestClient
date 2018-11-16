@@ -17,9 +17,9 @@ namespace SmartDose.Core.Extensions
             {
                 lock (s_logObject)
                 {
-                    if (!File.Exists(SmartDoseCoreGlobals.Log.LogFileName))
-                        File.AppendAllText(SmartDoseCoreGlobals.Log.LogFileName, $"Time;Info;Message\r\n");
-                    File.AppendAllText(SmartDoseCoreGlobals.Log.LogFileName, $"{timeStamp};{type};{message}\r\n");
+                    if (!File.Exists(CoreGlobals.Log.LogFileName))
+                        File.AppendAllText(CoreGlobals.Log.LogFileName, $"Time;Info;Message\r\n");
+                    File.AppendAllText(CoreGlobals.Log.LogFileName, $"{timeStamp};{type};{message}\r\n");
                 }
             });
         }

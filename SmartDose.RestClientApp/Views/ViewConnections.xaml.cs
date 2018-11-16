@@ -80,7 +80,7 @@ namespace SmartDose.RestClientApp.Views
             {
                 try
                 {
-                    SmartDoseWcfClientGlobals.BuildWcfClientsAssemblies(ConfigurationData.WcfClients);
+                    WcfClientGlobals.BuildWcfClientsAssemblies(ConfigurationData.WcfClients);
                 }
                 catch { }
             }));
@@ -154,7 +154,7 @@ namespace SmartDose.RestClientApp.Views
             {
                 try
                 {
-                    Process.Start(SmartDoseCoreGlobals.DataBinDirectory);
+                    Process.Start(CoreGlobals.DataBinDirectory);
                 }
                 catch { }
             }));

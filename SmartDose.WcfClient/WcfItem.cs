@@ -16,7 +16,7 @@ namespace SmartDose.WcfClient
             get => _ConnectionString; set
             {
                 _ConnectionString = value;
-                ConnectionName = SmartDoseWcfClientGlobals.ConnectionStringToConnectionName(_ConnectionString);
+                ConnectionName = WcfClientGlobals.ConnectionStringToConnectionName(_ConnectionString);
             }
         }
 
