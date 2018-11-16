@@ -19,23 +19,23 @@
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
-            <Label
+            <TextBlock
                 Grid.Column="0"
                 Margin="5"
-                Content="{Binding WcfItemStatusText}"
-                Foreground="{Binding WcfItemStatusColor}" />
+                Foreground="{Binding WcfItemStatusColor}"
+                Text="{Binding WcfItemStatusText}" />
 
-            <Label
+            <TextBlock
                 Grid.Column="1"
                 Margin="5"
-                Content="{Binding WcfItem.ConnectionStringUse}"
                 FontWeight="Bold"
-                Foreground="Blue" />
-            <Label
+                Foreground="Blue"
+                Text="{Binding WcfItem.ConnectionStringUse}" />
+            <TextBlock
                 Grid.Column="2"
                 Margin="5"
-                Content="{Binding WcfItem.ConnectionName}"
-                FontWeight="Bold" />
+                FontWeight="Bold"
+                Text="{Binding WcfItem.ConnectionName}" />
         </Grid>
     </Grid>
 </UserControl>

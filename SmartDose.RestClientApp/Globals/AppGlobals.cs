@@ -51,6 +51,8 @@ namespace SmartDose.RestClientApp.Globals
 
                         Data.UrlTimeSpan = TimeSpan.FromSeconds(100);
 
+                        Data.WcfTimeSpan = TimeSpan.FromSeconds(100);
+
                         Data.WcfClients = new System.Collections.Generic.List<WcfItem>
                         {
                             new WcfItem
@@ -65,7 +67,7 @@ namespace SmartDose.RestClientApp.Globals
                                 ConnectionStringUse= "net.tcp://localhost:10000/Settings/",
                                 Active=true
                             }
-};
+                        };
                     }
 
                     RestClientGlobals.UrlV1 = Data.UrlV1;

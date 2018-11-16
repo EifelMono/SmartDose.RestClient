@@ -49,7 +49,7 @@
             Margin="1,0,1,0"
             Padding="0,40,0,0"
             HorizontalContentAlignment="Center"
-            Content="SmartDose.RestClient"
+            Content="SmartDose.RestClientApp"
             FontSize="40" />
         <Label
             Grid.Row="1"
@@ -90,6 +90,7 @@
             Grid.Row="3"
             Grid.Column="2"
             Margin="5"
+            Padding="5"
             Command="{Binding CommandOpenSwaggerV1}"
             Content="Open Swagger"
             IsEnabled="false" />
@@ -109,25 +110,33 @@
             Grid.Row="4"
             Grid.Column="2"
             Margin="5"
+            Padding="5"
             Command="{Binding CommandOpenSwaggerV2}"
             Content="Open Swagger" />
         <Button
             Grid.Row="5"
             Grid.Column="2"
             Margin="5,20,5,5"
+            Padding="5"
             Command="{Binding CommandSaveConfiguration}"
             Content="Save configuration" />
         <Button
             Grid.Row="6"
             Grid.Column="2"
             Margin="5"
+            Padding="5"
             Command="{Binding CommandOpenDataFolder}"
             Content="Open data folder" />
         <TabControl Grid.Row="7" Grid.Column="1">
             <TabItem Header="Dose">
                 <Grid Background="White">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="25*" />
+                        <ColumnDefinition Width="128*" />
+                    </Grid.ColumnDefinitions>
                     <Image
-                        Margin="10"
+                        Grid.ColumnSpan="2"
+                        Margin="10,58,10,59"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
                         Opacity=".68"
@@ -135,70 +144,78 @@
                 </Grid>
             </TabItem>
             <TabItem Header="All Data">
-                <WindowsFormsHost Grid.Row="0">
-                    <forms:PropertyGrid x:Name="propertyGridView">
-                        <forms:PropertyGrid.ContextMenuStrip>
-                            <forms:ContextMenuStrip />
-                        </forms:PropertyGrid.ContextMenuStrip>
-                    </forms:PropertyGrid>
-                </WindowsFormsHost>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <WindowsFormsHost Grid.Column="0">
+                        <forms:PropertyGrid x:Name="propertyGridView">
+                            <forms:PropertyGrid.ContextMenuStrip>
+                                <forms:ContextMenuStrip />
+                            </forms:PropertyGrid.ContextMenuStrip>
+                        </forms:PropertyGrid>
+                    </WindowsFormsHost>
+                    <StackPanel Grid.Column="1">
+                        <Button
+                            Margin="5,0,5,5"
+                            Padding="5"
+                            Command="{Binding CommandSaveConfiguration}"
+                            Content="Save configuration" />
+                        <Button
+                            Margin="5,5,5,5"
+                            Padding="5"
+                            Command="{Binding CommandBuildWcfClientsAssemblies}">
+                            <TextBlock>
+                                Build WcfClients Assemblies<LineBreak />
+                                <LineBreak />
+                                <Hyperlink Command="{Binding CommandDotNet}" NavigateUri="http://dot.net">
+                                    http://dot.net
+                                </Hyperlink>
+                                core sdk is needed</TextBlock>
+                        </Button>
+                        <Button
+                            Margin="5"
+                            Padding="5"
+                            Command="{Binding CommandDotNetDownload}">
+                            <TextBlock>
+                                Download .NET Core SDK<LineBreak />
+                                <LineBreak />
+                                This button opens<LineBreak />
+                                the download page<LineBreak />
+                                <Hyperlink Command="{Binding CommandDotNetDownload}" NavigateUri="https://www.microsoft.com/net/download">
+                                    https://www.microsoft.com/net/download
+                                </Hyperlink>
+                            </TextBlock>
+                        </Button>
+                        <Button
+                            Margin="5"
+                            Padding="5"
+                            VerticalContentAlignment="Center"
+                            Command="{Binding CommandActiveWcfClientsToggel}">
+                            <StackPanel>
+                                <CheckBox HorizontalAlignment="Center" IsChecked="{Binding ActiveWcfClientsToggel}" />
+                                <TextBlock Margin="0,5,0,0" VerticalAlignment="Center">
+                                    Toogle Active WcfClients
+                                </TextBlock>
+                            </StackPanel>
+                        </Button>
+                        <Button
+                            Margin="5"
+                            Padding="5"
+                            VerticalContentAlignment="Center"
+                            Command="{Binding CommandBuildWcfClientsToggel}">
+                            <StackPanel>
+                                <CheckBox HorizontalAlignment="Center" IsChecked="{Binding BuildWcfClientsToggel}" />
+                                <TextBlock Margin="0,5,0,0" VerticalAlignment="Center">
+                                    Toogle Build WcfClients
+                                </TextBlock>
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+
+                </Grid>
             </TabItem>
         </TabControl>
-        <StackPanel Grid.Row="7" Grid.Column="2">
-            <Button
-                Margin="5,22,5,5"
-                Padding="5"
-                Command="{Binding CommandBuildWcfClientsAssemblies}">
-                <TextBlock>
-                    Build WcfClients Assemblies<LineBreak />
-                    <LineBreak />
-                    <Hyperlink Command="{Binding CommandDotNet}" NavigateUri="http://dot.net">
-                        http://dot.net
-                    </Hyperlink>
-                    core sdk is needed</TextBlock>
-            </Button>
-            <Button
-                Margin="5"
-                Padding="5"
-                Command="{Binding CommandDotNetDownload}">
-                <TextBlock>
-                    Download .NET Core SDK<LineBreak />
-                    <LineBreak />
-                    This button opens<LineBreak />
-                    the download page<LineBreak />
-                    <Hyperlink Command="{Binding CommandDotNetDownload}" NavigateUri="https://www.microsoft.com/net/download">
-                        https://www.microsoft.com/net/download
-                    </Hyperlink>
-                </TextBlock>
-            </Button>
-            <Button
-                Margin="5"
-                Padding="5"
-                VerticalContentAlignment="Center"
-                Command="{Binding CommandActiveWcfClientsToggel}">
-                <StackPanel>
-                    <CheckBox
-                        HorizontalAlignment="Center"
-                        IsChecked="{Binding ActiveWcfClientsToggel}" />
-                    <TextBlock Margin="0,5,0,0" VerticalAlignment="Center">
-                        Toogle Active WcfClients
-                    </TextBlock>
-                </StackPanel>
-            </Button>
-            <Button
-                Margin="5"
-                Padding="5"
-                VerticalContentAlignment="Center"
-                Command="{Binding CommandBuildWcfClientsToggel}">
-                <StackPanel>
-                    <CheckBox
-                        HorizontalAlignment="Center"
-                        IsChecked="{Binding BuildWcfClientsToggel}" />
-                    <TextBlock Margin="0,5,0,0" VerticalAlignment="Center">
-                        Toogle Build WcfClients
-                    </TextBlock>
-                </StackPanel>
-            </Button>
-        </StackPanel>
     </Grid>
 </UserControl>

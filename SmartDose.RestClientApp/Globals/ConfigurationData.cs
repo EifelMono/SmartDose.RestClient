@@ -19,5 +19,7 @@ namespace SmartDose.RestClientApp.Globals
         
         [TypeConverter(typeof(ListConverter))]
         public List<WcfItem> WcfClients { get; set; } = new List<WcfItem>();
+
+        public TimeSpan WcfTimeSpan { get; set; }
     }
 }

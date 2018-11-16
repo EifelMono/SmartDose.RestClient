@@ -16,19 +16,19 @@ namespace SmartDose.WcfClient
             get => _ConnectionString; set
             {
                 _ConnectionString = value;
-                ConnectionName = WcfClientGlobals.ConnectionStringToConnectionName(_ConnectionString);
+                if (string.IsNullOrEmpty(ConnectionName))
+                    ConnectionName = WcfClientGlobals.ConnectionStringToConnectionName(_ConnectionString);
                 if (string.IsNullOrEmpty(ConnectionStringUse))
                     ConnectionStringUse = ConnectionString;
             }
         }
 
-        public string ConnectionName { get; private set; }
+        public string ConnectionName { get; set; }
 
         public string ConnectionStringUse { get; set; }
 
         public bool Active { get; set; } = true;
 
-        [JsonIgnore]
         public bool Build { get; set; } = true;
 
         public override string ToString()

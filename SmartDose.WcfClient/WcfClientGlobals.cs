@@ -114,12 +114,12 @@ namespace SmartDose.WcfClient
             var exe = Environment.GetCommandLineArgs()[0];
             var sb = new StringBuilder();
             foreach (var item in wcfItems.Where(w => w.Build))
-                sb.AppendLine(item.ConnectionString);
+                sb.AppendLine($"{item.ConnectionString};{item.ConnectionName}");
             File.WriteAllText(WcfClientsFileName, sb.ToString());
             Process.Start(new ProcessStartInfo
             {
                 FileName = "powershell.exe",
-                Arguments = $"-NoProfile -ExecutionPolicy Bypass -Command \"& './build.ps1' --target=wcfclients --startafterready=\"{Environment.GetCommandLineArgs()[0]}\"",
+                Arguments = $"-NoProfile -ExecutionPolicy Bypass -Command \"& './build.ps1' --target=wcfclients --assemblyFramework{AssemblyFramework} --startafterready=\"{Environment.GetCommandLineArgs()[0]}\"",
                 WorkingDirectory = Path.GetDirectoryName(BuildPs1FileName),
             });
         }

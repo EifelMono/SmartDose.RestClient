@@ -51,7 +51,6 @@ void GotoConnectionDirectory()
 void GotoWcfClientDirectory()
   => System.IO.Directory.SetCurrentDirectory(wcfClientDirectory.ToString());
 
-
 void DotNet(string args)
 {
    StartProcess("dotnet", new  ProcessSettings {
@@ -64,7 +63,7 @@ void DotNet(string args)
 void EnsureDirectoryDelete(string dir)
 {
    if (DirectoryExists(dir))
-         DeleteDirectory(dir, new DeleteDirectorySettings {
+         DeleteDirectory(dir, new DeleteDirectorySettings { 
             Recursive= true,
             Force= true
          });
@@ -72,7 +71,6 @@ void EnsureDirectoryDelete(string dir)
 
 void EnsureDirectoryDelete(DirectoryPath dir)
    => EnsureDirectoryDelete(dir.ToString());
-
 
 //<ItemGroup>
 //  <PackageReference Include="dotnet-svcutil" Version="1.*" />
@@ -98,7 +96,7 @@ void ProjectChangeTargetFramework()
    xDoc.Save(connectionCsproj.ToString());
 }
 
-void  AddReferencecsExpandableObjectConverter()
+void AddReferencecsExpandableObjectConverter()
 {
    // [TypeConverter(typeof(ExpandableObjectConverter))]
    var referencecsFileName= System.IO.Path.Combine(connectionDirectory.ToString(), "ServiceReference1", "Reference.cs");
@@ -111,6 +109,34 @@ void  AddReferencecsExpandableObjectConverter()
       sb.AppendLine(l);
    } 
    System.IO.File.WriteAllText(referencecsFileName,  sb.ToString());
+}
+
+void SplitLine(ConsoleColor foreground= ConsoleColor.White , ConsoleColor background= ConsoleColor.Black)
+{
+   Console.ForegroundColor= background;
+   Console.BackgroundColor= foreground;
+   Console.WriteLine(new string ('-', 120));
+   Console.ForegroundColor= foreground;
+   Console.BackgroundColor= background;
+}
+
+void ConnectionInformation(string text, ConsoleColor foreground= ConsoleColor.White , ConsoleColor background= ConsoleColor.Black)
+{
+   Console.WriteLine();
+   Console.ForegroundColor= foreground;
+   Console.BackgroundColor= background;
+   SplitLine(foreground, background);
+   Console.WriteLine($"{text} {connectionName}");
+   SplitLine(foreground, background);
+   Console.WriteLine(connectionString);
+   Console.WriteLine(connectionName);
+   Console.WriteLine(connectionDirectory);
+   Console.WriteLine(connectionCsproj);
+   Console.WriteLine(assemblyFramework);
+   Console.WriteLine(configuration);
+   SplitLine(foreground, background);
+   Console.ForegroundColor= ConsoleColor.White;
+   Console.BackgroundColor= ConsoleColor.Black;
 }
 
 Task("SetupDirectory")
@@ -155,18 +181,7 @@ Task("BuildProject")
 
 Task("Info")
 .Does(() => {
-   Console.ForegroundColor= ConsoleColor.Black;
-   Console.BackgroundColor= ConsoleColor.White;
-   Console.WriteLine(new string ('-', 100));
-   Console.WriteLine(connectionString);
-   Console.WriteLine(connectionName);
-   Console.WriteLine(connectionDirectory);
-   Console.WriteLine(connectionCsproj);
-   Console.WriteLine(assemblyFramework);
-   Console.WriteLine(configuration);
-   Console.WriteLine(new string ('-', 100));
-   Console.ForegroundColor= ConsoleColor.White;
-   Console.BackgroundColor= ConsoleColor.Black;
+   ConnectionInformation("Start", ConsoleColor.Yellow);
 });
 
 Task("Cleanup")
@@ -195,15 +210,20 @@ Task("WcfClient")
    .IsDependentOn("BuildProject")
    .IsDependentOn("Cleanup")
 .Does(() => {
+   ConnectionInformation("Done", ConsoleColor.Green);
 });
 
 Task("WcfClients")
 .Does(() => {
-   foreach(var l in System.IO.File.ReadAllLines("wcfclients"))
+   foreach(var line in System.IO.File.ReadAllLines("wcfclients"))
    {
-      connectionString= l;
-      wcfClientDirectory= MakeAbsolute(new DirectoryPath("."));
+      // ConnectionString;ConnectionName
+      var items= line.Split(';');
+      connectionString= items[0];
       connectionName= ConnectionStringToConnectionName(connectionString);
+      if (items.Length>1)
+         connectionName=items[1];
+      wcfClientDirectory= MakeAbsolute(new DirectoryPath("."));
       connectionDirectory= MakeAbsolute(wcfClientDirectory.Combine(new DirectoryPath(connectionName)));
       connectionCsproj= new FilePath(System.IO.Path.Combine(connectionDirectory.ToString(), $"{connectionName}.csproj"));
       RunTarget("WcfClient");
@@ -213,6 +233,7 @@ Task("WcfClients")
 Task("Default")
    .IsDependentOn("WcfClient")
 .Does(() => {
+
 });
 
 KillStartAfterReady();
@@ -222,20 +243,14 @@ try {
 }
 catch(Exception ex)
 {
-   Error(ex);
    Information("");
-   Information(new string ('-', 100));
-   Error(connectionName);
-   Information(new string ('-', 100));
-   Information(connectionString);
-   Information(connectionDirectory);
-   Information(connectionCsproj);
-   Information(assemblyFramework);
-   Information(configuration);
-   Information(new string ('-', 100));
+   Error(ex);
+   ConnectionInformation("Error", ConsoleColor.Red);
 }
 
-Information("Press return to goon......");
+Information("");
+Information("Press return to go on......");
+Information("");
 Console.ReadLine();
 
 StartStartAfterReady();

@@ -37,7 +37,7 @@ namespace SmartDose.RestClientApp.Views
             ViewConnections viewConnections;
             RootMenuItem = new MenuItem
             {
-                Title = "SmartDose.Rest",
+                Title = "SmartDose",
                 IsExpanded = true,
                 IsSelected = true,
                 ModelsItem = new RestDomain.Models.ModelsItem
@@ -150,7 +150,7 @@ namespace SmartDose.RestClientApp.Views
                     WcfClientsMenuItem.Add(new MenuItem
                     {
                         Title = string.IsNullOrEmpty(wcfItem.ConnectionName) ? $"[{wcfItem.ConnectionString}]": wcfItem.ConnectionName,
-                        IsExpanded = true,
+                        IsExpanded = false,
                         IsSelected = false,
                         ModelsItem = new RestDomain.Models.ModelsItem
                         {
