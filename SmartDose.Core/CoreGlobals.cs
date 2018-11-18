@@ -19,8 +19,6 @@ namespace SmartDose.Core
         public static string DataBinDirectory => s_dataBinDirectory
                                               ?? (s_dataBinDirectory = Path.Combine(DataRowaDirectory, "Bin", AppName)
                                                     .EnsureDirectoryExist());
-        public static string DataBinObjectJsonDirectory(Type type)
-            => Path.Combine(DataBinDirectory, type.FullName.Replace("SmartDose.RestDomainDev.", "").Replace(".", "\\")).EnsureDirectoryExist();
         private static string s_dataProtocolDirectory = null;
 
         public static string DataProtocolDirectory => s_dataProtocolDirectory

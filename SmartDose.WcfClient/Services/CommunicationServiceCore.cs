@@ -161,24 +161,19 @@ namespace SmartDose.WcfClient.Services
             });
         }
 
-        public void StartIt()
+        public void Start()
         {
             ServiceNotiyEvent(Services.ServiceNotifyEvent.ServiceStart);
         }
-        public void StopIt()
+        public void Stop()
         {
             ServiceNotiyEvent(Services.ServiceNotifyEvent.ServiceStop);
-        }
-
-        public void DisposeIt()
-        {
-            ServiceNotiyEvent(Services.ServiceNotifyEvent.ServiceDispose);
         }
         #endregion
 
         public void Dispose()
         {
-            DisposeIt();
+            ServiceNotiyEvent(Services.ServiceNotifyEvent.ServiceDispose);
         }
 
         protected virtual void SubscribeCallBacks()

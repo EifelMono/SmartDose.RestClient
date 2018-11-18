@@ -1,4 +1,6 @@
 #addin "Cake.Figlet"
+// #addin "Cake.DocFx"
+// #tool "docfx.console"
 
 using System.Xml.Linq;
 

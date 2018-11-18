@@ -10,17 +10,11 @@ namespace SmartDose.RestDomainDev
 {
     public static class RestDomainDevGlobals
     {
-
-        public static string ToJsonFromObjectDev(object objectDev)
-            => objectDev.ToJsonFromExpandableObject();
-        public static object ToObjectDevFromJson(string value, Type type)
-            => value.ToExpandableObjectFromJson(type);
-
         public static object ToObjectFromObjectDev(object objectDev)
         {
             if (objectDev is null)
                 return null;
-            var json = ToJsonFromObjectDev(objectDev);
+            var json = objectDev.ToJsonFromExpandableObject();
             if ((from i in objectDev.GetType().GetInterfaces()
                  where i.IsGenericType && i.GetGenericTypeDefinition() == typeof(IEnumerable<>)
                  select i?.GetGenericArguments()[0]).FirstOrDefault() is var genericType && genericType != null)
@@ -42,7 +36,7 @@ namespace SmartDose.RestDomainDev
         {
             if (objectValue is null)
                 return null;
-            var json = ToJsonFromObjectDev(objectValue);
+            var json = objectValue.ToJsonFromExpandableObject();
             if ((from i in objectValue.GetType().GetInterfaces()
                  where i.IsGenericType && i.GetGenericTypeDefinition() == typeof(IEnumerable<>)
                  select i?.GetGenericArguments()[0]).FirstOrDefault() is var genericType && genericType != null)

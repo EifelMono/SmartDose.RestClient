@@ -15,7 +15,7 @@ namespace SmartDose.WcfClient
         {
             get => _ConnectionString; set
             {
-                _ConnectionString = value;
+                _ConnectionString = (value ??  "").Trim();
                 if (string.IsNullOrEmpty(ConnectionName))
                     ConnectionName = WcfClientGlobals.ConnectionStringToConnectionName(_ConnectionString);
                 if (string.IsNullOrEmpty(ConnectionStringUse))
@@ -23,9 +23,19 @@ namespace SmartDose.WcfClient
             }
         }
 
-        public string ConnectionName { get; set; }
+        string _ConnectionName;
+        public string ConnectionName
+        {
+            get => _ConnectionName;
+            set => _ConnectionName = WcfClientGlobals.CheckConnectionName(value);
+        }
 
-        public string ConnectionStringUse { get; set; }
+        string _ConnectionStringUse;
+        public string ConnectionStringUse
+        {
+            get => _ConnectionStringUse;
+            set => _ConnectionStringUse = (value ?? "").Trim();
+        }
 
         public bool Active { get; set; } = true;
 

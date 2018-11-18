@@ -22,13 +22,23 @@ namespace SmartDose.WcfClient
                 var result = connectionString.Split(new[] { "//" }, StringSplitOptions.None)[1].Replace(":", "_").Replace("/", "_");
                 if (result.EndsWith("_"))
                     result = result.Substring(0, result.Length - 1);
-                return result;
+                return CheckConnectionName(result);
             }
             catch
             {
-                return connectionString;
+                return CheckConnectionName(connectionString);
             }
         }
+
+        public static string CheckConnectionName(string connectionString)
+        => (connectionString ?? "")
+            .Trim()
+            .Replace(".", "")
+            .Replace(" ", "")
+            .Replace(",", "")
+            .Replace("\\", "")
+            .Replace("/", "")
+            .Replace(":", "");
 
         static string _WcfDataBinDirectory = null;
         public static string WcfDataBinDirectory

@@ -136,6 +136,7 @@
     <Compile Include="Editor\JsonEditor.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Views\BoolToVisibilityCollapsedConverter.cs" />
+    <Compile Include="Views\ObjectJsonType.cs" />
     <Compile Include="Views\RelayCommand.cs" />
     <Compile Include="Views\V1\Inverntory\ViewMedicineContainer.cs" />
     <Compile Include="Views\V1\MasterData\ViewManufacturer.cs" />

@@ -13,6 +13,7 @@ using SmartDose.RestDomainDev;
 using SmartDose.Core.Extensions;
 using SmartDose.Core;
 using System.Diagnostics;
+using static SmartDose.Core.SafeExecuter;
 
 namespace SmartDose.RestClientApp.Views
 {
@@ -22,8 +23,29 @@ namespace SmartDose.RestClientApp.Views
     public partial class ViewObjectJson : UserControl, INotifyPropertyChanged
     {
         public bool CheckBoxAutoConvertObjectToJson { get; set; } = true;
-        public bool IsDataObject { get; set; } = false;
-        public bool IsJsonTab { get; set; } = false;
+
+        public ObjectJsonType ObjectJsonType { get; set; } = ObjectJsonType.Class;
+
+        private bool _IsDataObject = false;
+
+        public bool IsDataObject
+        {
+            get => _IsDataObject; set
+            {
+                _IsDataObject = value;
+                NotifyPropertyChanged(nameof(IsDataObject));
+            }
+        }
+
+        private bool _IsJsonTab = false;
+        public bool IsJsonTab
+        {
+            get => _IsJsonTab; set
+            {
+                _IsJsonTab = value;
+                NotifyPropertyChanged(nameof(IsJsonTab));
+            }
+        }
         private ICommand _commandSaveObject;
         public ICommand CommandSaveObject
         {
@@ -59,7 +81,7 @@ namespace SmartDose.RestClientApp.Views
             {
                 try
                 {
-                    DataDev = RestDomainDevGlobals.ToObjectDevFromJson(jsonEditor.Text, DataDev.GetType());
+                    DataDev = jsonEditor.Text.ToExpandableObjectFromJson(DataDev.GetType());
                     tabControlMain.SelectedIndex = 0;
                 }
                 catch (Exception ex)
@@ -167,8 +189,7 @@ namespace SmartDose.RestClientApp.Views
                                     IsJsonTab = true;
                                 if (CheckBoxAutoConvertObjectToJson)
                                 {
-                                    if (!IsPlainData)
-                                        jsonEditor.Text = RestDomainDevGlobals.ToJsonFromObjectDev(DataDev);
+                                    jsonEditor.Text = DataDev.ToJsonFromExpandableObject();
                                 }
                                 break;
                             }
@@ -205,18 +226,17 @@ namespace SmartDose.RestClientApp.Views
                 DataDev = RestDomainDevGlobals.ToObjectDevFromObject(_data);
                 IsDataObject = true;
                 IsPlainData = false;
-                try
-                {
-                    DataDirectory = CoreGlobals.DataBinObjectJsonDirectory(DataDev.GetType());
-                }
-                catch
-                {
-                    // What shall I do?
-                }
+                Catcher(() => DataDirectory = DataDevObjectDirectory(DataDev.GetType()));
                 CheckBoxAutoConvertObjectToJson = true;
                 NotifyPropertyChanged(string.Empty);
             }
         }
+
+        string DataDevObjectDirectory(Type type)
+            => type.FullName.Contains("SmartDose.RestDomainDev.")
+               ? Path.Combine(CoreGlobals.DataBinDirectory, type.FullName.Replace("SmartDose.RestDomainDev.", "").Replace(".", "\\")).EnsureDirectoryExist()
+             : Path.Combine(CoreGlobals.DataBinDirectory, type.FullName.Replace(".", "\\")).EnsureDirectoryExist();
+
 
         public bool IsPlainData { get; set; } = false;
         public object PlainData
@@ -297,7 +317,7 @@ namespace SmartDose.RestClientApp.Views
                         if (parentName.StartsWith("["))
                         {
                             var pos = parentName.IndexOf("]");
-                            name = parentName.Substring(0, pos+ 1) + "." + name;
+                            name = parentName.Substring(0, pos + 1) + "." + name;
                         }
                         else
                         {
