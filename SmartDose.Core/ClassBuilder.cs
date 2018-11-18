@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
@@ -18,6 +19,8 @@ namespace SmartDose.Core
             get => _Value; set { _Value = value; InitializePropertyWithValue = true; }
         }
 
+        public List<Type> CustomAttributes { get; set; } = new List<Type>();
+
         internal bool InitializePropertyWithValue { get; set; } = false;
     }
 
@@ -30,14 +33,14 @@ namespace SmartDose.Core
             InitializePropertyWithValue = false;
         }
 
-        public ClassBuilderProperty(string name) : this()
+        public ClassBuilderProperty(string name, params Type[] customAttributes) : this()
         {
             Name = name;
+            CustomAttributes.AddRange(customAttributes);
         }
 
-        public ClassBuilderProperty(string name, T value) : this()
+        public ClassBuilderProperty(string name, T value, params Type[] customAttributes) : this(name, customAttributes)
         {
-            Name = name;
             Value = value;
         }
         public new T Value { get => (T)base.Value; set => base.Value = value; }
@@ -56,14 +59,14 @@ namespace SmartDose.Core
 
         public List<ClassBuilderProperty> Properties { get; set; } = new List<ClassBuilderProperty>();
 
-        public ClassBuilderDefinition AddProperty<T>(string Name)
+        public ClassBuilderDefinition AddProperty<T>(string Name, params Type[] customAttributes)
         {
-            Properties.Add(new ClassBuilderProperty<T>(Name));
+            Properties.Add(new ClassBuilderProperty<T>(Name, customAttributes));
             return this;
         }
-        public ClassBuilderDefinition AddProperty<T>(string Name, T value)
+        public ClassBuilderDefinition AddProperty<T>(string Name, T value, params Type[] customAttributes)
         {
-            Properties.Add(new ClassBuilderProperty<T>(Name, value));
+            Properties.Add(new ClassBuilderProperty<T>(Name, value, customAttributes));
             return this;
         }
 
@@ -100,7 +103,7 @@ namespace SmartDose.Core
                 | MethodAttributes.RTSpecialName);
 
             foreach (var property in defintion.Properties)
-                CreateProperty(typeBuilder, property.Name, property.Type);
+                CreateProperty(typeBuilder, property.Name, property.Type, property.CustomAttributes);
 
             return typeBuilder.CreateTypeInfo();
         }
@@ -119,12 +122,27 @@ namespace SmartDose.Core
                     null);
         }
 
-        private static void CreateProperty(TypeBuilder typeBuilder, string propertyName, Type propertyType)
+        private static void CreateProperty(TypeBuilder typeBuilder, string propertyName, Type propertyType, List<Type> customerAttributes)
         {
-            var fieldBuilder = typeBuilder.DefineField("_" + propertyName, propertyType, FieldAttributes.Private);
+            var fieldBuilder = typeBuilder.DefineField("_" + propertyName,
+                propertyType,
+                FieldAttributes.Private);
 
             var propertyBuilder = typeBuilder.DefineProperty(propertyName, PropertyAttributes.HasDefault, propertyType, null);
-            var getPropertyMedthodBuilder = typeBuilder.DefineMethod("get_" + propertyName, MethodAttributes.Public | MethodAttributes.SpecialName | MethodAttributes.HideBySig, propertyType, Type.EmptyTypes);
+
+            foreach (var customAttribute in customerAttributes)
+            {
+                var x = typeof(TypeConverterAttribute);
+                var customAttributeBuilder = new CustomAttributeBuilder(x.GetConstructor(new Type[] { typeof(Type)}), 
+                        new Type[] {typeof(ListConverter)});
+                propertyBuilder.SetCustomAttribute(customAttributeBuilder);
+            };
+
+            var getPropertyMedthodBuilder = typeBuilder.DefineMethod("get_" + propertyName,
+                MethodAttributes.Public
+                | MethodAttributes.SpecialName
+                | MethodAttributes.HideBySig,
+                propertyType, Type.EmptyTypes);
             var getIl = getPropertyMedthodBuilder.GetILGenerator();
 
             getIl.Emit(OpCodes.Ldarg_0);
@@ -136,6 +154,7 @@ namespace SmartDose.Core
                   MethodAttributes.Public |
                   MethodAttributes.SpecialName |
                   MethodAttributes.HideBySig,
+
                   null, new[] { propertyType });
 
             var setIl = setPropertyMethodBuilder.GetILGenerator();

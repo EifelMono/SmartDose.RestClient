@@ -7,6 +7,7 @@ using SmartDose.RestDomain.Converter;
 using SmartDose.RestDomain.Validation;
 
 #if RestDomainDev
+using SmartDose.Core;
 using System.Drawing.Design;
 using SmartDose.RestDomainDev.PropertyEditorThings;
 namespace SmartDose.RestDomainDev.Models.V2.Production

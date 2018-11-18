@@ -6,7 +6,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 
-namespace SmartDose.RestDomainDev.PropertyEditorThings
+namespace SmartDose.Core
 {
     public class ListConverter : CollectionConverter
     {

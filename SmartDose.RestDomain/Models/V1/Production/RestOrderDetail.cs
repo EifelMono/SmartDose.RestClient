@@ -2,6 +2,7 @@
 using System.ComponentModel;
 
 #if RestDomainDev
+using SmartDose.Core;
 using SmartDose.RestDomainDev.PropertyEditorThings;
 namespace SmartDose.RestDomainDev.Models.V1.Production
 #else

@@ -5,6 +5,7 @@ using System.Linq;
 using Newtonsoft.Json;
 
 #if RestDomainDev
+using SmartDose.Core;
 using SmartDose.RestDomainDev.PropertyEditorThings;
 namespace SmartDose.RestDomainDev.Models.V1.Production
 #else

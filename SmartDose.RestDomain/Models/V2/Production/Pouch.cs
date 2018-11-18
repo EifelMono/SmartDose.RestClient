@@ -6,6 +6,7 @@ using Newtonsoft.Json;
 using SmartDose.RestDomain.Converter;
 
 #if RestDomainDev
+using SmartDose.Core;
 using SmartDose.RestDomainDev.PropertyEditorThings;
 namespace SmartDose.RestDomainDev.Models.V2.Production
 #else

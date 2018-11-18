@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using SmartDose.RestDomain.Models.V2;
 
 #if RestDomainDev
+using SmartDose.Core;
 using System.Drawing.Design;
 using SmartDose.RestDomainDev.PropertyEditorThings;
 namespace SmartDose.RestDomainDev.Models.V2.Production
