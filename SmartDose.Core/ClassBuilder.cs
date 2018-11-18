@@ -7,6 +7,15 @@ using System.Reflection.Emit;
 
 namespace SmartDose.Core
 {
+
+    [Flags]
+    public enum ClassBuilderPropertyCustomAttribute
+    {
+        None = 0,
+        ListConverter = 1,
+        ExpandableObjectConverter = 2,
+    }
+
     public class ClassBuilderProperty
     {
         public string Name { get; set; }
@@ -19,7 +28,7 @@ namespace SmartDose.Core
             get => _Value; set { _Value = value; InitializePropertyWithValue = true; }
         }
 
-        public List<Type> CustomAttributes { get; set; } = new List<Type>();
+        public ClassBuilderPropertyCustomAttribute CustomAttributes { get; set; }
 
         internal bool InitializePropertyWithValue { get; set; } = false;
     }
@@ -33,13 +42,13 @@ namespace SmartDose.Core
             InitializePropertyWithValue = false;
         }
 
-        public ClassBuilderProperty(string name, params Type[] customAttributes) : this()
+        public ClassBuilderProperty(string name, ClassBuilderPropertyCustomAttribute customAttributes = ClassBuilderPropertyCustomAttribute.None) : this()
         {
             Name = name;
-            CustomAttributes.AddRange(customAttributes);
+            CustomAttributes = customAttributes;
         }
 
-        public ClassBuilderProperty(string name, T value, params Type[] customAttributes) : this(name, customAttributes)
+        public ClassBuilderProperty(string name, T value, ClassBuilderPropertyCustomAttribute customAttributes = ClassBuilderPropertyCustomAttribute.None) : this(name, customAttributes)
         {
             Value = value;
         }
@@ -59,12 +68,12 @@ namespace SmartDose.Core
 
         public List<ClassBuilderProperty> Properties { get; set; } = new List<ClassBuilderProperty>();
 
-        public ClassBuilderDefinition AddProperty<T>(string Name, params Type[] customAttributes)
+        public ClassBuilderDefinition AddProperty<T>(string Name, ClassBuilderPropertyCustomAttribute customAttributes = ClassBuilderPropertyCustomAttribute.None)
         {
             Properties.Add(new ClassBuilderProperty<T>(Name, customAttributes));
             return this;
         }
-        public ClassBuilderDefinition AddProperty<T>(string Name, T value, params Type[] customAttributes)
+        public ClassBuilderDefinition AddProperty<T>(string Name, T value, ClassBuilderPropertyCustomAttribute customAttributes = ClassBuilderPropertyCustomAttribute.None)
         {
             Properties.Add(new ClassBuilderProperty<T>(Name, value, customAttributes));
             return this;
@@ -122,7 +131,7 @@ namespace SmartDose.Core
                     null);
         }
 
-        private static void CreateProperty(TypeBuilder typeBuilder, string propertyName, Type propertyType, List<Type> customerAttributes)
+        private static void CreateProperty(TypeBuilder typeBuilder, string propertyName, Type propertyType, ClassBuilderPropertyCustomAttribute customAttributes = ClassBuilderPropertyCustomAttribute.None)
         {
             var fieldBuilder = typeBuilder.DefineField("_" + propertyName,
                 propertyType,
@@ -130,11 +139,19 @@ namespace SmartDose.Core
 
             var propertyBuilder = typeBuilder.DefineProperty(propertyName, PropertyAttributes.HasDefault, propertyType, null);
 
-            foreach (var customAttribute in customerAttributes)
+            if ((customAttributes & ClassBuilderPropertyCustomAttribute.ListConverter) > 0)
             {
-                var x = typeof(TypeConverterAttribute);
-                var customAttributeBuilder = new CustomAttributeBuilder(x.GetConstructor(new Type[] { typeof(Type)}), 
-                        new Type[] {typeof(ListConverter)});
+                var typeConverterAttribute = typeof(TypeConverterAttribute);
+                var customAttributeBuilder = new CustomAttributeBuilder(typeConverterAttribute.GetConstructor(new Type[] { typeof(Type) }),
+                        new Type[] { typeof(ListConverter) });
+                propertyBuilder.SetCustomAttribute(customAttributeBuilder);
+            };
+
+            if ((customAttributes & ClassBuilderPropertyCustomAttribute.ExpandableObjectConverter) > 0)
+            {
+                var typeConverterAttribute = typeof(TypeConverterAttribute);
+                var customAttributeBuilder = new CustomAttributeBuilder(typeConverterAttribute.GetConstructor(new Type[] { typeof(Type) }),
+                        new Type[] { typeof(ExpandableObjectConverter) });
                 propertyBuilder.SetCustomAttribute(customAttributeBuilder);
             };
 
