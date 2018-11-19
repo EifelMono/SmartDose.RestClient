@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Reflection;
 using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
 using SmartDose.Core;
+using SmartDose.Core.Extensions;
 
 namespace SmartDose.WcfClient
 {
@@ -21,28 +23,49 @@ namespace SmartDose.WcfClient
 
         public void CreateInput()
         {
-            var classBuilderDefinition = new ClassBuilderDefinition();
-            foreach (var parameter in Method.GetParameters())
+            try
             {
-                if (parameter.ParameterType.IsClass && parameter.ParameterType != typeof(string))
+                var classBuilderDefinition = new ClassBuilderDefinition();
+                var values = new Dictionary<string, object>();
+                foreach (var parameter in Method.GetParameters())
                 {
-                    object o = null;
-                    if (parameter.ParameterType.IsArray)
-                        o = Activator.CreateInstance(parameter.ParameterType, 0);
+                    if (parameter.ParameterType.IsClass && parameter.ParameterType != typeof(string))
+                    {
+                        if (parameter.ParameterType.IsArray)
+                        {
+                            classBuilderDefinition.AddPropertyByType(parameter.Name, parameter.ParameterType,
+                                ClassBuilderPropertyCustomAttribute.ListConverter);
+                            values[parameter.Name] = Activator.CreateInstance(parameter.ParameterType, 0);
+                        }
+                        else
+                        {
+                            classBuilderDefinition.AddPropertyByType(parameter.Name, parameter.ParameterType,
+                                ClassBuilderPropertyCustomAttribute.ExpandableObjectConverter);
+                            values[parameter.Name] = Activator.CreateInstance(parameter.ParameterType);
+                        }
+                    }
                     else
-                        o = Activator.CreateInstance(parameter.ParameterType);
-                    classBuilderDefinition.AddProperty(parameter.Name, o, ClassBuilderPropertyCustomAttribute.All);
-
-                    //classBuilderDefinition.AddProperty(parameter.Name,
-                    //     parameter.ParameterType.IsArray
-                    //         ? Activator.CreateInstance(parameter.ParameterType, 0)
-                    //         : Activator.CreateInstance(parameter.ParameterType),
-                    //     ClassBuilderPropertyCustomAttribute.All);
+                    {
+                        classBuilderDefinition.AddPropertyByType(parameter.Name, parameter.ParameterType);
+                        values[parameter.Name] = null;
+                    }
                 }
-                else
-                    classBuilderDefinition.AddPropertyByType(parameter.Name, parameter.ParameterType);
+                Input = ClassBuilder.NewObject(classBuilderDefinition);
+                foreach (var property in Input.GetType().GetProperties())
+                    try
+                    {
+                        property.SetValue(Input, values[property.Name]);
+                    }
+                    catch
+                    {
+                        property.SetValue(Input, null);
+                    }
             }
-            Input = ClassBuilder.NewObject(classBuilderDefinition);
+            catch (Exception ex)
+            {
+                ex.LogException();
+                Input = null;
+            }
         }
 
         public async Task<(bool Ok, object Value)> CallMethodAsync(ICommunicationObject client)
