@@ -11,7 +11,7 @@ namespace SmartDose.WcfClient.Services
 {
     public class CommunicationServiceCore : IDisposable
     {
-        protected List<WcfMethode> WcfMethodes { get; set; } = new List<WcfMethode>();
+        protected List<WcfMethod> WcfMethods { get; set; } = new List<WcfMethod>();
 
         public CommunicationServiceCore(string endpointAddress, SecurityMode securityMode = SecurityMode.None)
         {
@@ -31,9 +31,8 @@ namespace SmartDose.WcfClient.Services
             EndpointAddress = wcfItem.ConnectionStringUse;
             AssemblyFilename = WcfClientGlobals.WcfItemToAssemblyFilename(wcfItem);
         }
- 
+
         #region Assembly Client
-        protected Dictionary<string, MethodInfo> ServiceMethods { get; set; } = new Dictionary<string, MethodInfo>();
         protected Dictionary<string, MethodInfo> AsyncServiceMethods { get; set; } = new Dictionary<string, MethodInfo>();
         protected Dictionary<string, MethodInfo> EventAddMethods { get; set; } = new Dictionary<string, MethodInfo>();
 
@@ -55,11 +54,21 @@ namespace SmartDose.WcfClient.Services
                 ClientType = assembly.GetTypes()
                         .Where(t => t.GetInterfaces().Where(i => i == typeof(ICommunicationObject)).Any())
                         .Where(t => t.FullName.EndsWith("Client")).FirstOrDefault();
+                WcfMethods.Clear();
                 foreach (var m in ClientType.GetMethods())
                 {
-                    ServiceMethods[m.Name] = m;
-                    if (m.Name.EndsWith("Async"))
-                        AsyncServiceMethods[m.Name] = m;
+                    if (m.Name.EndsWith("Async") && !m.Name.EndsWith("CallbacksAsync"))
+                    {
+                        WcfMethod wcfMethod;
+                        WcfMethods.Add(wcfMethod = new WcfMethod
+                        {
+                            Name = m.Name,
+                            Method = m,
+                            Output = null,
+                            Input = null
+                        });
+                        wcfMethod.CreateInput();
+                    }
                     if (m.Name.StartsWith("add"))
                         EventAddMethods[m.Name] = m;
                     if (m.Name.EndsWith("SubscribeForCallbacksAsync"))
@@ -69,7 +78,7 @@ namespace SmartDose.WcfClient.Services
                 }
                 return true;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 ex.LogException();
                 return false;
@@ -192,18 +201,17 @@ namespace SmartDose.WcfClient.Services
                                 ServiceNotifyEvent(Services.ServiceNotifyEvent.ServiceErrorAssemblyBad);
                                 return;
                             }
-
                         }
 
                         #region wait for Start or Dispose
-                        bool preRunning = true;
-                        while (preRunning)
+                        bool startWaiting = true;
+                        while (startWaiting)
                         {
                             ClientServiceNotifyInit();
                             switch (await ClientServiceNotifyComletionSource.Task)
                             {
                                 case Services.ServiceNotifyEvent.ServiceStart:
-                                    preRunning = false;
+                                    startWaiting = false;
                                     break;
                                 case Services.ServiceNotifyEvent.ServiceDispose:
                                     return;
@@ -211,39 +219,48 @@ namespace SmartDose.WcfClient.Services
                         }
                         #endregion
 
-                        ServiceNotifyEvent(Services.ServiceNotifyEvent.ServiceRunning);
-
-                        while (mainRunning)
+                        try
                         {
-                            ClientServiceNotifyInit();
-                            switch (await ClientServiceNotifyComletionSource.Task)
+                            ServiceNotifyEvent(Services.ServiceNotifyEvent.ServiceRunning);
+                            while (mainRunning)
                             {
-                                case Services.ServiceNotifyEvent.ServiceStart:
-                                    break;
-                                case Services.ServiceNotifyEvent.ServiceStop:
-                                    break;
-                                case Services.ServiceNotifyEvent.ServiceDispose:
-                                    mainRunning = false;
-                                    break;
-                                case Services.ServiceNotifyEvent.ClientOpening:
-                                    break;
-                                case Services.ServiceNotifyEvent.ClientOpened:
-                                    break;
-                                case Services.ServiceNotifyEvent.ClientFaulted:
-                                    break;
-                                case Services.ServiceNotifyEvent.ClientClosing:
-                                    break;
-                                case Services.ServiceNotifyEvent.ClientClosed:
-                                    break;
+                                ClientServiceNotifyInit();
+                                switch (await ClientServiceNotifyComletionSource.Task)
+                                {
+                                    case Services.ServiceNotifyEvent.ServiceStart:
+                                        break;
+                                    case Services.ServiceNotifyEvent.ServiceStop:
+                                    case Services.ServiceNotifyEvent.ServiceDispose:
+                                        mainRunning = false;
+                                        break;
+                                    case Services.ServiceNotifyEvent.ClientOpening:
+                                        break;
+                                    case Services.ServiceNotifyEvent.ClientOpened:
+                                        break;
+                                    case Services.ServiceNotifyEvent.ClientFaulted:
+                                        break;
+                                    case Services.ServiceNotifyEvent.ClientClosing:
+                                        break;
+                                    case Services.ServiceNotifyEvent.ClientClosed:
+                                        break;
+                                }
                             }
                         }
+                        catch (Exception ex)
+                        {
+                            ex.LogException();
+                        }
+                        finally
+                        {
+
+                        }
+
                     }
                     #endregion
                 }
                 catch { }
             });
         }
-
         public void Start()
         {
             ClientServiceNotifyEvent(Services.ServiceNotifyEvent.ServiceStart);

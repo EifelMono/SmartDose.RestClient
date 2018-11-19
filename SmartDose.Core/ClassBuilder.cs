@@ -69,14 +69,20 @@ namespace SmartDose.Core
 
         public List<ClassBuilderProperty> Properties { get; set; } = new List<ClassBuilderProperty>();
 
-        public ClassBuilderDefinition AddProperty<T>(string Name, ClassBuilderPropertyCustomAttribute customAttributes = ClassBuilderPropertyCustomAttribute.None)
+        public ClassBuilderDefinition AddProperty<T>(string name, ClassBuilderPropertyCustomAttribute customAttributes = ClassBuilderPropertyCustomAttribute.None)
         {
-            Properties.Add(new ClassBuilderProperty<T>(Name, customAttributes));
+            Properties.Add(new ClassBuilderProperty<T>(name, customAttributes));
             return this;
         }
-        public ClassBuilderDefinition AddProperty<T>(string Name, T value, ClassBuilderPropertyCustomAttribute customAttributes = ClassBuilderPropertyCustomAttribute.None)
+        public ClassBuilderDefinition AddProperty<T>(string name, T value, ClassBuilderPropertyCustomAttribute customAttributes = ClassBuilderPropertyCustomAttribute.None)
         {
-            Properties.Add(new ClassBuilderProperty<T>(Name, value, customAttributes));
+            Properties.Add(new ClassBuilderProperty<T>(name, value, customAttributes));
+            return this;
+        }
+
+        public ClassBuilderDefinition AddPropertyByType(string name, Type type)
+        {
+            Properties.Add(new ClassBuilderProperty { Name = name, Type = type});
             return this;
         }
 

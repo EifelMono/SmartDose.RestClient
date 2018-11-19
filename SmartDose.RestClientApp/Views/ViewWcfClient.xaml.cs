@@ -9,6 +9,7 @@ using System;
 using System.Windows;
 using SmartDose.Core.Extensions;
 using System.ComponentModel;
+using SmartDose.WcfClient;
 
 namespace SmartDose.RestClientApp.Views
 {
@@ -64,7 +65,7 @@ namespace SmartDose.RestClientApp.Views
                     CommunicationService.OnServiceNotifyEvent += ServiceNotifyEvent;
                     CommunicationService.Start();
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     ex.LogException();
                     ServiceNotifyEvent(null, new ServiceNotifyEventArgs { Value = WcfClient.Services.ServiceNotifyEvent.Error });
@@ -75,7 +76,7 @@ namespace SmartDose.RestClientApp.Views
         public Brush WcfItemStatusColor { get; set; }
         public string WcfItemStatusText { get; set; }
 
-        public List<string> WcfMethods { get; set; } = new List<string> { "a", "b" };
+        public List<WcfMethod> WcfMethods { get; set; } = new List<WcfMethod>();
 
         protected void ServiceNotifyEvent(object sender, ServiceNotifyEventArgs args)
         {
