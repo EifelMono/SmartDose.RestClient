@@ -40,5 +40,8 @@ namespace SmartDose.WcfClient
         {
 
         }
+
+        public override string ToString()
+            => Name;
     }
 }

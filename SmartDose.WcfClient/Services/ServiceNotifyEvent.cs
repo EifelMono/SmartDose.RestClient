@@ -12,6 +12,7 @@
         ServiceErrorAssemblyNotLoaded,
         ServiceErrorAssemblyBad,
 
+        ServiceInited,
         ServiceStart,
         ServiceRunning,
         ServiceStop,

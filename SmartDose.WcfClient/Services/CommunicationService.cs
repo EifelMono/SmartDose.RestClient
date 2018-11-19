@@ -9,7 +9,7 @@ namespace SmartDose.WcfClient.Services
     {
         public CommunicationService(WcfItem wcfItem, string endpointAddress, SecurityMode securityMode = SecurityMode.None)
             : base(wcfItem, endpointAddress, securityMode) { }
-        public new List<WcfMethod> WcfMethodes { get => base.WcfMethods; set => base.WcfMethods = value; }
+        public new List<WcfMethod> WcfMethods { get => base.WcfMethods; set => base.WcfMethods = value; }
 
         public new void SubscribeCallBacks()
             => base.SubscribeCallBacks();

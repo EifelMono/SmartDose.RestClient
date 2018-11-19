@@ -57,24 +57,34 @@ namespace SmartDose.WcfClient.Services
                 WcfMethods.Clear();
                 foreach (var m in ClientType.GetMethods())
                 {
-                    if (m.Name.EndsWith("Async") && !m.Name.EndsWith("CallbacksAsync"))
+                    if (m.Name.EndsWith("Async"))
                     {
-                        WcfMethod wcfMethod;
-                        WcfMethods.Add(wcfMethod = new WcfMethod
+                        if (m.Name.EndsWith("CallbacksAsync"))
                         {
-                            Name = m.Name,
-                            Method = m,
-                            Output = null,
-                            Input = null
-                        });
-                        wcfMethod.CreateInput();
+                            if (m.Name.EndsWith("SubscribeForCallbacksAsync"))
+                                SubscribeForCallBacksMethod = m;
+                            if (m.Name.EndsWith("UnsubscribeForCallbacksAsync"))
+                                UnsubscribeForCallbacksMethod = m;
+                        }
+                        else
+                        {
+                            if (!m.Name.In("OpenAync", "CloseAsync"))
+                            {
+                                WcfMethod wcfMethod;
+                                WcfMethods.Add(wcfMethod = new WcfMethod
+                                {
+                                    Name = m.Name,
+                                    Method = m,
+                                    Output = null,
+                                    Input = null
+                                });
+                                wcfMethod.CreateInput();
+                            }
+                        }
                     }
                     if (m.Name.StartsWith("add"))
                         EventAddMethods[m.Name] = m;
-                    if (m.Name.EndsWith("SubscribeForCallbacksAsync"))
-                        SubscribeForCallBacksMethod = m;
-                    if (m.Name.EndsWith("UnsubscribeForCallbacksAsync"))
-                        UnsubscribeForCallbacksMethod = m;
+
                 }
                 return true;
             }
@@ -203,6 +213,8 @@ namespace SmartDose.WcfClient.Services
                             }
                         }
 
+                        ServiceNotifyEvent(Services.ServiceNotifyEvent.ServiceInited);
+
                         #region wait for Start or Dispose
                         bool startWaiting = true;
                         while (startWaiting)
@@ -213,6 +225,7 @@ namespace SmartDose.WcfClient.Services
                                 case Services.ServiceNotifyEvent.ServiceStart:
                                     startWaiting = false;
                                     break;
+                                case Services.ServiceNotifyEvent.ServiceStop:
                                 case Services.ServiceNotifyEvent.ServiceDispose:
                                     return;
                             }

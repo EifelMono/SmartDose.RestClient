@@ -49,9 +49,11 @@
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
                     <ComboBox
+                        Name="comboBoxMethod"
                         Grid.Row="0"
                         IsEditable="false"
-                        ItemsSource="{Binding WcfMethods}" />
+                        ItemsSource="{Binding WcfMethods}"
+                        SelectionChanged="comboBoxMethod_SelectionChanged" />
                     <views:ViewObjectJson x:Name="viewObjectJsonWcfInput" Grid.Row="1" />
                     <Button
                         Grid.Row="2"

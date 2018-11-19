@@ -3,13 +3,13 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using SmartDose.WcfClient;
-using SmartDose.Core;
 using SmartDose.WcfClient.Services;
 using System;
 using System.Windows;
 using SmartDose.Core.Extensions;
 using System.ComponentModel;
-using SmartDose.WcfClient;
+using System.Threading.Tasks;
+using System.Linq;
 
 namespace SmartDose.RestClientApp.Views
 {
@@ -23,16 +23,6 @@ namespace SmartDose.RestClientApp.Views
         {
             InitializeComponent();
             DataContext = this;
-
-            var x = ClassBuilder.NewObject(new ClassBuilderDefinition()
-                .AddProperty("Name", "andreas klapperich")
-                .AddProperty("Age", 58)
-                .AddProperty("List",
-                    new List<string> { "a", "b", "c" }, ClassBuilderPropertyCustomAttribute.All));
-
-            var pi = x.GetType().GetProperty("List");
-            var pix = pi.GetCustomAttributes(true);
-
         }
 
         public void Dispose()
@@ -63,7 +53,7 @@ namespace SmartDose.RestClientApp.Views
                     ServiceNotifyEvent(null, new ServiceNotifyEventArgs { Value = WcfClient.Services.ServiceNotifyEvent.ServiceErrorNotConnected });
                     CommunicationService = new CommunicationService(_WcfItem, _WcfItem.ConnectionStringUse);
                     CommunicationService.OnServiceNotifyEvent += ServiceNotifyEvent;
-                    CommunicationService.Start();
+
                 }
                 catch (Exception ex)
                 {
@@ -78,7 +68,7 @@ namespace SmartDose.RestClientApp.Views
 
         public List<WcfMethod> WcfMethods { get; set; } = new List<WcfMethod>();
 
-        protected void ServiceNotifyEvent(object sender, ServiceNotifyEventArgs args)
+        protected async void ServiceNotifyEvent(object sender, ServiceNotifyEventArgs args)
         {
             if (args is null)
                 return;
@@ -86,9 +76,20 @@ namespace SmartDose.RestClientApp.Views
             var text = args.Value.ToString();
             switch (args.Value)
             {
+                case WcfClient.Services.ServiceNotifyEvent.ServiceInited:
+                    await Task.Delay(100);
+                    CommunicationService.Start();
+                    break;
                 case WcfClient.Services.ServiceNotifyEvent.ServiceRunning:
                     {
                         "Service Running".LogInformation();
+                        WcfMethods = CommunicationService.WcfMethods.OrderBy(m => m.Name).ToList();
+                        if (WcfMethods.Count > 0)
+                            Application.Current.Dispatcher.Invoke(new Action(() =>
+                            {
+                                comboBoxMethod.SelectedIndex = 0;
+                            }));
+                        NotifyPropertyChanged(string.Empty);
                     }
                     break;
                 case WcfClient.Services.ServiceNotifyEvent.ServiceErrorNotConnected:
@@ -129,6 +130,13 @@ namespace SmartDose.RestClientApp.Views
 
         public void NotifyPropertyChanged(string propName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
 
+       
+        private void comboBoxMethod_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (comboBoxMethod.SelectedItem is WcfMethod wcfMethod)
+                viewObjectJsonWcfInput.PlainData = wcfMethod.Input;
+            NotifyPropertyChanged(string.Empty);
+        }
     }
 
 }
