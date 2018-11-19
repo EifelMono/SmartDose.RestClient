@@ -14,6 +14,7 @@ namespace SmartDose.Core
         None = 0,
         ListConverter = 1,
         ExpandableObjectConverter = 2,
+        All = ListConverter | ExpandableObjectConverter,
     }
 
     public class ClassBuilderProperty

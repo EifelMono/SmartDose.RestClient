@@ -11,14 +11,6 @@ using SmartDose.Core;
 namespace SmartDose.RestClientApp.Views
 {
 
-    public class TestObject
-    {
-        public string Name { get; set; } = "Andreas Klapperich";
-        public int Age { get; set; } = 58;
-        [TypeConverter(typeof(ListConverter))]
-        public List<string> List { get; set; } = new List<string> { "a", "b", "c" };
-
-    }
     /// <summary>
     /// Interaction logic for ViewWcfClient.xaml
     /// </summary>
@@ -29,16 +21,16 @@ namespace SmartDose.RestClientApp.Views
             InitializeComponent();
             DataContext = this;
 
+
             var x = ClassBuilder.NewObject(new ClassBuilderDefinition()
                 .AddProperty("Name", "andreas klapperich")
                 .AddProperty("Age", 58)
-                .AddProperty("List", new List<string> { "a", "b", "c" }, typeof(Core.ListConverter)));
+                .AddProperty("List", 
+                    new List<string> { "a", "b", "c" }, ClassBuilderPropertyCustomAttribute.All));
 
             var pi = x.GetType().GetProperty("List");
             var pix = pi.GetCustomAttributes(true);
 
-            viewObjectJsonWcfInput.PlainData = x;
-            viewObjectJsonWcfOutput.PlainData = new TestObject();
         }
 
 

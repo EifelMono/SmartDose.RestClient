@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 using System.ServiceModel;
 using System.Text;
 
@@ -8,6 +9,7 @@ namespace SmartDose.WcfClient.Services
     {
         public CommunicationService(WcfItem wcfItem, string endpointAddress, SecurityMode securityMode = SecurityMode.None)
             : base(wcfItem, endpointAddress, securityMode) { }
+        public new List<WcfMethode> WcfMethodes { get => base.WcfMethodes; set => base.WcfMethodes = value; }
     }
 
     public class CommunicationService<TClient> : CommunicationServiceCore where TClient : ICommunicationObject, new()

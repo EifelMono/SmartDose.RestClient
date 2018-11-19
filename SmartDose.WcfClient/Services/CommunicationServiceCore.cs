@@ -9,6 +9,8 @@ namespace SmartDose.WcfClient.Services
 {
     public class CommunicationServiceCore : IDisposable
     {
+        protected List<WcfMethode> WcfMethodes { get; set; } = new List<WcfMethode>();
+
         public CommunicationServiceCore(string endpointAddress, SecurityMode securityMode = SecurityMode.None)
         {
             EndpointAddress = endpointAddress;
@@ -79,24 +81,44 @@ namespace SmartDose.WcfClient.Services
         }
 
         private void Client_Closing(object sender, EventArgs e)
-            => ServiceNotiyEvent(Services.ServiceNotifyEvent.ClientClosing);
+            => ServiceNotifyEvent(Services.ServiceNotifyEvent.ClientClosing);
         private void Client_Closed(object sender, EventArgs e)
-            => ServiceNotiyEvent(Services.ServiceNotifyEvent.ClientClosed);
+            => ServiceNotifyEvent(Services.ServiceNotifyEvent.ClientClosed);
         private void Client_Faulted(object sender, EventArgs e)
-            => ServiceNotiyEvent(Services.ServiceNotifyEvent.ClientFaulted);
+            => ServiceNotifyEvent(Services.ServiceNotifyEvent.ClientFaulted);
         private void Client_Opened(object sender, EventArgs e)
-            => ServiceNotiyEvent(Services.ServiceNotifyEvent.ClientOpened);
+            => ServiceNotifyEvent(Services.ServiceNotifyEvent.ClientOpened);
         private void Client_Opening(object sender, EventArgs e)
-            => ServiceNotiyEvent(Services.ServiceNotifyEvent.ClientOpening);
+            => ServiceNotifyEvent(Services.ServiceNotifyEvent.ClientOpening);
         #endregion
 
         #region Run
-        protected TaskCompletionSource<ServiceNotifyEvent> ServiceNotiyfierSource
+        protected object ServiceNotifyComlitionSourceLock = new object();
+        protected TaskCompletionSource<ServiceNotifyEvent> ServiceNotifyComletionSource
                     = new TaskCompletionSource<ServiceNotifyEvent>();
 
-        protected void ServiceNotiyEvent(ServiceNotifyEvent serviceNotifyEvent)
+        protected void ServiceNotifyInit()
         {
-            ServiceNotiyfierSource.SetResult(serviceNotifyEvent);
+            lock (ServiceNotifyComlitionSourceLock)
+                ServiceNotifyComletionSource = new TaskCompletionSource<ServiceNotifyEvent>();
+        }
+
+        protected void ServiceNotifyEvent(ServiceNotifyEvent serviceNotifyEvent)
+        {
+            bool send = false;
+
+            for (var i = 0; i < 10; i++)
+            {
+                lock (ServiceNotifyComlitionSourceLock)
+                    send = ServiceNotifyComletionSource.TrySetResult(serviceNotifyEvent);
+                if (send)
+                    break;
+            }
+
+            if (!send)
+            {
+                // gute frage, nächst frage 
+            }
         }
 
         protected virtual void Run()
@@ -109,7 +131,8 @@ namespace SmartDose.WcfClient.Services
                     bool running = true;
                     while (running)
                     {
-                        switch (await ServiceNotiyfierSource.Task)
+                        ServiceNotifyInit();
+                        switch (await ServiceNotifyComletionSource.Task)
                         {
                             case Services.ServiceNotifyEvent.ServiceStart:
                                 running = false;
@@ -126,7 +149,8 @@ namespace SmartDose.WcfClient.Services
                     {
                         while (running)
                         {
-                            switch (await ServiceNotiyfierSource.Task)
+                            ServiceNotifyInit();
+                            switch (await ServiceNotifyComletionSource.Task)
                             {
                                 case Services.ServiceNotifyEvent.ServiceStart:
                                     running = false;
@@ -163,17 +187,31 @@ namespace SmartDose.WcfClient.Services
 
         public void Start()
         {
-            ServiceNotiyEvent(Services.ServiceNotifyEvent.ServiceStart);
+            ServiceNotifyEvent(Services.ServiceNotifyEvent.ServiceStart);
         }
         public void Stop()
         {
-            ServiceNotiyEvent(Services.ServiceNotifyEvent.ServiceStop);
+            ServiceNotifyEvent(Services.ServiceNotifyEvent.ServiceStop);
         }
         #endregion
 
+        bool disposed = false;
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposed)
+                return;
+
+            if (disposing)
+            {
+                ServiceNotifyEvent(Services.ServiceNotifyEvent.ServiceDispose);
+            }
+            disposed = true;
+        }
+         
         public void Dispose()
         {
-            ServiceNotiyEvent(Services.ServiceNotifyEvent.ServiceDispose);
+            Dispose(true);
+            GC.SuppressFinalize(this);
         }
 
         protected virtual void SubscribeCallBacks()
