@@ -10,6 +10,12 @@ namespace SmartDose.WcfClient.Services
         public CommunicationService(WcfItem wcfItem, string endpointAddress, SecurityMode securityMode = SecurityMode.None)
             : base(wcfItem, endpointAddress, securityMode) { }
         public new List<WcfMethode> WcfMethodes { get => base.WcfMethodes; set => base.WcfMethodes = value; }
+
+        public new void SubscribeCallBacks()
+            => base.SubscribeCallBacks();
+
+        public new void UnsubscribeCallBacks()
+            => base.UnsubscribeCallBacks();
     }
 
     public class CommunicationService<TClient> : CommunicationServiceCore where TClient : ICommunicationObject, new()
@@ -22,5 +28,11 @@ namespace SmartDose.WcfClient.Services
         public new TClient Client { get => (TClient)base.Client; protected set => Client = value; }
 
         protected override void NewClient() => base.NewClient();
+
+        public new void SubscribeCallBacks()
+            => base.SubscribeCallBacks();
+
+        public new void UnsubscribeCallBacks()
+            => base.UnsubscribeCallBacks();
     }
 }

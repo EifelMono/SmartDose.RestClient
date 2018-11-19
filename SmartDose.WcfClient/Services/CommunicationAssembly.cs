@@ -9,6 +9,7 @@ namespace SmartDose.WcfClient.Services
 {
     public class CommunicationAssembly : IDisposable
     {
+        public Assembly Assembly { get; set; }
         public string AssemblyFilename { get; set; }
         public CommunicationAssembly(string assemblyFilename)
         {
@@ -23,7 +24,7 @@ namespace SmartDose.WcfClient.Services
                     Path.GetFileNameWithoutExtension(AssemblyFilename) + ".dll");
                 if (File.Exists(AssemblyFilename))
                 {
-                    Assembly.LoadFrom(assemblyFilename);
+                    Assembly = Assembly.LoadFrom(assemblyFilename);
                     IsLoaded = true;
                 }
             }

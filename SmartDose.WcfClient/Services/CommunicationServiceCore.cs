@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.ServiceModel;
 using System.Threading.Tasks;
+using SmartDose.Core.Extensions;
 using static SmartDose.Core.SafeExecuter;
 
 namespace SmartDose.WcfClient.Services
@@ -29,7 +31,7 @@ namespace SmartDose.WcfClient.Services
             EndpointAddress = wcfItem.ConnectionStringUse;
             AssemblyFilename = WcfClientGlobals.WcfItemToAssemblyFilename(wcfItem);
         }
-
+ 
         #region Assembly Client
         protected Dictionary<string, MethodInfo> ServiceMethods { get; set; } = new Dictionary<string, MethodInfo>();
         protected Dictionary<string, MethodInfo> AsyncServiceMethods { get; set; } = new Dictionary<string, MethodInfo>();
@@ -39,6 +41,40 @@ namespace SmartDose.WcfClient.Services
         protected MethodInfo SubscribeForCallBacksMethod { get; set; } = null;
         // UnsubscribeForCallbacksAsync
         protected MethodInfo UnsubscribeForCallbacksMethod { get; set; } = null;
+
+        protected virtual void SubscribeCallBacks()
+            => Catcher(() => SubscribeForCallBacksMethod?.Invoke(Client, new object[] { }));
+
+        protected virtual void UnsubscribeCallBacks()
+            => Catcher(() => UnsubscribeForCallbacksMethod?.Invoke(Client, new object[] { }));
+
+        protected bool FindAssemblyThings(Assembly assembly)
+        {
+            try
+            {
+                ClientType = assembly.GetTypes()
+                        .Where(t => t.GetInterfaces().Where(i => i == typeof(ICommunicationObject)).Any())
+                        .Where(t => t.FullName.EndsWith("Client")).FirstOrDefault();
+                foreach (var m in ClientType.GetMethods())
+                {
+                    ServiceMethods[m.Name] = m;
+                    if (m.Name.EndsWith("Async"))
+                        AsyncServiceMethods[m.Name] = m;
+                    if (m.Name.StartsWith("add"))
+                        EventAddMethods[m.Name] = m;
+                    if (m.Name.EndsWith("SubscribeForCallbacksAsync"))
+                        SubscribeForCallBacksMethod = m;
+                    if (m.Name.EndsWith("UnsubscribeForCallbacksAsync"))
+                        UnsubscribeForCallbacksMethod = m;
+                }
+                return true;
+            }
+            catch(Exception ex)
+            {
+                ex.LogException();
+                return false;
+            }
+        }
         #endregion
 
         #region Client 
@@ -60,6 +96,14 @@ namespace SmartDose.WcfClient.Services
         #region Outer Events
         public delegate void ServiceNotifyEventDelegate(object sender, ServiceNotifyEventArgs e);
         public event ServiceNotifyEventDelegate OnServiceNotifyEvent;
+        protected void ServiceNotifyEvent(ServiceNotifyEvent serviceNotifyEvent)
+        {
+            try
+            {
+                OnServiceNotifyEvent?.Invoke(this, new ServiceNotifyEventArgs { Value = serviceNotifyEvent });
+            }
+            catch { }
+        }
         #endregion
 
         #region Inner Events
@@ -122,15 +166,10 @@ namespace SmartDose.WcfClient.Services
             {
                 // gute frage, nächst frage 
             }
-            OnServiceNotifyEvent?.Invoke(this, new ServiceNotifyEventArgs { Value = serviceNotifyEvent });
         }
         #endregion
 
         #region Run
-        protected void ServiceNotifyEvent(ServiceNotifyEvent serviceNotifyEvent)
-        {
-            OnServiceNotifyEvent?.Invoke(this, new ServiceNotifyEventArgs { Value = serviceNotifyEvent });
-        }
         protected virtual void Run()
         {
             Task.Run(async () =>
@@ -144,10 +183,17 @@ namespace SmartDose.WcfClient.Services
                         if (communicationAssembly.HasFileNameToLoad)
                         {
                             if (!communicationAssembly.IsLoaded)
+                            {
                                 ServiceNotifyEvent(Services.ServiceNotifyEvent.ServiceErrorAssemblyNotLoaded);
-                            return;
-                        }
+                                return;
+                            }
+                            if (!FindAssemblyThings(communicationAssembly.Assembly))
+                            {
+                                ServiceNotifyEvent(Services.ServiceNotifyEvent.ServiceErrorAssemblyBad);
+                                return;
+                            }
 
+                        }
 
                         #region wait for Start or Dispose
                         bool preRunning = true;
@@ -220,17 +266,12 @@ namespace SmartDose.WcfClient.Services
             }
             disposed = true;
         }
-         
+
         public void Dispose()
         {
             Dispose(true);
             GC.SuppressFinalize(this);
         }
 
-        protected virtual void SubscribeCallBacks()
-            => Catcher(() => SubscribeForCallBacksMethod?.Invoke(Client, new object[] { }));
-
-        protected virtual void UnsubscribeCallBacks()
-            => Catcher(() => UnsubscribeForCallbacksMethod?.Invoke(Client, new object[] { }));
     }
 }

@@ -8,6 +8,7 @@ using SmartDose.WcfClient.Services;
 using System;
 using System.Windows;
 using SmartDose.Core.Extensions;
+using System.ComponentModel;
 
 namespace SmartDose.RestClientApp.Views
 {
@@ -15,13 +16,12 @@ namespace SmartDose.RestClientApp.Views
     /// <summary>
     /// Interaction logic for ViewWcfClient.xaml
     /// </summary>
-    public partial class ViewWcfClient : UserControl, IDisposable
+    public partial class ViewWcfClient : UserControl, IDisposable, INotifyPropertyChanged
     {
         public ViewWcfClient()
         {
             InitializeComponent();
             DataContext = this;
-
 
             var x = ClassBuilder.NewObject(new ClassBuilderDefinition()
                 .AddProperty("Name", "andreas klapperich")
@@ -84,6 +84,7 @@ namespace SmartDose.RestClientApp.Views
                     break;
                 case WcfClient.Services.ServiceNotifyEvent.ServiceErrorNotConnected:
                 case WcfClient.Services.ServiceNotifyEvent.ServiceErrorAssemblyNotLoaded:
+                case WcfClient.Services.ServiceNotifyEvent.ServiceErrorAssemblyBad:
                     {
                         color = Brushes.Red;
                     }
@@ -93,6 +94,7 @@ namespace SmartDose.RestClientApp.Views
             {
                 WcfItemStatusColor = color;
                 WcfItemStatusText = text;
+                NotifyPropertyChanged(string.Empty);
             }));
 
         }
@@ -107,9 +109,16 @@ namespace SmartDose.RestClientApp.Views
 
         public void PrepareForStop()
         {
-
+            try
+            {
+                CommunicationService.Stop();
+            }
+            catch { }
         }
 
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public void NotifyPropertyChanged(string propName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
 
     }
 

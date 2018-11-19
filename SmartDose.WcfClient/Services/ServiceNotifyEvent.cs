@@ -10,6 +10,7 @@
 
         ServiceErrorNotConnected,
         ServiceErrorAssemblyNotLoaded,
+        ServiceErrorAssemblyBad,
 
         ServiceStart,
         ServiceRunning,
