@@ -56,11 +56,19 @@ namespace SmartDose.RestClientApp.Views
             get => _WcfItem;
             set
             {
-                _WcfItem = value;
-                ServiceNotifyEvent(null, new ServiceNotifyEventArgs { Value = WcfClient.Services.ServiceNotifyEvent.ServiceErrorNotConnected });
-                CommunicationService = new CommunicationService(_WcfItem, _WcfItem.ConnectionStringUse);
-                CommunicationService.OnServiceNotifyEvent += ServiceNotifyEvent;
-                CommunicationService.Start();
+                try
+                {
+                    _WcfItem = value;
+                    ServiceNotifyEvent(null, new ServiceNotifyEventArgs { Value = WcfClient.Services.ServiceNotifyEvent.ServiceErrorNotConnected });
+                    CommunicationService = new CommunicationService(_WcfItem, _WcfItem.ConnectionStringUse);
+                    CommunicationService.OnServiceNotifyEvent += ServiceNotifyEvent;
+                    CommunicationService.Start();
+                }
+                catch(Exception ex)
+                {
+                    ex.LogException();
+                    ServiceNotifyEvent(null, new ServiceNotifyEventArgs { Value = WcfClient.Services.ServiceNotifyEvent.Error });
+                }
             }
         }
 

@@ -12,7 +12,7 @@ namespace SmartDose.WcfClient
 {
     public static class WcfClientGlobals
     {
-        public static string AssemblyFramework = "netstandard2.0";
+        public static string AssemblyFramework = "net471";
 
         public static string ConnectionStringToConnectionName(string connectionString)
         {

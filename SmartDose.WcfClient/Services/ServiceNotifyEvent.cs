@@ -16,5 +16,7 @@
         ServiceRunning,
         ServiceStop,
         ServiceDispose,
+
+        Error,
     }
 }

@@ -24,7 +24,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartDose.RestDummy", "Smar
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartDose.WcfClient", "SmartDose.WcfClient\SmartDose.WcfClient.csproj", "{0E379389-CC4C-4112-BBC8-9B402F5E1E65}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartDose.Core", "SmartDose.Core\SmartDose.Core.csproj", "{FEFA1C43-C690-4706-97CD-38F117DF1858}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartDose.Core", "SmartDose.Core\SmartDose.Core.csproj", "{FEFA1C43-C690-4706-97CD-38F117DF1858}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

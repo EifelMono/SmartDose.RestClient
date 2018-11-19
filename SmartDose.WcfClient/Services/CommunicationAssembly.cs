@@ -21,10 +21,10 @@ namespace SmartDose.WcfClient.Services
                 IsLoaded = false;
                 var filename = Path.Combine(
                     Path.GetDirectoryName(Environment.GetCommandLineArgs()[0]),
-                    Path.GetFileNameWithoutExtension(AssemblyFilename) + ".dll");
-                if (File.Exists(AssemblyFilename))
+                    Path.GetFileName(AssemblyFilename));
+                if (File.Exists(filename))
                 {
-                    Assembly = Assembly.LoadFrom(assemblyFilename);
+                    Assembly = Assembly.Load(Path.GetFileNameWithoutExtension(AssemblyFilename));
                     IsLoaded = true;
                 }
             }

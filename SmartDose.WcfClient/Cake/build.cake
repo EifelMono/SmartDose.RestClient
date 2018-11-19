@@ -10,7 +10,7 @@ var configuration = Argument("configuration", "Release");
 var startAfterReady= Argument("startafterready", "");
 var connectionString = Argument("connection", "net.tcp://localhost:10000/MasterData/");
 
-var assemblyFramework = Argument("assemblyframework", "netstandard2.0");
+var assemblyFramework = Argument("assemblyframework", "net471");
 
 
 var wcfClientDirectory= MakeAbsolute(new DirectoryPath("."));
@@ -95,6 +95,8 @@ void ProjectChangeTargetFramework()
    var xDoc = XDocument.Load(connectionCsproj.ToString());
    foreach(var x in xDoc.Descendants("TargetFramework"))
       x.Value= assemblyFramework;
+   if (xDoc.Descendants("OutputType").FirstOrDefault() is var outPutType && outPutType!= null)
+         outPutType.Remove();
    xDoc.Save(connectionCsproj.ToString());
 }
 
@@ -240,13 +242,13 @@ Task("Default")
 
 KillStartAfterReady();
 
+Exception AppException= null;
 try {
    RunTarget(target);
 }
 catch(Exception ex)
 {
-   Information("");
-   Error(ex);
+   AppException= ex;
    ConnectionInformation("Error", ConsoleColor.Red);
 }
 
@@ -254,6 +256,12 @@ Information("");
 Information("Press return to go on......");
 Information("");
 Console.ReadLine();
+
+if (AppException!= null)
+{
+   Information("");
+   Error(AppException);
+}
 
 StartStartAfterReady();
 
