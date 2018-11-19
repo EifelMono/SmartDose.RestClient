@@ -88,8 +88,9 @@ namespace SmartDose.RestClientApp.Views
                             Application.Current.Dispatcher.Invoke(new Action(() =>
                             {
                                 comboBoxMethod.SelectedIndex = 0;
+                                WcfItemStatusText = text;
+                                NotifyPropertyChanged(string.Empty);
                             }));
-                        NotifyPropertyChanged(string.Empty);
                     }
                     break;
                 case WcfClient.Services.ServiceNotifyEvent.ServiceErrorNotConnected:
@@ -112,8 +113,28 @@ namespace SmartDose.RestClientApp.Views
         ICommand _commandWcfExecute = null;
         public ICommand CommandWcfExecute
         {
-            get => _commandWcfExecute ?? (_commandWcfExecute = new RelayCommand(o =>
+            get => _commandWcfExecute ?? (_commandWcfExecute = new RelayCommand(async o =>
             {
+                try
+                {
+                    if (comboBoxMethod.SelectedItem is WcfMethod wcfMethod)
+                    {
+                        if (await wcfMethod.CallMethodAsync(CommunicationService.Client) is var result && result.Ok)
+                        {
+                            wcfMethod.Output = result.Value;
+                        }
+                        else
+                            wcfMethod.Output = "Error Communication 1";
+                        viewObjectJsonWcfOutput.PlainData = wcfMethod.Output;
+                    }
+                    else
+                        viewObjectJsonWcfOutput.PlainData = "Error App";
+                }
+                catch (Exception ex)
+                {
+                    viewObjectJsonWcfOutput.PlainData = ex;
+                }
+                NotifyPropertyChanged(string.Empty);
             }));
         }
 
@@ -130,7 +151,6 @@ namespace SmartDose.RestClientApp.Views
 
         public void NotifyPropertyChanged(string propName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
 
-       
         private void comboBoxMethod_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (comboBoxMethod.SelectedItem is WcfMethod wcfMethod)

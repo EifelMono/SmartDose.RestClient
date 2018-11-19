@@ -68,7 +68,7 @@ namespace SmartDose.WcfClient.Services
                         }
                         else
                         {
-                            if (!m.Name.In("OpenAync", "CloseAsync"))
+                            if (!m.Name.In("OpenAsync", "CloseAsync"))
                             {
                                 WcfMethod wcfMethod;
                                 WcfMethods.Add(wcfMethod = new WcfMethod
@@ -126,26 +126,27 @@ namespace SmartDose.WcfClient.Services
         #endregion
 
         #region Inner Events
-        protected ICommunicationObject SetClientServiceNotifyEvents(ICommunicationObject client, bool on)
+        protected void SetClientServiceNotifyEvents(bool on)
         {
+            if (Client is null)
+                return;
             switch (on)
             {
                 case true:
-                    client.Opening += Client_Opening;
-                    client.Opened += Client_Opened;
-                    client.Faulted += Client_Faulted;
-                    client.Closing += Client_Closing;
-                    client.Closed += Client_Closed;
+                    Client.Opening += Client_Opening;
+                    Client.Opened += Client_Opened;
+                    Client.Faulted += Client_Faulted;
+                    Client.Closing += Client_Closing;
+                    Client.Closed += Client_Closed;
                     break;
                 case false:
-                    client.Opening -= Client_Opening;
-                    client.Opened -= Client_Opened;
-                    client.Faulted -= Client_Faulted;
-                    client.Closing -= Client_Closing;
-                    client.Closed -= Client_Closed;
+                    Client.Opening -= Client_Opening;
+                    Client.Opened -= Client_Opened;
+                    Client.Faulted -= Client_Faulted;
+                    Client.Closing -= Client_Closing;
+                    Client.Closed -= Client_Closed;
                     break;
             }
-            return client;
         }
 
         private void Client_Closing(object sender, EventArgs e)
@@ -223,6 +224,8 @@ namespace SmartDose.WcfClient.Services
                             switch (await ClientServiceNotifyComletionSource.Task)
                             {
                                 case Services.ServiceNotifyEvent.ServiceStart:
+                                    NewClient();
+                                    SetClientServiceNotifyEvents(true);
                                     startWaiting = false;
                                     break;
                                 case Services.ServiceNotifyEvent.ServiceStop:
@@ -244,11 +247,14 @@ namespace SmartDose.WcfClient.Services
                                         break;
                                     case Services.ServiceNotifyEvent.ServiceStop:
                                     case Services.ServiceNotifyEvent.ServiceDispose:
+                                        UnsubscribeCallBacks();
+                                        SetClientServiceNotifyEvents(false);
                                         mainRunning = false;
                                         break;
                                     case Services.ServiceNotifyEvent.ClientOpening:
                                         break;
                                     case Services.ServiceNotifyEvent.ClientOpened:
+                                        SubscribeCallBacks();
                                         break;
                                     case Services.ServiceNotifyEvent.ClientFaulted:
                                         break;
