@@ -1,12 +1,13 @@
 ﻿using System.Collections.Generic;
-using System.ComponentModel;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-using SmartDose.RestDomainDev.PropertyEditorThings;
 using SmartDose.WcfClient;
-using SmartDose.Core.Extensions;
 using SmartDose.Core;
+using SmartDose.WcfClient.Services;
+using System;
+using System.Windows;
+using SmartDose.Core.Extensions;
 
 namespace SmartDose.RestClientApp.Views
 {
@@ -14,7 +15,7 @@ namespace SmartDose.RestClientApp.Views
     /// <summary>
     /// Interaction logic for ViewWcfClient.xaml
     /// </summary>
-    public partial class ViewWcfClient : UserControl
+    public partial class ViewWcfClient : UserControl, IDisposable
     {
         public ViewWcfClient()
         {
@@ -25,7 +26,7 @@ namespace SmartDose.RestClientApp.Views
             var x = ClassBuilder.NewObject(new ClassBuilderDefinition()
                 .AddProperty("Name", "andreas klapperich")
                 .AddProperty("Age", 58)
-                .AddProperty("List", 
+                .AddProperty("List",
                     new List<string> { "a", "b", "c" }, ClassBuilderPropertyCustomAttribute.All));
 
             var pi = x.GetType().GetProperty("List");
@@ -33,7 +34,21 @@ namespace SmartDose.RestClientApp.Views
 
         }
 
+        public void Dispose()
+        {
+            try
+            {
+                if (CommunicationService != null)
+                {
+                    CommunicationService.OnServiceNotifyEvent -= ServiceNotifyEvent;
+                    CommunicationService.Stop();
+                }
+            }
+            catch { }
+            CommunicationService = null;
+        }
 
+        private CommunicationService CommunicationService;
         private WcfItem _WcfItem;
 
         public WcfItem WcfItem
@@ -42,7 +57,10 @@ namespace SmartDose.RestClientApp.Views
             set
             {
                 _WcfItem = value;
-                WcfItemStatus();
+                ServiceNotifyEvent(null, new ServiceNotifyEventArgs { Value = WcfClient.Services.ServiceNotifyEvent.ServiceErrorNotConnected });
+                CommunicationService = new CommunicationService(_WcfItem, _WcfItem.ConnectionStringUse);
+                CommunicationService.OnServiceNotifyEvent += ServiceNotifyEvent;
+                CommunicationService.Start();
             }
         }
 
@@ -51,10 +69,32 @@ namespace SmartDose.RestClientApp.Views
 
         public List<string> WcfMethods { get; set; } = new List<string> { "a", "b" };
 
-        protected void WcfItemStatus()
+        protected void ServiceNotifyEvent(object sender, ServiceNotifyEventArgs args)
         {
-            WcfItemStatusColor = Brushes.Red;
-            WcfItemStatusText = "NotConnected";
+            if (args is null)
+                return;
+            var color = Brushes.Black;
+            var text = args.Value.ToString();
+            switch (args.Value)
+            {
+                case WcfClient.Services.ServiceNotifyEvent.ServiceRunning:
+                    {
+                        "Service Running".LogInformation();
+                    }
+                    break;
+                case WcfClient.Services.ServiceNotifyEvent.ServiceErrorNotConnected:
+                case WcfClient.Services.ServiceNotifyEvent.ServiceErrorAssemblyNotLoaded:
+                    {
+                        color = Brushes.Red;
+                    }
+                    break;
+            }
+            Application.Current.Dispatcher.Invoke(new Action(() =>
+            {
+                WcfItemStatusColor = color;
+                WcfItemStatusText = text;
+            }));
+
         }
 
         ICommand _commandWcfExecute = null;
@@ -69,6 +109,8 @@ namespace SmartDose.RestClientApp.Views
         {
 
         }
+
+
     }
 
 }

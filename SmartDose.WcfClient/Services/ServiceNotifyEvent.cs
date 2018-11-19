@@ -8,7 +8,11 @@
         ClientClosing,
         ClientClosed,
 
+        ServiceErrorNotConnected,
+        ServiceErrorAssemblyNotLoaded,
+
         ServiceStart,
+        ServiceRunning,
         ServiceStop,
         ServiceDispose,
     }

@@ -57,8 +57,13 @@ namespace SmartDose.WcfClient.Services
         }
         #endregion
 
-        #region Events
-        protected ICommunicationObject SetClientNotifyEvents(ICommunicationObject client, bool on)
+        #region Outer Events
+        public delegate void ServiceNotifyEventDelegate(object sender, ServiceNotifyEventArgs e);
+        public event ServiceNotifyEventDelegate OnServiceNotifyEvent;
+        #endregion
+
+        #region Inner Events
+        protected ICommunicationObject SetClientServiceNotifyEvents(ICommunicationObject client, bool on)
         {
             switch (on)
             {
@@ -81,36 +86,34 @@ namespace SmartDose.WcfClient.Services
         }
 
         private void Client_Closing(object sender, EventArgs e)
-            => ServiceNotifyEvent(Services.ServiceNotifyEvent.ClientClosing);
+            => ClientServiceNotifyEvent(Services.ServiceNotifyEvent.ClientClosing);
         private void Client_Closed(object sender, EventArgs e)
-            => ServiceNotifyEvent(Services.ServiceNotifyEvent.ClientClosed);
+            => ClientServiceNotifyEvent(Services.ServiceNotifyEvent.ClientClosed);
         private void Client_Faulted(object sender, EventArgs e)
-            => ServiceNotifyEvent(Services.ServiceNotifyEvent.ClientFaulted);
+            => ClientServiceNotifyEvent(Services.ServiceNotifyEvent.ClientFaulted);
         private void Client_Opened(object sender, EventArgs e)
-            => ServiceNotifyEvent(Services.ServiceNotifyEvent.ClientOpened);
+            => ClientServiceNotifyEvent(Services.ServiceNotifyEvent.ClientOpened);
         private void Client_Opening(object sender, EventArgs e)
-            => ServiceNotifyEvent(Services.ServiceNotifyEvent.ClientOpening);
-        #endregion
+            => ClientServiceNotifyEvent(Services.ServiceNotifyEvent.ClientOpening);
 
-        #region Run
-        protected object ServiceNotifyComlitionSourceLock = new object();
-        protected TaskCompletionSource<ServiceNotifyEvent> ServiceNotifyComletionSource
+        protected object ClientServiceNotifyComlitionSourceLock = new object();
+        protected TaskCompletionSource<ServiceNotifyEvent> ClientServiceNotifyComletionSource
                     = new TaskCompletionSource<ServiceNotifyEvent>();
 
-        protected void ServiceNotifyInit()
+        protected void ClientServiceNotifyInit()
         {
-            lock (ServiceNotifyComlitionSourceLock)
-                ServiceNotifyComletionSource = new TaskCompletionSource<ServiceNotifyEvent>();
+            lock (ClientServiceNotifyComlitionSourceLock)
+                ClientServiceNotifyComletionSource = new TaskCompletionSource<ServiceNotifyEvent>();
         }
 
-        protected void ServiceNotifyEvent(ServiceNotifyEvent serviceNotifyEvent)
+        protected void ClientServiceNotifyEvent(ServiceNotifyEvent serviceNotifyEvent)
         {
             bool send = false;
 
             for (var i = 0; i < 10; i++)
             {
-                lock (ServiceNotifyComlitionSourceLock)
-                    send = ServiceNotifyComletionSource.TrySetResult(serviceNotifyEvent);
+                lock (ClientServiceNotifyComlitionSourceLock)
+                    send = ClientServiceNotifyComletionSource.TrySetResult(serviceNotifyEvent);
                 if (send)
                     break;
             }
@@ -119,62 +122,72 @@ namespace SmartDose.WcfClient.Services
             {
                 // gute frage, nächst frage 
             }
+            OnServiceNotifyEvent?.Invoke(this, new ServiceNotifyEventArgs { Value = serviceNotifyEvent });
         }
+        #endregion
 
+        #region Run
+        protected void ServiceNotifyEvent(ServiceNotifyEvent serviceNotifyEvent)
+        {
+            OnServiceNotifyEvent?.Invoke(this, new ServiceNotifyEventArgs { Value = serviceNotifyEvent });
+        }
         protected virtual void Run()
         {
             Task.Run(async () =>
             {
                 try
                 {
-                    #region wait for Start or Dispose
-                    bool running = true;
-                    while (running)
-                    {
-                        ServiceNotifyInit();
-                        switch (await ServiceNotifyComletionSource.Task)
-                        {
-                            case Services.ServiceNotifyEvent.ServiceStart:
-                                running = false;
-                                break;
-                            case Services.ServiceNotifyEvent.ServiceDispose:
-                                return;
-                        }
-                    }
-                    #endregion
-
                     #region Client Run
-                    running = true;
+                    var mainRunning = true;
                     using (var communicationAssembly = new CommunicationAssembly(AssemblyFilename))
                     {
-                        while (running)
+                        if (communicationAssembly.HasFileNameToLoad)
                         {
-                            ServiceNotifyInit();
-                            switch (await ServiceNotifyComletionSource.Task)
+                            if (!communicationAssembly.IsLoaded)
+                                ServiceNotifyEvent(Services.ServiceNotifyEvent.ServiceErrorAssemblyNotLoaded);
+                            return;
+                        }
+
+
+                        #region wait for Start or Dispose
+                        bool preRunning = true;
+                        while (preRunning)
+                        {
+                            ClientServiceNotifyInit();
+                            switch (await ClientServiceNotifyComletionSource.Task)
                             {
                                 case Services.ServiceNotifyEvent.ServiceStart:
-                                    running = false;
-                                    break;
-                                case Services.ServiceNotifyEvent.ServiceStop:
-                                    running = false;
+                                    preRunning = false;
                                     break;
                                 case Services.ServiceNotifyEvent.ServiceDispose:
-                                    running = false;
+                                    return;
+                            }
+                        }
+                        #endregion
+
+                        ServiceNotifyEvent(Services.ServiceNotifyEvent.ServiceRunning);
+
+                        while (mainRunning)
+                        {
+                            ClientServiceNotifyInit();
+                            switch (await ClientServiceNotifyComletionSource.Task)
+                            {
+                                case Services.ServiceNotifyEvent.ServiceStart:
+                                    break;
+                                case Services.ServiceNotifyEvent.ServiceStop:
+                                    break;
+                                case Services.ServiceNotifyEvent.ServiceDispose:
+                                    mainRunning = false;
                                     break;
                                 case Services.ServiceNotifyEvent.ClientOpening:
-                                    running = false;
                                     break;
                                 case Services.ServiceNotifyEvent.ClientOpened:
-                                    running = false;
                                     break;
                                 case Services.ServiceNotifyEvent.ClientFaulted:
-                                    running = false;
                                     break;
                                 case Services.ServiceNotifyEvent.ClientClosing:
-                                    running = false;
                                     break;
                                 case Services.ServiceNotifyEvent.ClientClosed:
-                                    running = false;
                                     break;
                             }
                         }
@@ -187,11 +200,11 @@ namespace SmartDose.WcfClient.Services
 
         public void Start()
         {
-            ServiceNotifyEvent(Services.ServiceNotifyEvent.ServiceStart);
+            ClientServiceNotifyEvent(Services.ServiceNotifyEvent.ServiceStart);
         }
         public void Stop()
         {
-            ServiceNotifyEvent(Services.ServiceNotifyEvent.ServiceStop);
+            ClientServiceNotifyEvent(Services.ServiceNotifyEvent.ServiceStop);
         }
         #endregion
 
@@ -203,7 +216,7 @@ namespace SmartDose.WcfClient.Services
 
             if (disposing)
             {
-                ServiceNotifyEvent(Services.ServiceNotifyEvent.ServiceDispose);
+                ClientServiceNotifyEvent(Services.ServiceNotifyEvent.ServiceDispose);
             }
             disposed = true;
         }
