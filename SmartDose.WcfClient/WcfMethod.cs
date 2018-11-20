@@ -79,16 +79,24 @@ namespace SmartDose.WcfClient
                     foreach (var property in Input.GetType().GetProperties())
                     {
                         var value = property.GetValue(Input);
-                        if (property.Name == "PageFilter")
+                        if (value != null)
                         {
-                            if (value is uint ps && ps == 0)
-                                value = null;
-                        }
-                        else
-                        if (property.Name == "SortFilter")
-                        {
-                            if (value is null || value is string sn && string.IsNullOrEmpty(sn))
-                                value = null;
+                            if (property.Name.ToLower() == "searchfilter")
+                            {
+                                if (value.GetType().GetProperty("Length").GetValue(value) is int ps && ps == 0)
+                                    value = null;
+                            }
+                            else if (property.Name.ToLower() == "pagefilter")
+                            {
+                                if (value.GetType().GetProperty("PageSize").GetValue(value) is uint ps && ps == 0)
+                                    value = null;
+                            }
+                            else if (property.Name.ToLower() == "sortfilter")
+                            {
+                                if (value.GetType().GetProperty("AttributeName").GetValue(value) is var v
+                                    & (v is null || v is string sn && string.IsNullOrEmpty(sn)))
+                                    value = null ;
+                            }
                         }
                         values.Add(value);
                     }
