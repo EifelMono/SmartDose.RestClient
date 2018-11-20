@@ -11,6 +11,9 @@ using System.ComponentModel;
 using System.Threading.Tasks;
 using System.Linq;
 using static SmartDose.Core.SafeExecuter;
+using System.Collections.ObjectModel;
+using System.Text;
+using System.Diagnostics;
 
 namespace SmartDose.RestClientApp.Views
 {
@@ -82,7 +85,7 @@ namespace SmartDose.RestClientApp.Views
 
         public List<WcfMethod> WcfMethods { get; set; } = new List<WcfMethod>();
 
-        public List<WcfEvent> WcfEvents { get; set; } = new List<WcfEvent>();
+        public ObservableCollection<WcfEvent> WcfEvents { get; set; } = new ObservableCollection<WcfEvent>();
 
         protected async void ServiceNotifyEvent(object sender, ServiceNotifyEventArgs args)
         {
@@ -105,6 +108,7 @@ namespace SmartDose.RestClientApp.Views
                             {
                                 comboBoxMethod.SelectedIndex = 0;
                                 WcfItemStatusText = text;
+                                GenerateDoc();
                                 NotifyPropertyChanged(string.Empty);
                             }));
                     }
@@ -186,6 +190,15 @@ namespace SmartDose.RestClientApp.Views
             }));
         }
 
+        ICommand _commandWcfEventsClear = null;
+        public ICommand CpmmandWcfEventsClear
+        {
+            get => _commandWcfEventsClear ?? (_commandWcfEventsClear = new RelayCommand(async o =>
+            {
+                WcfEvents.Clear();
+            }));
+        }
+
         public void PrepareForStop()
         {
             try
@@ -212,6 +225,90 @@ namespace SmartDose.RestClientApp.Views
             if (listViewEvents.SelectedItem is WcfEvent wcfEvent)
                 viewObjectJsonEvent.PlainData = wcfEvent.Value;
             NotifyPropertyChanged(string.Empty);
+        }
+
+        public void GenerateDoc()
+        {
+            try
+            {
+                var sb = new StringBuilder()
+                    .H1(WcfItem.ConnectionName)
+                    .br();
+
+                foreach (var method in WcfMethods)
+                {
+                    sb.H2(method.Name)
+                        .hr()
+                        .H4("Parameter")
+                        .TableOpen("Name", "Type");
+
+                    foreach (var parameter in method.Method.GetParameters())
+                        sb.TableLine(parameter.Name, parameter.ParameterType.FullName);
+
+                    sb.TableLine("", "");
+
+                    sb.TableLine("return", method.Method.ReturnParameter.ParameterType.FullName);
+
+                    sb.TableClose().br(2);
+
+                }
+                webBrowserDoc.NavigateToString(sb.ToString());
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+            }
+        }
+    }
+
+    internal static class HtmlExtensions
+    {
+        public static StringBuilder Frame(this StringBuilder sb, string name, string text)
+        {
+            sb.AppendLine($"<{name}>{text}</{name}>");
+            return sb;
+        }
+        public static StringBuilder H1(this StringBuilder sb, string text)
+            => sb.Frame("h1", text);
+
+        public static StringBuilder H2(this StringBuilder sb, string text)
+            => sb.Frame("h2", text);
+        public static StringBuilder H4(this StringBuilder sb, string text)
+            => sb.Frame("h4", text);
+
+        public static StringBuilder br(this StringBuilder sb, int count = 1)
+        {
+            for (var i = 0; i < count; i++)
+                sb.AppendLine("<br>");
+            return sb;
+        }
+
+        public static StringBuilder hr(this StringBuilder sb)
+        {
+            sb.AppendLine($"<hr>");
+            return sb;
+        }
+
+        public static StringBuilder TableOpen(this StringBuilder sb, params string[] thtexts)
+        {
+            sb.AppendLine("<table><tr>");
+            foreach (var thtext in thtexts)
+                sb.Frame("th", thtext);
+            return sb.Append("</tr>");
+        }
+
+        public static StringBuilder TableLine(this StringBuilder sb, params string[] tdtexts)
+        {
+            sb.AppendLine("<tr>");
+            foreach (var tdtext in tdtexts)
+                sb.Frame("td", tdtext);
+            return sb.Append("</tr>");
+        }
+
+        public static StringBuilder TableClose(this StringBuilder sb)
+        {
+            sb.AppendLine("</table>");
+            return sb;
         }
     }
 

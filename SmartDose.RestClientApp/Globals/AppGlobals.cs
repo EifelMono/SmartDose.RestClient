@@ -57,14 +57,128 @@ namespace SmartDose.RestClientApp.Globals
                         {
                             new WcfItem
                             {
+                                Group= "Server[Business]",
                                 ConnectionString="net.tcp://localhost:10000/MasterData/",
                                 ConnectionStringUse= "net.tcp://localhost:10000/MasterData/",
                                 Active=true
                             },
                             new WcfItem
                             {
+                                Group= "Server[Business]",
                                 ConnectionString="net.tcp://localhost:10000/Settings/",
                                 ConnectionStringUse= "net.tcp://localhost:10000/Settings/",
+                                Active=true
+                            },
+                              new WcfItem
+                            {
+                                Group= "Server",
+                                ConnectionString="net.tcp://localhost:9000/SDMC/",
+                                ConnectionStringUse= "net.tcp://localhost:9000/SDMC/",
+                                Active=true
+                            },
+                            new WcfItem
+                            {
+                                Group= "Server",
+                                ConnectionString="net.tcp://localhost:9002/MasterData/",
+                                ConnectionStringUse= "net.tcp://localhost:9002/MasterData/",
+                                Active=true
+                            },
+                             new WcfItem
+                            {
+                                Group= "Server",
+                                ConnectionString="net.tcp://localhost:9003/TrayHandling/",
+                                ConnectionStringUse= "net.tcp://localhost:9003/TrayHandling/",
+                                Active=true
+                            },
+                            new WcfItem
+                            {
+                                Group= "Server",
+                                ConnectionString="net.tcp://localhost:9004/CanisterHandling/",
+                                ConnectionStringUse= "net.tcp://localhost:9004/CanisterHandling/",
+                                Active=true
+                            },
+                              new WcfItem
+                            {
+                                Group= "Server",
+                                ConnectionString="net.tcp://localhost:9005/Reporting/",
+                                ConnectionStringUse= "net.tcp://localhost:9005/Reporting/",
+                                Active=true
+                            },
+                            new WcfItem
+                            {
+                                Group= "Server",
+                                ConnectionString="net.tcp://localhost:9006/Inventory/",
+                                ConnectionStringUse= "net.tcp://localhost:9006/Inventory/",
+                                Active=true
+                            },
+                            new WcfItem
+                            {
+                                Group= "Server",
+                                ConnectionString="net.tcp://localhost:9008/Production/",
+                                ConnectionStringUse= "net.tcp://localhost:9008/Production/",
+                                Active=true
+                            },
+                            new WcfItem
+                            {
+                                Group= "Server",
+                                ConnectionString="net.tcp://localhost:9009/Settings/",
+                                ConnectionStringUse= "net.tcp://localhost:9009/Settings/",
+                                Active=true
+                            },
+                            new WcfItem
+                            {
+                                Group= "Server",
+                                ConnectionString="net.tcp://localhost:9013/PouchDesignHandling/",
+                                ConnectionStringUse= "net.tcp://localhost:9013/PouchDesignHandling/",
+                                Active=true
+                            },
+                            new WcfItem
+                            {
+                                Group= "Server",
+                                ConnectionString="net.tcp://localhost:9014/Deblistering/",
+                                ConnectionStringUse= "net.tcp://localhost:9014/Deblistering/",
+                                Active=true
+                            },
+                            new WcfItem
+                            {
+                                Group= "Server",
+                                ConnectionString="net.tcp://localhost:9015/DualInspection/",
+                                ConnectionStringUse= "net.tcp://localhost:9015/DualInspection/",
+                                Active=true
+                            },
+                            new WcfItem
+                            {
+                                Group= "Server",
+                                ConnectionString="net.tcp://localhost:9016/HardwareHandling/",
+                                ConnectionStringUse= "net.tcp://localhost:9016/HardwareHandling/",
+                                Active=true
+                            },
+                            new WcfItem
+                            {
+                                Group= "Server",
+                                ConnectionString="net.tcp://localhost:9017/PouchSequenceRuleHandling/",
+                                ConnectionStringUse= "net.tcp://localhost:9017/PouchSequenceRuleHandling/",
+                                Active=true
+                            },
+                            new WcfItem
+                            {
+                                Group= "Server",
+                                ConnectionString="net.tcp://localhost:9022/Production/",
+                                ConnectionStringUse= "net.tcp://localhost:9022/Production/",
+                                Active=true
+                            },
+                            new WcfItem
+                            {
+                                Group= "Server",
+                                ConnectionString="net.tcp://localhost:9024/Inventory/",
+                                ConnectionStringUse= "net.tcp://localhost:9024/Inventory/",
+                                Active=true
+                            },
+                            new WcfItem
+                            {
+                                Group= "Server",
+                                ConnectionString="net.tcp://localhost:9021/MasterData/",
+                                ConnectionStringUse= "net.tcp://localhost:9021/MasterData/",
                                 Active=true
                             }
                         };

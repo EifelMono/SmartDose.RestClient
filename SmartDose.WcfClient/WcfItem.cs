@@ -23,6 +23,8 @@ namespace SmartDose.WcfClient
             }
         }
 
+        public string Group { get; set; }
+
         string _ConnectionName;
         public string ConnectionName
         {

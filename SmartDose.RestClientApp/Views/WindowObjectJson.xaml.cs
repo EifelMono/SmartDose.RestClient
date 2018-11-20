@@ -137,12 +137,15 @@ namespace SmartDose.RestClientApp.Views
             foreach (var wcfMenuItem in WcfClientsMenuItem.Items)
             {
                 if (wcfMenuItem?.ModelsItem?.Value is ViewWcfClient view)
+                {
                     Catcher(() =>
                     {
                         view.PrepareForStop();
                         wcfMenuItem.ModelsItem.Value = null;
                     });
+                }
             }
+
             WcfClientsMenuItem.Items.Clear();
             foreach (var wcfItem in AppGlobals.Configuration.Data.WcfClients)
             {

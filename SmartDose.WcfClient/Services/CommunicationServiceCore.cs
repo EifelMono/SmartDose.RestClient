@@ -311,7 +311,7 @@ namespace SmartDose.WcfClient.Services
                                             InFault = true;
                                             ServiceNotifyEvent(Services.ServiceNotifyEvent.ServiceErrorNotConnected);
                                             RunClose();
-                                            await Task.Delay(100);
+                                            await Task.Delay(1000);
                                             RunOpen();
                                             InFault = false;
                                         }
