@@ -10,6 +10,7 @@ using SmartDose.Core.Extensions;
 using System.ComponentModel;
 using System.Threading.Tasks;
 using System.Linq;
+using static SmartDose.Core.SafeExecuter;
 
 namespace SmartDose.RestClientApp.Views
 {
@@ -137,18 +138,21 @@ namespace SmartDose.RestClientApp.Views
             {
                 if (!IsButtonExecuteEnabled)
                     return;
+                Catcher(() => $"Before Execute Client Status {CommunicationService.Client.State.ToString()}".LogInformation());
                 ButtonExecuteState(false);
                 try
                 {
-                
+
                     if (comboBoxMethod.SelectedItem is WcfMethod wcfMethod)
                     {
+                        $"Execute  {wcfMethod.Name}".LogInformation();
+
                         if (await wcfMethod.CallMethodAsync(CommunicationService.Client) is var result && result.Ok)
                         {
                             wcfMethod.Output = result.Value;
                         }
                         else
-                            wcfMethod.Output = new WcfErrorObject("Error Communication 1");
+                            wcfMethod.Output = new WcfErrorObject("Error on Execute", result.Value as Exception);
                         viewObjectJsonWcfOutput.PlainData = wcfMethod.Output;
                     }
                     else
@@ -163,6 +167,7 @@ namespace SmartDose.RestClientApp.Views
                     ButtonExecuteState(true);
                 }
                 NotifyPropertyChanged(string.Empty);
+                Catcher(() => $"After Execute Client Status {CommunicationService.Client.State.ToString()}".LogInformation());
             }));
         }
 

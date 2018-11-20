@@ -36,16 +36,24 @@ namespace SmartDose.WcfClient.Services
         protected Dictionary<string, MethodInfo> AsyncServiceMethods { get; set; } = new Dictionary<string, MethodInfo>();
         protected Dictionary<string, MethodInfo> EventAddMethods { get; set; } = new Dictionary<string, MethodInfo>();
 
-        // SubscribeForCallbacksAsync
-        protected MethodInfo SubscribeForCallBacksMethod { get; set; } = null;
-        // UnsubscribeForCallbacksAsync
-        protected MethodInfo UnsubscribeForCallbacksMethod { get; set; } = null;
+        // Methods by name
+        protected MethodInfo SubscribeForCallBacksAsyncMethod { get; set; } = null;
+        protected MethodInfo UnsubscribeForCallbacksAsyncMethod { get; set; } = null;
 
-        protected virtual void SubscribeCallBacks()
-            => Catcher(() => SubscribeForCallBacksMethod?.Invoke(Client, new object[] { }));
+        protected MethodInfo OpenAsyncMethod { get; set; } = null;
+        protected MethodInfo CloseAsyncMethod { get; set; } = null;
 
-        protected virtual void UnsubscribeCallBacks()
-            => Catcher(() => UnsubscribeForCallbacksMethod?.Invoke(Client, new object[] { }));
+        protected virtual void SubscribeCallBacksAsync()
+            => Catcher(() => SubscribeForCallBacksAsyncMethod?.Invoke(Client, new object[] { }));
+
+        protected virtual void UnsubscribeCallBacksAsync()
+            => Catcher(() => UnsubscribeForCallbacksAsyncMethod?.Invoke(Client, new object[] { }));
+
+        protected virtual void OpenAsync()
+            => Catcher(() => OpenAsyncMethod?.Invoke(Client, new object[] { }));
+
+        protected virtual void CloseAsync()
+            => Catcher(() => CloseAsyncMethod?.Invoke(Client, new object[] { }));
 
         protected bool FindAssemblyThings(Assembly assembly)
         {
@@ -62,13 +70,18 @@ namespace SmartDose.WcfClient.Services
                         if (m.Name.EndsWith("CallbacksAsync"))
                         {
                             if (m.Name.EndsWith("SubscribeForCallbacksAsync"))
-                                SubscribeForCallBacksMethod = m;
+                                SubscribeForCallBacksAsyncMethod = m;
                             if (m.Name.EndsWith("UnsubscribeForCallbacksAsync"))
-                                UnsubscribeForCallbacksMethod = m;
+                                UnsubscribeForCallbacksAsyncMethod = m;
                         }
                         else
                         {
-                            if (!m.Name.In("OpenAsync", "CloseAsync"))
+                            if (m.Name == "OpenAsync")
+                                OpenAsyncMethod = m;
+                            else
+                            if (m.Name == "CloseAsync")
+                                CloseAsyncMethod = m;
+                            else
                             {
                                 WcfMethod wcfMethod;
                                 WcfMethods.Add(wcfMethod = new WcfMethod
@@ -119,7 +132,14 @@ namespace SmartDose.WcfClient.Services
         {
             try
             {
-                OnServiceNotifyEvent?.Invoke(this, new ServiceNotifyEventArgs { Value = serviceNotifyEvent });
+                Task.Run(() =>
+                {
+                    try
+                    {
+                        OnServiceNotifyEvent?.Invoke(this, new ServiceNotifyEventArgs { Value = serviceNotifyEvent });
+                    }
+                    catch { }
+                });
             }
             catch { }
         }
@@ -226,6 +246,8 @@ namespace SmartDose.WcfClient.Services
                                 case Services.ServiceNotifyEvent.ServiceStart:
                                     NewClient();
                                     SetClientServiceNotifyEvents(true);
+                                    OpenAsync();
+                                    SubscribeCallBacksAsync();
                                     startWaiting = false;
                                     break;
                                 case Services.ServiceNotifyEvent.ServiceStop:
@@ -237,6 +259,7 @@ namespace SmartDose.WcfClient.Services
 
                         try
                         {
+                            bool InFault = false;
                             ServiceNotifyEvent(Services.ServiceNotifyEvent.ServiceRunning);
                             while (mainRunning)
                             {
@@ -247,16 +270,31 @@ namespace SmartDose.WcfClient.Services
                                         break;
                                     case Services.ServiceNotifyEvent.ServiceStop:
                                     case Services.ServiceNotifyEvent.ServiceDispose:
-                                        UnsubscribeCallBacks();
+                                        UnsubscribeCallBacksAsync();
                                         SetClientServiceNotifyEvents(false);
+                                        CloseAsync();
                                         mainRunning = false;
                                         break;
                                     case Services.ServiceNotifyEvent.ClientOpening:
                                         break;
                                     case Services.ServiceNotifyEvent.ClientOpened:
-                                        SubscribeCallBacks();
+                                        SubscribeCallBacksAsync();
+                                        ServiceNotifyEvent(Services.ServiceNotifyEvent.ServiceRunning);
                                         break;
                                     case Services.ServiceNotifyEvent.ClientFaulted:
+                                        if (!InFault)
+                                        {
+                                            ServiceNotifyEvent(Services.ServiceNotifyEvent.ServiceErrorNotConnected);
+                                            InFault = true;
+                                            SetClientServiceNotifyEvents(false);
+                                            CloseAsync();
+                                            NewClient();
+                                            SetClientServiceNotifyEvents(true);
+                                            OpenAsync();
+                                            SubscribeCallBacksAsync();
+                                            InFault = false;
+                                            await Task.Delay(100);
+                                        }
                                         break;
                                     case Services.ServiceNotifyEvent.ClientClosing:
                                         break;

@@ -95,7 +95,7 @@ namespace SmartDose.WcfClient
                             {
                                 if (value.GetType().GetProperty("AttributeName").GetValue(value) is var v
                                     & (v is null || v is string sn && string.IsNullOrEmpty(sn)))
-                                    value = null ;
+                                    value = null;
                             }
                         }
                         values.Add(value);
@@ -103,7 +103,7 @@ namespace SmartDose.WcfClient
                 }
                 if (Method.ReturnType.Name == "Task")
                 {
-                    Method.Invoke(client, values.ToArray());
+                    await (Task)Method.Invoke(client, values.ToArray());
                     return (true, null);
                 }
                 else
@@ -111,8 +111,8 @@ namespace SmartDose.WcfClient
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex);
-                return (false, null);
+                ex.LogException();
+                return (false, ex);
             }
         }
 
