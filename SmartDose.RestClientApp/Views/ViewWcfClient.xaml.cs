@@ -33,6 +33,7 @@ namespace SmartDose.RestClientApp.Views
                 if (CommunicationService != null)
                 {
                     CommunicationService.OnServiceNotifyEvent -= ServiceNotifyEvent;
+                    CommunicationService.OnEvents = null;
                     CommunicationService.Stop();
                 }
             }
@@ -54,7 +55,19 @@ namespace SmartDose.RestClientApp.Views
                     ServiceNotifyEvent(null, new ServiceNotifyEventArgs { Value = WcfClient.Services.ServiceNotifyEvent.ServiceErrorNotConnected });
                     CommunicationService = new CommunicationService(_WcfItem, _WcfItem.ConnectionStringUse);
                     CommunicationService.OnServiceNotifyEvent += ServiceNotifyEvent;
+                    CommunicationService.OnEvents = (s, e) =>
+                    {
+                        Application.Current.Dispatcher.Invoke(new Action(() =>
+                        {
+                            WcfEvents.Add(new WcfEvent
+                            {
+                                Name = e == null ? "" : e.GetType().Name,
+                                Value = e
+                            });
+                            NotifyPropertyChanged(string.Empty);
+                        }));
 
+                    };
                 }
                 catch (Exception ex)
                 {
@@ -68,6 +81,8 @@ namespace SmartDose.RestClientApp.Views
         public string WcfItemStatusText { get; set; }
 
         public List<WcfMethod> WcfMethods { get; set; } = new List<WcfMethod>();
+
+        public List<WcfEvent> WcfEvents { get; set; } = new List<WcfEvent>();
 
         protected async void ServiceNotifyEvent(object sender, ServiceNotifyEventArgs args)
         {
@@ -152,15 +167,15 @@ namespace SmartDose.RestClientApp.Views
                             wcfMethod.Output = result.Value;
                         }
                         else
-                            wcfMethod.Output = new WcfErrorObject("Error on Execute", result.Value as Exception);
+                            wcfMethod.Output = new WcfError("Error on Execute", result.Value as Exception);
                         viewObjectJsonWcfOutput.PlainData = wcfMethod.Output;
                     }
                     else
-                        viewObjectJsonWcfOutput.PlainData = new WcfErrorObject("Error App");
+                        viewObjectJsonWcfOutput.PlainData = new WcfError("Error App");
                 }
                 catch (Exception ex)
                 {
-                    viewObjectJsonWcfOutput.PlainData = new WcfErrorObject(ex.Message, ex);
+                    viewObjectJsonWcfOutput.PlainData = new WcfError(ex.Message, ex);
                 }
                 finally
                 {
@@ -175,6 +190,7 @@ namespace SmartDose.RestClientApp.Views
         {
             try
             {
+                CommunicationService.OnEvents = null;
                 CommunicationService.Stop();
             }
             catch { }
@@ -188,6 +204,13 @@ namespace SmartDose.RestClientApp.Views
         {
             if (comboBoxMethod.SelectedItem is WcfMethod wcfMethod)
                 viewObjectJsonWcfInput.PlainData = wcfMethod.Input;
+            NotifyPropertyChanged(string.Empty);
+        }
+
+        private void listViewEvents_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (listViewEvents.SelectedItem is WcfEvent wcfEvent)
+                viewObjectJsonEvent.PlainData = wcfEvent.Value;
             NotifyPropertyChanged(string.Empty);
         }
     }

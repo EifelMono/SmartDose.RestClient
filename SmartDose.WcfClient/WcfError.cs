@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace SmartDose.WcfClient
 {
-    public class WcfErrorObject
+    public class WcfError
     {
-        public WcfErrorObject(string message, Exception exception= null)
+        public WcfError(string message, Exception exception= null)
         {
             Message = message;
             Exception = exception;

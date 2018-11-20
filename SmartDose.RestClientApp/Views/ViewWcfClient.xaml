@@ -58,8 +58,8 @@
                     <Button
                         Name="buttonExecute"
                         Grid.Row="2"
-                        Padding="5"
                         Margin="2"
+                        Padding="5"
                         Command="{Binding CommandWcfExecute}"
                         Content="Execute" />
                     <GridSplitter
@@ -79,13 +79,7 @@
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
-                    <ListView Grid.Row="0">
-                        <ListView.ItemTemplate>
-                            <DataTemplate>
-                                <Grid />
-                            </DataTemplate>
-                        </ListView.ItemTemplate>
-                    </ListView>
+                    <ListView Grid.Row="0" Name="listViewEvents" ItemsSource="{Binding WcfEvents}" SelectionChanged="listViewEvents_SelectionChanged"/>
                     <GridSplitter
                         Grid.Row="1"
                         Height="3"
@@ -93,7 +87,7 @@
                         VerticalAlignment="Center"
                         ResizeDirection="Rows"
                         ShowsPreview="False" />
-                    <views:ViewObjectJson x:Name="viewObjectJsonEventResult" Grid.Row="2" />
+                    <views:ViewObjectJson x:Name="viewObjectJsonEvent" Grid.Row="2" />
                 </Grid>
             </TabItem>
 

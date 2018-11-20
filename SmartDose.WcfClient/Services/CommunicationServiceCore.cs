@@ -125,6 +125,35 @@ namespace SmartDose.WcfClient.Services
         }
         #endregion
 
+        #region Events
+
+        public Action<object, object> OnEvents { get; set; }
+
+        protected void Events(object sender, object args)
+            => Task.Run(()=> Catcher(() => OnEvents?.Invoke(sender, args)));
+
+        private MethodInfo _EventsMethodInfo = null;
+        protected MethodInfo EventsMethodInfo
+        {
+            get => _EventsMethodInfo
+                ?? (_EventsMethodInfo = GetType().GetMethod("Events", BindingFlags.NonPublic | BindingFlags.Instance));
+        }
+
+        public void InstallEvents()
+        {
+            foreach (var e in Client.GetType().GetEvents())
+                Catcher(() => e.AddEventHandler(Client,
+                                Delegate.CreateDelegate(e.EventHandlerType, this, EventsMethodInfo)));
+        }
+
+        public void UninstallEvents()
+        {
+            foreach (var e in Client.GetType().GetEvents())
+                Catcher(() => e.RemoveEventHandler(Client,
+                                Delegate.CreateDelegate(e.EventHandlerType, this, EventsMethodInfo)));
+        }
+        #endregion
+
         #region Outer Events
         public delegate void ServiceNotifyEventDelegate(object sender, ServiceNotifyEventArgs e);
         public event ServiceNotifyEventDelegate OnServiceNotifyEvent;
@@ -214,40 +243,37 @@ namespace SmartDose.WcfClient.Services
         {
             Task.Run(async () =>
             {
-                try
+            try
+            {
+                #region Client Run
+                var mainRunning = true;
+                using (var communicationAssembly = new CommunicationAssembly(AssemblyFilename))
                 {
-                    #region Client Run
-                    var mainRunning = true;
-                    using (var communicationAssembly = new CommunicationAssembly(AssemblyFilename))
+                    if (communicationAssembly.HasFileNameToLoad)
                     {
-                        if (communicationAssembly.HasFileNameToLoad)
+                        if (!communicationAssembly.IsLoaded)
                         {
-                            if (!communicationAssembly.IsLoaded)
-                            {
-                                ServiceNotifyEvent(Services.ServiceNotifyEvent.ServiceErrorAssemblyNotLoaded);
-                                return;
-                            }
-                            if (!FindAssemblyThings(communicationAssembly.Assembly))
-                            {
-                                ServiceNotifyEvent(Services.ServiceNotifyEvent.ServiceErrorAssemblyBad);
-                                return;
-                            }
+                            ServiceNotifyEvent(Services.ServiceNotifyEvent.ServiceErrorAssemblyNotLoaded);
+                            return;
                         }
-
-                        ServiceNotifyEvent(Services.ServiceNotifyEvent.ServiceInited);
-
-                        #region wait for Start or Dispose
-                        bool startWaiting = true;
-                        while (startWaiting)
+                        if (!FindAssemblyThings(communicationAssembly.Assembly))
                         {
-                            ClientServiceNotifyInit();
-                            switch (await ClientServiceNotifyComletionSource.Task)
-                            {
-                                case Services.ServiceNotifyEvent.ServiceStart:
-                                    NewClient();
-                                    SetClientServiceNotifyEvents(true);
-                                    OpenAsync();
-                                    SubscribeCallBacksAsync();
+                            ServiceNotifyEvent(Services.ServiceNotifyEvent.ServiceErrorAssemblyBad);
+                            return;
+                        }
+                    }
+
+                    ServiceNotifyEvent(Services.ServiceNotifyEvent.ServiceInited);
+
+                    #region wait for Start or Dispose
+                    bool startWaiting = true;
+                    while (startWaiting)
+                    {
+                        ClientServiceNotifyInit();
+                        switch (await ClientServiceNotifyComletionSource.Task)
+                        {
+                            case Services.ServiceNotifyEvent.ServiceStart:
+                                    RunOpen();
                                     startWaiting = false;
                                     break;
                                 case Services.ServiceNotifyEvent.ServiceStop:
@@ -270,9 +296,7 @@ namespace SmartDose.WcfClient.Services
                                         break;
                                     case Services.ServiceNotifyEvent.ServiceStop:
                                     case Services.ServiceNotifyEvent.ServiceDispose:
-                                        UnsubscribeCallBacksAsync();
-                                        SetClientServiceNotifyEvents(false);
-                                        CloseAsync();
+                                        RunClose();
                                         mainRunning = false;
                                         break;
                                     case Services.ServiceNotifyEvent.ClientOpening:
@@ -284,16 +308,12 @@ namespace SmartDose.WcfClient.Services
                                     case Services.ServiceNotifyEvent.ClientFaulted:
                                         if (!InFault)
                                         {
-                                            ServiceNotifyEvent(Services.ServiceNotifyEvent.ServiceErrorNotConnected);
                                             InFault = true;
-                                            SetClientServiceNotifyEvents(false);
-                                            CloseAsync();
-                                            NewClient();
-                                            SetClientServiceNotifyEvents(true);
-                                            OpenAsync();
-                                            SubscribeCallBacksAsync();
-                                            InFault = false;
+                                            ServiceNotifyEvent(Services.ServiceNotifyEvent.ServiceErrorNotConnected);
+                                            RunClose();
                                             await Task.Delay(100);
+                                            RunOpen();
+                                            InFault = false;
                                         }
                                         break;
                                     case Services.ServiceNotifyEvent.ClientClosing:
@@ -317,6 +337,23 @@ namespace SmartDose.WcfClient.Services
                 }
                 catch { }
             });
+        }
+
+        protected void RunOpen()
+        {
+            NewClient();
+            SetClientServiceNotifyEvents(true);
+            InstallEvents();
+            OpenAsync();
+            SubscribeCallBacksAsync();
+        }
+
+        protected void RunClose()
+        {
+            UnsubscribeCallBacksAsync();
+            CloseAsync();
+            UninstallEvents();
+            SetClientServiceNotifyEvents(false);
         }
         public void Start()
         {
