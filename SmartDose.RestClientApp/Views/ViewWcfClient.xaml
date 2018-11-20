@@ -56,7 +56,10 @@
                         SelectionChanged="comboBoxMethod_SelectionChanged" />
                     <views:ViewObjectJson x:Name="viewObjectJsonWcfInput" Grid.Row="1" />
                     <Button
+                        Name="buttonExecute"
                         Grid.Row="2"
+                        Padding="5"
+                        Margin="2"
                         Command="{Binding CommandWcfExecute}"
                         Content="Execute" />
                     <GridSplitter

@@ -91,7 +91,7 @@ namespace SmartDose.RestClientApp.Views
             _buttonExecute = new Button
             {
                 Margin = new Thickness(2),
-                Padding = new Thickness(10, 0, 10, 0),
+                Padding = new Thickness(5),
                 Background = Brushes.Black,
                 Foreground = Brushes.White,
                 Content = "Execute"

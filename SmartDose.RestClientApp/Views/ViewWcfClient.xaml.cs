@@ -110,13 +110,37 @@ namespace SmartDose.RestClientApp.Views
 
         }
 
+        public void ButtonExecuteState(bool enable)
+        {
+            if (enable)
+            {
+                buttonExecute.Background = Brushes.Black;
+                buttonExecute.Foreground = Brushes.White;
+                buttonExecute.Cursor = null;
+                buttonExecute.Content = "Execute";
+            }
+            else
+            {
+                buttonExecute.Background = Brushes.Yellow;
+                buttonExecute.Foreground = Brushes.Red;
+                buttonExecute.Cursor = Cursors.Wait;
+                buttonExecute.Content = "Executing .........................................";
+            }
+        }
+
+        public bool IsButtonExecuteEnabled => buttonExecute.Cursor == null;
+
         ICommand _commandWcfExecute = null;
         public ICommand CommandWcfExecute
         {
             get => _commandWcfExecute ?? (_commandWcfExecute = new RelayCommand(async o =>
             {
+                if (!IsButtonExecuteEnabled)
+                    return;
+                ButtonExecuteState(false);
                 try
                 {
+                
                     if (comboBoxMethod.SelectedItem is WcfMethod wcfMethod)
                     {
                         if (await wcfMethod.CallMethodAsync(CommunicationService.Client) is var result && result.Ok)
@@ -124,15 +148,19 @@ namespace SmartDose.RestClientApp.Views
                             wcfMethod.Output = result.Value;
                         }
                         else
-                            wcfMethod.Output = "Error Communication 1";
+                            wcfMethod.Output = new WcfErrorObject("Error Communication 1");
                         viewObjectJsonWcfOutput.PlainData = wcfMethod.Output;
                     }
                     else
-                        viewObjectJsonWcfOutput.PlainData = "Error App";
+                        viewObjectJsonWcfOutput.PlainData = new WcfErrorObject("Error App");
                 }
                 catch (Exception ex)
                 {
-                    viewObjectJsonWcfOutput.PlainData = ex;
+                    viewObjectJsonWcfOutput.PlainData = new WcfErrorObject(ex.Message, ex);
+                }
+                finally
+                {
+                    ButtonExecuteState(true);
                 }
                 NotifyPropertyChanged(string.Empty);
             }));
