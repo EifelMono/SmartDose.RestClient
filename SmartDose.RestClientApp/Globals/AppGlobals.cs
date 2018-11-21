@@ -57,14 +57,14 @@ namespace SmartDose.RestClientApp.Globals
                         {
                             new WcfItem
                             {
-                                Group= "Server [Business]",
+                                Group= "Server Business",
                                 ConnectionString="net.tcp://localhost:10000/MasterData/",
                                 ConnectionStringUse= "net.tcp://localhost:10000/MasterData/",
                                 Active=true
                             },
                             new WcfItem
                             {
-                                Group= "Server [Business]",
+                                Group= "Server Business",
                                 ConnectionString="net.tcp://localhost:10000/Settings/",
                                 ConnectionStringUse= "net.tcp://localhost:10000/Settings/",
                                 Active=true

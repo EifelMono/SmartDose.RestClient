@@ -188,30 +188,82 @@
                                 </Hyperlink>
                             </TextBlock>
                         </Button>
-                        <Button
-                            Margin="5"
-                            Padding="5"
-                            VerticalContentAlignment="Center"
-                            Command="{Binding CommandActiveWcfClientsToggel}">
-                            <StackPanel>
-                                <CheckBox HorizontalAlignment="Center" IsChecked="{Binding ActiveWcfClientsToggel}" />
-                                <TextBlock Margin="0,5,0,0" VerticalAlignment="Center">
-                                    Toogle Active WcfClients
-                                </TextBlock>
-                            </StackPanel>
-                        </Button>
-                        <Button
-                            Margin="5"
-                            Padding="5"
-                            VerticalContentAlignment="Center"
-                            Command="{Binding CommandBuildWcfClientsToggel}">
-                            <StackPanel>
-                                <CheckBox HorizontalAlignment="Center" IsChecked="{Binding BuildWcfClientsToggel}" />
-                                <TextBlock Margin="0,5,0,0" VerticalAlignment="Center">
-                                    Toogle Build WcfClients
-                                </TextBlock>
-                            </StackPanel>
-                        </Button>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Button
+                                Margin="5"
+                                Padding="5"
+                                VerticalContentAlignment="Center"
+                                Command="{Binding CommandAllWcfClientsActiveOn}"
+                                Content="All WcfClients Active On" />
+                            <Button
+                                Grid.Column="1"
+                                Margin="5"
+                                Padding="5"
+                                VerticalContentAlignment="Center"
+                                Command="{Binding CommandAllWcfClientsActiveOff}"
+                                Content="All WcfClients Active Off" />
+                        </Grid>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Button
+                                Margin="5"
+                                Padding="5"
+                                VerticalContentAlignment="Center"
+                                Command="{Binding CommandAllWcfClientsBuildOn}"
+                                Content="All WcfClients Build On" />
+                            <Button
+                                Grid.Column="1"
+                                Margin="5"
+                                Padding="5"
+                                VerticalContentAlignment="Center"
+                                Command="{Binding CommandAllWcfClientsBuildOff}"
+                                Content="All WcfClients Build Off" />
+                        </Grid>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Button
+                                Margin="5"
+                                Padding="5"
+                                VerticalContentAlignment="Center"
+                                Command="{Binding CommandGroupWcfClientsActiveOn}"
+                                Content="Group WcfClients Active On" />
+                            <Button
+                                Grid.Column="1"
+                                Margin="5"
+                                Padding="5"
+                                VerticalContentAlignment="Center"
+                                Command="{Binding CommandGroupWcfClientsActiveOff}"
+                                Content="Group WcfClients Active Off" />
+                        </Grid>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Button
+                                Margin="5"
+                                Padding="5"
+                                VerticalContentAlignment="Center"
+                                Command="{Binding CommandGroupWcfClientsBuildOn}"
+                                Content="Group WcfClients Build On" />
+                            <Button
+                                Grid.Column="1"
+                                Margin="5"
+                                Padding="5"
+                                VerticalContentAlignment="Center"
+                                Command="{Binding CommandGroupWcfClientsBuildOff}"
+                                Content="Group WcfClients Build Off" />
+                        </Grid>
                     </StackPanel>
 
                 </Grid>

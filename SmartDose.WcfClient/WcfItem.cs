@@ -44,6 +44,6 @@ namespace SmartDose.WcfClient
         public bool Build { get; set; } = true;
 
         public override string ToString()
-            => $"{ConnectionString} [Active={Active}/Build={Build}]";
+            => $"{ConnectionString} [{Group}] (Active={Active}/Build={Build}";
     }
 }

@@ -116,34 +116,102 @@ namespace SmartDose.RestClientApp.Views
             }));
         }
 
-
-        public bool BuildWcfClientsToggel { get; set; } = true;
-
-        ICommand _CommandBuildWcfClientsToggel = null;
-        public ICommand CommandBuildWcfClientsToggel
+        protected void WcfClientFlags(bool all, bool active, bool build,  bool value)
         {
-            get => _CommandBuildWcfClientsToggel ?? (_CommandBuildWcfClientsToggel = new RelayCommand(o =>
+            var group = "";
+            if (!all)
             {
-                Catcher(() => ConfigurationData.WcfClients.ForEach(wcf => wcf.Build = BuildWcfClientsToggel));
-                BuildWcfClientsToggel = !BuildWcfClientsToggel;
-                NotifyPropertyChanged(string.Empty);
+                if (propertyGridView.SelectedGridItem?.Value is WcfItem wc)
+                    group = wc.Group;
+                if (string.IsNullOrEmpty(group))
+                    return;
+            }
+            foreach(var wcfClient in ConfigurationData.WcfClients)
+            {
+                if (group == "" || group == wcfClient.Group)
+                {
+                    if (active)
+                        wcfClient.Active = value;
+                    if (build)
+                        wcfClient.Build = value;
+                }
+            }
+            NotifyPropertyChanged(string.Empty);
                 propertyGridView.Refresh();
+        }
+
+        ICommand _CommandAllWcfClientsActiveOn = null;
+        public ICommand CommandAllWcfClientsActiveOn
+        {
+            get => _CommandAllWcfClientsActiveOn ?? (_CommandAllWcfClientsActiveOn = new RelayCommand(o =>
+            {
+                WcfClientFlags(true, true, false, true);
             }));
         }
 
-        public bool ActiveWcfClientsToggel { get; set; } = true;
-
-        ICommand _CommandActiveWcfClientsToggel = null;
-        public ICommand CommandActiveWcfClientsToggel
+        ICommand _CommandAllWcfClientsActiveOff = null;
+        public ICommand CommandAllWcfClientsActiveOff
         {
-            get => _CommandActiveWcfClientsToggel ?? (_CommandActiveWcfClientsToggel = new RelayCommand(o =>
+            get => _CommandAllWcfClientsActiveOff ?? (_CommandAllWcfClientsActiveOff = new RelayCommand(o =>
             {
-                Catcher(() => ConfigurationData.WcfClients.ForEach(wcf => wcf.Active = ActiveWcfClientsToggel));
-                ActiveWcfClientsToggel = !ActiveWcfClientsToggel;
-                NotifyPropertyChanged(string.Empty);
-                propertyGridView.Refresh();
+                WcfClientFlags(true, true, false, false);
             }));
         }
+
+        ICommand _CommandAllWcfClientsBuildOn = null;
+        public ICommand CommandAllWcfClientsBuildOn
+        {
+            get => _CommandAllWcfClientsBuildOn ?? (_CommandAllWcfClientsBuildOn = new RelayCommand(o =>
+            {
+                WcfClientFlags(true, false, true, true);
+            }));
+        }
+
+        ICommand _CommandAllWcfClientsBuildOff = null;
+        public ICommand CommandAllWcfClientsBuildOff
+        {
+            get => _CommandAllWcfClientsBuildOff ?? (_CommandAllWcfClientsBuildOff = new RelayCommand(o =>
+            {
+                WcfClientFlags(true, false, true, false);
+            }));
+        }
+
+        ICommand _CommandGroupWcfClientsActiveOn = null;
+        public ICommand CommandGroupWcfClientsActiveOn
+        {
+            get => _CommandGroupWcfClientsActiveOn ?? (_CommandGroupWcfClientsActiveOn = new RelayCommand(o =>
+            {
+                WcfClientFlags(false, true, false, true);
+            }));
+        }
+
+        ICommand _CommandGroupWcfClientsActiveOff = null;
+        public ICommand CommandGroupWcfClientsActiveOff
+        {
+            get => _CommandGroupWcfClientsActiveOff ?? (_CommandGroupWcfClientsActiveOff = new RelayCommand(o =>
+            {
+                WcfClientFlags(false, true, false, false);
+            }));
+        }
+
+        ICommand _CommandGroupWcfClientsBuildOn = null;
+        public ICommand CommandGroupWcfClientsBuildOn
+        {
+            get => _CommandGroupWcfClientsBuildOn ?? (_CommandGroupWcfClientsBuildOn = new RelayCommand(o =>
+            {
+                WcfClientFlags(false, false, true, true);
+            }));
+        }
+
+        ICommand _CommandGroupWcfClientsBuildOff = null;
+        public ICommand CommandGroupWcfClientsBuildOff
+        {
+            get => _CommandGroupWcfClientsBuildOff ?? (_CommandGroupWcfClientsBuildOff = new RelayCommand(o =>
+            {
+                WcfClientFlags(false, false, true, false);
+            }));
+        }
+
 
 
 
