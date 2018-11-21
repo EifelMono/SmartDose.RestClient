@@ -11,10 +11,10 @@ namespace SmartDose.WcfClient.Services
             : base(wcfItem, endpointAddress, securityMode) { }
         public new List<WcfMethod> WcfMethods { get => base.WcfMethods; set => base.WcfMethods = value; }
 
-        public new void SubscribeCallBacks()
+        public void SubscribeCallBacks()
             => base.SubscribeCallBacksAsync();
 
-        public new void UnsubscribeCallBacks()
+        public void UnsubscribeCallBacks()
             => base.UnsubscribeCallBacksAsync();
     }
 
@@ -29,10 +29,10 @@ namespace SmartDose.WcfClient.Services
 
         protected override void NewClient() => base.NewClient();
 
-        public new void SubscribeCallBacks()
+        public void SubscribeCallBacks()
             => base.SubscribeCallBacksAsync();
 
-        public new void UnsubscribeCallBacks()
+        public void UnsubscribeCallBacks()
             => base.UnsubscribeCallBacksAsync();
     }
 }

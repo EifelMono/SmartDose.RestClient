@@ -14,6 +14,7 @@ using static SmartDose.Core.SafeExecuter;
 using System.Collections.ObjectModel;
 using System.Text;
 using System.Diagnostics;
+using SmartDose.RestClientApp.Globals;
 
 namespace SmartDose.RestClientApp.Views
 {
@@ -56,7 +57,16 @@ namespace SmartDose.RestClientApp.Views
                 {
                     _WcfItem = value;
                     ServiceNotifyEvent(null, new ServiceNotifyEventArgs { Value = WcfClient.Services.ServiceNotifyEvent.ServiceErrorNotConnected });
-                    CommunicationService = new CommunicationService(_WcfItem, _WcfItem.ConnectionStringUse);
+                    CommunicationService = new CommunicationService(_WcfItem, _WcfItem.ConnectionStringUse)
+                    {
+                        WcfTimeOuts = new WcfTimeouts
+                        {
+                            Open= TimeSpan.FromSeconds(5),
+                            Close= TimeSpan.FromSeconds(5),
+                            Receive = AppGlobals.Configuration.Data.WcfTimeSpan,
+                            Send = AppGlobals.Configuration.Data.WcfTimeSpan,
+                        }
+                    };
                     CommunicationService.OnServiceNotifyEvent += ServiceNotifyEvent;
                     CommunicationService.OnEvents = (s, e) =>
                     {

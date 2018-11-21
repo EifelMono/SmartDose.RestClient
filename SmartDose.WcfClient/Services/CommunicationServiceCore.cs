@@ -107,6 +107,8 @@ namespace SmartDose.WcfClient.Services
 
         public SecurityMode SecurityMode { get; protected set; }
         public string EndpointAddress { get; protected set; }
+
+        public WcfTimeouts WcfTimeOuts { get; set; } = WcfTimeouts.Defaults;
         public ICommunicationObject Client { get; protected set; }
 
         protected Type ClientType { get; set; }
@@ -114,7 +116,13 @@ namespace SmartDose.WcfClient.Services
         protected virtual void NewClient()
         {
             Client = (ICommunicationObject)Activator.CreateInstance(ClientType,
-                   new NetTcpBinding(SecurityMode.None),
+                   new NetTcpBinding(SecurityMode.None)
+                   {
+                       OpenTimeout = TimeSpan.FromSeconds(1),
+                       ReceiveTimeout = TimeSpan.FromSeconds(30),
+                       SendTimeout = TimeSpan.FromSeconds(30),
+                       CloseTimeout = TimeSpan.FromSeconds(1)
+                   },
                    new EndpointAddress(EndpointAddress));
         }
         #endregion
