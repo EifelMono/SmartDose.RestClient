@@ -124,7 +124,7 @@ namespace SmartDose.WcfClient.Services
         public Action<object, object> OnEvents { get; set; }
 
         protected void Events(object sender, object args)
-            => Task.Run(()=> Catcher(() => OnEvents?.Invoke(sender, args)));
+            => Task.Run(() => Catcher(() => OnEvents?.Invoke(sender, args)));
 
         private MethodInfo _EventsMethodInfo = null;
         protected MethodInfo EventsMethodInfo
@@ -205,7 +205,7 @@ namespace SmartDose.WcfClient.Services
 
         protected object ClientServiceNotifyComlitionSourceLock = new object();
         protected TaskCompletionSource<ServiceNotifyEvent> ClientServiceNotifyComletionSource
-                    = new TaskCompletionSource<ServiceNotifyEvent>();
+                    = new TaskCompletionSource<ServiceNotifyEvent>(TaskCreationOptions.RunContinuationsAsynchronously);
 
         protected void ClientServiceNotifyInit()
         {
@@ -237,36 +237,36 @@ namespace SmartDose.WcfClient.Services
         {
             Task.Run(async () =>
             {
-            try
-            {
-                #region Client Run
-                var mainRunning = true;
-                using (var communicationAssembly = new CommunicationAssembly(AssemblyFilename))
+                try
                 {
-                    if (communicationAssembly.HasFileNameToLoad)
+                    #region Client Run
+                    var mainRunning = true;
+                    using (var communicationAssembly = new CommunicationAssembly(AssemblyFilename))
                     {
-                        if (!communicationAssembly.IsLoaded)
+                        if (communicationAssembly.HasFileNameToLoad)
                         {
-                            ServiceNotifyEvent(Services.ServiceNotifyEvent.ServiceErrorAssemblyNotLoaded);
-                            return;
+                            if (!communicationAssembly.IsLoaded)
+                            {
+                                ServiceNotifyEvent(Services.ServiceNotifyEvent.ServiceErrorAssemblyNotLoaded);
+                                return;
+                            }
+                            if (!FindAssemblyStuff(communicationAssembly.Assembly))
+                            {
+                                ServiceNotifyEvent(Services.ServiceNotifyEvent.ServiceErrorAssemblyBad);
+                                return;
+                            }
                         }
-                        if (!FindAssemblyStuff(communicationAssembly.Assembly))
-                        {
-                            ServiceNotifyEvent(Services.ServiceNotifyEvent.ServiceErrorAssemblyBad);
-                            return;
-                        }
-                    }
 
-                    ServiceNotifyEvent(Services.ServiceNotifyEvent.ServiceInited);
+                        ServiceNotifyEvent(Services.ServiceNotifyEvent.ServiceInited);
 
-                    #region wait for Start or Dispose
-                    bool startWaiting = true;
-                    while (startWaiting)
-                    {
-                        ClientServiceNotifyInit();
-                        switch (await ClientServiceNotifyComletionSource.Task)
+                        #region wait for Start or Dispose
+                        bool startWaiting = true;
+                        while (startWaiting)
                         {
-                            case Services.ServiceNotifyEvent.ServiceStart:
+                            ClientServiceNotifyInit();
+                            switch (await ClientServiceNotifyComletionSource.Task)
+                            {
+                                case Services.ServiceNotifyEvent.ServiceStart:
                                     RunOpen();
                                     startWaiting = false;
                                     break;
