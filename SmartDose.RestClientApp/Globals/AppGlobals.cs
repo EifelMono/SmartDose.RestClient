@@ -57,14 +57,14 @@ namespace SmartDose.RestClientApp.Globals
                         {
                             new WcfItem
                             {
-                                Group= "Server[Business]",
+                                Group= "Server [Business]",
                                 ConnectionString="net.tcp://localhost:10000/MasterData/",
                                 ConnectionStringUse= "net.tcp://localhost:10000/MasterData/",
                                 Active=true
                             },
                             new WcfItem
                             {
-                                Group= "Server[Business]",
+                                Group= "Server [Business]",
                                 ConnectionString="net.tcp://localhost:10000/Settings/",
                                 ConnectionStringUse= "net.tcp://localhost:10000/Settings/",
                                 Active=true
@@ -128,6 +128,13 @@ namespace SmartDose.RestClientApp.Globals
                             new WcfItem
                             {
                                 Group= "Server",
+                                ConnectionString="net.tcp://localhost:9011/SystemManagement/",
+                                ConnectionStringUse= "net.tcp://localhost:9011/SystemManagement/",
+                                Active=true
+                            },
+                            new WcfItem
+                            {
+                                Group= "Server",
                                 ConnectionString="net.tcp://localhost:9013/PouchDesignHandling/",
                                 ConnectionStringUse= "net.tcp://localhost:9013/PouchDesignHandling/",
                                 Active=true
@@ -162,21 +169,21 @@ namespace SmartDose.RestClientApp.Globals
                             },
                             new WcfItem
                             {
-                                Group= "Server",
+                                Group= "Server [V2]",
                                 ConnectionString="net.tcp://localhost:9022/Production/",
                                 ConnectionStringUse= "net.tcp://localhost:9022/Production/",
                                 Active=true
                             },
                             new WcfItem
                             {
-                                Group= "Server",
+                                Group= "Server [V2]",
                                 ConnectionString="net.tcp://localhost:9024/Inventory/",
                                 ConnectionStringUse= "net.tcp://localhost:9024/Inventory/",
                                 Active=true
                             },
                             new WcfItem
                             {
-                                Group= "Server",
+                                Group= "Server [V2]",
                                 ConnectionString="net.tcp://localhost:9021/MasterData/",
                                 ConnectionStringUse= "net.tcp://localhost:9021/MasterData/",
                                 Active=true

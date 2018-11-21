@@ -286,7 +286,7 @@ namespace SmartDose.WcfClient.Services
                         try
                         {
                             bool InFault = false;
-                            ServiceNotifyEvent(Services.ServiceNotifyEvent.ServiceRunning);
+                            ServiceNotifyEvent(Services.ServiceNotifyEvent.ServiceStarted);
                             while (mainRunning)
                             {
                                 ClientServiceNotifyInit();

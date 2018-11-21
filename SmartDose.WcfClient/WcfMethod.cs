@@ -107,7 +107,15 @@ namespace SmartDose.WcfClient
                     return (true, null);
                 }
                 else
-                    return (true, await (dynamic)Method.Invoke(client, values.ToArray()));
+                {
+                    object result = await (dynamic)Method.Invoke(client, values.ToArray());
+                    if (result == null)
+                        return (true, new SingleValueReturnObject { SingleValueReturn = result });
+                    if (result.GetType().IsValueType || result.GetType() == typeof(string))
+                        return (true, new SingleValueReturnObject { SingleValueReturn = result });
+                    return (true, result);
+                }
+         
             }
             catch (Exception ex)
             {
@@ -118,5 +126,10 @@ namespace SmartDose.WcfClient
 
         public override string ToString()
             => Name;
+    }
+
+    public class SingleValueReturnObject
+    {
+        public object SingleValueReturn { get; set; }
     }
 }

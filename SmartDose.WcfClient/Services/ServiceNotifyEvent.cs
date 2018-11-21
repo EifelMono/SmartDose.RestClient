@@ -14,6 +14,7 @@
 
         ServiceInited,
         ServiceStart,
+        ServiceStarted,
         ServiceRunning,
         ServiceStop,
         ServiceDispose,

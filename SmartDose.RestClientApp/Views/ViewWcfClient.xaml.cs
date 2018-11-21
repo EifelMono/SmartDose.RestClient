@@ -93,6 +93,7 @@ namespace SmartDose.RestClientApp.Views
                 return;
             var color = Brushes.Black;
             var text = args.Value.ToString();
+            $"{WcfItem.ConnectionName} {text}".LogInformation();
             switch (args.Value)
             {
                 case WcfClient.Services.ServiceNotifyEvent.ServiceInited:
@@ -101,7 +102,6 @@ namespace SmartDose.RestClientApp.Views
                     break;
                 case WcfClient.Services.ServiceNotifyEvent.ServiceRunning:
                     {
-                        "Service Running".LogInformation();
                         WcfMethods = CommunicationService.WcfMethods.OrderBy(m => m.Name).ToList();
                         if (WcfMethods.Count > 0)
                             Application.Current.Dispatcher.Invoke(new Action(() =>
@@ -213,6 +213,16 @@ namespace SmartDose.RestClientApp.Views
 
         public void NotifyPropertyChanged(string propName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
 
+        private string _SelectedWcfMethod;
+        public string SelectedWcfMethod { get=> _SelectedWcfMethod; set
+            {
+                if (_SelectedWcfMethod!= value)
+                {
+                    _SelectedWcfMethod = value;
+                    NotifyPropertyChanged(nameof(SelectedWcfMethod));
+                }
+            }
+        }
         private void comboBoxMethod_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (comboBoxMethod.SelectedItem is WcfMethod wcfMethod)
@@ -237,20 +247,34 @@ namespace SmartDose.RestClientApp.Views
 
                 foreach (var method in WcfMethods)
                 {
-                    sb.H2(method.Name)
-                        .hr()
-                        .H4("Parameter")
-                        .TableOpen("Name", "Type");
+                    try
+                    {
+                        sb.H2(method.Name)
+                            .hr()
+                            .H4("Parameter")
+                            .TableOpen("Name", "Type");
 
-                    foreach (var parameter in method.Method.GetParameters())
-                        sb.TableLine(parameter.Name, parameter.ParameterType.FullName);
+                        foreach (var parameter in method.Method.GetParameters())
+                            sb.TableLine(parameter.Name, parameter.ParameterType.FullName);
+                        sb.TableClose().br(1);
 
-                    sb.TableLine("", "");
+                        sb.H4("Return")
+                          .TableOpen("Name", "Type");
+                        var returnType = method.Method.ReturnParameter.ParameterType.FullName;
+                        if (method.Method.ReturnParameter.ParameterType.IsGenericType)
+                        {
+                            returnType = "";
+                            foreach (var type in method.Method.ReturnParameter.ParameterType.GenericTypeArguments)
+                                returnType += type.Name + " ";
+                        }
+                        sb.TableLine("return", returnType.ToString());
 
-                    sb.TableLine("return", method.Method.ReturnParameter.ParameterType.FullName);
-
-                    sb.TableClose().br(2);
-
+                        sb.TableClose().br(2);
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.WriteLine(ex);
+                    }
                 }
                 webBrowserDoc.NavigateToString(sb.ToString());
             }
@@ -291,7 +315,7 @@ namespace SmartDose.RestClientApp.Views
 
         public static StringBuilder TableOpen(this StringBuilder sb, params string[] thtexts)
         {
-            sb.AppendLine("<table><tr>");
+            sb.AppendLine("<table border=\"1\"><tr>");
             foreach (var thtext in thtexts)
                 sb.Frame("th", thtext);
             return sb.Append("</tr>");

@@ -59,9 +59,12 @@
                             Grid.ColumnSpan="2"
                             Margin="2"
                             Padding="5"
+                            FontSize="16"
+                            FontWeight="Bold"
                             IsEditable="false"
                             ItemsSource="{Binding WcfMethods}"
-                            SelectionChanged="comboBoxMethod_SelectionChanged" />
+                            SelectionChanged="comboBoxMethod_SelectionChanged"
+                            Text="{Binding SelectedWcfMethod, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                         <views:ViewObjectJson
                             x:Name="viewObjectJsonWcfInput"
                             Grid.Row="1"
