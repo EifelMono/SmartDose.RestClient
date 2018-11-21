@@ -9,6 +9,7 @@ using SmartDose.RestClientApp.Globals;
 using SmartDose.WcfClient;
 using SmartDose.Core.Extensions;
 using static SmartDose.Core.SafeExecuter;
+using System.Windows.Input;
 
 namespace SmartDose.RestClientApp.Views
 {
@@ -134,35 +135,55 @@ namespace SmartDose.RestClientApp.Views
 
         public void AddWcfClientsMenues()
         {
-            foreach (var wcfMenuItem in WcfClientsMenuItem.Items)
+            Cursor = Cursors.Wait;
+            foreach (var group in WcfClientsMenuItem.Items)
             {
-                if (wcfMenuItem?.ModelsItem?.Value is ViewWcfClient view)
+                foreach (var wcfMenuItem in group.Items)
                 {
-                    Catcher(() =>
+                    if (wcfMenuItem?.ModelsItem?.Value is ViewWcfClient view)
                     {
-                        view.PrepareForStop();
-                        wcfMenuItem.ModelsItem.Value = null;
-                    });
+                        Catcher(() =>
+                        {
+                            view.PrepareForStop();
+                            wcfMenuItem.ModelsItem.Value = null;
+                        });
+                    }
+                    wcfMenuItem.IsSelected = false;
+                }
+                group.IsSelected = false;
+                group.Items.Clear();
+            }
+            WcfClientsMenuItem.Items.Clear();
+
+            foreach (var group in AppGlobals.Configuration.Data.WcfClients
+                .Where(wc=> wc.Active).OrderBy(wc=> wc.Group).Select(wc => wc.Group).Distinct())
+            {
+                var grouItem = new MenuItem
+                {
+                    Title = group,
+                    IsExpanded = true,
+                    IsSelected = false,
+                };
+                WcfClientsMenuItem.Add(grouItem);
+                foreach (var wcfItem in AppGlobals.Configuration.Data.WcfClients
+                    .Where(wc => wc.Group == group).OrderBy(wc => wc.ConnectionName))
+                {
+                    if (wcfItem.Active)
+                        grouItem.Add(new MenuItem
+                        {
+                            Title = string.IsNullOrEmpty(wcfItem.ConnectionName) ? $"[{wcfItem.ConnectionString}]" : wcfItem.ConnectionName,
+                            IsExpanded = true,
+                            IsSelected = false,
+                            ModelsItem = new RestDomain.Models.ModelsItem
+                            {
+                                Type = typeof(ViewWcfClient),
+                                Value = new ViewWcfClient().Pipe(v => v.WcfItem = wcfItem)
+                            }
+                        });
                 }
             }
-
-            WcfClientsMenuItem.Items.Clear();
-            foreach (var wcfItem in AppGlobals.Configuration.Data.WcfClients)
-            {
-                if (wcfItem.Active)
-                    WcfClientsMenuItem.Add(new MenuItem
-                    {
-                        Title = string.IsNullOrEmpty(wcfItem.ConnectionName) ? $"[{wcfItem.ConnectionString}]": wcfItem.ConnectionName,
-                        IsExpanded = false,
-                        IsSelected = false,
-                        ModelsItem = new RestDomain.Models.ModelsItem
-                        {
-                            Type = typeof(ViewWcfClient),
-                            Value = new ViewWcfClient().Pipe(v => v.WcfItem = wcfItem)
-                        }
-                    });
-            }
             NotifyPropertyChanged(string.Empty);
+            Cursor = null;
         }
 
         private void TreeView_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)

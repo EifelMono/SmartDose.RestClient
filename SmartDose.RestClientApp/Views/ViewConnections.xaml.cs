@@ -116,19 +116,31 @@ namespace SmartDose.RestClientApp.Views
             }));
         }
 
-        protected void WcfClientFlags(bool all, bool active, bool build,  bool value)
+        protected void WcfClientFlags(bool value, bool all = false, bool group = false, bool item = false, bool active = false, bool build = false)
         {
-            var group = "";
+            var groupText = "";
             if (!all)
             {
                 if (propertyGridView.SelectedGridItem?.Value is WcfItem wc)
-                    group = wc.Group;
-                if (string.IsNullOrEmpty(group))
+                {
+                    groupText = wc.Group;
+                    if (item)
+                    {
+                        if (active)
+                            wc.Active = value;
+                        if (build)
+                            wc.Build = value;
+                        NotifyPropertyChanged(string.Empty);
+                        propertyGridView.Refresh();
+                        return;
+                    }
+                }
+                if (string.IsNullOrEmpty(groupText))
                     return;
             }
-            foreach(var wcfClient in ConfigurationData.WcfClients)
+            foreach (var wcfClient in ConfigurationData.WcfClients)
             {
-                if (group == "" || group == wcfClient.Group)
+                if (groupText == "" || groupText == wcfClient.Group)
                 {
                     if (active)
                         wcfClient.Active = value;
@@ -137,7 +149,7 @@ namespace SmartDose.RestClientApp.Views
                 }
             }
             NotifyPropertyChanged(string.Empty);
-                propertyGridView.Refresh();
+            propertyGridView.Refresh();
         }
 
         ICommand _CommandAllWcfClientsActiveOn = null;
@@ -145,7 +157,7 @@ namespace SmartDose.RestClientApp.Views
         {
             get => _CommandAllWcfClientsActiveOn ?? (_CommandAllWcfClientsActiveOn = new RelayCommand(o =>
             {
-                WcfClientFlags(true, true, false, true);
+                WcfClientFlags(all: true, active: true, value: true);
             }));
         }
 
@@ -154,7 +166,7 @@ namespace SmartDose.RestClientApp.Views
         {
             get => _CommandAllWcfClientsActiveOff ?? (_CommandAllWcfClientsActiveOff = new RelayCommand(o =>
             {
-                WcfClientFlags(true, true, false, false);
+                WcfClientFlags(all: true, active: true, value: false);
             }));
         }
 
@@ -163,7 +175,7 @@ namespace SmartDose.RestClientApp.Views
         {
             get => _CommandAllWcfClientsBuildOn ?? (_CommandAllWcfClientsBuildOn = new RelayCommand(o =>
             {
-                WcfClientFlags(true, false, true, true);
+                WcfClientFlags(all: true, build: true, value: true);
             }));
         }
 
@@ -172,7 +184,7 @@ namespace SmartDose.RestClientApp.Views
         {
             get => _CommandAllWcfClientsBuildOff ?? (_CommandAllWcfClientsBuildOff = new RelayCommand(o =>
             {
-                WcfClientFlags(true, false, true, false);
+                WcfClientFlags(all: true, build: true, value: false);
             }));
         }
 
@@ -181,7 +193,7 @@ namespace SmartDose.RestClientApp.Views
         {
             get => _CommandGroupWcfClientsActiveOn ?? (_CommandGroupWcfClientsActiveOn = new RelayCommand(o =>
             {
-                WcfClientFlags(false, true, false, true);
+                WcfClientFlags(group: true, active: true, value: true);
             }));
         }
 
@@ -190,7 +202,7 @@ namespace SmartDose.RestClientApp.Views
         {
             get => _CommandGroupWcfClientsActiveOff ?? (_CommandGroupWcfClientsActiveOff = new RelayCommand(o =>
             {
-                WcfClientFlags(false, true, false, false);
+                WcfClientFlags(group: true, active: true, value: false);
             }));
         }
 
@@ -199,7 +211,7 @@ namespace SmartDose.RestClientApp.Views
         {
             get => _CommandGroupWcfClientsBuildOn ?? (_CommandGroupWcfClientsBuildOn = new RelayCommand(o =>
             {
-                WcfClientFlags(false, false, true, true);
+                WcfClientFlags(group: true, build: true, value: true);
             }));
         }
 
@@ -208,12 +220,45 @@ namespace SmartDose.RestClientApp.Views
         {
             get => _CommandGroupWcfClientsBuildOff ?? (_CommandGroupWcfClientsBuildOff = new RelayCommand(o =>
             {
-                WcfClientFlags(false, false, true, false);
+                WcfClientFlags(group: true, build: true, value: false);
             }));
         }
 
+        ICommand _CommandItemWcfClientsActiveOn = null;
+        public ICommand CommandItemWcfClientsActiveOn
+        {
+            get => _CommandItemWcfClientsActiveOn ?? (_CommandItemWcfClientsActiveOn = new RelayCommand(o =>
+            {
+                WcfClientFlags(item: true, active: true, value: true);
+            }));
+        }
 
+        ICommand _CommandItemWcfClientsActiveOff = null;
+        public ICommand CommandItemWcfClientsActiveOff
+        {
+            get => _CommandItemWcfClientsActiveOff ?? (_CommandItemWcfClientsActiveOff = new RelayCommand(o =>
+            {
+                WcfClientFlags(item: true, active: true, value: false);
+            }));
+        }
 
+        ICommand _CommandItemWcfClientsBuildOn = null;
+        public ICommand CommandItemWcfClientsBuildOn
+        {
+            get => _CommandItemWcfClientsBuildOn ?? (_CommandItemWcfClientsBuildOn = new RelayCommand(o =>
+            {
+                WcfClientFlags(item: true, build: true, value: true);
+            }));
+        }
+
+        ICommand _CommandItemWcfClientsBuildOff = null;
+        public ICommand CommandItemWcfClientsBuildOff
+        {
+            get => _CommandItemWcfClientsBuildOff ?? (_CommandItemWcfClientsBuildOff = new RelayCommand(o =>
+            {
+                WcfClientFlags(item: true, build: true, value: false);
+            }));
+        }
 
         ICommand _commandSaveConfiguration = null;
         public ICommand CommandSaveConfiguration
@@ -262,7 +307,5 @@ namespace SmartDose.RestClientApp.Views
                 catch { }
             }));
         }
-
-
     }
 }
