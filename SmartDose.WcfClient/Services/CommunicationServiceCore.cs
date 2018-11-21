@@ -33,9 +33,6 @@ namespace SmartDose.WcfClient.Services
         }
 
         #region Assembly Client
-        protected Dictionary<string, MethodInfo> AsyncServiceMethods { get; set; } = new Dictionary<string, MethodInfo>();
-        protected Dictionary<string, MethodInfo> EventAddMethods { get; set; } = new Dictionary<string, MethodInfo>();
-
         // Methods by name
         protected MethodInfo SubscribeForCallBacksAsyncMethod { get; set; } = null;
         protected MethodInfo UnsubscribeForCallbacksAsyncMethod { get; set; } = null;
@@ -55,7 +52,7 @@ namespace SmartDose.WcfClient.Services
         protected virtual void CloseAsync()
             => Catcher(() => CloseAsyncMethod?.Invoke(Client, new object[] { }));
 
-        protected bool FindAssemblyThings(Assembly assembly)
+        protected bool FindAssemblyStuff(Assembly assembly)
         {
             try
             {
@@ -63,31 +60,31 @@ namespace SmartDose.WcfClient.Services
                         .Where(t => t.GetInterfaces().Where(i => i == typeof(ICommunicationObject)).Any())
                         .Where(t => t.FullName.EndsWith("Client")).FirstOrDefault();
                 WcfMethods.Clear();
-                foreach (var m in ClientType.GetMethods())
+                foreach (var mmethod in ClientType.GetMethods())
                 {
-                    if (m.Name.EndsWith("Async"))
+                    if (mmethod.Name.EndsWith("Async"))
                     {
-                        if (m.Name.EndsWith("CallbacksAsync"))
+                        if (mmethod.Name.EndsWith("CallbacksAsync"))
                         {
-                            if (m.Name.EndsWith("SubscribeForCallbacksAsync"))
-                                SubscribeForCallBacksAsyncMethod = m;
-                            if (m.Name.EndsWith("UnsubscribeForCallbacksAsync"))
-                                UnsubscribeForCallbacksAsyncMethod = m;
+                            if (mmethod.Name.EndsWith("SubscribeForCallbacksAsync"))
+                                SubscribeForCallBacksAsyncMethod = mmethod;
+                            if (mmethod.Name.EndsWith("UnsubscribeForCallbacksAsync"))
+                                UnsubscribeForCallbacksAsyncMethod = mmethod;
                         }
                         else
                         {
-                            if (m.Name == "OpenAsync")
-                                OpenAsyncMethod = m;
+                            if (mmethod.Name == "OpenAsync")
+                                OpenAsyncMethod = mmethod;
                             else
-                            if (m.Name == "CloseAsync")
-                                CloseAsyncMethod = m;
+                            if (mmethod.Name == "CloseAsync")
+                                CloseAsyncMethod = mmethod;
                             else
                             {
                                 WcfMethod wcfMethod;
                                 WcfMethods.Add(wcfMethod = new WcfMethod
                                 {
-                                    Name = m.Name,
-                                    Method = m,
+                                    Name = mmethod.Name,
+                                    Method = mmethod,
                                     Output = null,
                                     Input = null
                                 });
@@ -95,9 +92,6 @@ namespace SmartDose.WcfClient.Services
                             }
                         }
                     }
-                    if (m.Name.StartsWith("add"))
-                        EventAddMethods[m.Name] = m;
-
                 }
                 return true;
             }
@@ -256,7 +250,7 @@ namespace SmartDose.WcfClient.Services
                             ServiceNotifyEvent(Services.ServiceNotifyEvent.ServiceErrorAssemblyNotLoaded);
                             return;
                         }
-                        if (!FindAssemblyThings(communicationAssembly.Assembly))
+                        if (!FindAssemblyStuff(communicationAssembly.Assembly))
                         {
                             ServiceNotifyEvent(Services.ServiceNotifyEvent.ServiceErrorAssemblyBad);
                             return;
@@ -302,7 +296,7 @@ namespace SmartDose.WcfClient.Services
                                     case Services.ServiceNotifyEvent.ClientOpening:
                                         break;
                                     case Services.ServiceNotifyEvent.ClientOpened:
-                                        SubscribeCallBacksAsync();
+                                        // SubscribeCallBacksAsync();
                                         ServiceNotifyEvent(Services.ServiceNotifyEvent.ServiceRunning);
                                         break;
                                     case Services.ServiceNotifyEvent.ClientFaulted:
