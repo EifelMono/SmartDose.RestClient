@@ -242,7 +242,7 @@ namespace SmartDose.RestClientApp.Views
             try
             {
                 var sb = new StringBuilder()
-                    .H1(WcfItem.ConnectionName)
+                    .H1($"{WcfItem.ConnectionName} [{WcfItem.Group}]")
                     .br();
 
                 foreach (var method in WcfMethods)
@@ -251,23 +251,22 @@ namespace SmartDose.RestClientApp.Views
                     {
                         sb.H2(method.Name)
                             .hr()
-                            .H4("Parameter")
+                            .H4("Parameter and return")
                             .TableOpen("Name", "Type");
 
                         foreach (var parameter in method.Method.GetParameters())
-                            sb.TableLine(parameter.Name, parameter.ParameterType.FullName);
-                        sb.TableClose().br(1);
-
-                        sb.H4("Return")
-                          .TableOpen("Name", "Type");
-                        var returnType = method.Method.ReturnParameter.ParameterType.FullName;
+                            sb.TableLine(parameter.Name, parameter.ParameterType.Name);
+                        var returnType = method.Method.ReturnParameter.ParameterType.Name;
                         if (method.Method.ReturnParameter.ParameterType.IsGenericType)
                         {
                             returnType = "";
                             foreach (var type in method.Method.ReturnParameter.ParameterType.GenericTypeArguments)
                                 returnType += type.Name + " ";
                         }
-                        sb.TableLine("return", returnType.ToString());
+                        var returnText = returnType.ToString();
+                        if (returnText == "Task")
+                            returnText = " ";
+                        sb.TableLine("return", returnText);
 
                         sb.TableClose().br(2);
                     }
@@ -315,7 +314,7 @@ namespace SmartDose.RestClientApp.Views
 
         public static StringBuilder TableOpen(this StringBuilder sb, params string[] thtexts)
         {
-            sb.AppendLine("<table border=\"1\"><tr>");
+            sb.AppendLine("<table border=\"1\" cellpadding=\"6\"><tr bgcolor=\"silver\" >");
             foreach (var thtext in thtexts)
                 sb.Frame("th", thtext);
             return sb.Append("</tr>");

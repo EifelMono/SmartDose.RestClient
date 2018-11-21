@@ -24,11 +24,9 @@ namespace SmartDose.RestClientApp.Views
             DataContext = this;
         }
 
-
         public event PropertyChangedEventHandler PropertyChanged;
 
         public void NotifyPropertyChanged(string propName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
-
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
