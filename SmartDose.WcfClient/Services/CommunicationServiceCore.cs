@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.ServiceModel;
+using System.ServiceModel.Channels;
 using System.Threading.Tasks;
 using SmartDose.Core.Extensions;
 using static SmartDose.Core.SafeExecuter;
@@ -115,15 +117,18 @@ namespace SmartDose.WcfClient.Services
 
         protected virtual void NewClient()
         {
+            Binding binding = new NetTcpBinding(SecurityMode.None)
+            {
+                OpenTimeout = TimeSpan.FromSeconds(1),
+                ReceiveTimeout = TimeSpan.FromSeconds(30),
+                SendTimeout = TimeSpan.FromSeconds(30),
+                CloseTimeout = TimeSpan.FromSeconds(1)
+            };
+            if (EndpointAddress.ToLower().StartsWith("http"))
+                binding = new NetHttpBinding();
+
             Client = (ICommunicationObject)Activator.CreateInstance(ClientType,
-                   new NetTcpBinding(SecurityMode.None)
-                   {
-                       OpenTimeout = TimeSpan.FromSeconds(1),
-                       ReceiveTimeout = TimeSpan.FromSeconds(30),
-                       SendTimeout = TimeSpan.FromSeconds(30),
-                       CloseTimeout = TimeSpan.FromSeconds(1)
-                   },
-                   new EndpointAddress(EndpointAddress));
+                   binding, new EndpointAddress(EndpointAddress));
         }
         #endregion
 
@@ -337,7 +342,10 @@ namespace SmartDose.WcfClient.Services
                     }
                     #endregion
                 }
-                catch { }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(ex);
+                }
             });
         }
 

@@ -26,6 +26,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartDose.WcfClient", "Smar
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartDose.Core", "SmartDose.Core\SmartDose.Core.csproj", "{FEFA1C43-C690-4706-97CD-38F117DF1858}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartDose.RestClient.ConsoleWithWcfReference", "SmartDose.RestClient.ConsoleWithWcfReference\SmartDose.RestClient.ConsoleWithWcfReference.csproj", "{A235D653-1B43-4DE0-A766-77332F0965C6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -68,6 +70,10 @@ Global
 		{FEFA1C43-C690-4706-97CD-38F117DF1858}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FEFA1C43-C690-4706-97CD-38F117DF1858}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FEFA1C43-C690-4706-97CD-38F117DF1858}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A235D653-1B43-4DE0-A766-77332F0965C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A235D653-1B43-4DE0-A766-77332F0965C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A235D653-1B43-4DE0-A766-77332F0965C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A235D653-1B43-4DE0-A766-77332F0965C6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

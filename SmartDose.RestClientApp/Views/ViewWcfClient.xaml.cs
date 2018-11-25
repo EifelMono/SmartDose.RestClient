@@ -107,7 +107,7 @@ namespace SmartDose.RestClientApp.Views
             switch (args.Value)
             {
                 case WcfClient.Services.ServiceNotifyEvent.ServiceInited:
-                    await Task.Delay(100);
+                    await Task.Delay(200);
                     CommunicationService.Start();
                     break;
                 case WcfClient.Services.ServiceNotifyEvent.ServiceRunning:
