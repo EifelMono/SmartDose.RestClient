@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading.Tasks;
-using MasterData1000;
 
 namespace SmartDose.RestClient.ConsoleWithWcfReference
 {
@@ -10,12 +9,12 @@ namespace SmartDose.RestClient.ConsoleWithWcfReference
         {
             Console.WriteLine("Hello World!");
 
-            using (var serviceClient = new ServiceClient(""))
+            using (var serviceClient = new MasterData1000.ServiceClient(""))
             {
 
                 {
                     var query = serviceClient
-                            .NewQuery<Medicine>()
+                            .NewQuery<MasterData1000.Medicine>()
                             .Where(m => m.Name == "med1")
                             .OrderBy(m => m.Manufacturer.Name)
                             .Paging(1, 1000);
@@ -24,14 +23,14 @@ namespace SmartDose.RestClient.ConsoleWithWcfReference
 
                 {
                     var result = await serviceClient
-                                .NewQuery<Medicine>()
+                                .NewQuery<MasterData1000.Medicine>()
                                 .Where(m => m.Name == "med1")
                                 .FirstOrDefaultAsync();
                 }
 
                 {
                     var result = await serviceClient
-                                .NewQuery<Medicine>()
+                                .NewQuery<MasterData1000.Medicine>()
                                 .Where(m => m.Name == "med1")
                                 .ToListAsync();
                 }

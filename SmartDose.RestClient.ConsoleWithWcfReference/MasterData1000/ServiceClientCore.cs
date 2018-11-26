@@ -1,9 +1,8 @@
 ﻿using System;
 using System.ServiceModel;
 using System.Threading.Tasks;
-using MasterData1000;
 
-namespace SmartDose.RestClient.ConsoleWithWcfReference
+namespace MasterData1000
 {
     public abstract class ServiceClientCore : IDisposable
     {

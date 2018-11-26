@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ServiceModel;
-using System.Text;
 using System.Threading.Tasks;
-using MasterData1000;
+using SmartDose.RestClient.ConsoleWithWcfReference;
 
-namespace SmartDose.RestClient.ConsoleWithWcfReference
+namespace MasterData1000
 {
-
     public class ServiceClient : ServiceClientCore, IMasterDataService, IMasterDataServiceCallback
     {
         public ServiceClient(string endpointAddress, SecurityMode securityMode = SecurityMode.None) : base(endpointAddress, securityMode)
@@ -17,8 +14,6 @@ namespace SmartDose.RestClient.ConsoleWithWcfReference
         public new MasterDataServiceClient Client { get => (MasterDataServiceClient)base.Client; }
 
         #region Query
-
-
         public async Task<ServiceResultQueryResponse> QueryAsync(QueryRequest queryRequest)
             => await SafeExecuteAsync(() => Client.QueryAsync(queryRequest)).ConfigureAwait(false);
 
@@ -41,11 +36,12 @@ namespace SmartDose.RestClient.ConsoleWithWcfReference
         public async override Task<ServiceResult> ExecuteQueryBuilderAsync(QueryBuilder queryBuilder) 
         {
             var queryRequest = new QueryRequest();
-            var queryResponse = await SafeExecuteAsync(() => Client.QueryAsync(queryRequest)).ConfigureAwait(false);
-            return new ServiceResult
-            {
-
-            };
+            // serialize Where
+            // Bool
+            // serialize OrderBy
+            // Int, string 
+            // FirstOrDefault, List
+            return (await SafeExecuteAsync(() => Client.QueryAsync(queryRequest)).ConfigureAwait(false));
         }
 
         public Task SubscribeForCallbacksAsync()
