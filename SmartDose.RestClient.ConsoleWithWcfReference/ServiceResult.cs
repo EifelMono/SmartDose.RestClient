@@ -10,6 +10,8 @@
               Message = Message,
               Data = Data,
           };
+
+        public bool IsOk => Status == ServiceResultStatus.Ok;
     }
 
     public class ServiceResult<T> : ServiceResult

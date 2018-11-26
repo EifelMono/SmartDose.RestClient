@@ -8,7 +8,7 @@ using MasterData1000;
 namespace SmartDose.RestClient.ConsoleWithWcfReference
 {
 
-    public class ServiceClient : ServiceClientCore, IMasterDataService
+    public class ServiceClient : ServiceClientCore, IMasterDataService, IMasterDataServiceCallback
     {
         public ServiceClient(string endpointAddress, SecurityMode securityMode = SecurityMode.None) : base(endpointAddress, securityMode)
         {
@@ -38,9 +38,14 @@ namespace SmartDose.RestClient.ConsoleWithWcfReference
         public async Task<ServiceResultMedicineList> MedicinesGetMedcinesByIdentifiersAsync(string[] medicineIdentifiers, int page, int pageSize)
             => await SafeExecuteAsync(() => Client.MedicinesGetMedcinesByIdentifiersAsync(medicineIdentifiers, page, pageSize)).ConfigureAwait(false);
 
-        public override Task<TResult> ExecuteQueryBuilderAsync<TResult>(QueryBuilder queryBuilder)
+        public async override Task<ServiceResult> ExecuteQueryBuilderAsync(QueryBuilder queryBuilder) 
         {
-            throw new NotImplementedException();
+            var queryRequest = new QueryRequest();
+            var queryResponse = await SafeExecuteAsync(() => Client.QueryAsync(queryRequest)).ConfigureAwait(false);
+            return new ServiceResult
+            {
+
+            };
         }
 
         public Task SubscribeForCallbacksAsync()
@@ -174,6 +179,16 @@ namespace SmartDose.RestClient.ConsoleWithWcfReference
         }
 
         public Task<ServiceResultTrayList> TraysGetTraysByIdentifiersAsync(string[] identifiers, int page, int pageSize)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void MedicinesChanged(Medicine[] medicines)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void MedicinesDeleted(string[] medicineIdentifiers)
         {
             throw new NotImplementedException();
         }

@@ -38,7 +38,7 @@ namespace SmartDose.RestClient.ConsoleWithWcfReference
 
         #region Query
 
-        public abstract Task<TResult> ExecuteQueryBuilderAsync<TResult>(QueryBuilder queryBuilder) where TResult : ServiceResult;
+        public abstract Task<ServiceResult> ExecuteQueryBuilderAsync(QueryBuilder queryBuilder); 
 
 
         public QueryBuilder<T> NewQuery<T>() where T : class
