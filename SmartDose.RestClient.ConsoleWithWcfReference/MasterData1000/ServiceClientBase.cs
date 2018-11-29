@@ -7,7 +7,7 @@ using SmartDose.Core.Extensions;
 
 namespace MasterData1000
 {
-    public abstract class ServiceClientCore : IDisposable
+    public abstract class ServiceClientBase : IDisposable
     {
         public enum ClientNotifyEvent
         {
@@ -29,7 +29,7 @@ namespace MasterData1000
 
         public bool ThrowOnConnectionError { get; set; }
 
-        public ServiceClientCore(string endpointAddress, SecurityMode securityMode = SecurityMode.None)
+        public ServiceClientBase(string endpointAddress, SecurityMode securityMode = SecurityMode.None)
         {
             EndpointAddress = endpointAddress;
             SecurityMode = securityMode;
@@ -221,6 +221,34 @@ namespace MasterData1000
         #endregion
 
         #region SafeExecuter Catcher
+
+        protected void Catcher(Action action)
+        {
+            try
+            {
+                action();
+            }
+            catch (Exception ex)
+            {
+                ex.LogException();
+            }
+        }
+
+        protected void CatcherAsTask(Action action)
+        {
+            Task.Run(() =>
+            {
+                try
+                {
+                    action();
+                }
+                catch (Exception ex)
+                {
+                    ex.LogException();
+                }
+            });
+        }
+
         protected async Task<TResult> CatcherAsync<TResult>(Func<Task<TResult>> func) where TResult : ServiceResult, new()
         {
             try

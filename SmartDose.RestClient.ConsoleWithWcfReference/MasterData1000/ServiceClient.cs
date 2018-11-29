@@ -6,7 +6,7 @@ using SmartDose.RestClient.ConsoleWithWcfReference;
 
 namespace MasterData1000
 {
-    public class ServiceClient : ServiceClientCore, IMasterDataService, IMasterDataServiceCallback
+    public class ServiceClient : ServiceClientBase, IMasterDataService, IMasterDataServiceCallback
     {
         public ServiceClient(string endpointAddress, SecurityMode securityMode = SecurityMode.None) : base(endpointAddress, securityMode)
         {
@@ -231,16 +231,14 @@ namespace MasterData1000
 
         #region Wrapped Callbacks
 
-
+        public event Action<Medicine[]> OnMedicinesChanged;
         public void MedicinesChanged(Medicine[] medicines)
-        {
-            throw new NotImplementedException();
-        }
+                 => CatcherAsTask(() => OnMedicinesChanged?.Invoke(medicines));
 
+
+        public event Action<string[]> OnMedicinesDeleted;
         public void MedicinesDeleted(string[] medicineIdentifiers)
-        {
-            throw new NotImplementedException();
-        }
+            => CatcherAsTask(() => OnMedicinesDeleted?.Invoke(medicineIdentifiers));
         #endregion
     }
 }
