@@ -29,6 +29,37 @@ namespace MasterData1000
             Client = new MasterDataServiceClient(binding, new EndpointAddress(EndpointAddress));
         }
 
+        #region Query
+        public async Task Ssss()
+        {
+            ServiceResultLong x1 = await Client.MedicinesGetIdByIdentifierAsync("1");
+            ServiceResultLong x2 = Client.MedicinesGetIdByIdentifierAsync("1").GetAwaiter().GetResult();
+        }
+
+        public ServiceResultQueryResponse Query(QueryRequest queryRequest)
+        {
+            var t = QueryAsync(queryRequest);
+            t.Wait();
+            return t.Result;
+        }
+
+        public async Task<ServiceResultQueryResponse> QueryAsync(QueryRequest queryRequest)
+            => await CatcherAsync(() => Client.QueryAsync(queryRequest)).ConfigureAwait(false);
+
+        public async override Task<ServiceResult> ExecuteQueryBuilderAsync(QueryBuilder queryBuilder)
+        {
+            var queryRequest = new QueryRequest();
+            // serialize Where
+            // Bool
+            // serialize OrderBy
+            // Int, string 
+            // FirstOrDefault, List
+            return (await CatcherAsync(() => Client.QueryAsync(queryRequest)).ConfigureAwait(false));
+        }
+        #endregion
+
+        #region Wrapped abstract Client Calls
+
         public async override Task OpenAsync()
         {
             await (CatcherAsync(() => Client.OpenAsync()).ConfigureAwait(false));
@@ -48,22 +79,6 @@ namespace MasterData1000
         {
             await (CatcherAsync(() => Client.UnsubscribeForCallbacksAsync()).ConfigureAwait(false));
         }
-        #region Query
-        public async Task Ssss()
-        {
-            ServiceResultLong x1 = await Client.MedicinesGetIdByIdentifierAsync("1");
-            ServiceResultLong x2 = Client.MedicinesGetIdByIdentifierAsync("1").GetAwaiter().GetResult();
-        }
-
-        public ServiceResultQueryResponse Query(QueryRequest queryRequest)
-        {
-            var t = QueryAsync(queryRequest);
-            t.Wait();
-            return t.Result;
-        }
-
-        public async Task<ServiceResultQueryResponse> QueryAsync(QueryRequest queryRequest)
-            => await CatcherAsync(() => Client.QueryAsync(queryRequest)).ConfigureAwait(false);
 
         #endregion
 
@@ -85,23 +100,12 @@ namespace MasterData1000
             => await CatcherAsync(() => Client.MedicinesGetMedcinesByIdentifiersAsync(medicineIdentifiers, page, pageSize))
                     .ConfigureAwait(false);
 
-        public async override Task<ServiceResult> ExecuteQueryBuilderAsync(QueryBuilder queryBuilder)
-        {
-            var queryRequest = new QueryRequest();
-            // serialize Where
-            // Bool
-            // serialize OrderBy
-            // Int, string 
-            // FirstOrDefault, List
-            return (await CatcherAsync(() => Client.QueryAsync(queryRequest)).ConfigureAwait(false));
-        }
-
-      
-
+        #region Old Stuff
         public Task<Medicine> GetMedicineByIdentifierAsync(string medicineIdentifier)
         {
             throw new NotImplementedException();
         }
+        #endregion
 
         public Task<ServiceResultLong> CanistersGetIdByIdentifierAsync(string identifier)
         {
@@ -223,6 +227,11 @@ namespace MasterData1000
             throw new NotImplementedException();
         }
 
+        #endregion
+
+        #region Wrapped Callbacks
+
+
         public void MedicinesChanged(Medicine[] medicines)
         {
             throw new NotImplementedException();
@@ -232,9 +241,6 @@ namespace MasterData1000
         {
             throw new NotImplementedException();
         }
-
-
-
         #endregion
     }
 }

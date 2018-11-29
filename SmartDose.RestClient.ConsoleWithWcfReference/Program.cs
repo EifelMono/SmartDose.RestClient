@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ServiceModel;
 using System.ServiceModel.Channels;
+using System.Threading;
 using System.Threading.Tasks;
 using MasterData1000;
 
@@ -12,9 +13,15 @@ namespace SmartDose.RestClient.ConsoleWithWcfReference
         {
             Console.WriteLine("Hello World!");
 
-            using (var serviceClient = new ServiceClient("net.tcp://lwdeu08dtk2ph2:10000/MasterData/").RunStart())
+            using (var serviceClient = new ServiceClient("net.tcp://lwdeu08dtk2ph2:10000/MasterData/"))
             {
+                while (!serviceClient.IsConnected)
+                {
+                    Thread.Sleep(100);
+                    Console.WriteLine("not Connected");
+                }
 
+                Console.WriteLine("Connected");
                 {
                     var query = serviceClient
                             .NewQuery<MasterData1000.Medicine>()
@@ -44,6 +51,8 @@ namespace SmartDose.RestClient.ConsoleWithWcfReference
                 //    .Where(m => m.Name == "med1")
                 //    
                 //    .ExecuteReturnAsItemAsync();
+
+                Console.ReadLine();
             }
 
             Console.WriteLine("......!");

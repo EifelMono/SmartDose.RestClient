@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.ServiceModel;
+using System.Threading;
 using System.Threading.Tasks;
 using SmartDose.Core.Extensions;
 
@@ -31,11 +33,14 @@ namespace MasterData1000
         {
             EndpointAddress = endpointAddress;
             SecurityMode = securityMode;
-         
+            Run();
         }
+
+        protected bool Disposed = false;
         public void Dispose()
         {
-            FireClientNotifyEvent(ClientNotifyEvent.Dispose);
+            if (!Disposed)
+                FireClientNotifyEvent(ClientNotifyEvent.Dispose);
         }
 
         #region Client
@@ -57,7 +62,7 @@ namespace MasterData1000
         #region Events
 
         public event Action<ClientNotifyEvent> OnClientNotifyEvent;
-        protected void ClientSetAllNotifyEvents(bool on)
+        protected void AssignClientNotifyEvents(bool on)
         {
             if (Client is null)
                 return;
@@ -80,16 +85,16 @@ namespace MasterData1000
             }
         }
 
+        private void Client_Opening(object sender, EventArgs e)
+            => FireClientNotifyEvent(ClientNotifyEvent.Opening);
+        private void Client_Opened(object sender, EventArgs e)
+            => FireClientNotifyEvent(ClientNotifyEvent.Opened);
+        private void Client_Faulted(object sender, EventArgs e)
+         => FireClientNotifyEvent(ClientNotifyEvent.Faulted);
         private void Client_Closing(object sender, EventArgs e)
             => FireClientNotifyEvent(ClientNotifyEvent.Closing);
         private void Client_Closed(object sender, EventArgs e)
             => FireClientNotifyEvent(ClientNotifyEvent.Closed);
-        private void Client_Faulted(object sender, EventArgs e)
-            => FireClientNotifyEvent(ClientNotifyEvent.Faulted);
-        private void Client_Opened(object sender, EventArgs e)
-            => FireClientNotifyEvent(ClientNotifyEvent.Opened);
-        private void Client_Opening(object sender, EventArgs e)
-            => FireClientNotifyEvent(ClientNotifyEvent.Opening);
 
         protected void FireClientNotifyEvent(ClientNotifyEvent clientNotifyEvent)
         {
@@ -99,7 +104,21 @@ namespace MasterData1000
                 {
                     try
                     {
-                        ClientNotifyEventComletionSource.TrySetResult(clientNotifyEvent);
+                        ClientNotifyEventQueue.Enqueue(clientNotifyEvent);
+                        var setResult = false;
+                        lock (ClientNotifyEventCompletionSourceLock)
+                            setResult = ClientNotifyEventCompletionSource.TrySetResult(true);
+                        if (!setResult)
+                            Task.Run(() =>
+                            {
+                                var tries = 0;
+                                while (tries++ < 10)
+                                {
+                                    if (ClientNotifyEventCompletionSource.TrySetResult(true))
+                                        break;
+                                    Thread.Sleep(100);
+                                }
+                            });
                         OnClientNotifyEvent.Invoke(clientNotifyEvent);
                     }
                     catch { }
@@ -108,34 +127,40 @@ namespace MasterData1000
             catch { }
         }
 
-        protected object ClientNotifyEventComletionSourceLock = new object();
-        protected TaskCompletionSource<ClientNotifyEvent> ClientNotifyEventComletionSource
-                    = new TaskCompletionSource<ClientNotifyEvent>(TaskCreationOptions.RunContinuationsAsynchronously);
+        protected ConcurrentQueue<ClientNotifyEvent> ClientNotifyEventQueue = new ConcurrentQueue<ClientNotifyEvent>();
+        protected object ClientNotifyEventCompletionSourceLock = new object();
+        protected TaskCompletionSource<bool> ClientNotifyEventCompletionSource
+                    = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
 
-        protected void InitClientNotifyEventComletionSource()
+        protected void InitClientNotifyEventCompletionSource()
         {
-            lock (ClientNotifyEventComletionSourceLock)
-                ClientNotifyEventComletionSource = new TaskCompletionSource<ClientNotifyEvent>();
+            lock (ClientNotifyEventCompletionSourceLock)
+                ClientNotifyEventCompletionSource = new TaskCompletionSource<bool>();
         }
         #endregion
 
         #region Run
-        public bool IsOpen { get; set; } = false;
+        public bool IsConnected { get; set; } = false;
         protected virtual void Run()
         {
             Task.Run(async () =>
             {
                 try
                 {
-                    bool inFault = false;
-                    bool running = true;
+                    var inFault = false;
+                    var running = true;
+                    InitClientNotifyEventCompletionSource();
                     RunOpen();
                     while (running)
                     {
-                        InitClientNotifyEventComletionSource();
                         var clientNotifyEvent = ClientNotifyEvent.None;
-                        try { clientNotifyEvent = await ClientNotifyEventComletionSource.Task; }
-                        catch { clientNotifyEvent = ClientNotifyEvent.None; }
+                        if (!ClientNotifyEventQueue.TryDequeue(out clientNotifyEvent))
+                        {
+                            try { await ClientNotifyEventCompletionSource.Task; } catch { }
+                            InitClientNotifyEventCompletionSource();
+                            if (!ClientNotifyEventQueue.TryDequeue(out clientNotifyEvent))
+                                clientNotifyEvent = ClientNotifyEvent.None;
+                        }
                         switch (clientNotifyEvent)
                         {
                             case ClientNotifyEvent.Dispose:
@@ -145,12 +170,12 @@ namespace MasterData1000
                             case ClientNotifyEvent.Opening:
                                 break;
                             case ClientNotifyEvent.Opened:
-                                IsOpen = true;
+                                IsConnected = true;
                                 break;
                             case ClientNotifyEvent.Faulted:
                                 if (!inFault)
                                 {
-                                    IsOpen = false;
+                                    IsConnected = false;
                                     inFault = true;
                                     RunClose();
                                     await Task.Delay(1000);
@@ -161,6 +186,7 @@ namespace MasterData1000
                             case ClientNotifyEvent.Closing:
                                 break;
                             case ClientNotifyEvent.Closed:
+                                IsConnected = false;
                                 break;
                         }
                     }
@@ -170,20 +196,15 @@ namespace MasterData1000
                     ex.LogException();
                     FireClientNotifyEvent(ClientNotifyEvent.Exception);
                 }
+                RunClose();
+                Disposed = true;
             });
         }
-
-        public T RunStart<T>() where T: ServiceClientCore
-        {
-            Run();
-            return (ServiceClientCore)this;
-        }
-
 
         protected void RunOpen()
         {
             CreateClient();
-            ClientSetAllNotifyEvents(true);
+            AssignClientNotifyEvents(true);
             // InstallEvents();
             OpenAsync();
             SubscribeForCallbacksAsync().Wait();
@@ -194,7 +215,7 @@ namespace MasterData1000
             UnsubscribeForCallbacksAsync().Wait();
             CloseAsync();
             // UninstallEvents();
-            ClientSetAllNotifyEvents(false);
+            AssignClientNotifyEvents(false);
         }
         #endregion
         #endregion
