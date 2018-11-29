@@ -62,22 +62,22 @@ namespace MasterData1000
 
         public async override Task OpenAsync()
         {
-            await (CatcherAsync(() => Client.OpenAsync()).ConfigureAwait(false));
+            await (CatcherAsyncIgnore(() => Client.OpenAsync()).ConfigureAwait(false));
         }
 
         public async override Task CloseAsync()
         {
-            await (CatcherAsync(() => Client.CloseAsync()).ConfigureAwait(false));
+            await (CatcherAsyncIgnore(() => Client.CloseAsync()).ConfigureAwait(false));
         }
 
         public async override Task SubscribeForCallbacksAsync()
         {
-            await (CatcherAsync(() => Client.SubscribeForCallbacksAsync()).ConfigureAwait(false));
+            await (CatcherAsyncIgnore(() => Client.SubscribeForCallbacksAsync()).ConfigureAwait(false));
         }
 
         public async override Task UnsubscribeForCallbacksAsync()
         {
-            await (CatcherAsync(() => Client.UnsubscribeForCallbacksAsync()).ConfigureAwait(false));
+            await (CatcherAsyncIgnore(() => Client.UnsubscribeForCallbacksAsync()).ConfigureAwait(false));
         }
 
         #endregion
@@ -92,7 +92,7 @@ namespace MasterData1000
         #endregion
 
         public ServiceResultLong MedicinesGetIdByIdentifier(string medicineIdentifier)
-            => Catcher(() => MedicinesGetIdByIdentifierAsync(medicineIdentifier).Result);
+            => MedicinesGetIdByIdentifierAsync(medicineIdentifier).Result;
 
         public async Task<ServiceResultLong> MedicinesGetIdByIdentifierAsync(string medicineIdentifier)
             => await CatcherAsync(() => Client.MedicinesGetIdByIdentifierAsync(medicineIdentifier))

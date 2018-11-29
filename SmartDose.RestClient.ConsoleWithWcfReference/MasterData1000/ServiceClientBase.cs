@@ -48,8 +48,7 @@ namespace MasterData1000
 
         public abstract void CreateClient();
 
-        #region abstract 
-
+        #region Client Abstract 
         public abstract Task OpenAsync();
 
         public abstract Task CloseAsync();
@@ -59,7 +58,7 @@ namespace MasterData1000
         public abstract Task UnsubscribeForCallbacksAsync();
         #endregion
 
-        #region Events
+        #region Client Events
 
         public event Action<ClientNotifyEvent> OnClientNotifyEvent;
         protected void AssignClientNotifyEvents(bool on)
@@ -139,7 +138,7 @@ namespace MasterData1000
         }
         #endregion
 
-        #region Run
+        #region Client Run
         public bool IsConnected { get; set; } = false;
         protected virtual void Run()
         {
@@ -234,6 +233,18 @@ namespace MasterData1000
             }
         }
 
+        protected TResult Catcher<TResult>(Func<TResult> func) where TResult : ServiceResult, new()
+        {
+            try
+            {
+                return func();
+            }
+            catch (Exception ex)
+            {
+                ex.LogException();
+            }
+        }
+
         protected void CatcherAsTask(Action action)
         {
             Task.Run(() =>
@@ -263,7 +274,7 @@ namespace MasterData1000
             }
         }
 
-        protected async Task CatcherAsync(Func<Task> func, bool ignoreError = false)
+        protected async Task CatcherAsync(Func<Task> func)
         {
             try
             {
@@ -280,7 +291,6 @@ namespace MasterData1000
         #region Query
 
         public abstract Task<ServiceResult> ExecuteQueryBuilderAsync(QueryBuilder queryBuilder);
-
 
         public QueryBuilder<T> NewQuery<T>() where T : class
         {

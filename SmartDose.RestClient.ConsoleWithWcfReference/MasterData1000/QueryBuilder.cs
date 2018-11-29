@@ -44,7 +44,7 @@ namespace MasterData1000
         }
 
         public async Task<ServiceResult<List<TModel>>> ToListAsync()
-          => await ExecuteAsync<List<TModel>>().ConfigureAwait(false);
+            => await ExecuteAsync<List<TModel>>().ConfigureAwait(false);
 
         public async Task<ServiceResult<TModel>> FirstOrDefaultAsync()
             => await ExecuteAsync<TModel>().ConfigureAwait(false);
