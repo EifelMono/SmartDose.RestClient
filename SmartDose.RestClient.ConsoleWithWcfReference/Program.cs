@@ -1,5 +1,8 @@
 ﻿using System;
+using System.ServiceModel;
+using System.ServiceModel.Channels;
 using System.Threading.Tasks;
+using MasterData1000;
 
 namespace SmartDose.RestClient.ConsoleWithWcfReference
 {
@@ -9,7 +12,7 @@ namespace SmartDose.RestClient.ConsoleWithWcfReference
         {
             Console.WriteLine("Hello World!");
 
-            using (var serviceClient = new MasterData1000.ServiceClient(""))
+            using (var serviceClient = new ServiceClient("net.tcp://lwdeu08dtk2ph2:10000/MasterData/").RunStart())
             {
 
                 {
@@ -42,6 +45,8 @@ namespace SmartDose.RestClient.ConsoleWithWcfReference
                 //    
                 //    .ExecuteReturnAsItemAsync();
             }
+
+            Console.WriteLine("......!");
         }
 
     }

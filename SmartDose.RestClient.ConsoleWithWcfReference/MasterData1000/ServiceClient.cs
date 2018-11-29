@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ServiceModel;
+using System.ServiceModel.Channels;
 using System.Threading.Tasks;
 using SmartDose.RestClient.ConsoleWithWcfReference;
 
@@ -11,29 +12,80 @@ namespace MasterData1000
         {
         }
 
-        public new MasterDataServiceClient Client { get => (MasterDataServiceClient)base.Client; }
+        public new MasterDataServiceClient Client { get => (MasterDataServiceClient)base.Client; set => base.Client = value; }
 
+        public override void CreateClient()
+        {
+            Binding binding = new NetTcpBinding(SecurityMode)
+            {
+                OpenTimeout = TimeSpan.FromSeconds(1),
+                ReceiveTimeout = TimeSpan.FromSeconds(30),
+                SendTimeout = TimeSpan.FromSeconds(30),
+                CloseTimeout = TimeSpan.FromSeconds(1)
+            };
+            if (EndpointAddress.ToLower().StartsWith("http"))
+                binding = new NetHttpBinding();
+
+            Client = new MasterDataServiceClient(binding, new EndpointAddress(EndpointAddress));
+        }
+
+        public async override Task OpenAsync()
+        {
+            await (CatcherAsync(() => Client.OpenAsync()).ConfigureAwait(false));
+        }
+
+        public async override Task CloseAsync()
+        {
+            await (CatcherAsync(() => Client.CloseAsync()).ConfigureAwait(false));
+        }
+
+        public async override Task SubscribeForCallbacksAsync()
+        {
+            await (CatcherAsync(() => Client.SubscribeForCallbacksAsync()).ConfigureAwait(false));
+        }
+
+        public async override Task UnsubscribeForCallbacksAsync()
+        {
+            await (CatcherAsync(() => Client.UnsubscribeForCallbacksAsync()).ConfigureAwait(false));
+        }
         #region Query
+        public async Task Ssss()
+        {
+            ServiceResultLong x1 = await Client.MedicinesGetIdByIdentifierAsync("1");
+            ServiceResultLong x2 = Client.MedicinesGetIdByIdentifierAsync("1").GetAwaiter().GetResult();
+        }
+
+        public ServiceResultQueryResponse Query(QueryRequest queryRequest)
+        {
+            var t = QueryAsync(queryRequest);
+            t.Wait();
+            return t.Result;
+        }
+
         public async Task<ServiceResultQueryResponse> QueryAsync(QueryRequest queryRequest)
-            => await SafeExecuteAsync(() => Client.QueryAsync(queryRequest)).ConfigureAwait(false);
+            => await CatcherAsync(() => Client.QueryAsync(queryRequest)).ConfigureAwait(false);
 
         #endregion
 
         #region Wrapped Client Calls
 
         public async Task<ServiceResultLong> MedicinesGetIdByIdentifierAsync(string medicineIdentifier)
-            => await SafeExecuteAsync(() => Client.MedicinesGetIdByIdentifierAsync(medicineIdentifier)).ConfigureAwait(false);
+            => await CatcherAsync(() => Client.MedicinesGetIdByIdentifierAsync(medicineIdentifier))
+                    .ConfigureAwait(false);
 
         public async Task<ServiceResultBool> MedicinesDeleteByIdentifierAsync(string medicineIdentifier)
-             => await SafeExecuteAsync(() => Client.MedicinesDeleteByIdentifierAsync(medicineIdentifier)).ConfigureAwait(false);
+             => await CatcherAsync(() => Client.MedicinesDeleteByIdentifierAsync(medicineIdentifier))
+                    .ConfigureAwait(false);
 
         public async Task<ServiceResultMedicine> MedicinesGetMedcineByIdentifierAsync(string medicineIdentifier)
-            => await SafeExecuteAsync(() => Client.MedicinesGetMedcineByIdentifierAsync(medicineIdentifier)).ConfigureAwait(false);
+            => await CatcherAsync(() => Client.MedicinesGetMedcineByIdentifierAsync(medicineIdentifier))
+                    .ConfigureAwait(false);
 
         public async Task<ServiceResultMedicineList> MedicinesGetMedcinesByIdentifiersAsync(string[] medicineIdentifiers, int page, int pageSize)
-            => await SafeExecuteAsync(() => Client.MedicinesGetMedcinesByIdentifiersAsync(medicineIdentifiers, page, pageSize)).ConfigureAwait(false);
+            => await CatcherAsync(() => Client.MedicinesGetMedcinesByIdentifiersAsync(medicineIdentifiers, page, pageSize))
+                    .ConfigureAwait(false);
 
-        public async override Task<ServiceResult> ExecuteQueryBuilderAsync(QueryBuilder queryBuilder) 
+        public async override Task<ServiceResult> ExecuteQueryBuilderAsync(QueryBuilder queryBuilder)
         {
             var queryRequest = new QueryRequest();
             // serialize Where
@@ -41,18 +93,10 @@ namespace MasterData1000
             // serialize OrderBy
             // Int, string 
             // FirstOrDefault, List
-            return (await SafeExecuteAsync(() => Client.QueryAsync(queryRequest)).ConfigureAwait(false));
+            return (await CatcherAsync(() => Client.QueryAsync(queryRequest)).ConfigureAwait(false));
         }
 
-        public Task SubscribeForCallbacksAsync()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task UnsubscribeForCallbacksAsync()
-        {
-            throw new NotImplementedException();
-        }
+      
 
         public Task<Medicine> GetMedicineByIdentifierAsync(string medicineIdentifier)
         {
@@ -188,6 +232,8 @@ namespace MasterData1000
         {
             throw new NotImplementedException();
         }
+
+
 
         #endregion
     }
