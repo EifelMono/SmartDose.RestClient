@@ -82,7 +82,17 @@ namespace MasterData1000
 
         #endregion
 
-        #region Wrapped Client Calls
+        #region Wrapped Client Calls 
+
+        #region Old Stuff
+        public Task<Medicine> GetMedicineByIdentifierAsync(string medicineIdentifier)
+        {
+            throw new NotImplementedException();
+        }
+        #endregion
+
+        public ServiceResultLong MedicinesGetIdByIdentifier(string medicineIdentifier)
+            => Catcher(() => MedicinesGetIdByIdentifierAsync(medicineIdentifier).Result);
 
         public async Task<ServiceResultLong> MedicinesGetIdByIdentifierAsync(string medicineIdentifier)
             => await CatcherAsync(() => Client.MedicinesGetIdByIdentifierAsync(medicineIdentifier))
@@ -99,13 +109,6 @@ namespace MasterData1000
         public async Task<ServiceResultMedicineList> MedicinesGetMedcinesByIdentifiersAsync(string[] medicineIdentifiers, int page, int pageSize)
             => await CatcherAsync(() => Client.MedicinesGetMedcinesByIdentifiersAsync(medicineIdentifiers, page, pageSize))
                     .ConfigureAwait(false);
-
-        #region Old Stuff
-        public Task<Medicine> GetMedicineByIdentifierAsync(string medicineIdentifier)
-        {
-            throw new NotImplementedException();
-        }
-        #endregion
 
         public Task<ServiceResultLong> CanistersGetIdByIdentifierAsync(string identifier)
         {
@@ -226,18 +229,17 @@ namespace MasterData1000
         {
             throw new NotImplementedException();
         }
-
         #endregion
 
         #region Wrapped Callbacks
 
         public event Action<Medicine[]> OnMedicinesChanged;
-        public void MedicinesChanged(Medicine[] medicines)
-                 => CatcherAsTask(() => OnMedicinesChanged?.Invoke(medicines));
+        public virtual void MedicinesChanged(Medicine[] medicines)
+            => CatcherAsTask(() => OnMedicinesChanged?.Invoke(medicines));
 
 
         public event Action<string[]> OnMedicinesDeleted;
-        public void MedicinesDeleted(string[] medicineIdentifiers)
+        public virtual void MedicinesDeleted(string[] medicineIdentifiers)
             => CatcherAsTask(() => OnMedicinesDeleted?.Invoke(medicineIdentifiers));
         #endregion
     }
