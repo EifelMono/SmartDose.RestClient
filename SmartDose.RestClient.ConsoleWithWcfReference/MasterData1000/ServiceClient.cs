@@ -51,7 +51,10 @@ namespace MasterData1000
                 ResultAsItem = queryBuilder.ResultAsItem,
                 ResultAsList= queryBuilder.ResultAsList
             };
-            return await QueryAsync(queryRequest).ConfigureAwait(false);
+            var serviceResult = await QueryAsync(queryRequest).ConfigureAwait(false);
+            var newServiceResult = serviceResult.CastByClone<ServiceResult<string>>();
+            newServiceResult.Data = serviceResult?.Data?.ResponseData;
+            return serviceResult;
         }
         #endregion
 

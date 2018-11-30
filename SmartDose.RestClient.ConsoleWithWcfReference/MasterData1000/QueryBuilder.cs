@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 using Serialize.Linq.Extensions;
 
 namespace MasterData1000
@@ -57,7 +58,18 @@ namespace MasterData1000
         protected async Task<ServiceResult<TResult>> ExecuteAsync<TResult>() where TResult : class
         {
             var executeServiceResult = await Client.ExecuteQueryBuilderAsync(this).ConfigureAwait(false);
-            return executeServiceResult.CastByClone<ServiceResult<TResult>>();
+            var returnResult = new ServiceResult<TResult>
+            {
+                Exception = executeServiceResult.Exception,
+                Message = executeServiceResult.Message,
+                Status = executeServiceResult.Status,
+                StatusAsInt = executeServiceResult.StatusAsInt,
+            };
+            if (executeServiceResult.IsOk)
+            {
+                returnResult.Data = JsonConvert.DeserializeObject<TResult>(executeServiceResult.Data as string);
+            }
+            return returnResult;
         }
 
         public async Task<ServiceResult<List<TModel>>> ToListAsync()
