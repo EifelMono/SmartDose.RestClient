@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace MasterData1000
+namespace SmartDose.Core
 {
     public class QueuedEvent<TEvent> where TEvent : Enum
     {
@@ -43,7 +40,7 @@ namespace MasterData1000
                         {
                             try
                             {
-                                OnFire?.Invoke(newEvent);
+                                OnNew?.Invoke(newEvent);
                             }
                             catch { } // let the user Handle this
                             if (!setResult)

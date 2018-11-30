@@ -3,6 +3,7 @@ using System.Collections.Concurrent;
 using System.ServiceModel;
 using System.Threading;
 using System.Threading.Tasks;
+using SmartDose.Core;
 using SmartDose.Core.Extensions;
 
 namespace MasterData1000
@@ -29,7 +30,6 @@ namespace MasterData1000
             if (!Disposed)
                 QueuedEvent.New(ClientEvent.Dispose);
         }
-
 
         #region Client
         public ICommunicationObject Client { get; set; }
@@ -156,7 +156,7 @@ namespace MasterData1000
                 {
                     RunClose();
                     Disposed = true;
-                    QueuedEvent.OnNext = null;
+                    QueuedEvent.OnNew = null;
                 }
             });
         }

@@ -10,7 +10,7 @@ namespace SmartDose.RestClient.ConsoleWithWcfReference
         {
             Console.WriteLine("Hello World!");
 
-            using (var serviceClient = new ServiceClient("net.tcp://localhost:10000/MasterData/"))
+            using (var serviceClient = new MasterData1000.ServiceClient("net.tcp://localhost:10000/MasterData/"))
             {
                 while (!serviceClient.IsConnected)
                 {
