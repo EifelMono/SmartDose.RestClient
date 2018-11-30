@@ -9,25 +9,12 @@ namespace MasterData1000
 {
     public abstract class ServiceClientBase : IDisposable
     {
-        public enum ClientNotifyEvent
-        {
-            None,
-
-            Opening,
-            Opened,
-            Faulted,
-            Closing,
-            Closed,
-
-            Exception,
-            Dispose,
-        }
 
         public string EndpointAddress { get; protected set; }
         public SecurityMode SecurityMode { get; protected set; }
         // Timeout?!
 
-        public bool ThrowOnConnectionError { get; set; }
+        public bool ThrowOnConnectionError { get; set; } = false;
 
         public ServiceClientBase(string endpointAddress, SecurityMode securityMode = SecurityMode.None)
         {
@@ -40,11 +27,27 @@ namespace MasterData1000
         public void Dispose()
         {
             if (!Disposed)
-                FireClientNotifyEvent(ClientNotifyEvent.Dispose);
+                QueuedEvent.New(ClientEvent.Dispose);
         }
+
 
         #region Client
         public ICommunicationObject Client { get; set; }
+
+        public enum ClientEvent
+        {
+            None,
+
+            Opening,
+            Opened,
+            Faulted,
+            Closing,
+            Closed,
+
+            Exception,
+            Dispose,
+        }
+        protected QueuedEvent<ClientEvent> QueuedEvent { get; set; } = new QueuedEvent<ClientEvent>();
 
         public abstract void CreateClient();
 
@@ -60,8 +63,8 @@ namespace MasterData1000
 
         #region Client Events
 
-        public event Action<ClientNotifyEvent> OnClientNotifyEvent;
-        protected void AssignClientNotifyEvents(bool on)
+        public event Action<ClientEvent> OnClientEvent;
+        protected void AssignClientEvents(bool on)
         {
             if (Client is null)
                 return;
@@ -85,57 +88,15 @@ namespace MasterData1000
         }
 
         private void Client_Opening(object sender, EventArgs e)
-            => FireClientNotifyEvent(ClientNotifyEvent.Opening);
+            => QueuedEvent.New(ClientEvent.Opening);
         private void Client_Opened(object sender, EventArgs e)
-            => FireClientNotifyEvent(ClientNotifyEvent.Opened);
+            => QueuedEvent.New(ClientEvent.Opened);
         private void Client_Faulted(object sender, EventArgs e)
-         => FireClientNotifyEvent(ClientNotifyEvent.Faulted);
+         => QueuedEvent.New(ClientEvent.Faulted);
         private void Client_Closing(object sender, EventArgs e)
-            => FireClientNotifyEvent(ClientNotifyEvent.Closing);
+            => QueuedEvent.New(ClientEvent.Closing);
         private void Client_Closed(object sender, EventArgs e)
-            => FireClientNotifyEvent(ClientNotifyEvent.Closed);
-
-        protected void FireClientNotifyEvent(ClientNotifyEvent clientNotifyEvent)
-        {
-            try
-            {
-                Task.Run(() =>
-                {
-                    try
-                    {
-                        ClientNotifyEventQueue.Enqueue(clientNotifyEvent);
-                        var setResult = false;
-                        lock (ClientNotifyEventCompletionSourceLock)
-                            setResult = ClientNotifyEventCompletionSource.TrySetResult(true);
-                        if (!setResult)
-                            Task.Run(() =>
-                            {
-                                var tries = 0;
-                                while (tries++ < 10)
-                                {
-                                    if (ClientNotifyEventCompletionSource.TrySetResult(true))
-                                        break;
-                                    Thread.Sleep(100);
-                                }
-                            });
-                        OnClientNotifyEvent.Invoke(clientNotifyEvent);
-                    }
-                    catch { }
-                });
-            }
-            catch { }
-        }
-
-        protected ConcurrentQueue<ClientNotifyEvent> ClientNotifyEventQueue = new ConcurrentQueue<ClientNotifyEvent>();
-        protected object ClientNotifyEventCompletionSourceLock = new object();
-        protected TaskCompletionSource<bool> ClientNotifyEventCompletionSource
-                    = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
-
-        protected void InitClientNotifyEventCompletionSource()
-        {
-            lock (ClientNotifyEventCompletionSourceLock)
-                ClientNotifyEventCompletionSource = new TaskCompletionSource<bool>();
-        }
+            => QueuedEvent.New(ClientEvent.Closed);
         #endregion
 
         #region Client Run
@@ -146,64 +107,64 @@ namespace MasterData1000
             {
                 try
                 {
+                    QueuedEvent.OnNew = (e) =>
+                    {
+                        OnClientEvent?.Invoke(e);
+                    };
                     var inFault = false;
                     var running = true;
-                    InitClientNotifyEventCompletionSource();
                     RunOpen();
                     while (running)
                     {
-                        var clientNotifyEvent = ClientNotifyEvent.None;
-                        if (!ClientNotifyEventQueue.TryDequeue(out clientNotifyEvent))
-                        {
-                            try { await ClientNotifyEventCompletionSource.Task; } catch { }
-                            InitClientNotifyEventCompletionSource();
-                            if (!ClientNotifyEventQueue.TryDequeue(out clientNotifyEvent))
-                                clientNotifyEvent = ClientNotifyEvent.None;
-                        }
-                        switch (clientNotifyEvent)
-                        {
-                            case ClientNotifyEvent.Dispose:
-                                RunClose();
-                                running = false;
-                                break;
-                            case ClientNotifyEvent.Opening:
-                                break;
-                            case ClientNotifyEvent.Opened:
-                                IsConnected = true;
-                                break;
-                            case ClientNotifyEvent.Faulted:
-                                if (!inFault)
-                                {
-                                    IsConnected = false;
-                                    inFault = true;
+                        if (await QueuedEvent.Next() is var nextEvent && nextEvent.Ok)
+                            switch (nextEvent.Value)
+                            {
+                                case ClientEvent.Dispose:
                                     RunClose();
-                                    await Task.Delay(1000);
-                                    RunOpen();
-                                    inFault = false;
-                                }
-                                break;
-                            case ClientNotifyEvent.Closing:
-                                break;
-                            case ClientNotifyEvent.Closed:
-                                IsConnected = false;
-                                break;
-                        }
+                                    running = false;
+                                    break;
+                                case ClientEvent.Opening:
+                                    break;
+                                case ClientEvent.Opened:
+                                    IsConnected = true;
+                                    break;
+                                case ClientEvent.Faulted:
+                                    if (!inFault)
+                                    {
+                                        IsConnected = false;
+                                        inFault = true;
+                                        RunClose();
+                                        await Task.Delay(1000);
+                                        RunOpen();
+                                        inFault = false;
+                                    }
+                                    break;
+                                case ClientEvent.Closing:
+                                    break;
+                                case ClientEvent.Closed:
+                                    IsConnected = false;
+                                    break;
+                            }
                     }
                 }
                 catch (Exception ex)
                 {
                     ex.LogException();
-                    FireClientNotifyEvent(ClientNotifyEvent.Exception);
+                    QueuedEvent.New(ClientEvent.Exception);
                 }
-                RunClose();
-                Disposed = true;
+                finally
+                {
+                    RunClose();
+                    Disposed = true;
+                    QueuedEvent.OnNext = null;
+                }
             });
         }
 
         protected void RunOpen()
         {
             CreateClient();
-            AssignClientNotifyEvents(true);
+            AssignClientEvents(true);
             // InstallEvents();
             OpenAsync();
             SubscribeForCallbacksAsync().Wait();
@@ -214,7 +175,7 @@ namespace MasterData1000
             UnsubscribeForCallbacksAsync().Wait();
             CloseAsync();
             // UninstallEvents();
-            AssignClientNotifyEvents(false);
+            AssignClientEvents(false);
         }
         #endregion
         #endregion
@@ -226,18 +187,6 @@ namespace MasterData1000
             try
             {
                 action();
-            }
-            catch (Exception ex)
-            {
-                ex.LogException();
-            }
-        }
-
-        protected TResult Catcher<TResult>(Func<TResult> func) where TResult : ServiceResult, new()
-        {
-            try
-            {
-                return func();
             }
             catch (Exception ex)
             {
@@ -275,6 +224,19 @@ namespace MasterData1000
         }
 
         protected async Task CatcherAsync(Func<Task> func)
+        {
+            try
+            {
+                await func().ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                if (ThrowOnConnectionError)
+                    throw ex;
+            }
+        }
+
+        protected async Task CatcherAsyncIgnore(Func<Task> func)
         {
             try
             {
