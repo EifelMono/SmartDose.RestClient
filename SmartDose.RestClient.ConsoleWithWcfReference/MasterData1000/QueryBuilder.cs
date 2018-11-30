@@ -9,12 +9,19 @@ namespace MasterData1000
     {
         public ServiceClientBase Client { get; set; }
 
+        public Type Type { get; set; }
+
         public int Page { get; set; } = -1;
         public int PageSize { get; set; } = -1;
     }
 
     public class QueryBuilder<TModel> : QueryBuilder where TModel : class
     {
+        public QueryBuilder()
+        {
+            Type = typeof(TModel);
+        }
+
         public QueryBuilder<TModel> Where(Expression<Func<TModel, bool>> whereExpression)
         {
             return this;
@@ -33,7 +40,6 @@ namespace MasterData1000
         {
             Page = page;
             PageSize = pageSize;
-
             return this;
         }
 

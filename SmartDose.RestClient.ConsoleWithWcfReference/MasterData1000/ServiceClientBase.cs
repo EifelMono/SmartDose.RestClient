@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Concurrent;
 using System.ServiceModel;
-using System.Threading;
 using System.Threading.Tasks;
 using SmartDose.Core;
 using SmartDose.Core.Extensions;
@@ -10,7 +8,6 @@ namespace MasterData1000
 {
     public abstract class ServiceClientBase : IDisposable
     {
-
         public string EndpointAddress { get; protected set; }
         public SecurityMode SecurityMode { get; protected set; }
         // Timeout?!

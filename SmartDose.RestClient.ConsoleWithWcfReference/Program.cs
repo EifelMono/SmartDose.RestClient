@@ -17,8 +17,8 @@ namespace SmartDose.RestClient.ConsoleWithWcfReference
                     Thread.Sleep(100);
                     Console.WriteLine("not Connected");
                 }
-
                 Console.WriteLine("Connected");
+
                 {
                     var query = serviceClient
                             .NewQuery<MasterData1000.Medicine>()
@@ -26,7 +26,6 @@ namespace SmartDose.RestClient.ConsoleWithWcfReference
                             .OrderBy(m => m.Manufacturer.Name)
                             .Paging(1, 1000);
                 }
-
 
                 {
                     var result = await serviceClient
