@@ -46,7 +46,6 @@ namespace SmartDose.RestClient.ConsoleWithWcfReference
                                 if (await serviceClient.MedicinesGetMedcineByIdentifierAsync("1") is var med && med.IsOk)
                                 {
                                     Console.WriteLine($"MedicinesGetMedcineByIdentifierAsync Data={med.Data.ToJson()}");
-
                                 }
                                 else
                                     Console.WriteLine($"MedicinesGetMedcineByIdentifierAsync Error Result='{med.Status}' ({med.StatusAsInt})");
@@ -82,7 +81,6 @@ namespace SmartDose.RestClient.ConsoleWithWcfReference
                                     Console.WriteLine($"Query Customer Error Result='{med.Status}' ({med.StatusAsInt})");
                                 break;
                             }
-
                     }
                 }
                 Console.WriteLine("THE END!");
