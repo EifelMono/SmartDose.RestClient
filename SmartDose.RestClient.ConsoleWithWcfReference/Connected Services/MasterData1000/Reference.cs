@@ -1792,187 +1792,141 @@ namespace MasterData1000
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "1.0.0.1")]
     [System.Runtime.Serialization.DataContractAttribute(Name="QueryRequest", Namespace="http://schemas.datacontract.org/2004/07/Rowa.SmartDose.WcfInterfaces")]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.QueryResponse))]
     public partial class QueryRequest : object
     {
         
-        private System.Type ModelTypeField;
+        private string ModelNameField;
         
-        private string OrderByAsStringField;
+        private string ModelNamespaceField;
         
-        private string WhereAsStringField;
+        private string OrderByIntAsJsonField;
+        
+        private string OrderByStringAsJsonField;
+        
+        private int PageField;
+        
+        private int PageSizeField;
+        
+        private bool ResultAsItemField;
+        
+        private bool ResultAsListField;
+        
+        private string WhereAsJsonField;
         
         [System.Runtime.Serialization.DataMemberAttribute()]
-        public System.Type ModelType
+        public string ModelName
         {
             get
             {
-                return this.ModelTypeField;
+                return this.ModelNameField;
             }
             set
             {
-                this.ModelTypeField = value;
+                this.ModelNameField = value;
             }
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
-        public string OrderByAsString
+        public string ModelNamespace
         {
             get
             {
-                return this.OrderByAsStringField;
+                return this.ModelNamespaceField;
             }
             set
             {
-                this.OrderByAsStringField = value;
+                this.ModelNamespaceField = value;
             }
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
-        public string WhereAsString
+        public string OrderByIntAsJson
         {
             get
             {
-                return this.WhereAsStringField;
+                return this.OrderByIntAsJsonField;
             }
             set
             {
-                this.WhereAsStringField = value;
+                this.OrderByIntAsJsonField = value;
             }
         }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "1.0.0.1")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="QueryResponse", Namespace="http://schemas.datacontract.org/2004/07/Rowa.SmartDose.WcfInterfaces")]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(System.Reflection.MemberInfo))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.InvalidArgumentFault))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(string[]))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.Medicine))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.ReleaseModel))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.IdentifierModel))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.Model))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.ReleaseStatus))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.Manufacturer))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.MedicinePicture[]))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.MedicinePicture))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.MedicinePillDetail))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.PouchMode))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.MedicinePrintDetail[]))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.MedicinePrintDetail))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.MedicineSpecialHandling))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.MedicineSynonym[]))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.MedicineSynonym))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.Canister))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.CanisterActivityStatus))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.CanisterType))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.Location))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.LocationType))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.MedicineContent))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.CanisterSize))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.Canister[]))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.Customer))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.Customer[]))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.DestinationFacility))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.ContactAddress))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.ContactPerson[]))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.ContactPerson))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.PouchSchemaDesign))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.LabelDesign[]))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.LabelDesign))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.LabelType))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.DestinationFacility[]))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.Manufacturer[]))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.Medicine[]))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.Patient))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.Gender))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.Patient[]))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.Tray))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.Tray[]))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(System.Type))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(System.Exception))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.QueryRequest))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.ServiceResultQueryResponse))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.ServiceResultOfQueryResponsekCLKJ5ur))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.ServiceResult))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.ServiceResultStatus))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.ServiceResultLong))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.ServiceResultOflong))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.ServiceResultBool))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.ServiceResultOfboolean))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.ServiceResultCanister))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.ServiceResultOfCanisterrcNVL4w7))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.ServiceResultCanisterList))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.ServiceResultOfArrayOfCanisterrcNVL4w7))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.ServiceResultCustomer))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.ServiceResultOfCustomerrcNVL4w7))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.ServiceResultCustomerList))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.ServiceResultOfArrayOfCustomerrcNVL4w7))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.ServiceResultDestinationFacility))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.ServiceResultOfDestinationFacilityrcNVL4w7))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.ServiceResultDestinationFacilityList))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.ServiceResultOfArrayOfDestinationFacilityrcNVL4w7))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.ServiceResultManufacturer))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.ServiceResultOfManufacturerrcNVL4w7))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.ServiceResultManufacturerList))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.ServiceResultOfArrayOfManufacturerrcNVL4w7))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.ServiceResultMedicine))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.ServiceResultOfMedicinercNVL4w7))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.ServiceResultMedicineList))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.ServiceResultOfArrayOfMedicinercNVL4w7))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.ServiceResultPatient))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.ServiceResultOfPatientrcNVL4w7))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.ServiceResultPatientList))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.ServiceResultOfArrayOfPatientrcNVL4w7))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.ServiceResultTray))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.ServiceResultOfTrayrcNVL4w7))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.ServiceResultTrayList))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.ServiceResultOfArrayOfTrayrcNVL4w7))]
-    public partial class QueryResponse : MasterData1000.QueryRequest
-    {
-        
-        private object DataField;
         
         [System.Runtime.Serialization.DataMemberAttribute()]
-        public object Data
+        public string OrderByStringAsJson
         {
             get
             {
-                return this.DataField;
+                return this.OrderByStringAsJsonField;
             }
             set
             {
-                this.DataField = value;
+                this.OrderByStringAsJsonField = value;
             }
         }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "1.0.0.1")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="ServiceResultQueryResponse", Namespace="http://schemas.datacontract.org/2004/07/Rowa.SmartDose.WcfInterfaces")]
-    public partial class ServiceResultQueryResponse : MasterData1000.ServiceResultOfQueryResponsekCLKJ5ur
-    {
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "1.0.0.1")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="ServiceResultOfQueryResponsekCLKJ5ur", Namespace="http://schemas.datacontract.org/2004/07/Rowa.SmartDose.WcfInterfaces")]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.ServiceResultQueryResponse))]
-    public partial class ServiceResultOfQueryResponsekCLKJ5ur : MasterData1000.ServiceResult
-    {
         
-        private MasterData1000.QueryResponse Data1Field;
-        
-        [System.Runtime.Serialization.DataMemberAttribute(Name="Data")]
-        public MasterData1000.QueryResponse Data1
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int Page
         {
             get
             {
-                return this.Data1Field;
+                return this.PageField;
             }
             set
             {
-                this.Data1Field = value;
+                this.PageField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int PageSize
+        {
+            get
+            {
+                return this.PageSizeField;
+            }
+            set
+            {
+                this.PageSizeField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public bool ResultAsItem
+        {
+            get
+            {
+                return this.ResultAsItemField;
+            }
+            set
+            {
+                this.ResultAsItemField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public bool ResultAsList
+        {
+            get
+            {
+                return this.ResultAsListField;
+            }
+            set
+            {
+                this.ResultAsListField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string WhereAsJson
+        {
+            get
+            {
+                return this.WhereAsJsonField;
+            }
+            set
+            {
+                this.WhereAsJsonField = value;
             }
         }
     }
@@ -2014,59 +1968,8 @@ namespace MasterData1000
     [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.ServiceResultTrayList))]
     [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.ServiceResultOfQueryResponsekCLKJ5ur))]
     [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.ServiceResultQueryResponse))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(System.Reflection.MemberInfo))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.InvalidArgumentFault))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(string[]))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.Medicine))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.ReleaseModel))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.IdentifierModel))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.Model))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.ReleaseStatus))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.Manufacturer))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.MedicinePicture[]))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.MedicinePicture))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.MedicinePillDetail))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.PouchMode))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.MedicinePrintDetail[]))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.MedicinePrintDetail))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.MedicineSpecialHandling))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.MedicineSynonym[]))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.MedicineSynonym))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.Canister))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.CanisterActivityStatus))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.CanisterType))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.Location))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.LocationType))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.MedicineContent))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.CanisterSize))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.Canister[]))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.Customer))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.Customer[]))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.DestinationFacility))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.ContactAddress))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.ContactPerson[]))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.ContactPerson))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.PouchSchemaDesign))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.LabelDesign[]))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.LabelDesign))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.LabelType))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.DestinationFacility[]))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.Manufacturer[]))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.Medicine[]))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.Patient))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.Gender))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.Patient[]))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.Tray))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.Tray[]))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(System.Type))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(System.Exception))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.QueryRequest))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.ServiceResultStatus))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.QueryResponse))]
     public partial class ServiceResult : object
     {
-        
-        private object DataField;
         
         private System.Exception ExceptionField;
         
@@ -2075,19 +1978,6 @@ namespace MasterData1000
         private MasterData1000.ServiceResultStatus StatusField;
         
         private int StatusAsIntField;
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public object Data
-        {
-            get
-            {
-                return this.DataField;
-            }
-            set
-            {
-                this.DataField = value;
-            }
-        }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
         public System.Exception Exception
@@ -2142,6 +2032,516 @@ namespace MasterData1000
         }
     }
     
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "1.0.0.1")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="ServiceResultOflong", Namespace="http://schemas.datacontract.org/2004/07/Rowa.SmartDose.WcfInterfaces")]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.ServiceResultLong))]
+    public partial class ServiceResultOflong : MasterData1000.ServiceResult
+    {
+        
+        private long DataField;
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public long Data
+        {
+            get
+            {
+                return this.DataField;
+            }
+            set
+            {
+                this.DataField = value;
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "1.0.0.1")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="ServiceResultLong", Namespace="http://schemas.datacontract.org/2004/07/Rowa.SmartDose.WcfInterfaces")]
+    public partial class ServiceResultLong : MasterData1000.ServiceResultOflong
+    {
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "1.0.0.1")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="ServiceResultOfboolean", Namespace="http://schemas.datacontract.org/2004/07/Rowa.SmartDose.WcfInterfaces")]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.ServiceResultBool))]
+    public partial class ServiceResultOfboolean : MasterData1000.ServiceResult
+    {
+        
+        private bool DataField;
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public bool Data
+        {
+            get
+            {
+                return this.DataField;
+            }
+            set
+            {
+                this.DataField = value;
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "1.0.0.1")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="ServiceResultBool", Namespace="http://schemas.datacontract.org/2004/07/Rowa.SmartDose.WcfInterfaces")]
+    public partial class ServiceResultBool : MasterData1000.ServiceResultOfboolean
+    {
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "1.0.0.1")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="ServiceResultOfCanisterrcNVL4w7", Namespace="http://schemas.datacontract.org/2004/07/Rowa.SmartDose.WcfInterfaces")]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.ServiceResultCanister))]
+    public partial class ServiceResultOfCanisterrcNVL4w7 : MasterData1000.ServiceResult
+    {
+        
+        private MasterData1000.Canister DataField;
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public MasterData1000.Canister Data
+        {
+            get
+            {
+                return this.DataField;
+            }
+            set
+            {
+                this.DataField = value;
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "1.0.0.1")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="ServiceResultCanister", Namespace="http://schemas.datacontract.org/2004/07/Rowa.SmartDose.WcfInterfaces")]
+    public partial class ServiceResultCanister : MasterData1000.ServiceResultOfCanisterrcNVL4w7
+    {
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "1.0.0.1")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="ServiceResultOfArrayOfCanisterrcNVL4w7", Namespace="http://schemas.datacontract.org/2004/07/Rowa.SmartDose.WcfInterfaces")]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.ServiceResultCanisterList))]
+    public partial class ServiceResultOfArrayOfCanisterrcNVL4w7 : MasterData1000.ServiceResult
+    {
+        
+        private MasterData1000.Canister[] DataField;
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public MasterData1000.Canister[] Data
+        {
+            get
+            {
+                return this.DataField;
+            }
+            set
+            {
+                this.DataField = value;
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "1.0.0.1")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="ServiceResultCanisterList", Namespace="http://schemas.datacontract.org/2004/07/Rowa.SmartDose.WcfInterfaces")]
+    public partial class ServiceResultCanisterList : MasterData1000.ServiceResultOfArrayOfCanisterrcNVL4w7
+    {
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "1.0.0.1")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="ServiceResultOfCustomerrcNVL4w7", Namespace="http://schemas.datacontract.org/2004/07/Rowa.SmartDose.WcfInterfaces")]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.ServiceResultCustomer))]
+    public partial class ServiceResultOfCustomerrcNVL4w7 : MasterData1000.ServiceResult
+    {
+        
+        private MasterData1000.Customer DataField;
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public MasterData1000.Customer Data
+        {
+            get
+            {
+                return this.DataField;
+            }
+            set
+            {
+                this.DataField = value;
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "1.0.0.1")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="ServiceResultCustomer", Namespace="http://schemas.datacontract.org/2004/07/Rowa.SmartDose.WcfInterfaces")]
+    public partial class ServiceResultCustomer : MasterData1000.ServiceResultOfCustomerrcNVL4w7
+    {
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "1.0.0.1")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="ServiceResultOfArrayOfCustomerrcNVL4w7", Namespace="http://schemas.datacontract.org/2004/07/Rowa.SmartDose.WcfInterfaces")]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.ServiceResultCustomerList))]
+    public partial class ServiceResultOfArrayOfCustomerrcNVL4w7 : MasterData1000.ServiceResult
+    {
+        
+        private MasterData1000.Customer[] DataField;
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public MasterData1000.Customer[] Data
+        {
+            get
+            {
+                return this.DataField;
+            }
+            set
+            {
+                this.DataField = value;
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "1.0.0.1")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="ServiceResultCustomerList", Namespace="http://schemas.datacontract.org/2004/07/Rowa.SmartDose.WcfInterfaces")]
+    public partial class ServiceResultCustomerList : MasterData1000.ServiceResultOfArrayOfCustomerrcNVL4w7
+    {
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "1.0.0.1")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="ServiceResultOfDestinationFacilityrcNVL4w7", Namespace="http://schemas.datacontract.org/2004/07/Rowa.SmartDose.WcfInterfaces")]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.ServiceResultDestinationFacility))]
+    public partial class ServiceResultOfDestinationFacilityrcNVL4w7 : MasterData1000.ServiceResult
+    {
+        
+        private MasterData1000.DestinationFacility DataField;
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public MasterData1000.DestinationFacility Data
+        {
+            get
+            {
+                return this.DataField;
+            }
+            set
+            {
+                this.DataField = value;
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "1.0.0.1")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="ServiceResultDestinationFacility", Namespace="http://schemas.datacontract.org/2004/07/Rowa.SmartDose.WcfInterfaces")]
+    public partial class ServiceResultDestinationFacility : MasterData1000.ServiceResultOfDestinationFacilityrcNVL4w7
+    {
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "1.0.0.1")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="ServiceResultOfArrayOfDestinationFacilityrcNVL4w7", Namespace="http://schemas.datacontract.org/2004/07/Rowa.SmartDose.WcfInterfaces")]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.ServiceResultDestinationFacilityList))]
+    public partial class ServiceResultOfArrayOfDestinationFacilityrcNVL4w7 : MasterData1000.ServiceResult
+    {
+        
+        private MasterData1000.DestinationFacility[] DataField;
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public MasterData1000.DestinationFacility[] Data
+        {
+            get
+            {
+                return this.DataField;
+            }
+            set
+            {
+                this.DataField = value;
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "1.0.0.1")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="ServiceResultDestinationFacilityList", Namespace="http://schemas.datacontract.org/2004/07/Rowa.SmartDose.WcfInterfaces")]
+    public partial class ServiceResultDestinationFacilityList : MasterData1000.ServiceResultOfArrayOfDestinationFacilityrcNVL4w7
+    {
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "1.0.0.1")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="ServiceResultOfManufacturerrcNVL4w7", Namespace="http://schemas.datacontract.org/2004/07/Rowa.SmartDose.WcfInterfaces")]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.ServiceResultManufacturer))]
+    public partial class ServiceResultOfManufacturerrcNVL4w7 : MasterData1000.ServiceResult
+    {
+        
+        private MasterData1000.Manufacturer DataField;
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public MasterData1000.Manufacturer Data
+        {
+            get
+            {
+                return this.DataField;
+            }
+            set
+            {
+                this.DataField = value;
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "1.0.0.1")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="ServiceResultManufacturer", Namespace="http://schemas.datacontract.org/2004/07/Rowa.SmartDose.WcfInterfaces")]
+    public partial class ServiceResultManufacturer : MasterData1000.ServiceResultOfManufacturerrcNVL4w7
+    {
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "1.0.0.1")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="ServiceResultOfArrayOfManufacturerrcNVL4w7", Namespace="http://schemas.datacontract.org/2004/07/Rowa.SmartDose.WcfInterfaces")]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.ServiceResultManufacturerList))]
+    public partial class ServiceResultOfArrayOfManufacturerrcNVL4w7 : MasterData1000.ServiceResult
+    {
+        
+        private MasterData1000.Manufacturer[] DataField;
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public MasterData1000.Manufacturer[] Data
+        {
+            get
+            {
+                return this.DataField;
+            }
+            set
+            {
+                this.DataField = value;
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "1.0.0.1")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="ServiceResultManufacturerList", Namespace="http://schemas.datacontract.org/2004/07/Rowa.SmartDose.WcfInterfaces")]
+    public partial class ServiceResultManufacturerList : MasterData1000.ServiceResultOfArrayOfManufacturerrcNVL4w7
+    {
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "1.0.0.1")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="ServiceResultOfMedicinercNVL4w7", Namespace="http://schemas.datacontract.org/2004/07/Rowa.SmartDose.WcfInterfaces")]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.ServiceResultMedicine))]
+    public partial class ServiceResultOfMedicinercNVL4w7 : MasterData1000.ServiceResult
+    {
+        
+        private MasterData1000.Medicine DataField;
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public MasterData1000.Medicine Data
+        {
+            get
+            {
+                return this.DataField;
+            }
+            set
+            {
+                this.DataField = value;
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "1.0.0.1")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="ServiceResultMedicine", Namespace="http://schemas.datacontract.org/2004/07/Rowa.SmartDose.WcfInterfaces")]
+    public partial class ServiceResultMedicine : MasterData1000.ServiceResultOfMedicinercNVL4w7
+    {
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "1.0.0.1")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="ServiceResultOfArrayOfMedicinercNVL4w7", Namespace="http://schemas.datacontract.org/2004/07/Rowa.SmartDose.WcfInterfaces")]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.ServiceResultMedicineList))]
+    public partial class ServiceResultOfArrayOfMedicinercNVL4w7 : MasterData1000.ServiceResult
+    {
+        
+        private MasterData1000.Medicine[] DataField;
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public MasterData1000.Medicine[] Data
+        {
+            get
+            {
+                return this.DataField;
+            }
+            set
+            {
+                this.DataField = value;
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "1.0.0.1")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="ServiceResultMedicineList", Namespace="http://schemas.datacontract.org/2004/07/Rowa.SmartDose.WcfInterfaces")]
+    public partial class ServiceResultMedicineList : MasterData1000.ServiceResultOfArrayOfMedicinercNVL4w7
+    {
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "1.0.0.1")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="ServiceResultOfPatientrcNVL4w7", Namespace="http://schemas.datacontract.org/2004/07/Rowa.SmartDose.WcfInterfaces")]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.ServiceResultPatient))]
+    public partial class ServiceResultOfPatientrcNVL4w7 : MasterData1000.ServiceResult
+    {
+        
+        private MasterData1000.Patient DataField;
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public MasterData1000.Patient Data
+        {
+            get
+            {
+                return this.DataField;
+            }
+            set
+            {
+                this.DataField = value;
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "1.0.0.1")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="ServiceResultPatient", Namespace="http://schemas.datacontract.org/2004/07/Rowa.SmartDose.WcfInterfaces")]
+    public partial class ServiceResultPatient : MasterData1000.ServiceResultOfPatientrcNVL4w7
+    {
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "1.0.0.1")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="ServiceResultOfArrayOfPatientrcNVL4w7", Namespace="http://schemas.datacontract.org/2004/07/Rowa.SmartDose.WcfInterfaces")]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.ServiceResultPatientList))]
+    public partial class ServiceResultOfArrayOfPatientrcNVL4w7 : MasterData1000.ServiceResult
+    {
+        
+        private MasterData1000.Patient[] DataField;
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public MasterData1000.Patient[] Data
+        {
+            get
+            {
+                return this.DataField;
+            }
+            set
+            {
+                this.DataField = value;
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "1.0.0.1")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="ServiceResultPatientList", Namespace="http://schemas.datacontract.org/2004/07/Rowa.SmartDose.WcfInterfaces")]
+    public partial class ServiceResultPatientList : MasterData1000.ServiceResultOfArrayOfPatientrcNVL4w7
+    {
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "1.0.0.1")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="ServiceResultOfTrayrcNVL4w7", Namespace="http://schemas.datacontract.org/2004/07/Rowa.SmartDose.WcfInterfaces")]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.ServiceResultTray))]
+    public partial class ServiceResultOfTrayrcNVL4w7 : MasterData1000.ServiceResult
+    {
+        
+        private MasterData1000.Tray DataField;
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public MasterData1000.Tray Data
+        {
+            get
+            {
+                return this.DataField;
+            }
+            set
+            {
+                this.DataField = value;
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "1.0.0.1")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="ServiceResultTray", Namespace="http://schemas.datacontract.org/2004/07/Rowa.SmartDose.WcfInterfaces")]
+    public partial class ServiceResultTray : MasterData1000.ServiceResultOfTrayrcNVL4w7
+    {
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "1.0.0.1")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="ServiceResultOfArrayOfTrayrcNVL4w7", Namespace="http://schemas.datacontract.org/2004/07/Rowa.SmartDose.WcfInterfaces")]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.ServiceResultTrayList))]
+    public partial class ServiceResultOfArrayOfTrayrcNVL4w7 : MasterData1000.ServiceResult
+    {
+        
+        private MasterData1000.Tray[] DataField;
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public MasterData1000.Tray[] Data
+        {
+            get
+            {
+                return this.DataField;
+            }
+            set
+            {
+                this.DataField = value;
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "1.0.0.1")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="ServiceResultTrayList", Namespace="http://schemas.datacontract.org/2004/07/Rowa.SmartDose.WcfInterfaces")]
+    public partial class ServiceResultTrayList : MasterData1000.ServiceResultOfArrayOfTrayrcNVL4w7
+    {
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "1.0.0.1")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="ServiceResultOfQueryResponsekCLKJ5ur", Namespace="http://schemas.datacontract.org/2004/07/Rowa.SmartDose.WcfInterfaces")]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.ServiceResultQueryResponse))]
+    public partial class ServiceResultOfQueryResponsekCLKJ5ur : MasterData1000.ServiceResult
+    {
+        
+        private MasterData1000.QueryResponse DataField;
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public MasterData1000.QueryResponse Data
+        {
+            get
+            {
+                return this.DataField;
+            }
+            set
+            {
+                this.DataField = value;
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "1.0.0.1")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="ServiceResultQueryResponse", Namespace="http://schemas.datacontract.org/2004/07/Rowa.SmartDose.WcfInterfaces")]
+    public partial class ServiceResultQueryResponse : MasterData1000.ServiceResultOfQueryResponsekCLKJ5ur
+    {
+    }
+    
     [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "1.0.0.1")]
     [System.Runtime.Serialization.DataContractAttribute(Name="ServiceResultStatus", Namespace="http://schemas.datacontract.org/2004/07/Rowa.SmartDose.WcfInterfaces")]
     public enum ServiceResultStatus : int
@@ -2189,480 +2589,103 @@ namespace MasterData1000
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "1.0.0.1")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="ServiceResultLong", Namespace="http://schemas.datacontract.org/2004/07/Rowa.SmartDose.WcfInterfaces")]
-    public partial class ServiceResultLong : MasterData1000.ServiceResultOflong
-    {
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "1.0.0.1")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="ServiceResultOflong", Namespace="http://schemas.datacontract.org/2004/07/Rowa.SmartDose.WcfInterfaces")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="QueryResponse", Namespace="http://schemas.datacontract.org/2004/07/Rowa.SmartDose.WcfInterfaces")]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.InvalidArgumentFault))]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(string[]))]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.Medicine))]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.ReleaseModel))]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.IdentifierModel))]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.Model))]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.ReleaseStatus))]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.Manufacturer))]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.MedicinePicture[]))]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.MedicinePicture))]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.MedicinePillDetail))]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.PouchMode))]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.MedicinePrintDetail[]))]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.MedicinePrintDetail))]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.MedicineSpecialHandling))]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.MedicineSynonym[]))]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.MedicineSynonym))]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.Canister))]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.CanisterActivityStatus))]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.CanisterType))]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.Location))]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.LocationType))]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.MedicineContent))]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.CanisterSize))]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.Canister[]))]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.Customer))]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.Customer[]))]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.DestinationFacility))]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.ContactAddress))]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.ContactPerson[]))]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.ContactPerson))]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.PouchSchemaDesign))]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.LabelDesign[]))]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.LabelDesign))]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.LabelType))]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.DestinationFacility[]))]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.Manufacturer[]))]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.Medicine[]))]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.Patient))]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.Gender))]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.Patient[]))]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.Tray))]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.Tray[]))]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(System.Exception))]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.QueryRequest))]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.ServiceResultQueryResponse))]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.ServiceResultOfQueryResponsekCLKJ5ur))]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.ServiceResult))]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.ServiceResultStatus))]
     [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.ServiceResultLong))]
-    public partial class ServiceResultOflong : MasterData1000.ServiceResult
-    {
-        
-        private long Data1Field;
-        
-        [System.Runtime.Serialization.DataMemberAttribute(Name="Data")]
-        public long Data1
-        {
-            get
-            {
-                return this.Data1Field;
-            }
-            set
-            {
-                this.Data1Field = value;
-            }
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "1.0.0.1")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="ServiceResultBool", Namespace="http://schemas.datacontract.org/2004/07/Rowa.SmartDose.WcfInterfaces")]
-    public partial class ServiceResultBool : MasterData1000.ServiceResultOfboolean
-    {
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "1.0.0.1")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="ServiceResultOfboolean", Namespace="http://schemas.datacontract.org/2004/07/Rowa.SmartDose.WcfInterfaces")]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.ServiceResultOflong))]
     [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.ServiceResultBool))]
-    public partial class ServiceResultOfboolean : MasterData1000.ServiceResult
-    {
-        
-        private bool Data1Field;
-        
-        [System.Runtime.Serialization.DataMemberAttribute(Name="Data")]
-        public bool Data1
-        {
-            get
-            {
-                return this.Data1Field;
-            }
-            set
-            {
-                this.Data1Field = value;
-            }
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "1.0.0.1")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="ServiceResultCanister", Namespace="http://schemas.datacontract.org/2004/07/Rowa.SmartDose.WcfInterfaces")]
-    public partial class ServiceResultCanister : MasterData1000.ServiceResultOfCanisterrcNVL4w7
-    {
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "1.0.0.1")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="ServiceResultOfCanisterrcNVL4w7", Namespace="http://schemas.datacontract.org/2004/07/Rowa.SmartDose.WcfInterfaces")]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.ServiceResultOfboolean))]
     [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.ServiceResultCanister))]
-    public partial class ServiceResultOfCanisterrcNVL4w7 : MasterData1000.ServiceResult
-    {
-        
-        private MasterData1000.Canister Data1Field;
-        
-        [System.Runtime.Serialization.DataMemberAttribute(Name="Data")]
-        public MasterData1000.Canister Data1
-        {
-            get
-            {
-                return this.Data1Field;
-            }
-            set
-            {
-                this.Data1Field = value;
-            }
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "1.0.0.1")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="ServiceResultCanisterList", Namespace="http://schemas.datacontract.org/2004/07/Rowa.SmartDose.WcfInterfaces")]
-    public partial class ServiceResultCanisterList : MasterData1000.ServiceResultOfArrayOfCanisterrcNVL4w7
-    {
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "1.0.0.1")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="ServiceResultOfArrayOfCanisterrcNVL4w7", Namespace="http://schemas.datacontract.org/2004/07/Rowa.SmartDose.WcfInterfaces")]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.ServiceResultOfCanisterrcNVL4w7))]
     [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.ServiceResultCanisterList))]
-    public partial class ServiceResultOfArrayOfCanisterrcNVL4w7 : MasterData1000.ServiceResult
-    {
-        
-        private MasterData1000.Canister[] Data1Field;
-        
-        [System.Runtime.Serialization.DataMemberAttribute(Name="Data")]
-        public MasterData1000.Canister[] Data1
-        {
-            get
-            {
-                return this.Data1Field;
-            }
-            set
-            {
-                this.Data1Field = value;
-            }
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "1.0.0.1")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="ServiceResultCustomer", Namespace="http://schemas.datacontract.org/2004/07/Rowa.SmartDose.WcfInterfaces")]
-    public partial class ServiceResultCustomer : MasterData1000.ServiceResultOfCustomerrcNVL4w7
-    {
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "1.0.0.1")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="ServiceResultOfCustomerrcNVL4w7", Namespace="http://schemas.datacontract.org/2004/07/Rowa.SmartDose.WcfInterfaces")]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.ServiceResultOfArrayOfCanisterrcNVL4w7))]
     [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.ServiceResultCustomer))]
-    public partial class ServiceResultOfCustomerrcNVL4w7 : MasterData1000.ServiceResult
-    {
-        
-        private MasterData1000.Customer Data1Field;
-        
-        [System.Runtime.Serialization.DataMemberAttribute(Name="Data")]
-        public MasterData1000.Customer Data1
-        {
-            get
-            {
-                return this.Data1Field;
-            }
-            set
-            {
-                this.Data1Field = value;
-            }
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "1.0.0.1")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="ServiceResultCustomerList", Namespace="http://schemas.datacontract.org/2004/07/Rowa.SmartDose.WcfInterfaces")]
-    public partial class ServiceResultCustomerList : MasterData1000.ServiceResultOfArrayOfCustomerrcNVL4w7
-    {
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "1.0.0.1")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="ServiceResultOfArrayOfCustomerrcNVL4w7", Namespace="http://schemas.datacontract.org/2004/07/Rowa.SmartDose.WcfInterfaces")]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.ServiceResultOfCustomerrcNVL4w7))]
     [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.ServiceResultCustomerList))]
-    public partial class ServiceResultOfArrayOfCustomerrcNVL4w7 : MasterData1000.ServiceResult
-    {
-        
-        private MasterData1000.Customer[] Data1Field;
-        
-        [System.Runtime.Serialization.DataMemberAttribute(Name="Data")]
-        public MasterData1000.Customer[] Data1
-        {
-            get
-            {
-                return this.Data1Field;
-            }
-            set
-            {
-                this.Data1Field = value;
-            }
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "1.0.0.1")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="ServiceResultDestinationFacility", Namespace="http://schemas.datacontract.org/2004/07/Rowa.SmartDose.WcfInterfaces")]
-    public partial class ServiceResultDestinationFacility : MasterData1000.ServiceResultOfDestinationFacilityrcNVL4w7
-    {
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "1.0.0.1")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="ServiceResultOfDestinationFacilityrcNVL4w7", Namespace="http://schemas.datacontract.org/2004/07/Rowa.SmartDose.WcfInterfaces")]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.ServiceResultOfArrayOfCustomerrcNVL4w7))]
     [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.ServiceResultDestinationFacility))]
-    public partial class ServiceResultOfDestinationFacilityrcNVL4w7 : MasterData1000.ServiceResult
-    {
-        
-        private MasterData1000.DestinationFacility Data1Field;
-        
-        [System.Runtime.Serialization.DataMemberAttribute(Name="Data")]
-        public MasterData1000.DestinationFacility Data1
-        {
-            get
-            {
-                return this.Data1Field;
-            }
-            set
-            {
-                this.Data1Field = value;
-            }
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "1.0.0.1")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="ServiceResultDestinationFacilityList", Namespace="http://schemas.datacontract.org/2004/07/Rowa.SmartDose.WcfInterfaces")]
-    public partial class ServiceResultDestinationFacilityList : MasterData1000.ServiceResultOfArrayOfDestinationFacilityrcNVL4w7
-    {
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "1.0.0.1")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="ServiceResultOfArrayOfDestinationFacilityrcNVL4w7", Namespace="http://schemas.datacontract.org/2004/07/Rowa.SmartDose.WcfInterfaces")]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.ServiceResultOfDestinationFacilityrcNVL4w7))]
     [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.ServiceResultDestinationFacilityList))]
-    public partial class ServiceResultOfArrayOfDestinationFacilityrcNVL4w7 : MasterData1000.ServiceResult
-    {
-        
-        private MasterData1000.DestinationFacility[] Data1Field;
-        
-        [System.Runtime.Serialization.DataMemberAttribute(Name="Data")]
-        public MasterData1000.DestinationFacility[] Data1
-        {
-            get
-            {
-                return this.Data1Field;
-            }
-            set
-            {
-                this.Data1Field = value;
-            }
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "1.0.0.1")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="ServiceResultManufacturer", Namespace="http://schemas.datacontract.org/2004/07/Rowa.SmartDose.WcfInterfaces")]
-    public partial class ServiceResultManufacturer : MasterData1000.ServiceResultOfManufacturerrcNVL4w7
-    {
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "1.0.0.1")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="ServiceResultOfManufacturerrcNVL4w7", Namespace="http://schemas.datacontract.org/2004/07/Rowa.SmartDose.WcfInterfaces")]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.ServiceResultOfArrayOfDestinationFacilityrcNVL4w7))]
     [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.ServiceResultManufacturer))]
-    public partial class ServiceResultOfManufacturerrcNVL4w7 : MasterData1000.ServiceResult
-    {
-        
-        private MasterData1000.Manufacturer Data1Field;
-        
-        [System.Runtime.Serialization.DataMemberAttribute(Name="Data")]
-        public MasterData1000.Manufacturer Data1
-        {
-            get
-            {
-                return this.Data1Field;
-            }
-            set
-            {
-                this.Data1Field = value;
-            }
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "1.0.0.1")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="ServiceResultManufacturerList", Namespace="http://schemas.datacontract.org/2004/07/Rowa.SmartDose.WcfInterfaces")]
-    public partial class ServiceResultManufacturerList : MasterData1000.ServiceResultOfArrayOfManufacturerrcNVL4w7
-    {
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "1.0.0.1")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="ServiceResultOfArrayOfManufacturerrcNVL4w7", Namespace="http://schemas.datacontract.org/2004/07/Rowa.SmartDose.WcfInterfaces")]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.ServiceResultOfManufacturerrcNVL4w7))]
     [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.ServiceResultManufacturerList))]
-    public partial class ServiceResultOfArrayOfManufacturerrcNVL4w7 : MasterData1000.ServiceResult
-    {
-        
-        private MasterData1000.Manufacturer[] Data1Field;
-        
-        [System.Runtime.Serialization.DataMemberAttribute(Name="Data")]
-        public MasterData1000.Manufacturer[] Data1
-        {
-            get
-            {
-                return this.Data1Field;
-            }
-            set
-            {
-                this.Data1Field = value;
-            }
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "1.0.0.1")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="ServiceResultMedicine", Namespace="http://schemas.datacontract.org/2004/07/Rowa.SmartDose.WcfInterfaces")]
-    public partial class ServiceResultMedicine : MasterData1000.ServiceResultOfMedicinercNVL4w7
-    {
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "1.0.0.1")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="ServiceResultOfMedicinercNVL4w7", Namespace="http://schemas.datacontract.org/2004/07/Rowa.SmartDose.WcfInterfaces")]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.ServiceResultOfArrayOfManufacturerrcNVL4w7))]
     [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.ServiceResultMedicine))]
-    public partial class ServiceResultOfMedicinercNVL4w7 : MasterData1000.ServiceResult
-    {
-        
-        private MasterData1000.Medicine Data1Field;
-        
-        [System.Runtime.Serialization.DataMemberAttribute(Name="Data")]
-        public MasterData1000.Medicine Data1
-        {
-            get
-            {
-                return this.Data1Field;
-            }
-            set
-            {
-                this.Data1Field = value;
-            }
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "1.0.0.1")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="ServiceResultMedicineList", Namespace="http://schemas.datacontract.org/2004/07/Rowa.SmartDose.WcfInterfaces")]
-    public partial class ServiceResultMedicineList : MasterData1000.ServiceResultOfArrayOfMedicinercNVL4w7
-    {
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "1.0.0.1")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="ServiceResultOfArrayOfMedicinercNVL4w7", Namespace="http://schemas.datacontract.org/2004/07/Rowa.SmartDose.WcfInterfaces")]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.ServiceResultOfMedicinercNVL4w7))]
     [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.ServiceResultMedicineList))]
-    public partial class ServiceResultOfArrayOfMedicinercNVL4w7 : MasterData1000.ServiceResult
-    {
-        
-        private MasterData1000.Medicine[] Data1Field;
-        
-        [System.Runtime.Serialization.DataMemberAttribute(Name="Data")]
-        public MasterData1000.Medicine[] Data1
-        {
-            get
-            {
-                return this.Data1Field;
-            }
-            set
-            {
-                this.Data1Field = value;
-            }
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "1.0.0.1")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="ServiceResultPatient", Namespace="http://schemas.datacontract.org/2004/07/Rowa.SmartDose.WcfInterfaces")]
-    public partial class ServiceResultPatient : MasterData1000.ServiceResultOfPatientrcNVL4w7
-    {
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "1.0.0.1")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="ServiceResultOfPatientrcNVL4w7", Namespace="http://schemas.datacontract.org/2004/07/Rowa.SmartDose.WcfInterfaces")]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.ServiceResultOfArrayOfMedicinercNVL4w7))]
     [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.ServiceResultPatient))]
-    public partial class ServiceResultOfPatientrcNVL4w7 : MasterData1000.ServiceResult
-    {
-        
-        private MasterData1000.Patient Data1Field;
-        
-        [System.Runtime.Serialization.DataMemberAttribute(Name="Data")]
-        public MasterData1000.Patient Data1
-        {
-            get
-            {
-                return this.Data1Field;
-            }
-            set
-            {
-                this.Data1Field = value;
-            }
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "1.0.0.1")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="ServiceResultPatientList", Namespace="http://schemas.datacontract.org/2004/07/Rowa.SmartDose.WcfInterfaces")]
-    public partial class ServiceResultPatientList : MasterData1000.ServiceResultOfArrayOfPatientrcNVL4w7
-    {
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "1.0.0.1")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="ServiceResultOfArrayOfPatientrcNVL4w7", Namespace="http://schemas.datacontract.org/2004/07/Rowa.SmartDose.WcfInterfaces")]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.ServiceResultOfPatientrcNVL4w7))]
     [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.ServiceResultPatientList))]
-    public partial class ServiceResultOfArrayOfPatientrcNVL4w7 : MasterData1000.ServiceResult
-    {
-        
-        private MasterData1000.Patient[] Data1Field;
-        
-        [System.Runtime.Serialization.DataMemberAttribute(Name="Data")]
-        public MasterData1000.Patient[] Data1
-        {
-            get
-            {
-                return this.Data1Field;
-            }
-            set
-            {
-                this.Data1Field = value;
-            }
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "1.0.0.1")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="ServiceResultTray", Namespace="http://schemas.datacontract.org/2004/07/Rowa.SmartDose.WcfInterfaces")]
-    public partial class ServiceResultTray : MasterData1000.ServiceResultOfTrayrcNVL4w7
-    {
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "1.0.0.1")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="ServiceResultOfTrayrcNVL4w7", Namespace="http://schemas.datacontract.org/2004/07/Rowa.SmartDose.WcfInterfaces")]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.ServiceResultOfArrayOfPatientrcNVL4w7))]
     [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.ServiceResultTray))]
-    public partial class ServiceResultOfTrayrcNVL4w7 : MasterData1000.ServiceResult
-    {
-        
-        private MasterData1000.Tray Data1Field;
-        
-        [System.Runtime.Serialization.DataMemberAttribute(Name="Data")]
-        public MasterData1000.Tray Data1
-        {
-            get
-            {
-                return this.Data1Field;
-            }
-            set
-            {
-                this.Data1Field = value;
-            }
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "1.0.0.1")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="ServiceResultTrayList", Namespace="http://schemas.datacontract.org/2004/07/Rowa.SmartDose.WcfInterfaces")]
-    public partial class ServiceResultTrayList : MasterData1000.ServiceResultOfArrayOfTrayrcNVL4w7
-    {
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "1.0.0.1")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="ServiceResultOfArrayOfTrayrcNVL4w7", Namespace="http://schemas.datacontract.org/2004/07/Rowa.SmartDose.WcfInterfaces")]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.ServiceResultOfTrayrcNVL4w7))]
     [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.ServiceResultTrayList))]
-    public partial class ServiceResultOfArrayOfTrayrcNVL4w7 : MasterData1000.ServiceResult
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MasterData1000.ServiceResultOfArrayOfTrayrcNVL4w7))]
+    public partial class QueryResponse : object
     {
         
-        private MasterData1000.Tray[] Data1Field;
+        private object ResponseDataField;
         
-        [System.Runtime.Serialization.DataMemberAttribute(Name="Data")]
-        public MasterData1000.Tray[] Data1
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public object ResponseData
         {
             get
             {
-                return this.Data1Field;
+                return this.ResponseDataField;
             }
             set
             {
-                this.Data1Field = value;
+                this.ResponseDataField = value;
             }
         }
     }

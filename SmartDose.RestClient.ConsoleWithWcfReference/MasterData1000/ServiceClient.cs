@@ -30,31 +30,28 @@ namespace MasterData1000
         }
 
         #region Query
-        public async Task Ssss()
-        {
-            ServiceResultLong x1 = await Client.MedicinesGetIdByIdentifierAsync("1");
-            ServiceResultLong x2 = Client.MedicinesGetIdByIdentifierAsync("1").GetAwaiter().GetResult();
-        }
 
         public ServiceResultQueryResponse Query(QueryRequest queryRequest)
-        {
-            var t = QueryAsync(queryRequest);
-            t.Wait();
-            return t.Result;
-        }
+            => QueryAsync(queryRequest).Result;
 
         public async Task<ServiceResultQueryResponse> QueryAsync(QueryRequest queryRequest)
             => await CatcherAsync(() => Client.QueryAsync(queryRequest)).ConfigureAwait(false);
 
         public async override Task<ServiceResult> ExecuteQueryBuilderAsync(QueryBuilder queryBuilder)
         {
-            var queryRequest = new QueryRequest();
-            // serialize Where
-            // Bool
-            // serialize OrderBy
-            // Int, string 
-            // FirstOrDefault, List
-            return (await CatcherAsync(() => Client.QueryAsync(queryRequest)).ConfigureAwait(false));
+            var queryRequest = new QueryRequest
+            {
+                ModelName = queryBuilder.ModelType.Name,
+                ModelNamespace = queryBuilder.ModelType.Namespace,
+                WhereAsJson = queryBuilder.WhereAsJson,
+                OrderByStringAsJson = queryBuilder.OrderByStringAsJson,
+                OrderByIntAsJson = queryBuilder.OrderByIntAsJson,
+                Page = queryBuilder.Page,
+                PageSize = queryBuilder.PageSize,
+                ResultAsItem = queryBuilder.ResultAsItem,
+                ResultAsList= queryBuilder.ResultAsList
+            };
+            return await QueryAsync(queryRequest).ConfigureAwait(false);
         }
         #endregion
 

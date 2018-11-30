@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+using SmartDose.Core.Extensions;
 
 namespace SmartDose.RestClient.ConsoleWithWcfReference
 {
@@ -12,47 +13,80 @@ namespace SmartDose.RestClient.ConsoleWithWcfReference
 
             using (var serviceClient = new MasterData1000.ServiceClient("net.tcp://localhost:10000/MasterData/"))
             {
-                while (!serviceClient.IsConnected)
+                serviceClient.OnClientEvent += (e) =>
+                {
+                    Console.WriteLine($"event=>{e.ToString()}");
+                };
+
+                while (!serviceClient.IsOpened)
                 {
                     Thread.Sleep(100);
                     Console.WriteLine("not Connected");
                 }
                 Console.WriteLine("Connected");
 
+                Console.WriteLine("g => MedicinesGetMedcineByIdentifierAsync(\"1\")");
+                Console.WriteLine("m => Query Medicine");
+                Console.WriteLine("c => Query Customer");
+                Console.WriteLine("e => exit");
+                bool running = true;
+                while (running)
                 {
-                    var query = serviceClient
-                            .NewQuery<MasterData1000.Medicine>()
-                            .Where(m => m.Name == "med1")
-                            .OrderBy(m => m.Manufacturer.Name)
-                            .Paging(1, 1000);
+                    var key = Console.ReadKey();
+                    switch (key.KeyChar)
+                    {
+                        case 'e':
+                        case 'E':
+                            running = false;
+                            break;
+                        case 'g':
+                        case 'G':
+                            {
+                                Console.WriteLine("MedicinesGetMedcineByIdentifierAsync");
+                                if (await serviceClient.MedicinesGetMedcineByIdentifierAsync("1") is var med && med.IsOk)
+                                {
+                                    Console.WriteLine($"MedicinesGetMedcineByIdentifierAsync Data={med.Data.ToJson()}");
+
+                                }
+                                else
+                                    Console.WriteLine($"MedicinesGetMedcineByIdentifierAsync Error Result='{med.Status}' ({med.StatusAsInt})");
+                                break;
+                            }
+                        case 'm':
+                        case 'M':
+                            {
+                                Console.WriteLine("Query Medicine");
+                                if (await serviceClient
+                                            .NewQuery<MasterData1000.Medicine>()
+                                            .Where(m => m.Name == "med1")
+                                            .FirstOrDefaultAsync() is var med && med.IsOk)
+                                {
+                                    Console.WriteLine($"Query medicine Data={med.Data.ToJson()}");
+                                }
+                                else
+                                    Console.WriteLine($"Query medicine Error Result='{med.Status}' ({med.StatusAsInt})");
+                                break;
+                            }
+                        case 'c':
+                        case 'C':
+                            {
+                                Console.WriteLine("Query Customer");
+                                if (await serviceClient
+                                            .NewQuery<MasterData1000.Customer>()
+                                            .Where(m => m.Name == "2dd")
+                                            .FirstOrDefaultAsync() is var med && med.IsOk)
+                                {
+                                    Console.WriteLine($"Query Customer Data={med.Data.ToJson()}");
+                                }
+                                else
+                                    Console.WriteLine($"Query Customer Error Result='{med.Status}' ({med.StatusAsInt})");
+                                break;
+                            }
+
+                    }
                 }
-
-                {
-                    var result = await serviceClient
-                                .NewQuery<MasterData1000.Medicine>()
-                                .Where(m => m.Name == "med1")
-                                .FirstOrDefaultAsync();
-                }
-
-                {
-                    var result = await serviceClient
-                                .NewQuery<MasterData1000.Medicine>()
-                                .Where(m => m.Name == "med1")
-                                .ToListAsync();
-                }
-
-                // var mew= serviceClient.BuildQuery<Medicine>()
-                //var med = await QueryBuilder
-                //    .For<Medicine>()
-                //    .Where(m => m.Name == "med1")
-                //    
-                //    .ExecuteReturnAsItemAsync();
-
-                Console.ReadLine();
+                Console.WriteLine("THE END!");
             }
-
-            Console.WriteLine("......!");
         }
-
     }
 }

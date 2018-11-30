@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using Serialize.Linq.Extensions;
 
 namespace MasterData1000
 {
@@ -9,30 +10,40 @@ namespace MasterData1000
     {
         public ServiceClientBase Client { get; set; }
 
-        public Type Type { get; set; }
+        public string WhereAsJson { get; protected set; } = string.Empty;
+        public string OrderByStringAsJson { get; protected set; } = string.Empty;
+        public string OrderByIntAsJson { get; protected set; } = string.Empty;
 
-        public int Page { get; set; } = -1;
-        public int PageSize { get; set; } = -1;
+        public bool ResultAsItem { get; protected set; } = false;
+        public bool ResultAsList { get; protected set; } = false;
+
+        public Type ModelType { get; protected set; }
+
+        public int Page { get; protected set; } = -1;
+        public int PageSize { get; protected set; } = -1;
     }
 
     public class QueryBuilder<TModel> : QueryBuilder where TModel : class
     {
         public QueryBuilder()
         {
-            Type = typeof(TModel);
+            ModelType = typeof(TModel);
         }
 
         public QueryBuilder<TModel> Where(Expression<Func<TModel, bool>> whereExpression)
         {
+            WhereAsJson = whereExpression.ToJson();
             return this;
         }
 
-        public QueryBuilder<TModel> OrderBy(Expression<Func<TModel, string>> OrderByExpression)
+        public QueryBuilder<TModel> OrderBy(Expression<Func<TModel, string>> orderByExpression)
         {
+            OrderByStringAsJson = orderByExpression.ToJson();
             return this;
         }
-        public QueryBuilder<TModel> OrderBy(Expression<Func<TModel, int>> OrderByExpression)
+        public QueryBuilder<TModel> OrderBy(Expression<Func<TModel, int>> orderByExpression)
         {
+            OrderByIntAsJson = orderByExpression.ToJson();
             return this;
         }
 
@@ -50,9 +61,15 @@ namespace MasterData1000
         }
 
         public async Task<ServiceResult<List<TModel>>> ToListAsync()
-            => await ExecuteAsync<List<TModel>>().ConfigureAwait(false);
+        {
+            ResultAsList = true;
+            return await ExecuteAsync<List<TModel>>().ConfigureAwait(false);
+        }
 
         public async Task<ServiceResult<TModel>> FirstOrDefaultAsync()
-            => await ExecuteAsync<TModel>().ConfigureAwait(false);
+        {
+            ResultAsItem = true;
+            return await ExecuteAsync<TModel>().ConfigureAwait(false);
+        }
     }
 }

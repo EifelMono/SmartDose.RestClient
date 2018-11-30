@@ -13,6 +13,9 @@ namespace SmartDose.Core.Extensions
             Formatting = Formatting.Indented
         };
 
+        public static string ToJson(this object thisValue)
+            => thisValue.ToJsonFromObject();
+
         public static string ToJsonFromObject(this object thisValue)
             => JsonConvert.SerializeObject(thisValue, Formatting.Indented);
 

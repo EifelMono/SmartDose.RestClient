@@ -11,6 +11,8 @@
               Data = Data,
           };
 
+        public object Data { get; set; }
+
         public bool IsOk => Status == ServiceResultStatus.Ok;
     }
 
@@ -20,6 +22,6 @@
         {
 
         }
-        public new T Data { get => (T)base.Data; set => base.Data = value; }
+        // public new T Data { get => (T)base.Data; set => base.Data = value; }
     }
 }

@@ -97,7 +97,7 @@ namespace MasterData1000
         #endregion
 
         #region Client Run
-        public bool IsConnected { get; set; } = false;
+        public bool IsOpened { get; set; } = false;
         protected virtual void Run()
         {
             Task.Run(async () =>
@@ -123,12 +123,11 @@ namespace MasterData1000
                                 case ClientEvent.Opening:
                                     break;
                                 case ClientEvent.Opened:
-                                    IsConnected = true;
+                                    IsOpened = true;
                                     break;
                                 case ClientEvent.Faulted:
                                     if (!inFault)
                                     {
-                                        IsConnected = false;
                                         inFault = true;
                                         RunClose();
                                         await Task.Delay(1000);
@@ -139,7 +138,6 @@ namespace MasterData1000
                                 case ClientEvent.Closing:
                                     break;
                                 case ClientEvent.Closed:
-                                    IsConnected = false;
                                     break;
                             }
                     }
@@ -169,6 +167,7 @@ namespace MasterData1000
 
         protected void RunClose()
         {
+            IsOpened = false;
             UnsubscribeForCallbacksAsync().Wait();
             CloseAsync();
             // UninstallEvents();

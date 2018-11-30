@@ -1,15 +1,12 @@
 ﻿{
   "ProviderId": "Microsoft.VisualStudio.ConnectedService.Wcf",
   "Version": "15.0.20628.921",
-  "GettingStartedDocument": {
-    "Uri": "https://go.microsoft.com/fwlink/?linkid=858517"
-  },
   "ExtendedData": {
     "Uri": "net.tcp://localhost:10000/MasterData/",
     "Namespace": "MasterData1000",
     "SelectedAccessLevelForGeneratedClass": "Public",
     "GenerateMessageContract": false,
-    "ReuseTypesinReferencedAssemblies": true,
+    "ReuseTypesinReferencedAssemblies": false,
     "ReuseTypesinAllReferencedAssemblies": true,
     "CollectionTypeReference": {
       "Item1": "System.Array",
@@ -21,7 +18,7 @@
     },
     "CheckedReferencedAssemblies": [],
     "InstanceId": null,
-    "Name": "ServiceReference1",
+    "Name": "MasterData1000",
     "Metadata": {}
   }
 }
