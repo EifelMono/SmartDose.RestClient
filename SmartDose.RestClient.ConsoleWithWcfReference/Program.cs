@@ -66,6 +66,7 @@ namespace SmartDose.RestClient.ConsoleWithWcfReference
                                                 .ToListAsync() is var medList && medList.IsOk)
                                     {
                                         // Console.WriteLine($"Query medicine Data={medList.Data.ToJson()}");
+                                        // Console.WriteLine($"sql {medList.Debug}");
                                         medList.Data.ForEach(m => Console.WriteLine(m.Name));
                                     }
                                     else
@@ -80,6 +81,7 @@ namespace SmartDose.RestClient.ConsoleWithWcfReference
                                                 .ToListAsync() is var medList && medList.IsOk)
                                     {
                                         // Console.WriteLine($"Query medicine Data={medList.Data.ToJson()}");
+                                        // Console.WriteLine($"sql {medList.Debug}");
                                         medList.Data.ForEach(m => Console.WriteLine(m.Name));
                                     }
                                     else
@@ -94,6 +96,7 @@ namespace SmartDose.RestClient.ConsoleWithWcfReference
                                                 .ToListAsync() is var medList && medList.IsOk)
                                     {
                                         // Console.WriteLine($"Query medicine Data={medList.Data.ToJson()}");
+                                        // Console.WriteLine($"sql {medList.Debug}");
                                         medList.Data.ForEach(m => Console.WriteLine(m.Name));
                                     }
                                     else
@@ -108,6 +111,7 @@ namespace SmartDose.RestClient.ConsoleWithWcfReference
                                                 .ToListAsync() is var medList && medList.IsOk)
                                     {
                                         // Console.WriteLine($"Query medicine Data={medList.Data.ToJson()}");
+                                        // Console.WriteLine($"sql {medList.Debug}");
                                         medList.Data.ForEach(m => Console.WriteLine(m.Name));
                                     }
                                     else
@@ -123,6 +127,7 @@ namespace SmartDose.RestClient.ConsoleWithWcfReference
                                                 .ToListAsync() is var medList && medList.IsOk)
                                     {
                                         // Console.WriteLine($"Query medicine Data={medList.Data.ToJson()}");
+                                        // Console.WriteLine($"sql {medList.Debug}");
                                         medList.Data.ForEach(m => Console.WriteLine(m.Name));
                                     }
                                     else

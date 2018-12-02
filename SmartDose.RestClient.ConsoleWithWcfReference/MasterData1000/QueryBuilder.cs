@@ -95,17 +95,9 @@ namespace MasterData1000
         protected async Task<ServiceResult<TResult>> ExecuteAsync<TResult>() where TResult : class
         {
             var executeServiceResult = await Client.ExecuteQueryBuilderAsync(this).ConfigureAwait(false);
-            var returnResult = new ServiceResult<TResult>
-            {
-                Exception = executeServiceResult.Exception,
-                Message = executeServiceResult.Message,
-                Status = executeServiceResult.Status,
-                StatusAsInt = executeServiceResult.StatusAsInt,
-            };
+            var returnResult = executeServiceResult.CastByClone<ServiceResult<TResult>>();
             if (executeServiceResult.IsOk)
-            {
                 returnResult.Data = (executeServiceResult.Data as string).UnZipString().ToObjectFromJson<TResult>();
-            }
             return returnResult;
         }
 
