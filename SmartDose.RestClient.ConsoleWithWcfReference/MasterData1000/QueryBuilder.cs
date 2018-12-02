@@ -4,6 +4,7 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Serialize.Linq.Extensions;
+using SmartDose.Core.Extensions;
 
 namespace MasterData1000
 {
@@ -67,7 +68,7 @@ namespace MasterData1000
             };
             if (executeServiceResult.IsOk)
             {
-                returnResult.Data = JsonConvert.DeserializeObject<TResult>(executeServiceResult.Data as string);
+                returnResult.Data = (executeServiceResult.Data as string).UnZipString().ToObjectFromJson<TResult>();
             }
             return returnResult;
         }

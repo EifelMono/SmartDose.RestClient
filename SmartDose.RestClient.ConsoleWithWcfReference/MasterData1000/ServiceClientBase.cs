@@ -43,8 +43,10 @@ namespace MasterData1000
 
             Exception,
             Dispose,
+
+            Restart,
         }
-        protected QueuedEvent<ClientEvent> QueuedEvent { get; set; } = new QueuedEvent<ClientEvent>();
+        public QueuedEvent<ClientEvent> QueuedEvent { get; set; } = new QueuedEvent<ClientEvent>();
 
         public abstract void CreateClient();
 
@@ -125,6 +127,7 @@ namespace MasterData1000
                                 case ClientEvent.Opened:
                                     IsOpened = true;
                                     break;
+                                case ClientEvent.Restart:
                                 case ClientEvent.Faulted:
                                     if (!inFault)
                                     {

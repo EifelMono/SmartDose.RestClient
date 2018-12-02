@@ -2593,18 +2593,18 @@ namespace MasterData1000
     public partial class QueryResponse : object
     {
         
-        private string ResponseDataField;
+        private string ZippedJsonDataField;
         
         [System.Runtime.Serialization.DataMemberAttribute()]
-        public string ResponseData
+        public string ZippedJsonData
         {
             get
             {
-                return this.ResponseDataField;
+                return this.ZippedJsonDataField;
             }
             set
             {
-                this.ResponseDataField = value;
+                this.ZippedJsonDataField = value;
             }
         }
     }

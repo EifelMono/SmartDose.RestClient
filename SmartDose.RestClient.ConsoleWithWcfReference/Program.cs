@@ -39,6 +39,10 @@ namespace SmartDose.RestClient.ConsoleWithWcfReference
                         case 'E':
                             running = false;
                             break;
+                        case 'r':
+                        case 'R':
+                            serviceClient.QueuedEvent.New(MasterData1000.ServiceClientBase.ClientEvent.Restart);
+                            break;
                         case 'g':
                         case 'G':
                             {
@@ -58,6 +62,22 @@ namespace SmartDose.RestClient.ConsoleWithWcfReference
                                 if (await serviceClient
                                             .NewQuery<MasterData1000.Medicine>()
                                             .Where(m => m.Name == "med1")
+                                            .FirstOrDefaultAsync() is var med && med.IsOk)
+                                {
+                                    Console.WriteLine($"Query medicine Data={med.Data.ToJson()}");
+                                }
+                                else
+                                    Console.WriteLine($"Query medicine Error Result='{med.Status}' ({med.StatusAsInt})");
+                                break;
+                            }
+                        case 'n':
+                        case 'N':
+                            {
+                                var value = "ddasdddd";
+                                Console.WriteLine("Query Medicine");
+                                if (await serviceClient
+                                            .NewQuery<MasterData1000.Medicine>()
+                                            .Where(m => m.Name == value)
                                             .FirstOrDefaultAsync() is var med && med.IsOk)
                                 {
                                     Console.WriteLine($"Query medicine Data={med.Data.ToJson()}");
