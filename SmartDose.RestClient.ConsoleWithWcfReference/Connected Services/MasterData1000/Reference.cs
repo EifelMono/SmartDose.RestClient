@@ -1799,17 +1799,17 @@ namespace MasterData1000
         
         private string ModelNamespaceField;
         
-        private string OrderByIntAsJsonField;
+        private MasterData1000.QueryRequestOrderByAs OrderByAsField;
         
-        private string OrderByStringAsJsonField;
+        private string OrderByAsJsonField;
+        
+        private bool OrderByAscField;
         
         private int PageField;
         
         private int PageSizeField;
         
-        private bool ResultAsItemField;
-        
-        private bool ResultAsListField;
+        private MasterData1000.QueryRequestResultAs ResultAsField;
         
         private string WhereAsJsonField;
         
@@ -1840,28 +1840,41 @@ namespace MasterData1000
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
-        public string OrderByIntAsJson
+        public MasterData1000.QueryRequestOrderByAs OrderByAs
         {
             get
             {
-                return this.OrderByIntAsJsonField;
+                return this.OrderByAsField;
             }
             set
             {
-                this.OrderByIntAsJsonField = value;
+                this.OrderByAsField = value;
             }
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
-        public string OrderByStringAsJson
+        public string OrderByAsJson
         {
             get
             {
-                return this.OrderByStringAsJsonField;
+                return this.OrderByAsJsonField;
             }
             set
             {
-                this.OrderByStringAsJsonField = value;
+                this.OrderByAsJsonField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public bool OrderByAsc
+        {
+            get
+            {
+                return this.OrderByAscField;
+            }
+            set
+            {
+                this.OrderByAscField = value;
             }
         }
         
@@ -1892,28 +1905,15 @@ namespace MasterData1000
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
-        public bool ResultAsItem
+        public MasterData1000.QueryRequestResultAs ResultAs
         {
             get
             {
-                return this.ResultAsItemField;
+                return this.ResultAsField;
             }
             set
             {
-                this.ResultAsItemField = value;
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public bool ResultAsList
-        {
-            get
-            {
-                return this.ResultAsListField;
-            }
-            set
-            {
-                this.ResultAsListField = value;
+                this.ResultAsField = value;
             }
         }
         
@@ -1929,6 +1929,39 @@ namespace MasterData1000
                 this.WhereAsJsonField = value;
             }
         }
+    }
+    
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "1.0.0.1")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="QueryRequestOrderByAs", Namespace="http://schemas.datacontract.org/2004/07/Rowa.SmartDose.WcfInterfaces")]
+    public enum QueryRequestOrderByAs : int
+    {
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        None = 0,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        Int = 1,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        String = 2,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        Long = 3,
+    }
+    
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "1.0.0.1")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="QueryRequestResultAs", Namespace="http://schemas.datacontract.org/2004/07/Rowa.SmartDose.WcfInterfaces")]
+    public enum QueryRequestResultAs : int
+    {
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        None = 0,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        Item = 1,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        List = 2,
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
@@ -1971,6 +2004,8 @@ namespace MasterData1000
     public partial class ServiceResult : object
     {
         
+        private string DebugField;
+        
         private System.Exception ExceptionField;
         
         private string MessageField;
@@ -1978,6 +2013,19 @@ namespace MasterData1000
         private MasterData1000.ServiceResultStatus StatusField;
         
         private int StatusAsIntField;
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Debug
+        {
+            get
+            {
+                return this.DebugField;
+            }
+            set
+            {
+                this.DebugField = value;
+            }
+        }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
         public System.Exception Exception

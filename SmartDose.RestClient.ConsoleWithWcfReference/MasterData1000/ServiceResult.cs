@@ -8,6 +8,8 @@
               StatusAsInt = StatusAsInt,
               Status = Status,
               Message = Message,
+              Exception= Exception,
+              Debug= Debug,
               Data = Data,
           };
 
@@ -22,6 +24,6 @@
         {
 
         }
-        // public new T Data { get => (T)base.Data; set => base.Data = value; }
+        public new T Data { get => (T)base.Data; set => base.Data = value; }
     }
 }

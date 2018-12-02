@@ -44,12 +44,12 @@ namespace MasterData1000
                 ModelName = queryBuilder.ModelType.Name,
                 ModelNamespace = queryBuilder.ModelType.Namespace,
                 WhereAsJson = queryBuilder.WhereAsJson,
-                OrderByStringAsJson = queryBuilder.OrderByStringAsJson,
-                OrderByIntAsJson = queryBuilder.OrderByIntAsJson,
+                OrderByAsJson = queryBuilder.OrderByAsJson,
+                OrderByAsc = queryBuilder.OrderByAsc,
+                OrderByAs = (QueryRequestOrderByAs)queryBuilder.OrderByAs,
                 Page = queryBuilder.Page,
                 PageSize = queryBuilder.PageSize,
-                ResultAsItem = queryBuilder.ResultAsItem,
-                ResultAsList= queryBuilder.ResultAsList
+                ResultAs = (QueryRequestResultAs)queryBuilder.ResultAs,
             };
             var serviceResult = await QueryAsync(queryRequest).ConfigureAwait(false);
             var newServiceResult = serviceResult.CastByClone<ServiceResult<string>>();

@@ -26,7 +26,7 @@ namespace SmartDose.RestClient.ConsoleWithWcfReference
                 Console.WriteLine("Connected");
 
                 Console.WriteLine("g => MedicinesGetMedcineByIdentifierAsync(\"1\")");
-                Console.WriteLine("m => Query Medicine");
+                Console.WriteLine("m,n,l => Query Medicine l=list");
                 Console.WriteLine("c => Query Customer");
                 Console.WriteLine("e => exit");
                 bool running = true;
@@ -55,21 +55,113 @@ namespace SmartDose.RestClient.ConsoleWithWcfReference
                                     Console.WriteLine($"MedicinesGetMedcineByIdentifierAsync Error Result='{med.Status}' ({med.StatusAsInt})");
                                 break;
                             }
+                        case 'l':
+                        case 'L':
+                            {
+                                {
+                                    Console.WriteLine("--Query Medicines A* ");
+                                    if (await serviceClient
+                                                .NewQuery<MasterData1000.Medicine>()
+                                                .Where(m => m.Name.StartsWith("A"))
+                                                .ToListAsync() is var medList && medList.IsOk)
+                                    {
+                                        // Console.WriteLine($"Query medicine Data={medList.Data.ToJson()}");
+                                        medList.Data.ForEach(m => Console.WriteLine(m.Name));
+                                    }
+                                    else
+                                        Console.WriteLine($"Query medicine Error Result='{medList.Status}' ({medList.StatusAsInt})");
+                                }
+                                {
+                                    Console.WriteLine("--Query Medicines A* Paging");
+                                    if (await serviceClient
+                                                .NewQuery<MasterData1000.Medicine>()
+                                                .Where(m => m.Name.StartsWith("A"))
+                                                .Paging(1, 2)
+                                                .ToListAsync() is var medList && medList.IsOk)
+                                    {
+                                        // Console.WriteLine($"Query medicine Data={medList.Data.ToJson()}");
+                                        medList.Data.ForEach(m => Console.WriteLine(m.Name));
+                                    }
+                                    else
+                                        Console.WriteLine($"Query medicine Error Result='{medList.Status}' ({medList.StatusAsInt})");
+                                }
+                                {
+                                    Console.WriteLine("--Query Medicines orderby Identifier");
+                                    if (await serviceClient
+                                                .NewQuery<MasterData1000.Medicine>()
+                                                .Where(m => m.Name.StartsWith("A"))
+                                                .OrderBy(m => m.Identifier)
+                                                .ToListAsync() is var medList && medList.IsOk)
+                                    {
+                                        // Console.WriteLine($"Query medicine Data={medList.Data.ToJson()}");
+                                        medList.Data.ForEach(m => Console.WriteLine(m.Name));
+                                    }
+                                    else
+                                        Console.WriteLine($"Query medicine Error Result='{medList.Status}' ({medList.StatusAsInt})");
+                                }
+                                {
+                                    Console.WriteLine("--Query Medicines orderbydescending Identifier");
+                                    if (await serviceClient
+                                                .NewQuery<MasterData1000.Medicine>()
+                                                .Where(m => m.Name.StartsWith("A"))
+                                                .OrderByDescending(m => m.Identifier)
+                                                .ToListAsync() is var medList && medList.IsOk)
+                                    {
+                                        // Console.WriteLine($"Query medicine Data={medList.Data.ToJson()}");
+                                        medList.Data.ForEach(m => Console.WriteLine(m.Name));
+                                    }
+                                    else
+                                        Console.WriteLine($"Query medicine Error Result='{medList.Status}' ({medList.StatusAsInt})");
+                                }
+                                {
+                                    Console.WriteLine("--Query Medicines orderby Identifier Paging");
+                                    if (await serviceClient
+                                                .NewQuery<MasterData1000.Medicine>()
+                                                .Where(m => m.Name.StartsWith("A"))
+                                                .OrderBy(m => m.Identifier)
+                                                .Paging(1, 2)
+                                                .ToListAsync() is var medList && medList.IsOk)
+                                    {
+                                        // Console.WriteLine($"Query medicine Data={medList.Data.ToJson()}");
+                                        medList.Data.ForEach(m => Console.WriteLine(m.Name));
+                                    }
+                                    else
+                                        Console.WriteLine($"Query medicine Error Result='{medList.Status}' ({medList.StatusAsInt})");
+                                }
+                                break;
+                            }
                         case 'm':
                         case 'M':
                             {
-                                Console.WriteLine("Query Medicine");
-                                if (await serviceClient
-                                            .NewQuery<MasterData1000.Medicine>()
-                                            .Where(m => m.Name == "med1")
-                                            .FirstOrDefaultAsync() is var med && med.IsOk)
                                 {
-                                    Console.WriteLine($"Query medicine Data={med.Data.ToJson()}");
+                                    Console.WriteLine("Query Medicine med1");
+                                    if (await serviceClient
+                                                .NewQuery<MasterData1000.Medicine>()
+                                                .Where(m => m.Name == "med1")
+                                                .FirstOrDefaultAsync() is var med && med.IsOk)
+                                    {
+                                        Console.WriteLine($"Query medicine Data={med.Data.ToJson()}");
+                                    }
+                                    else
+                                        Console.WriteLine($"Query medicine Error Result='{med.Status}' ({med.StatusAsInt})");
                                 }
-                                else
-                                    Console.WriteLine($"Query medicine Error Result='{med.Status}' ({med.StatusAsInt})");
+
+                                {
+                                    Console.WriteLine("Query Medicine 900004106");
+                                    if (await serviceClient
+                                                .NewQuery<MasterData1000.Medicine>()
+                                                .Where(m => m.Identifier == "900004106")
+                                                .FirstOrDefaultAsync() is var med && med.IsOk)
+                                    {
+                                        Console.WriteLine($"Query medicine Data={med.Data.ToJson()}");
+                                    }
+                                    else
+                                        Console.WriteLine($"Query medicine Error Result='{med.Status}' ({med.StatusAsInt})");
+                                }
                                 break;
                             }
+
+                            
                         case 'n':
                         case 'N':
                             {

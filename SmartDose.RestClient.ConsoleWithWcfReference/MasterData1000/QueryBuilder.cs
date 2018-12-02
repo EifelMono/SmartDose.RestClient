@@ -8,16 +8,34 @@ using SmartDose.Core.Extensions;
 
 namespace MasterData1000
 {
+
     public class QueryBuilder
     {
+        public enum QueryRequestOrderByAs
+        {
+            None = 0,
+            Int = 1,
+            String = 2,
+            Long = 3
+        }
+
+        public enum QueryRequestResultAs
+        {
+            None = 0,
+            Item = 1,
+            List = 2
+        }
+
         public ServiceClientBase Client { get; set; }
 
-        public string WhereAsJson { get; protected set; } = string.Empty;
-        public string OrderByStringAsJson { get; protected set; } = string.Empty;
-        public string OrderByIntAsJson { get; protected set; } = string.Empty;
+        public string WhereAsJson { get; set; } = string.Empty;
+        public string OrderByAsJson { get; set; } = string.Empty;
 
-        public bool ResultAsItem { get; protected set; } = false;
-        public bool ResultAsList { get; protected set; } = false;
+        public bool OrderByAsc { get; set; } = true;
+
+        public QueryRequestOrderByAs OrderByAs { get; set; } = QueryRequestOrderByAs.None;
+
+        public QueryRequestResultAs ResultAs { get; set; } = QueryRequestResultAs.None;
 
         public Type ModelType { get; protected set; }
 
@@ -40,12 +58,30 @@ namespace MasterData1000
 
         public QueryBuilder<TModel> OrderBy(Expression<Func<TModel, string>> orderByExpression)
         {
-            OrderByStringAsJson = orderByExpression.ToJson();
+            OrderByAsJson = orderByExpression.ToJson();
+            OrderByAsc = true;
+            OrderByAs = QueryRequestOrderByAs.String;
+            return this;
+        }
+
+        public QueryBuilder<TModel> OrderByDescending(Expression<Func<TModel, string>> orderByExpression)
+        {
+            OrderByAsJson = orderByExpression.ToJson();
+            OrderByAsc = false;
+            OrderByAs = QueryRequestOrderByAs.String;
             return this;
         }
         public QueryBuilder<TModel> OrderBy(Expression<Func<TModel, int>> orderByExpression)
         {
-            OrderByIntAsJson = orderByExpression.ToJson();
+            OrderByAsJson = orderByExpression.ToJson();
+            OrderByAs = QueryRequestOrderByAs.Int;
+            return this;
+        }
+
+        public QueryBuilder<TModel> OrderBy(Expression<Func<TModel, long>> orderByExpression)
+        {
+            OrderByAsJson = orderByExpression.ToJson();
+            OrderByAs = QueryRequestOrderByAs.Long;
             return this;
         }
 
@@ -75,13 +111,13 @@ namespace MasterData1000
 
         public async Task<ServiceResult<List<TModel>>> ToListAsync()
         {
-            ResultAsList = true;
+            ResultAs = QueryRequestResultAs.List;
             return await ExecuteAsync<List<TModel>>().ConfigureAwait(false);
         }
 
         public async Task<ServiceResult<TModel>> FirstOrDefaultAsync()
         {
-            ResultAsItem = true;
+            ResultAs = QueryRequestResultAs.Item;
             return await ExecuteAsync<TModel>().ConfigureAwait(false);
         }
     }
