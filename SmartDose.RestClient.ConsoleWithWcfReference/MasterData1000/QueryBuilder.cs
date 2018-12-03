@@ -19,11 +19,23 @@ namespace MasterData1000
             Long = 3
         }
 
+        protected static Dictionary<Type, QueryRequestOrderByAs> QueryRequestOrderByAsDictory = new Dictionary<Type, QueryRequestOrderByAs>
+        {
+            [typeof(int)] = QueryRequestOrderByAs.Int,
+            [typeof(string)] = QueryRequestOrderByAs.String,
+            [typeof(long)] = QueryRequestOrderByAs.Long,
+        };
+
         public enum QueryRequestResultAs
         {
             None = 0,
             Item = 1,
             List = 2
+        }
+
+        public QueryBuilder(ServiceClientBase client) 
+        {
+            Client = client;
         }
 
         protected ServiceClientBase Client { get; set; }
@@ -42,7 +54,7 @@ namespace MasterData1000
         protected int Page { get; set; } = -1;
         protected int PageSize { get; set; } = -1;
 
-        // Use deconstructor while properties are protected
+        // Use deconstructor while protected properties 
         public (string WhereAsJson,
             string OrderByAsJson,
             bool OrderByAsc,
@@ -56,9 +68,8 @@ namespace MasterData1000
 
     public class QueryBuilder<TModel> : QueryBuilder where TModel : class
     {
-        public QueryBuilder(ServiceClientBase client)
+        public QueryBuilder(ServiceClientBase client) : base(client)
         {
-            Client = client;
             ModelType = typeof(TModel);
         }
 
@@ -68,52 +79,22 @@ namespace MasterData1000
             return this;
         }
 
-        public QueryBuilder<TModel> OrderBy(Expression<Func<TModel, string>> orderByExpression)
+        protected QueryBuilder<TModel> InternalOrderBy<T>(Expression<Func<TModel, T>> orderByExpression, bool asc)
         {
             OrderByAsJson = orderByExpression.ToJson();
-            OrderByAsc = true;
-            OrderByAs = QueryRequestOrderByAs.String;
+            OrderByAsc = asc;
+            OrderByAs = QueryRequestOrderByAs.None;
+            if (QueryRequestOrderByAsDictory.ContainsKey(typeof(T)))
+                OrderByAs = QueryRequestOrderByAsDictory[typeof(T)];
+            else
+                throw new NotImplementedException($"type {typeof(T).Name} not implemented");
             return this;
         }
+        public QueryBuilder<TModel> OrderBy<T>(Expression<Func<TModel, T>> orderByExpression)
+            => InternalOrderBy(orderByExpression, asc: true);
 
-        public QueryBuilder<TModel> OrderByDescending(Expression<Func<TModel, string>> orderByExpression)
-        {
-            OrderByAsJson = orderByExpression.ToJson();
-            OrderByAsc = false;
-            OrderByAs = QueryRequestOrderByAs.String;
-            return this;
-        }
-        public QueryBuilder<TModel> OrderBy(Expression<Func<TModel, int>> orderByExpression)
-        {
-            OrderByAsJson = orderByExpression.ToJson();
-            OrderByAsc = true;
-            OrderByAs = QueryRequestOrderByAs.Int;
-            return this;
-        }
-
-        public QueryBuilder<TModel> OrderByDescending(Expression<Func<TModel, int>> orderByExpression)
-        {
-            OrderByAsJson = orderByExpression.ToJson();
-            OrderByAsc = false;
-            OrderByAs = QueryRequestOrderByAs.Int;
-            return this;
-        }
-
-        public QueryBuilder<TModel> OrderBy(Expression<Func<TModel, long>> orderByExpression)
-        {
-            OrderByAsJson = orderByExpression.ToJson();
-            OrderByAsc = true;
-            OrderByAs = QueryRequestOrderByAs.Long;
-            return this;
-        }
-
-        public QueryBuilder<TModel> OrderByDescending(Expression<Func<TModel, long>> orderByExpression)
-        {
-            OrderByAsJson = orderByExpression.ToJson();
-            OrderByAsc = false;
-            OrderByAs = QueryRequestOrderByAs.Long;
-            return this;
-        }
+        public QueryBuilder<TModel> OrderByDescending<T>(Expression<Func<TModel, T>> orderByExpression)
+            => InternalOrderBy(orderByExpression, asc: false);
 
         public QueryBuilder<TModel> Paging(int page = -1, int pageSize = -1)
         {

@@ -13,6 +13,7 @@ namespace SmartDose.RestClient.ConsoleWithWcfReference
 
             using (var serviceClient = new MasterData1000.ServiceClient("net.tcp://localhost:10000/MasterData/"))
             {
+
                 serviceClient.OnClientEvent += (e) =>
                 {
                     Console.WriteLine($"event=>{e.ToString()}");
@@ -73,11 +74,11 @@ namespace SmartDose.RestClient.ConsoleWithWcfReference
                                         Console.WriteLine($"Query medicine Error Result='{medList.Status}' ({medList.StatusAsInt})");
                                 }
                                 {
-                                    Console.WriteLine("--Query Medicines A* Paging");
+                                    Console.WriteLine("--Query Medicines A* Paging(2,2) (no orderby internal by key)");
                                     if (await serviceClient
                                                 .NewQuery<MasterData1000.Medicine>()
                                                 .Where(m => m.Name.StartsWith("A"))
-                                                .Paging(1, 2)
+                                                .Paging(2, 2)
                                                 .ToListAsync() is var medList && medList.IsOk)
                                     {
                                         // Console.WriteLine($"Query medicine Data={medList.Data.ToJson()}");
@@ -166,7 +167,7 @@ namespace SmartDose.RestClient.ConsoleWithWcfReference
                                 break;
                             }
 
-                            
+
                         case 'n':
                         case 'N':
                             {

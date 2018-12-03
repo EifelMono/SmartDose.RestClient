@@ -255,7 +255,7 @@ namespace MasterData1000
 
         public QueryBuilder<T> NewQuery<T>() where T : class
         {
-            return new QueryBuilder<T> { Client = this };
+            return new QueryBuilder<T>(this) { };
         }
         #endregion
     }
