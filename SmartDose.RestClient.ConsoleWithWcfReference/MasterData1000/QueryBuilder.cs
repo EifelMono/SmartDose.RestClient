@@ -26,27 +26,39 @@ namespace MasterData1000
             List = 2
         }
 
-        public ServiceClientBase Client { get; set; }
+        protected ServiceClientBase Client { get; set; }
 
-        public string WhereAsJson { get; set; } = string.Empty;
-        public string OrderByAsJson { get; set; } = string.Empty;
+        protected string WhereAsJson { get; set; } = string.Empty;
+        protected string OrderByAsJson { get; set; } = string.Empty;
 
-        public bool OrderByAsc { get; set; } = true;
+        protected bool OrderByAsc { get; set; } = true;
 
-        public QueryRequestOrderByAs OrderByAs { get; set; } = QueryRequestOrderByAs.None;
+        protected QueryRequestOrderByAs OrderByAs { get; set; } = QueryRequestOrderByAs.None;
 
-        public QueryRequestResultAs ResultAs { get; set; } = QueryRequestResultAs.None;
+        protected QueryRequestResultAs ResultAs { get; set; } = QueryRequestResultAs.None;
 
-        public Type ModelType { get; protected set; }
+        protected Type ModelType { get; set; }
 
-        public int Page { get; protected set; } = -1;
-        public int PageSize { get; protected set; } = -1;
+        protected int Page { get; set; } = -1;
+        protected int PageSize { get; set; } = -1;
+
+        // Use deconstructor while properties are protected
+        public (string WhereAsJson,
+            string OrderByAsJson,
+            bool OrderByAsc,
+            QueryRequestOrderByAs OrderByAs,
+            QueryRequestResultAs ResultAs,
+            Type ModelType,
+            int Page,
+            int PageSize) GetValues()
+            => (WhereAsJson, OrderByAsJson, OrderByAsc, OrderByAs, ResultAs, ModelType, Page, PageSize);
     }
 
     public class QueryBuilder<TModel> : QueryBuilder where TModel : class
     {
-        public QueryBuilder()
+        public QueryBuilder(ServiceClientBase client)
         {
+            Client = client;
             ModelType = typeof(TModel);
         }
 
@@ -74,6 +86,15 @@ namespace MasterData1000
         public QueryBuilder<TModel> OrderBy(Expression<Func<TModel, int>> orderByExpression)
         {
             OrderByAsJson = orderByExpression.ToJson();
+            OrderByAsc = true;
+            OrderByAs = QueryRequestOrderByAs.Int;
+            return this;
+        }
+
+        public QueryBuilder<TModel> OrderByDescending(Expression<Func<TModel, int>> orderByExpression)
+        {
+            OrderByAsJson = orderByExpression.ToJson();
+            OrderByAsc = false;
             OrderByAs = QueryRequestOrderByAs.Int;
             return this;
         }
@@ -81,6 +102,15 @@ namespace MasterData1000
         public QueryBuilder<TModel> OrderBy(Expression<Func<TModel, long>> orderByExpression)
         {
             OrderByAsJson = orderByExpression.ToJson();
+            OrderByAsc = true;
+            OrderByAs = QueryRequestOrderByAs.Long;
+            return this;
+        }
+
+        public QueryBuilder<TModel> OrderByDescending(Expression<Func<TModel, long>> orderByExpression)
+        {
+            OrderByAsJson = orderByExpression.ToJson();
+            OrderByAsc = false;
             OrderByAs = QueryRequestOrderByAs.Long;
             return this;
         }

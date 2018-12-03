@@ -39,17 +39,18 @@ namespace MasterData1000
 
         public async override Task<ServiceResult> ExecuteQueryBuilderAsync(QueryBuilder queryBuilder)
         {
+            var queryBuildValues = queryBuilder.GetValues();
             var queryRequest = new QueryRequest
             {
-                ModelName = queryBuilder.ModelType.Name,
-                ModelNamespace = queryBuilder.ModelType.Namespace,
-                WhereAsJson = queryBuilder.WhereAsJson,
-                OrderByAsJson = queryBuilder.OrderByAsJson,
-                OrderByAsc = queryBuilder.OrderByAsc,
-                OrderByAs = (QueryRequestOrderByAs)queryBuilder.OrderByAs,
-                Page = queryBuilder.Page,
-                PageSize = queryBuilder.PageSize,
-                ResultAs = (QueryRequestResultAs)queryBuilder.ResultAs,
+                ModelName = queryBuildValues.ModelType.Name,
+                ModelNamespace = queryBuildValues.ModelType.Namespace,
+                WhereAsJson = queryBuildValues.WhereAsJson,
+                OrderByAsJson = queryBuildValues.OrderByAsJson,
+                OrderByAsc = queryBuildValues.OrderByAsc,
+                OrderByAs = (QueryRequestOrderByAs)queryBuildValues.OrderByAs,
+                Page = queryBuildValues.Page,
+                PageSize = queryBuildValues.PageSize,
+                ResultAs = (QueryRequestResultAs)queryBuildValues.ResultAs,
             };
             var serviceResult = await QueryAsync(queryRequest).ConfigureAwait(false);
             var newServiceResult = serviceResult.CastByClone<ServiceResult<string>>();
